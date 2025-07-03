@@ -1,9 +1,0 @@
-blank_issues_enabled: true
-issue_templates:
-  - name: Feature Request
-    path: feature_request.yml
-    description: Suggest an idea
-
-  - name: Bug Report
-    path: bug_report.yml
-    description: Report a bug
