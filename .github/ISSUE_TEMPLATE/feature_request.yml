@@ -25,9 +25,9 @@ body:
       required: false
 
   - type: markdown
-  attributes:
-    value: |
-      ---
+    attributes:
+      value: |
+        ---
 
   - type: textarea
     id: etc
