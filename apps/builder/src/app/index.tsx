@@ -1,5 +1,11 @@
+import SimpleWebBuilder from '@/app/builder';
+
 const BuilderApp = () => {
-  return <div>BuilderApp</div>;
+  return (
+    <div>
+      <SimpleWebBuilder />
+    </div>
+  );
 };
 
 export default BuilderApp;
