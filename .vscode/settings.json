@@ -30,5 +30,5 @@
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "cSpell.words": ["oklch", "redot"]
+  "cSpell.words": ["oklch", "redot", "redotlabs"]
 }
