@@ -1,0 +1,38 @@
+{
+  "name": "@repo/api-instance",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsup --dts --minify",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "echo 'Add lint script here'"
+  },
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      },
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    }
+  },
+  "sideEffects": false,
+  "dependencies": {
+    "axios": "^1.11.0"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "tsup": "^8.5.0",
+    "typescript": "^5.0.0",
+    "vitest": "^3.1.4"
+  }
+}
