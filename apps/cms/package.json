@@ -12,13 +12,18 @@
     "@redotlabs/themes": "^1.0.0",
     "@redotlabs/tokens": "^1.0.0",
     "@redotlabs/ui": "^1.0.0",
+    "@repo/api-instance": "workspace:*",
     "@repo/ui": "workspace:*",
+    "@repo/utils": "workspace:*",
+    "@tanstack/react-query": "^5.90.2",
     "next": "15.5.4",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "react-hook-form": "^7.64.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@hookform/resolvers": "^5.2.2",
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@tailwindcss/postcss": "^4",
@@ -27,7 +32,14 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.5.4",
+    "msw": "^2.11.3",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "zod": "^4.1.11"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
   }
 }
