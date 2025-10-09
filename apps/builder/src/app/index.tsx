@@ -1,11 +1,7 @@
-import SimpleWebBuilder from '@/app/builder';
+import GridEditor from '@/app/pages/GridEditor';
 
 const BuilderApp = () => {
-  return (
-    <div>
-      <SimpleWebBuilder />
-    </div>
-  );
+  return <GridEditor />;
 };
 
 export default BuilderApp;
