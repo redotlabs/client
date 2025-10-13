@@ -5,8 +5,6 @@
   "type": "module",
   "scripts": {
     "build": "tsup --dts --minify",
-    "test": "vitest run",
-    "test:watch": "vitest",
     "lint": "eslint ."
   },
   "files": [
@@ -25,18 +23,19 @@
     }
   },
   "sideEffects": false,
-  "dependencies": {},
   "devDependencies": {
-    "@types/react": "^19.0.0",
+    "@hookform/resolvers": "^5.2.2",
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
+    "@types/react": "^19.0.0",
     "tsup": "^8.5.0",
     "typescript": "^5.0.0",
-    "vitest": "^3.1.4"
+    "zod": "^4.1.11"
   },
   "peerDependencies": {
     "@redotlabs/ui": "^1.0.0",
+    "lucide-react": "^0.479.0",
     "react": "^19.0.0",
-    "lucide-react": "^0.479.0"
+    "react-hook-form": "^7.64.0"
   }
 }
