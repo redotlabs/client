@@ -1,14 +1,14 @@
 import { type RefObject } from 'react';
 import { DEFAULT_GRID_CONFIG } from '@/app/constants/editorData';
-import type { RenderableBlock } from '@/app/types/ast';
-import { BlockRenderer } from '@/app/components/Canvas/BlockRenderer';
+import type { TypedRenderableBlock } from '@/app/types/ast';
+import { TypedBlockRenderer } from '@/app/components/Canvas/TypedBlockRenderer';
 
-interface CanvasProps {
+interface TypedCanvasProps {
   canvasRef: RefObject<HTMLDivElement | null>;
-  blocks: RenderableBlock[];
+  blocks: TypedRenderableBlock[];
 }
 
-export const Canvas = ({ canvasRef, blocks }: CanvasProps) => {
+export const TypedCanvas = ({ canvasRef, blocks }: TypedCanvasProps) => {
   return (
     <div
       ref={canvasRef}
@@ -28,7 +28,7 @@ export const Canvas = ({ canvasRef, blocks }: CanvasProps) => {
       }}
     >
       {blocks.map((block) => (
-        <BlockRenderer key={block.id} block={block} />
+        <TypedBlockRenderer key={block.id} block={block} />
       ))}
     </div>
   );

@@ -27,8 +27,6 @@ export interface Component {
   style: React.CSSProperties;
 }
 
-
 export interface PageData {
   components: Component[];
 }
-
