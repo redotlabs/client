@@ -36,7 +36,7 @@ const createAxiosInstance = ({
   );
 
   instance.interceptors.response.use(
-    (response) => response.data,
+    (response) => response,
     async (error) => {
       // AbortController로 요청 취소된 경우
       const isCanceled =
@@ -46,16 +46,11 @@ const createAxiosInstance = ({
         return Promise.resolve(); // 취소된 요청은 성공처럼 처리
       }
 
-      // Unauthorized
-      if (error.response?.status === 401) {
-        // other unauthorized error handling
-        return Promise.reject(new Error('Expired session'));
-      }
-
       // Other errors
-      return Promise.reject(
-        (error.response && error.response.data) || 'Something went wrong'
-      );
+      return Promise.reject({
+        status: error.response?.status,
+        ...error.response?.data,
+      });
     }
   );
 
