@@ -1,17 +1,6 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
-import { ThemeProvider } from '@redotlabs/themes';
-
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-});
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-});
+import { cn } from '@redotlabs/utils';
 
 export const metadata: Metadata = {
   title: 'Redot CMS',
@@ -25,10 +14,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <ThemeProvider color="green">{children}</ThemeProvider>
+      <body className={cn('antialiased min-h-svh flex flex-col')}>
+        {children}
       </body>
     </html>
   );
