@@ -1,4 +1,4 @@
-import type { RenderableBlock } from '@/app/types/ast';
+import type { RenderableBlock } from '@/app/types';
 
 interface BlockRendererProps {
   block: RenderableBlock;
@@ -42,7 +42,7 @@ export const BlockRenderer = ({ block }: BlockRendererProps) => {
         return (
           <div style={{ width: '100%', height: '100%' }}>
             {block.children?.map((child) => (
-              <BlockRenderer key={child.id} block={child as RenderableBlock} />
+              <BlockRenderer key={child.id} block={child} />
             ))}
           </div>
         );

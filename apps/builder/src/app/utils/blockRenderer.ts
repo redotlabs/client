@@ -1,14 +1,9 @@
 import type {
   Block,
   RenderableBlock,
-  TypedRenderableBlock,
   GridConfig,
-  BaseRenderProps,
-  TextRenderProps,
-  ImageRenderProps,
-  ButtonRenderProps,
-  ContainerRenderProps
-} from '@/app/types/ast';
+  BaseRenderProps
+} from '@/app/types';
 
 // Block을 RenderableBlock으로 변환하는 렌더러
 export class BlockRenderer {
@@ -149,7 +144,7 @@ export class BlockRenderer {
 
     // 컨테이너의 경우 children도 렌더링
     if (block.type === 'container' && block.children) {
-      renderableBlock.children = block.children.map(child => this.renderTypedBlock(child));
+      renderableBlock.children = block.children.map(child => this.renderBlock(child));
     }
 
     return renderableBlock;
@@ -163,70 +158,6 @@ export class BlockRenderer {
       .sort((a, b) => (a.style.zIndex as number) - (b.style.zIndex as number)); // zIndex 순으로 정렬
   }
 
-  // 타입 안전한 변환 메서드
-  public renderTypedBlocks(blocks: Block[]): TypedRenderableBlock[] {
-    return blocks
-      .filter(block => !block.metadata?.hidden)
-      .map(block => this.renderTypedBlock(block))
-      .sort((a, b) => (a.style.zIndex as number) - (b.style.zIndex as number));
-  }
-
-  // 단일 Block을 TypedRenderableBlock으로 변환
-  public renderTypedBlock(block: Block): TypedRenderableBlock {
-    const baseBlock = {
-      id: block.id,
-      type: block.type,
-      gridArea: this.convertToGridArea(block),
-      style: this.convertToStyle(block),
-      children: block.type === 'container' && block.children
-        ? block.children.map(child => this.renderTypedBlock(child))
-        : undefined,
-    };
-
-    switch (block.type) {
-      case 'text':
-        return {
-          ...baseBlock,
-          type: 'text',
-          props: {
-            children: block.attributes.text,
-          } as TextRenderProps,
-        };
-
-      case 'image':
-        return {
-          ...baseBlock,
-          type: 'image',
-          props: {
-            src: block.attributes.src,
-            alt: block.attributes.alt || '',
-            loading: block.attributes.loading || 'lazy',
-          } as ImageRenderProps,
-        };
-
-      case 'button':
-        return {
-          ...baseBlock,
-          type: 'button',
-          props: {
-            children: block.attributes.text,
-            onClick: block.attributes.onClick ? () => console.log(`Button clicked: ${block.attributes.onClick}`) : undefined,
-            disabled: block.attributes.disabled || false,
-            variant: block.attributes.variant || 'primary',
-          } as ButtonRenderProps,
-        };
-
-      case 'container':
-        return {
-          ...baseBlock,
-          type: 'container',
-          props: {
-            layout: block.attributes.layout || 'stack',
-            gap: block.attributes.gap || 0,
-          } as ContainerRenderProps,
-        };
-    }
-  }
 
   // 그리드 설정 업데이트
   public updateGridConfig(newConfig: GridConfig): void {

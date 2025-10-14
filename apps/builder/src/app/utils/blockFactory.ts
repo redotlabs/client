@@ -10,7 +10,7 @@ import {
   type ButtonBlockAttributes,
   type ContainerBlockAttributes,
   type BlockFactory,
-} from '@/app/types/ast';
+} from '@/app/types';
 
 // 고유 ID 생성기
 const generateId = (): string => {

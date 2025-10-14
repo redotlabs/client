@@ -1,4 +1,4 @@
-import type { EditorData } from '@/app/types/ast';
+import type { EditorData } from '@/app/types';
 
 // 기본 그리드 설정
 export const DEFAULT_GRID_CONFIG = {
