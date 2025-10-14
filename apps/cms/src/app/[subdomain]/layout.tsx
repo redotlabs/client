@@ -6,6 +6,7 @@ import ClientToastProvider from '@/shared/components/wrapper/client-toast-provid
 import AuthGuard from '@/shared/components/wrapper/auth-guard';
 import type { PropsWithChildren } from 'react';
 import { getCustomer } from '@/shared/api/services/customer';
+import { initializeSubdomainHeader } from '@/shared/api/instance';
 
 export const metadata: Metadata = {
   title: 'Redot CMS',
@@ -17,7 +18,8 @@ export default async function CustomerRootLayout({
   params,
 }: PropsWithChildren<{ params: Promise<{ subdomain: string }> }>) {
   const { subdomain } = await params;
-  const customer = await getCustomer(subdomain);
+  initializeSubdomainHeader(subdomain);
+  const customer = await getCustomer();
 
   return (
     <ClientQueryClientProvider>

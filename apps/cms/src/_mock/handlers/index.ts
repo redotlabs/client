@@ -1,4 +1,9 @@
-import authHandlers from './auth';
+import signInHandlers from './sign-in';
 import customerHandlers from './customer';
+import resetPasswordHandlers from './reset-password';
 
-export const handlers = [...authHandlers, ...customerHandlers];
+export const handlers = [
+  ...signInHandlers,
+  ...customerHandlers,
+  ...resetPasswordHandlers,
+];

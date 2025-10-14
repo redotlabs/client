@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-
-const rootDomain = process.env.NEXT_PUBLIC_ROOT_DOMAIN || 'localhost:3000';
+import {
+  ROOT_DOMAIN,
+  SUBDOMAIN_HEADER,
+} from './shared/constants/env-variables';
 
 function extractSubdomain(request: NextRequest): string | null {
   const url = request.url;
@@ -14,7 +16,7 @@ function extractSubdomain(request: NextRequest): string | null {
   }
 
   // Production environment
-  const rootDomainFormatted = rootDomain.split(':')[0];
+  const rootDomainFormatted = ROOT_DOMAIN.split(':')[0];
 
   // Regular subdomain detection
   const isSubdomain =
@@ -37,10 +39,16 @@ export async function middleware(request: NextRequest) {
 
     // For the root path on a subdomain, rewrite to the subdomain page
     // if (pathname === '/') {
+
+    const headers = new Headers(request.headers);
+    headers.set(SUBDOMAIN_HEADER, subdomain);
+
     return NextResponse.rewrite(
-      new URL(`/${subdomain}${pathname}`, request.url)
+      new URL(`/${subdomain}${pathname}`, request.url),
+      {
+        request: { headers },
+      }
     );
-    // }
   }
 
   // On the root domain, allow normal access
@@ -56,6 +64,6 @@ export const config = {
      * 3. all root files inside /public (e.g. /favicon.ico)
      */
     // '/((?!api|_next|[\\w-]+\\.\\w+).*)',
-    '/((?!_next/static|_next/image|favicon.ico|fonts|images|robots.txt|api|mock).*)',
+    '/((?!_next/static|_next/image|favicon.ico|fonts|images|robots.txt|mock|api).*)',
   ],
 };
