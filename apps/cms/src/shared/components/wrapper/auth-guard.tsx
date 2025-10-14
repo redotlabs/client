@@ -1,6 +1,6 @@
 'use client';
 
-import { useAuth } from '@/shared/api/queries/auth';
+import { useAuth } from '@/shared/api/queries/auth/sign-in';
 import { AUTH_WHITE_LIST } from '@/shared/constants/auth';
 import { PATH } from '@/shared/constants/routes';
 import { redirect, usePathname } from 'next/navigation';

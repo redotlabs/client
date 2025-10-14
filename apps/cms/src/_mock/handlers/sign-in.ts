@@ -1,12 +1,12 @@
 import { API_PATH } from '@/shared/api/path';
 import { delay, http, HttpResponse } from 'msw';
-import { SignInRequest } from '@/shared/api/services/auth';
+import { SignInRequest } from '@/shared/api/services/auth/sign-in';
 import { MOCK_ACCOUNT } from '../utils/constants';
 import { getNewHeaders, generateMockJwt } from '../utils/jwt';
 import { MOCK_API_BASE } from '../utils/constants';
 import { authInterceptor } from '../utils/interceptor';
 
-const authHandlers = () => [
+const signInHandlers = () => [
   http.post(MOCK_API_BASE + API_PATH.auth.signIn, _signIn),
   http.post(MOCK_API_BASE + API_PATH.auth.reIssue, authInterceptor(_reIssue)),
   http.get(MOCK_API_BASE + API_PATH.auth.me, authInterceptor(_getMe)),
@@ -49,4 +49,4 @@ const _getMe: Parameters<typeof http.get>[1] = async () => {
   return HttpResponse.json(rest);
 };
 
-export default authHandlers();
+export default signInHandlers();

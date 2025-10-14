@@ -1,6 +1,6 @@
 import { jwtDecode } from '@repo/utils';
-import { api } from '../instance';
-import { API_PATH } from '../path';
+import { api } from '../../instance';
+import { API_PATH } from '../../path';
 
 export interface SignInRequest {
   email: string;

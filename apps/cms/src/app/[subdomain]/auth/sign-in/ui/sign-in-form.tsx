@@ -1,6 +1,6 @@
 'use client';
 
-import { useSignIn } from '@/shared/api/queries/auth';
+import { useSignIn } from '@/shared/api/queries/auth/sign-in';
 import { Button, toast } from '@redotlabs/ui';
 import { FormProvider, useForm } from 'react-hook-form';
 import { RHFInput } from '@repo/ui';

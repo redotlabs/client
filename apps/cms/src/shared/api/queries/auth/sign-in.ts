@@ -1,8 +1,8 @@
 'use client';
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { signIn, reIssue, getMe } from '../services/auth';
-import { queryKeyFactory } from '../query-key-factory';
+import { signIn, reIssue, getMe } from '../../services/auth/sign-in';
+import { queryKeyFactory } from '../../query-key-factory';
 
 export const useSignIn = () => {
   return useMutation({
