@@ -27,19 +27,9 @@ export interface ButtonBlockAttributes {
   variant?: 'primary' | 'secondary' | 'outline';
 }
 
-export interface ContainerBlockAttributes {
-  backgroundColor?: string;
-  borderColor?: string;
-  borderWidth?: number;
-  borderRadius?: number;
-  padding?: number;
-  gap?: number;
-  layout?: 'flex' | 'grid' | 'stack';
-}
 
 // 블록 타입별 어트리뷰트 유니온
 export type BlockAttributes =
   | TextBlockAttributes
   | ImageBlockAttributes
-  | ButtonBlockAttributes
-  | ContainerBlockAttributes;
+  | ButtonBlockAttributes;

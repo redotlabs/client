@@ -34,8 +34,6 @@ export const initialEditorData: EditorData = {
       metadata: {
         createdAt: '2024-01-01T00:00:00.000Z',
         updatedAt: '2024-01-01T00:00:00.000Z',
-        locked: false,
-        hidden: false,
       },
     },
 
@@ -60,8 +58,6 @@ export const initialEditorData: EditorData = {
       metadata: {
         createdAt: '2024-01-01T00:00:00.000Z',
         updatedAt: '2024-01-01T00:00:00.000Z',
-        locked: false,
-        hidden: false,
       },
     },
 
@@ -86,8 +82,6 @@ export const initialEditorData: EditorData = {
       metadata: {
         createdAt: '2024-01-01T00:00:00.000Z',
         updatedAt: '2024-01-01T00:00:00.000Z',
-        locked: false,
-        hidden: false,
       },
     },
 
@@ -113,8 +107,6 @@ export const initialEditorData: EditorData = {
       metadata: {
         createdAt: '2024-01-01T00:00:00.000Z',
         updatedAt: '2024-01-01T00:00:00.000Z',
-        locked: false,
-        hidden: false,
       },
     },
   ],

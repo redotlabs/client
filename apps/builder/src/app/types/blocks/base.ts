@@ -2,8 +2,7 @@ import type { BlockPosition, BlockSize } from './position';
 import type {
   TextBlockAttributes,
   ImageBlockAttributes,
-  ButtonBlockAttributes,
-  ContainerBlockAttributes
+  ButtonBlockAttributes
 } from './attributes';
 
 // 기본 블록 구조
@@ -15,8 +14,6 @@ export interface BaseBlock {
   metadata?: {
     createdAt?: string;
     updatedAt?: string;
-    locked?: boolean;
-    hidden?: boolean;
   };
 }
 
@@ -36,11 +33,6 @@ export interface ButtonBlock extends BaseBlock {
   attributes: ButtonBlockAttributes;
 }
 
-export interface ContainerBlock extends BaseBlock {
-  type: 'container';
-  attributes: ContainerBlockAttributes;
-  children?: Block[]; // 중첩 가능한 컨테이너
-}
 
 // 블록 유니온 타입
-export type Block = TextBlock | ImageBlock | ButtonBlock | ContainerBlock;
+export type Block = TextBlock | ImageBlock | ButtonBlock;

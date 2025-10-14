@@ -2,7 +2,7 @@ import type {
   Block,
   RenderableBlock,
   GridConfig,
-  BaseRenderProps
+  BaseRenderProps,
 } from '@/app/types';
 
 // Block을 RenderableBlock으로 변환하는 렌더러
@@ -37,14 +37,20 @@ export class BlockRenderer {
         return {
           ...baseStyle,
           color: block.attributes.color || '#000000',
-          fontSize: block.attributes.fontSize ? `${block.attributes.fontSize}px` : '16px',
+          fontSize: block.attributes.fontSize
+            ? `${block.attributes.fontSize}px`
+            : '16px',
           fontWeight: block.attributes.fontWeight || 'normal',
           textAlign: block.attributes.textAlign || 'left',
           backgroundColor: block.attributes.backgroundColor || 'transparent',
           display: 'flex',
           alignItems: 'center',
-          justifyContent: block.attributes.textAlign === 'center' ? 'center' :
-                          block.attributes.textAlign === 'right' ? 'flex-end' : 'flex-start',
+          justifyContent:
+            block.attributes.textAlign === 'center'
+              ? 'center'
+              : block.attributes.textAlign === 'right'
+                ? 'flex-end'
+                : 'flex-start',
           padding: '8px',
           overflow: 'hidden',
         };
@@ -53,7 +59,9 @@ export class BlockRenderer {
         return {
           ...baseStyle,
           objectFit: block.attributes.objectFit || 'contain',
-          borderRadius: block.attributes.borderRadius ? `${block.attributes.borderRadius}px` : '0',
+          borderRadius: block.attributes.borderRadius
+            ? `${block.attributes.borderRadius}px`
+            : '0',
           width: '100%',
           height: '100%',
         };
@@ -64,7 +72,9 @@ export class BlockRenderer {
           color: block.attributes.color || '#ffffff',
           backgroundColor: block.attributes.backgroundColor || '#3b82f6',
           borderColor: block.attributes.borderColor || 'transparent',
-          borderRadius: block.attributes.borderRadius ? `${block.attributes.borderRadius}px` : '6px',
+          borderRadius: block.attributes.borderRadius
+            ? `${block.attributes.borderRadius}px`
+            : '6px',
           borderWidth: '1px',
           borderStyle: 'solid',
           display: 'flex',
@@ -75,18 +85,6 @@ export class BlockRenderer {
           transition: 'all 0.2s',
         };
 
-      case 'container':
-        return {
-          ...baseStyle,
-          backgroundColor: block.attributes.backgroundColor || 'transparent',
-          borderColor: block.attributes.borderColor || 'transparent',
-          borderWidth: block.attributes.borderWidth ? `${block.attributes.borderWidth}px` : '0',
-          borderStyle: 'solid',
-          borderRadius: block.attributes.borderRadius ? `${block.attributes.borderRadius}px` : '0',
-          padding: block.attributes.padding ? `${block.attributes.padding}px` : '0',
-          display: 'grid',
-          gap: block.attributes.gap ? `${block.attributes.gap}px` : '0',
-        };
 
       default:
         return baseStyle;
@@ -94,7 +92,9 @@ export class BlockRenderer {
   }
 
   // Block을 props 객체로 변환
-  private convertToProps(block: Block): BaseRenderProps & Record<string, unknown> {
+  private convertToProps(
+    block: Block
+  ): BaseRenderProps & Record<string, unknown> {
     const baseProps = {
       id: block.id,
       'data-block-type': block.type,
@@ -119,13 +119,11 @@ export class BlockRenderer {
         return {
           ...baseProps,
           children: block.attributes.text,
-          onClick: block.attributes.onClick ? () => console.log(`Button clicked: ${block.attributes.onClick}`) : undefined,
+          onClick: block.attributes.onClick
+            ? () => console.log(`Button clicked: ${block.attributes.onClick}`)
+            : undefined,
         };
 
-      case 'container':
-        return {
-          ...baseProps,
-        };
 
       default:
         return baseProps;
@@ -142,10 +140,6 @@ export class BlockRenderer {
       props: this.convertToProps(block),
     };
 
-    // 컨테이너의 경우 children도 렌더링
-    if (block.type === 'container' && block.children) {
-      renderableBlock.children = block.children.map(child => this.renderBlock(child));
-    }
 
     return renderableBlock;
   }
@@ -153,19 +147,12 @@ export class BlockRenderer {
   // 블록 배열을 RenderableBlock 배열로 변환
   public renderBlocks(blocks: Block[]): RenderableBlock[] {
     return blocks
-      .filter(block => !block.metadata?.hidden) // 숨겨진 블록 제외
-      .map(block => this.renderBlock(block))
+      .map((block) => this.renderBlock(block))
       .sort((a, b) => (a.style.zIndex as number) - (b.style.zIndex as number)); // zIndex 순으로 정렬
   }
-
 
   // 그리드 설정 업데이트
   public updateGridConfig(newConfig: GridConfig): void {
     this.gridConfig = newConfig;
   }
 }
-
-// 기본 렌더러 인스턴스 생성 함수
-export const createBlockRenderer = (gridConfig: GridConfig): BlockRenderer => {
-  return new BlockRenderer(gridConfig);
-};

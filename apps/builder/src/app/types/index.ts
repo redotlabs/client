@@ -2,4 +2,3 @@
 export * from './blocks';
 export * from './rendering';
 export * from './editor';
-export * from './factory';

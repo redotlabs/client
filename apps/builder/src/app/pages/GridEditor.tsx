@@ -1,6 +1,6 @@
 import { Canvas } from '@/app/components/Canvas/Canvas';
 import { initialEditorData } from '@/app/constants/editorData';
-import { createBlockRenderer } from '@/app/utils/blockRenderer';
+import { createBlockRenderer } from '@/app/utils/rendererFactory';
 import { useRef, useMemo } from 'react';
 
 export default function GridEditor() {
