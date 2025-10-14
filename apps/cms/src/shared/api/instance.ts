@@ -1,12 +1,19 @@
 import { createAxiosInstance } from '@repo/api-instance';
 import { PATH } from '@/shared/constants/routes';
 import { isServer } from '@tanstack/react-query';
-
-const BASE_URL = process.env.NEXT_PUBLIC_API_DOMAIN || 'http://localhost:3000';
+import { AUTH_WHITE_LIST } from '../constants/auth';
+import { API_DOMAIN, SUBDOMAIN_HEADER } from '@/shared/constants/env-variables';
 
 export const api = createAxiosInstance({
-  baseURL: `${BASE_URL}/api/v1`,
+  baseURL: `${API_DOMAIN}/api/v1`,
 });
+
+export const initializeSubdomainHeader = (subdomain: string) => {
+  api.interceptors.request.use((config) => {
+    config.headers[SUBDOMAIN_HEADER] = subdomain;
+    return config;
+  });
+};
 
 api.interceptors.response.use(
   (response) => response,
@@ -15,7 +22,7 @@ api.interceptors.response.use(
       // 서버 사이드는 middleware에서 처리
       if (!isServer) {
         const pathname = window.location.pathname;
-        if (pathname !== PATH.auth.signIn) {
+        if (!AUTH_WHITE_LIST.includes(pathname)) {
           alert('로그인이 만료되었습니다.');
           window.location.href = `${PATH.auth.signIn}?redirect=${pathname}`;
         }
