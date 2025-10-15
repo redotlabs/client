@@ -10,7 +10,6 @@ import type {
 } from '@/app/types';
 import { generateId, createDefaultMetadata } from './helpers';
 
-// 기본 블록 생성 함수들
 export const createTextBlock = (
   position: BlockPosition,
   size: BlockSize,
@@ -50,7 +49,6 @@ export const createButtonBlock = (
   metadata: createDefaultMetadata(),
 });
 
-// 편의 함수: 좌표와 크기로 직접 블록 생성
 export const createTextBlockFromCoords = (
   x: number,
   y: number,

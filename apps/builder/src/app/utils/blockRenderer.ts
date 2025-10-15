@@ -5,7 +5,6 @@ import type {
   BaseRenderProps,
 } from '@/app/types';
 
-// Block을 RenderableBlock으로 변환하는 렌더러
 export class BlockRenderer {
   private gridConfig: GridConfig;
 
@@ -13,7 +12,6 @@ export class BlockRenderer {
     this.gridConfig = gridConfig;
   }
 
-  // Block을 CSS Grid 스타일로 변환
   private convertToGridArea(block: Block): string {
     const { position, size } = block;
     const rowStart = position.y;
@@ -24,14 +22,12 @@ export class BlockRenderer {
     return `${rowStart} / ${colStart} / ${rowEnd} / ${colEnd}`;
   }
 
-  // Block을 React 스타일 객체로 변환
   private convertToStyle(block: Block): React.CSSProperties {
     const baseStyle: React.CSSProperties = {
       gridArea: this.convertToGridArea(block),
       zIndex: block.position.zIndex,
     };
 
-    // 타입별 스타일 처리
     switch (block.type) {
       case 'text':
         return {
@@ -91,7 +87,6 @@ export class BlockRenderer {
     }
   }
 
-  // Block을 props 객체로 변환
   private convertToProps(
     block: Block
   ): BaseRenderProps & Record<string, unknown> {
@@ -130,7 +125,6 @@ export class BlockRenderer {
     }
   }
 
-  // 단일 Block을 RenderableBlock으로 변환
   public renderBlock(block: Block): RenderableBlock {
     const renderableBlock: RenderableBlock = {
       id: block.id,
@@ -144,14 +138,12 @@ export class BlockRenderer {
     return renderableBlock;
   }
 
-  // 블록 배열을 RenderableBlock 배열로 변환
   public renderBlocks(blocks: Block[]): RenderableBlock[] {
     return blocks
       .map((block) => this.renderBlock(block))
-      .sort((a, b) => (a.style.zIndex as number) - (b.style.zIndex as number)); // zIndex 순으로 정렬
+      .sort((a, b) => (a.style.zIndex as number) - (b.style.zIndex as number));
   }
 
-  // 그리드 설정 업데이트
   public updateGridConfig(newConfig: GridConfig): void {
     this.gridConfig = newConfig;
   }

@@ -1,4 +1,3 @@
-// 각 블록 타입별 어트리뷰트 인터페이스
 export interface TextBlockAttributes {
   text: string;
   color?: string;
@@ -22,13 +21,11 @@ export interface ButtonBlockAttributes {
   backgroundColor?: string;
   borderColor?: string;
   borderRadius?: number;
-  onClick?: string; // 액션 식별자
+  onClick?: string;
   disabled?: boolean;
   variant?: 'primary' | 'secondary' | 'outline';
 }
 
-
-// 블록 타입별 어트리뷰트 유니온
 export type BlockAttributes =
   | TextBlockAttributes
   | ImageBlockAttributes

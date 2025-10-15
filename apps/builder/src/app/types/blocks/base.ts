@@ -5,7 +5,6 @@ import type {
   ButtonBlockAttributes
 } from './attributes';
 
-// 기본 블록 구조
 export interface BaseBlock {
   id: string;
   type: string;
@@ -17,7 +16,6 @@ export interface BaseBlock {
   };
 }
 
-// 타입별 블록 정의
 export interface TextBlock extends BaseBlock {
   type: 'text';
   attributes: TextBlockAttributes;
@@ -33,6 +31,4 @@ export interface ButtonBlock extends BaseBlock {
   attributes: ButtonBlockAttributes;
 }
 
-
-// 블록 유니온 타입
 export type Block = TextBlock | ImageBlock | ButtonBlock;

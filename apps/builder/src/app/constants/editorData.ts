@@ -1,6 +1,5 @@
 import type { EditorData } from '@/app/types';
 
-// 기본 그리드 설정
 export const DEFAULT_GRID_CONFIG = {
   columns: 48,
   rows: 48,
@@ -8,7 +7,6 @@ export const DEFAULT_GRID_CONFIG = {
   gap: 4,
 };
 
-// 초기 에디터 데이터 (순수 JSON 구조)
 export const initialEditorData: EditorData = {
   grid: DEFAULT_GRID_CONFIG,
   blocks: [
