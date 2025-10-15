@@ -8,19 +8,21 @@ import type {
   ImageBlockAttributes,
   ButtonBlockAttributes,
 } from '@/app/types';
-import { generateId, createDefaultMetadata } from './helpers';
 
 export const createTextBlock = (
   position: BlockPosition,
   size: BlockSize,
   attributes: TextBlockAttributes
 ): TextBlock => ({
-  id: generateId(),
+  id: `block-${Math.random().toString(36).substring(2, 8)}`,
   type: 'text',
   position,
   size,
   attributes,
-  metadata: createDefaultMetadata(),
+  metadata: {
+    createdAt: '2024-01-01T00:00:00.000Z',
+    updatedAt: '2024-01-01T00:00:00.000Z',
+  },
 });
 
 export const createImageBlock = (
@@ -28,12 +30,15 @@ export const createImageBlock = (
   size: BlockSize,
   attributes: ImageBlockAttributes
 ): ImageBlock => ({
-  id: generateId(),
+  id: `block-${Math.random().toString(36).substring(2, 8)}`,
   type: 'image',
   position,
   size,
   attributes,
-  metadata: createDefaultMetadata(),
+  metadata: {
+    createdAt: '2024-01-01T00:00:00.000Z',
+    updatedAt: '2024-01-01T00:00:00.000Z',
+  },
 });
 
 export const createButtonBlock = (
@@ -41,12 +46,15 @@ export const createButtonBlock = (
   size: BlockSize,
   attributes: ButtonBlockAttributes
 ): ButtonBlock => ({
-  id: generateId(),
+  id: `block-${Math.random().toString(36).substring(2, 8)}`,
   type: 'button',
   position,
   size,
   attributes,
-  metadata: createDefaultMetadata(),
+  metadata: {
+    createdAt: '2024-01-01T00:00:00.000Z',
+    updatedAt: '2024-01-01T00:00:00.000Z',
+  },
 });
 
 export const createTextBlockFromCoords = (

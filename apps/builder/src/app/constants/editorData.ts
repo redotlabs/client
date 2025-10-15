@@ -11,7 +11,7 @@ export const initialEditorData: EditorData = {
   grid: DEFAULT_GRID_CONFIG,
   blocks: [
     {
-      id: 'text_block_1',
+      id: 'block-1',
       type: 'text',
       position: {
         x: 6,
@@ -36,7 +36,7 @@ export const initialEditorData: EditorData = {
     },
 
     {
-      id: 'text_block_2',
+      id: 'block-2',
       type: 'text',
       position: {
         x: 6,
@@ -60,7 +60,7 @@ export const initialEditorData: EditorData = {
     },
 
     {
-      id: 'image_block_1',
+      id: 'block-3',
       type: 'image',
       position: {
         x: 28,
@@ -84,7 +84,7 @@ export const initialEditorData: EditorData = {
     },
 
     {
-      id: 'button_block_1',
+      id: 'block-4',
       type: 'button',
       position: {
         x: 6,
@@ -116,13 +116,3 @@ export const initialEditorData: EditorData = {
   },
 };
 
-export const emptyEditorData: EditorData = {
-  grid: DEFAULT_GRID_CONFIG,
-  blocks: [],
-  metadata: {
-    version: '1.0.0',
-    lastModified: new Date().toISOString(),
-    title: 'New Page',
-    description: '',
-  },
-};

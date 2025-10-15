@@ -38,14 +38,6 @@ export const BlockRenderer = ({ block }: BlockRendererProps) => {
           </button>
         );
 
-      case 'container':
-        return (
-          <div style={{ width: '100%', height: '100%' }}>
-            {block.children?.map((child) => (
-              <BlockRenderer key={child.id} block={child} />
-            ))}
-          </div>
-        );
 
       default:
         return <div>Unknown block type: {block.type}</div>;
