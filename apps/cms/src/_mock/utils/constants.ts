@@ -18,3 +18,5 @@ export const MOCK_CUSTOMER = {
 };
 
 export const MOCK_API_BASE = '*/api/v1';
+
+export const MOCK_EMAIL_CODE = '123456';
