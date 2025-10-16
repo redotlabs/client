@@ -1,3 +1,9 @@
+/*
+블록 팩토리 함수들
+현재는 정적 데이터(editorData.ts)만 사용하므로 실제로는 호출되지 않음
+향후 사용자 블록 추가/편집 기능 구현 시 사용 예정
+*/
+
 import type {
   TextBlock,
   ImageBlock,
