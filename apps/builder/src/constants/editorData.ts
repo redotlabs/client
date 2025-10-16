@@ -1,4 +1,4 @@
-import type { EditorData } from '@/app/types';
+import type { EditorData } from '@/shared/types';
 
 export const DEFAULT_GRID_CONFIG = {
   columns: 48,

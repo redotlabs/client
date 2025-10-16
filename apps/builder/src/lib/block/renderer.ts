@@ -1,9 +1,11 @@
 import type {
   Block,
-  RenderableBlock,
   GridConfig,
+} from '@/shared/types';
+import type {
+  RenderableBlock,
   BaseRenderProps,
-} from '@/app/types';
+} from './types';
 
 export class BlockRenderer {
   private gridConfig: GridConfig;

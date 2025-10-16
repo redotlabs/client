@@ -13,7 +13,7 @@ import type {
   TextBlockAttributes,
   ImageBlockAttributes,
   ButtonBlockAttributes,
-} from '@/app/types';
+} from '@/shared/types';
 
 export const createTextBlock = (
   position: BlockPosition,
