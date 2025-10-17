@@ -7,7 +7,7 @@ import {
   useSendEmailVerificationCode,
   useVerifyEmailVerificationCode,
 } from '@/shared/api/queries/auth/reset-password';
-import { minutes } from '@repo/utils';
+import { formatTimer, minutes } from '@repo/utils';
 import { Button, toast } from '@redotlabs/ui';
 import Link from 'next/link';
 import { PATH } from '@/shared/constants/routes';
@@ -143,18 +143,5 @@ const VerifyCodeStep = () => {
     </>
   );
 };
-
-function formatTimer(distance: number | null) {
-  if (!distance) return null;
-
-  const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-  const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-  const paddedMinutes = minutes.toString().padStart(2, '0');
-  const paddedSeconds = seconds.toString().padStart(2, '0');
-
-  if (minutes === 0) return paddedSeconds;
-  return `${paddedMinutes}:${paddedSeconds}`;
-}
 
 export default VerifyCodeStep;
