@@ -63,7 +63,6 @@ const ResetPasswordStep = () => {
           onKeyUp={onKeyUp}
         />
         <RHFInput
-          autoFocus
           type="password"
           name="passwordConfirm"
           label="새 비밀번호 확인"
