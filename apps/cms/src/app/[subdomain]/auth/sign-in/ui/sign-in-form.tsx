@@ -16,8 +16,9 @@ import { MOCK_ACCOUNT } from '@/_mock/utils/constants';
 
 const schema = z.object({
   email: z
-    .email('이메일 형식이 일치하지 않습니다.')
-    .min(1, '이메일을 입력해주세요.'),
+    .string()
+    .min(1, '이메일을 입력해주세요.')
+    .email('이메일 형식이 일치하지 않습니다.'),
   password: z
     .string()
     .regex(
