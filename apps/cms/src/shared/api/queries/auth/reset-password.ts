@@ -1,7 +1,9 @@
 import { useMutation } from '@tanstack/react-query';
-import { sendEmailVerificationCode } from '../../services/auth/reset-password';
-import { verifyEmailVerificationCode } from '../../services/auth/reset-password';
-import { resetPassword } from '../../services/auth/reset-password';
+import {
+  resetPassword,
+  sendEmailVerificationCode,
+  verifyEmailVerificationCode,
+} from '@/shared/api/services/auth/reset-password';
 
 export const useSendEmailVerificationCode = () => {
   return useMutation({
