@@ -7,6 +7,8 @@ import AuthGuard from '@/shared/components/wrapper/auth-guard';
 import type { PropsWithChildren } from 'react';
 import { getCustomer } from '@/shared/api/services/customer';
 import { initializeSubdomainHeader } from '@/shared/api/instance';
+import { redirect } from 'next/navigation';
+import { PATH } from '@/shared/constants/routes';
 
 export const metadata: Metadata = {
   title: 'Redot CMS',
@@ -19,7 +21,7 @@ export default async function CustomerRootLayout({
 }: PropsWithChildren<{ params: Promise<{ subdomain: string }> }>) {
   const { subdomain } = await params;
   initializeSubdomainHeader(subdomain);
-  const customer = await getCustomer();
+  const customer = await getCustomer().catch(() => redirect(PATH.notFound));
 
   return (
     <ClientQueryClientProvider>
