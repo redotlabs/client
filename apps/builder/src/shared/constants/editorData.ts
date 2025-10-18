@@ -12,7 +12,7 @@ export const initialEditorData: EditorData = {
   blocks: [
     {
       id: 'block-1',
-      type: 'text',
+      component: 'text',
       position: {
         x: 6,
         y: 8,
@@ -22,8 +22,8 @@ export const initialEditorData: EditorData = {
         width: 18,
         height: 4,
       },
-      attributes: {
-        text: '제목 텍스트',
+      props: {
+        children: '제목 텍스트',
         fontSize: 24,
         fontWeight: 'bold',
         textAlign: 'center',
@@ -37,7 +37,7 @@ export const initialEditorData: EditorData = {
 
     {
       id: 'block-2',
-      type: 'text',
+      component: 'text',
       position: {
         x: 6,
         y: 16,
@@ -47,8 +47,8 @@ export const initialEditorData: EditorData = {
         width: 14,
         height: 4,
       },
-      attributes: {
-        text: '부제목 텍스트',
+      props: {
+        children: '부제목 텍스트',
         fontSize: 16,
         textAlign: 'left',
         color: '#6b7280',
@@ -61,7 +61,7 @@ export const initialEditorData: EditorData = {
 
     {
       id: 'block-3',
-      type: 'image',
+      component: 'image',
       position: {
         x: 28,
         y: 8,
@@ -71,7 +71,7 @@ export const initialEditorData: EditorData = {
         width: 12,
         height: 8,
       },
-      attributes: {
+      props: {
         src: 'https://picsum.photos/400/600',
         alt: 'Example Image',
         objectFit: 'cover',
@@ -85,7 +85,7 @@ export const initialEditorData: EditorData = {
 
     {
       id: 'block-4',
-      type: 'button',
+      component: 'button',
       position: {
         x: 6,
         y: 24,
@@ -95,8 +95,8 @@ export const initialEditorData: EditorData = {
         width: 8,
         height: 3,
       },
-      attributes: {
-        text: 'Click Me',
+      props: {
+        children: 'Click Me',
         backgroundColor: '#3b82f6',
         color: '#ffffff',
         borderRadius: 6,

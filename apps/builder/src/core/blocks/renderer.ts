@@ -1,9 +1,9 @@
 import type {
-  Block,
+  BuilderBlock,
   GridConfig,
   RenderableBlock,
   BaseRenderProps,
-} from '@/shared/types';
+} from "@/shared/types";
 
 export class BlockRenderer {
   private gridConfig: GridConfig;
@@ -16,7 +16,7 @@ export class BlockRenderer {
     return this.gridConfig;
   }
 
-  private convertToGridArea(block: Block): string {
+  private convertToGridArea(block: BuilderBlock): string {
     const { position, size } = block;
     const rowStart = position.y;
     const colStart = position.x;
@@ -26,65 +26,68 @@ export class BlockRenderer {
     return `${rowStart} / ${colStart} / ${rowEnd} / ${colEnd}`;
   }
 
-  private convertToStyle(block: Block): React.CSSProperties {
+  private convertToStyle(block: BuilderBlock): React.CSSProperties {
     const baseStyle: React.CSSProperties = {
       gridArea: this.convertToGridArea(block),
       zIndex: block.position.zIndex,
     };
 
-    switch (block.type) {
-      case 'text':
+    const props = (block.props as Record<string, unknown>) || {};
+
+    switch (block.component) {
+      case "text": {
         return {
           ...baseStyle,
-          color: block.attributes.color || '#000000',
-          fontSize: block.attributes.fontSize
-            ? `${block.attributes.fontSize}px`
-            : '16px',
-          fontWeight: block.attributes.fontWeight || 'normal',
-          textAlign: block.attributes.textAlign || 'left',
-          backgroundColor: block.attributes.backgroundColor || 'transparent',
-          display: 'flex',
-          alignItems: 'center',
+          color: (props.color as string) || "#000000",
+          fontSize: props.fontSize ? `${props.fontSize as number}px` : "16px",
+          fontWeight: (props.fontWeight as string) || "normal",
+          textAlign: (props.textAlign as "left" | "center" | "right") || "left",
+          backgroundColor: (props.backgroundColor as string) || "transparent",
+          display: "flex",
+          alignItems: "center",
           justifyContent:
-            block.attributes.textAlign === 'center'
-              ? 'center'
-              : block.attributes.textAlign === 'right'
-                ? 'flex-end'
-                : 'flex-start',
-          padding: '8px',
-          overflow: 'hidden',
+            props.textAlign === "center"
+              ? "center"
+              : props.textAlign === "right"
+                ? "flex-end"
+                : "flex-start",
+          padding: "8px",
+          overflow: "hidden",
         };
+      }
 
-      case 'image':
+      case "image": {
         return {
           ...baseStyle,
-          objectFit: block.attributes.objectFit || 'contain',
-          borderRadius: block.attributes.borderRadius
-            ? `${block.attributes.borderRadius}px`
-            : '0',
-          width: '100%',
-          height: '100%',
+          objectFit:
+            (props.objectFit as "contain" | "cover" | "fill") || "contain",
+          borderRadius: props.borderRadius
+            ? `${props.borderRadius as number}px`
+            : "0",
+          width: "100%",
+          height: "100%",
         };
+      }
 
-      case 'button':
+      case "button": {
         return {
           ...baseStyle,
-          color: block.attributes.color || '#ffffff',
-          backgroundColor: block.attributes.backgroundColor || '#3b82f6',
-          borderColor: block.attributes.borderColor || 'transparent',
-          borderRadius: block.attributes.borderRadius
-            ? `${block.attributes.borderRadius}px`
-            : '6px',
-          borderWidth: '1px',
-          borderStyle: 'solid',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          cursor: 'pointer',
-          fontWeight: '500',
-          transition: 'all 0.2s',
+          color: (props.color as string) || "#ffffff",
+          backgroundColor: (props.backgroundColor as string) || "#3b82f6",
+          borderColor: (props.borderColor as string) || "transparent",
+          borderRadius: props.borderRadius
+            ? `${props.borderRadius as number}px`
+            : "6px",
+          borderWidth: "1px",
+          borderStyle: "solid",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          cursor: "pointer",
+          fontWeight: "500",
+          transition: "all 0.2s",
         };
-
+      }
 
       default:
         return baseStyle;
@@ -92,57 +95,70 @@ export class BlockRenderer {
   }
 
   private convertToProps(
-    block: Block
+    block: BuilderBlock
   ): BaseRenderProps & Record<string, unknown> {
     const baseProps = {
       id: block.id,
-      'data-block-type': block.type,
-      'data-block-id': block.id,
+      "data-block-type": block.component,
+      "data-block-id": block.id,
     };
 
-    switch (block.type) {
-      case 'text':
-        return {
-          ...baseProps,
-          children: block.attributes.text,
-        };
+    const props = (block.props as Record<string, unknown>) || {};
 
-      case 'image':
-        return {
-          ...baseProps,
-          src: block.attributes.src,
-          alt: block.attributes.alt || '',
-        };
+    switch (block.component) {
+      case "text": {
+        const children =
+          typeof block.children === "string"
+            ? block.children
+            : (props.children as string | undefined);
 
-      case 'button':
         return {
           ...baseProps,
-          children: block.attributes.text,
-          onClick: block.attributes.onClick
-            ? () => console.log(`Button clicked: ${block.attributes.onClick}`)
+          children: children as React.ReactNode,
+        };
+      }
+
+      case "image": {
+        return {
+          ...baseProps,
+          src: props.src as string,
+          alt: (props.alt as string) || "",
+        };
+      }
+
+      case "button": {
+        const children =
+          typeof block.children === "string"
+            ? block.children
+            : (props.children as string | undefined);
+
+        return {
+          ...baseProps,
+          children: children as React.ReactNode,
+          onClick: props.onClick
+            ? () => console.log(`Button clicked: ${props.onClick}`)
             : undefined,
         };
-
+      }
 
       default:
         return baseProps;
     }
   }
 
-  public renderBlock(block: Block): RenderableBlock {
+  public renderBlock(block: BuilderBlock): RenderableBlock {
     const renderableBlock: RenderableBlock = {
       id: block.id,
-      type: block.type,
+      type: block.component,
       gridArea: this.convertToGridArea(block),
       style: this.convertToStyle(block),
       props: this.convertToProps(block),
     };
 
-
     return renderableBlock;
   }
 
-  public renderBlocks(blocks: Block[]): RenderableBlock[] {
+  public renderBlocks(blocks: BuilderBlock[]): RenderableBlock[] {
     return blocks
       .map((block) => this.renderBlock(block))
       .sort((a, b) => (a.style.zIndex as number) - (b.style.zIndex as number));

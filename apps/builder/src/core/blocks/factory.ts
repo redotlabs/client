@@ -1,65 +1,65 @@
 /*
-블록 팩토리 함수들
+블록 팩토리 함수들 - SDUI ContentBlock 구조 기반
 현재는 정적 데이터(editorData.ts)만 사용하므로 실제로는 호출되지 않음
 향후 사용자 블록 추가/편집 기능 구현 시 사용 예정
 */
 
 import type {
-  TextBlock,
-  ImageBlock,
-  ButtonBlock,
+  BuilderBlock,
   BlockPosition,
   BlockSize,
-  TextBlockAttributes,
-  ImageBlockAttributes,
-  ButtonBlockAttributes,
-} from '@/shared/types';
+  TextProps,
+  ImageProps,
+  ButtonProps,
+} from "@/shared/types";
 
 export const createTextBlock = (
   position: BlockPosition,
   size: BlockSize,
-  attributes: TextBlockAttributes
-): TextBlock => ({
+  props: TextProps
+): BuilderBlock => ({
   id: `block-${Math.random().toString(36).substring(2, 8)}`,
-  type: 'text',
+  component: "text",
+  props,
+  children: props.children,
   position,
   size,
-  attributes,
   metadata: {
-    createdAt: '2024-01-01T00:00:00.000Z',
-    updatedAt: '2024-01-01T00:00:00.000Z',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
   },
 });
 
 export const createImageBlock = (
   position: BlockPosition,
   size: BlockSize,
-  attributes: ImageBlockAttributes
-): ImageBlock => ({
+  props: ImageProps
+): BuilderBlock => ({
   id: `block-${Math.random().toString(36).substring(2, 8)}`,
-  type: 'image',
+  component: "image",
+  props,
   position,
   size,
-  attributes,
   metadata: {
-    createdAt: '2024-01-01T00:00:00.000Z',
-    updatedAt: '2024-01-01T00:00:00.000Z',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
   },
 });
 
 export const createButtonBlock = (
   position: BlockPosition,
   size: BlockSize,
-  attributes: ButtonBlockAttributes
-): ButtonBlock => ({
+  props: ButtonProps
+): BuilderBlock => ({
   id: `block-${Math.random().toString(36).substring(2, 8)}`,
-  type: 'button',
+  component: "button",
+  props,
+  children: props.children,
   position,
   size,
-  attributes,
   metadata: {
-    createdAt: '2024-01-01T00:00:00.000Z',
-    updatedAt: '2024-01-01T00:00:00.000Z',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
   },
 });
 
@@ -69,12 +69,12 @@ export const createTextBlockFromCoords = (
   width: number,
   height: number,
   text: string,
-  options?: Partial<TextBlockAttributes>
-): TextBlock => {
+  options?: Partial<TextProps>
+): BuilderBlock => {
   return createTextBlock(
     { x, y, zIndex: 1 },
     { width, height },
-    { text, ...options }
+    { children: text, ...options }
   );
 };
 
@@ -84,8 +84,8 @@ export const createImageBlockFromCoords = (
   width: number,
   height: number,
   src: string,
-  options?: Partial<ImageBlockAttributes>
-): ImageBlock => {
+  options?: Partial<ImageProps>
+): BuilderBlock => {
   return createImageBlock(
     { x, y, zIndex: 1 },
     { width, height },
@@ -99,11 +99,11 @@ export const createButtonBlockFromCoords = (
   width: number,
   height: number,
   text: string,
-  options?: Partial<ButtonBlockAttributes>
-): ButtonBlock => {
+  options?: Partial<ButtonProps>
+): BuilderBlock => {
   return createButtonBlock(
     { x, y, zIndex: 1 },
     { width, height },
-    { text, ...options }
+    { children: text, ...options }
   );
 };

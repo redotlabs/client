@@ -1,13 +1,23 @@
-import type { BlockPosition, BlockSize } from './position';
-import type {
-  TextBlockAttributes,
-  ImageBlockAttributes,
-  ButtonBlockAttributes
-} from './attributes';
+import type { HTMLElementType } from "react";
+import type { BlockPosition, BlockSize } from "./position";
 
-export interface BaseBlock {
+/**
+ * Component types supported by the builder
+ * Following sdui-renderer's ComponentType pattern
+ */
+export type ComponentType = "text" | "image" | "button" | HTMLElementType;
+
+export interface ContentBlock {
   id: string;
-  type: string;
+  component: ComponentType;
+  props?: {
+    className?: string;
+    [key: string]: unknown;
+  };
+  children?: string | ContentBlock[];
+}
+
+export interface BuilderBlock extends ContentBlock {
   position: BlockPosition;
   size: BlockSize;
   metadata?: {
@@ -16,19 +26,4 @@ export interface BaseBlock {
   };
 }
 
-export interface TextBlock extends BaseBlock {
-  type: 'text';
-  attributes: TextBlockAttributes;
-}
-
-export interface ImageBlock extends BaseBlock {
-  type: 'image';
-  attributes: ImageBlockAttributes;
-}
-
-export interface ButtonBlock extends BaseBlock {
-  type: 'button';
-  attributes: ButtonBlockAttributes;
-}
-
-export type Block = TextBlock | ImageBlock | ButtonBlock;
+export type Block = BuilderBlock;
