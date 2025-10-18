@@ -1,7 +1,7 @@
 import { type RefObject } from 'react';
-import { DEFAULT_GRID_CONFIG } from '@/constants/editorData';
-import type { RenderableBlock } from '@/lib/block';
-import { BlockRenderer } from '@/app/components/Canvas/BlockRenderer';
+import { DEFAULT_GRID_CONFIG } from '@/shared/constants/editorData';
+import type { RenderableBlock } from '@/shared/types';
+import { BlockRenderer } from '@/features/canvas/components/BlockRenderer';
 
 interface CanvasProps {
   canvasRef: RefObject<HTMLDivElement | null>;

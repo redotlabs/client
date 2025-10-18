@@ -1,6 +1,6 @@
-import { Canvas } from '@/app/components/Canvas/Canvas';
-import { initialEditorData } from '@/constants/editorData';
-import { BlockRenderer } from '@/lib/block';
+import { Canvas } from '@/features/canvas/components/Canvas';
+import { initialEditorData } from '@/shared/constants/editorData';
+import { BlockRenderer } from '@/core/blocks';
 import { useRef, useMemo } from 'react';
 
 export default function BuilderApp() {

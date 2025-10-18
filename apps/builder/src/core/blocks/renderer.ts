@@ -1,17 +1,19 @@
 import type {
   Block,
   GridConfig,
-} from '@/shared/types';
-import type {
   RenderableBlock,
   BaseRenderProps,
-} from './types';
+} from '@/shared/types';
 
 export class BlockRenderer {
   private gridConfig: GridConfig;
 
   constructor(gridConfig: GridConfig) {
     this.gridConfig = gridConfig;
+  }
+
+  public getGridConfig(): GridConfig {
+    return this.gridConfig;
   }
 
   private convertToGridArea(block: Block): string {

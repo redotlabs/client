@@ -1,4 +1,4 @@
-import type { RenderableBlock } from '@/lib/block';
+import type { RenderableBlock } from '@/shared/types';
 
 interface BlockRendererProps {
   block: RenderableBlock;
