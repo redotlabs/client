@@ -1,0 +1,35 @@
+import { type RefObject } from 'react';
+import { DEFAULT_GRID_CONFIG } from '@/shared/constants/editorData';
+import type { RenderableBlock } from '@/shared/types';
+import { BlockRenderer } from '@/features/canvas/components/BlockRenderer';
+
+interface CanvasProps {
+  canvasRef: RefObject<HTMLDivElement | null>;
+  blocks: RenderableBlock[];
+}
+
+export const Canvas = ({ canvasRef, blocks }: CanvasProps) => {
+  return (
+    <div
+      ref={canvasRef}
+      className="w-full h-screen bg-gray-100 overflow-auto"
+      style={{
+        display: 'grid',
+        gridTemplateRows: `repeat(${DEFAULT_GRID_CONFIG.rows}, ${DEFAULT_GRID_CONFIG.rowHeight}px)`,
+        gridTemplateColumns: `repeat(${DEFAULT_GRID_CONFIG.columns}, 1fr)`,
+        gap: `${DEFAULT_GRID_CONFIG.gap}px`,
+        padding: '16px',
+        backgroundImage: `
+          linear-gradient(to right, rgba(0,0,0,0.1) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(0,0,0,0.1) 1px, transparent 1px)
+        `,
+        backgroundSize: `calc(100% / ${DEFAULT_GRID_CONFIG.columns}) ${DEFAULT_GRID_CONFIG.rowHeight}px`,
+        backgroundPosition: '16px 16px',
+      }}
+    >
+      {blocks.map((block) => (
+        <BlockRenderer key={block.id} block={block} />
+      ))}
+    </div>
+  );
+};
