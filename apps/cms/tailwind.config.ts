@@ -2,7 +2,7 @@ import { colors, typography } from '@redotlabs/tokens';
 import type { Config } from 'tailwindcss';
 
 export default {
-  content: ['./src/**/*.{js,ts,jsx,tsx}'],
+  content: ['./src/**/*.{js,ts,jsx,tsx}', './node_modules/@repo/ui'],
   theme: {
     extend: {
       colors: {
