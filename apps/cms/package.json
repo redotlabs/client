@@ -15,6 +15,7 @@
     "@redotlabs/ui": "^1.2.0",
     "@redotlabs/utils": "^1.0.0",
     "@repo/api-instance": "workspace:*",
+    "@repo/hooks": "workspace:*",
     "@repo/ui": "workspace:*",
     "@repo/utils": "workspace:*",
     "@tanstack/react-query": "^5.90.2",

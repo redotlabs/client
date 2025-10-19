@@ -14,7 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn('antialiased min-h-svh flex flex-col')}>
+      <body className={cn('antialiased min-h-svh flex flex-col bg-white')}>
         {children}
       </body>
     </html>
