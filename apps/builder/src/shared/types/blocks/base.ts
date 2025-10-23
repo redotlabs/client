@@ -1,5 +1,5 @@
-import type { HTMLElementType } from "react";
-import type { BlockPosition, BlockSize } from "./position";
+import type { HTMLElementType } from 'react';
+import type { BlockPosition, BlockSize } from './position';
 
 /**
  * Component types supported by the builder
@@ -8,21 +8,18 @@ import type { BlockPosition, BlockSize } from "./position";
  * Generic components: text (for TextBlock)
  */
 export type ComponentType =
-  | "text"
-  | "badge"
-  | "button"
-  | "input"
-  | "logo"
-  | "toast"
+  | 'text'
+  | 'badge'
+  | 'button'
+  | 'input'
+  | 'logo'
+  | 'toast'
   | HTMLElementType;
 
 export interface ContentBlock {
   id: string;
   component: ComponentType;
-  props?: {
-    className?: string;
-    [key: string]: unknown;
-  };
+  props?: unknown;
   children?: string | ContentBlock[];
 }
 
