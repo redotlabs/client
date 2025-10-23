@@ -56,39 +56,6 @@ export class BlockRenderer {
         };
       }
 
-      case "image": {
-        return {
-          ...baseStyle,
-          objectFit:
-            (props.objectFit as "contain" | "cover" | "fill") || "contain",
-          borderRadius: props.borderRadius
-            ? `${props.borderRadius as number}px`
-            : "0",
-          width: "100%",
-          height: "100%",
-        };
-      }
-
-      case "button": {
-        return {
-          ...baseStyle,
-          color: (props.color as string) || "#ffffff",
-          backgroundColor: (props.backgroundColor as string) || "#3b82f6",
-          borderColor: (props.borderColor as string) || "transparent",
-          borderRadius: props.borderRadius
-            ? `${props.borderRadius as number}px`
-            : "6px",
-          borderWidth: "1px",
-          borderStyle: "solid",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          cursor: "pointer",
-          fontWeight: "500",
-          transition: "all 0.2s",
-        };
-      }
-
       default:
         return baseStyle;
     }
@@ -118,14 +85,7 @@ export class BlockRenderer {
         };
       }
 
-      case "image": {
-        return {
-          ...baseProps,
-          src: props.src as string,
-          alt: (props.alt as string) || "",
-        };
-      }
-
+      case "badge":
       case "button": {
         const children =
           typeof block.children === "string"
@@ -134,10 +94,17 @@ export class BlockRenderer {
 
         return {
           ...baseProps,
+          ...props,
           children: children as React.ReactNode,
-          onClick: props.onClick
-            ? () => console.log(`Button clicked: ${props.onClick}`)
-            : undefined,
+        };
+      }
+
+      case "input":
+      case "logo":
+      case "toast": {
+        return {
+          ...baseProps,
+          ...props,
         };
       }
 
