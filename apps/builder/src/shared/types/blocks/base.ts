@@ -4,8 +4,17 @@ import type { BlockPosition, BlockSize } from "./position";
 /**
  * Component types supported by the builder
  * Following sdui-renderer's ComponentType pattern
+ * Design system components: badge, button, input, logo, toast
+ * Generic components: text (for TextBlock)
  */
-export type ComponentType = "text" | "image" | "button" | HTMLElementType;
+export type ComponentType =
+  | "text"
+  | "badge"
+  | "button"
+  | "input"
+  | "logo"
+  | "toast"
+  | HTMLElementType;
 
 export interface ContentBlock {
   id: string;
