@@ -3,7 +3,8 @@ import type {
   GridConfig,
   RenderableBlock,
   BaseRenderProps,
-} from "@/shared/types";
+} from '@/shared/types';
+import type { CSSProperties, ReactNode } from 'react';
 
 export class BlockRenderer {
   private gridConfig: GridConfig;
@@ -26,8 +27,8 @@ export class BlockRenderer {
     return `${rowStart} / ${colStart} / ${rowEnd} / ${colEnd}`;
   }
 
-  private convertToStyle(block: BuilderBlock): React.CSSProperties {
-    const baseStyle: React.CSSProperties = {
+  private convertToStyle(block: BuilderBlock): CSSProperties {
+    const baseStyle: CSSProperties = {
       gridArea: this.convertToGridArea(block),
       zIndex: block.position.zIndex,
     };
@@ -35,24 +36,24 @@ export class BlockRenderer {
     const props = (block.props as Record<string, unknown>) || {};
 
     switch (block.component) {
-      case "text": {
+      case 'text': {
         return {
           ...baseStyle,
-          color: (props.color as string) || "#000000",
-          fontSize: props.fontSize ? `${props.fontSize as number}px` : "16px",
-          fontWeight: (props.fontWeight as string) || "normal",
-          textAlign: (props.textAlign as "left" | "center" | "right") || "left",
-          backgroundColor: (props.backgroundColor as string) || "transparent",
-          display: "flex",
-          alignItems: "center",
+          color: (props.color as string) || '#000000',
+          fontSize: props.fontSize ? `${props.fontSize as number}px` : '16px',
+          fontWeight: (props.fontWeight as string) || 'normal',
+          textAlign: (props.textAlign as 'left' | 'center' | 'right') || 'left',
+          backgroundColor: (props.backgroundColor as string) || 'transparent',
+          display: 'flex',
+          alignItems: 'center',
           justifyContent:
-            props.textAlign === "center"
-              ? "center"
-              : props.textAlign === "right"
-                ? "flex-end"
-                : "flex-start",
-          padding: "8px",
-          overflow: "hidden",
+            props.textAlign === 'center'
+              ? 'center'
+              : props.textAlign === 'right'
+                ? 'flex-end'
+                : 'flex-start',
+          padding: '8px',
+          overflow: 'hidden',
         };
       }
 
@@ -66,42 +67,42 @@ export class BlockRenderer {
   ): BaseRenderProps & Record<string, unknown> {
     const baseProps = {
       id: block.id,
-      "data-block-type": block.component,
-      "data-block-id": block.id,
+      'data-block-type': block.component,
+      'data-block-id': block.id,
     };
 
     const props = (block.props as Record<string, unknown>) || {};
 
     switch (block.component) {
-      case "text": {
+      case 'text': {
         const children =
-          typeof block.children === "string"
+          typeof block.children === 'string'
             ? block.children
             : (props.children as string | undefined);
 
         return {
           ...baseProps,
-          children: children as React.ReactNode,
+          children: children as ReactNode,
         };
       }
 
-      case "badge":
-      case "button": {
+      case 'badge':
+      case 'button': {
         const children =
-          typeof block.children === "string"
+          typeof block.children === 'string'
             ? block.children
             : (props.children as string | undefined);
 
         return {
           ...baseProps,
           ...props,
-          children: children as React.ReactNode,
+          children: children as ReactNode,
         };
       }
 
-      case "input":
-      case "logo":
-      case "toast": {
+      case 'input':
+      case 'logo':
+      case 'toast': {
         return {
           ...baseProps,
           ...props,

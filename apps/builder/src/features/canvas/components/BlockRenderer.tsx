@@ -24,7 +24,11 @@ export const BlockRenderer = ({ block }: BlockRendererProps) => {
       case 'badge': {
         const props = block.props as BadgeProps;
         return (
-          <Badge color={props.color} size={props.size} className={props.className}>
+          <Badge
+            color={props.color}
+            size={props.size}
+            className={props.className}
+          >
             {props.children}
           </Badge>
         );
@@ -89,7 +93,7 @@ export const BlockRenderer = ({ block }: BlockRendererProps) => {
             className={props.className}
             onClick={handleToastClick}
           >
-            🔔 {props.title || 'Toast Trigger'}
+            {props.title || 'Toast Trigger'}
           </Button>
         );
       }

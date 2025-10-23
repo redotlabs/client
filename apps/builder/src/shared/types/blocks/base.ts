@@ -9,12 +9,6 @@ import type {
   ToastProps,
 } from './attributes';
 
-/**
- * Component types supported by the builder
- * Following sdui-renderer's ComponentType pattern
- * Design system components: badge, button, input, logo, toast
- * Generic components: text (for TextBlock)
- */
 export type ComponentType =
   | 'text'
   | 'badge'
