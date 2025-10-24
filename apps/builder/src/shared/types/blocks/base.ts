@@ -1,13 +1,13 @@
 import type { HTMLElementType } from 'react';
-import type { BlockPosition, BlockSize } from './position';
 import type {
-  TextProps,
   BadgeProps,
   ButtonProps,
   InputProps,
   LogoProps,
+  TextProps,
   ToastProps,
 } from './attributes';
+import type { BlockPosition, BlockSize } from '@/shared/types/blocks/position';
 
 export type ComponentType =
   | 'text'

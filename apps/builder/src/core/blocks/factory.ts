@@ -20,7 +20,7 @@ export const createTextBlock = (
   position: BlockPosition,
   size: BlockSize,
   props: TextProps
-): BuilderBlock => ({
+): BuilderBlock<'text'> => ({
   id: `block-${Math.random().toString(36).substring(2, 8)}`,
   component: 'text',
   props,
@@ -37,7 +37,7 @@ export const createBadgeBlock = (
   position: BlockPosition,
   size: BlockSize,
   props: BadgeProps
-): BuilderBlock => ({
+): BuilderBlock<'badge'> => ({
   id: `block-${Math.random().toString(36).substring(2, 8)}`,
   component: 'badge',
   props,
@@ -54,7 +54,7 @@ export const createButtonBlock = (
   position: BlockPosition,
   size: BlockSize,
   props: ButtonProps
-): BuilderBlock => ({
+): BuilderBlock<'button'> => ({
   id: `block-${Math.random().toString(36).substring(2, 8)}`,
   component: 'button',
   props,
@@ -71,7 +71,7 @@ export const createInputBlock = (
   position: BlockPosition,
   size: BlockSize,
   props: InputProps
-): BuilderBlock => ({
+): BuilderBlock<'input'> => ({
   id: `block-${Math.random().toString(36).substring(2, 8)}`,
   component: 'input',
   props,
@@ -87,7 +87,7 @@ export const createLogoBlock = (
   position: BlockPosition,
   size: BlockSize,
   props: LogoProps
-): BuilderBlock => ({
+): BuilderBlock<'logo'> => ({
   id: `block-${Math.random().toString(36).substring(2, 8)}`,
   component: 'logo',
   props,
@@ -103,7 +103,7 @@ export const createToastBlock = (
   position: BlockPosition,
   size: BlockSize,
   props: ToastProps
-): BuilderBlock => ({
+): BuilderBlock<'toast'> => ({
   id: `block-${Math.random().toString(36).substring(2, 8)}`,
   component: 'toast',
   props,
@@ -122,7 +122,7 @@ export const createTextBlockFromCoords = (
   height: number,
   text: string,
   options?: Partial<TextProps>
-): BuilderBlock => {
+): BuilderBlock<'text'> => {
   return createTextBlock(
     { x, y, zIndex: 1 },
     { width, height },
@@ -137,7 +137,7 @@ export const createBadgeBlockFromCoords = (
   height: number,
   text: string,
   options?: Partial<BadgeProps>
-): BuilderBlock => {
+): BuilderBlock<'badge'> => {
   return createBadgeBlock(
     { x, y, zIndex: 1 },
     { width, height },
@@ -152,7 +152,7 @@ export const createButtonBlockFromCoords = (
   height: number,
   text: string,
   options?: Partial<ButtonProps>
-): BuilderBlock => {
+): BuilderBlock<'button'> => {
   return createButtonBlock(
     { x, y, zIndex: 1 },
     { width, height },
@@ -166,7 +166,7 @@ export const createInputBlockFromCoords = (
   width: number,
   height: number,
   options?: Partial<InputProps>
-): BuilderBlock => {
+): BuilderBlock<'input'> => {
   return createInputBlock(
     { x, y, zIndex: 1 },
     { width, height },
@@ -180,7 +180,7 @@ export const createLogoBlockFromCoords = (
   width: number,
   height: number,
   options?: Partial<LogoProps>
-): BuilderBlock => {
+): BuilderBlock<'logo'> => {
   return createLogoBlock(
     { x, y, zIndex: 1 },
     { width, height },
@@ -194,7 +194,7 @@ export const createToastBlockFromCoords = (
   width: number,
   height: number,
   options?: Partial<ToastProps>
-): BuilderBlock => {
+): BuilderBlock<'toast'> => {
   return createToastBlock(
     { x, y, zIndex: 1 },
     { width, height },
