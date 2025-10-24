@@ -1,7 +1,5 @@
 /**
  * TODO: 디자인 시스템 타입과 완전히 일치하면 리팩토링 예정
- * - ButtonProps는 디자인 시스템에서 export 될 예정
- * - Toast 타입은 실제 사용 패턴에 맞춰 조정 필요
  */
 
 import type {
