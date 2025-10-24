@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "prebuild": "node scripts/generate-vercel-json.js"
   },
   "dependencies": {
     "@redotlabs/fonts": "^1.0.1",
