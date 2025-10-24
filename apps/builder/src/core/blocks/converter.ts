@@ -12,7 +12,7 @@ import type {
 } from '@/shared/types';
 import type { CSSProperties, ReactNode } from 'react';
 
-export class BlockRenderer {
+export class BlockConverter {
   private gridConfig: GridConfig;
 
   constructor(gridConfig: GridConfig) {
@@ -141,7 +141,7 @@ export class BlockRenderer {
     }
   }
 
-  public renderBlock(block: BuilderBlock): RenderableBlock {
+  public convertBlock(block: BuilderBlock): RenderableBlock {
     const renderableBlock: RenderableBlock = {
       id: block.id,
       type: block.component,
@@ -153,9 +153,9 @@ export class BlockRenderer {
     return renderableBlock;
   }
 
-  public renderBlocks(blocks: BuilderBlock[]): RenderableBlock[] {
+  public convertBlocks(blocks: BuilderBlock[]): RenderableBlock[] {
     return blocks
-      .map((block) => this.renderBlock(block))
+      .map((block) => this.convertBlock(block))
       .sort((a, b) => (a.style.zIndex as number) - (b.style.zIndex as number));
   }
 
