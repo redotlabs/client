@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "prebuild": "node scripts/generate-vercel-json.js",
-    "postbuild": "cat vercer.json"
+    "postbuild": "cat vercel.json"
   },
   "dependencies": {
     "@redotlabs/fonts": "^1.0.1",
