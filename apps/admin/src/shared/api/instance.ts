@@ -4,7 +4,7 @@ import { isServer } from '@tanstack/react-query';
 import { AUTH_WHITE_LIST } from '@/shared/constants/auth';
 
 export const api = createAxiosInstance({
-  baseURL: '/api/v1',
+  baseURL: '/api-proxy/v1',
 });
 
 api.interceptors.response.use(
