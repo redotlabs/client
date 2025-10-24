@@ -29,5 +29,4 @@ fs.writeFileSync("vercel.json", `{
 
 const vercelJson = fs.readFileSync("vercel.json", "utf8");
 
-console.log(vercelJson);
 console.log("vercel.json generated");
