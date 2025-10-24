@@ -3,6 +3,12 @@ import type {
   GridConfig,
   RenderableBlock,
   BaseRenderProps,
+  TextProps,
+  BadgeProps,
+  ButtonProps,
+  InputProps,
+  LogoProps,
+  ToastProps,
 } from '@/shared/types';
 import type { CSSProperties, ReactNode } from 'react';
 
@@ -33,17 +39,16 @@ export class BlockRenderer {
       zIndex: block.position.zIndex,
     };
 
-    const props = (block.props as Record<string, unknown>) || {};
-
     switch (block.component) {
       case 'text': {
+        const props = block.props as TextProps;
         return {
           ...baseStyle,
-          color: (props.color as string) || '#000000',
-          fontSize: props.fontSize ? `${props.fontSize as number}px` : '16px',
-          fontWeight: (props.fontWeight as string) || 'normal',
-          textAlign: (props.textAlign as 'left' | 'center' | 'right') || 'left',
-          backgroundColor: (props.backgroundColor as string) || 'transparent',
+          color: props.color || '#000000',
+          fontSize: props.fontSize ? `${props.fontSize}px` : '16px',
+          fontWeight: props.fontWeight || 'normal',
+          textAlign: props.textAlign || 'left',
+          backgroundColor: props.backgroundColor || 'transparent',
           display: 'flex',
           alignItems: 'center',
           justifyContent:
@@ -71,14 +76,11 @@ export class BlockRenderer {
       'data-block-id': block.id,
     };
 
-    const props = (block.props as Record<string, unknown>) || {};
-
     switch (block.component) {
       case 'text': {
+        const props = block.props as TextProps;
         const children =
-          typeof block.children === 'string'
-            ? block.children
-            : (props.children as string | undefined);
+          typeof block.children === 'string' ? block.children : props.children;
 
         return {
           ...baseProps,
@@ -86,12 +88,10 @@ export class BlockRenderer {
         };
       }
 
-      case 'badge':
-      case 'button': {
+      case 'badge': {
+        const props = block.props as BadgeProps;
         const children =
-          typeof block.children === 'string'
-            ? block.children
-            : (props.children as string | undefined);
+          typeof block.children === 'string' ? block.children : props.children;
 
         return {
           ...baseProps,
@@ -100,9 +100,36 @@ export class BlockRenderer {
         };
       }
 
-      case 'input':
-      case 'logo':
+      case 'button': {
+        const props = block.props as ButtonProps;
+        const children =
+          typeof block.children === 'string' ? block.children : props.children;
+
+        return {
+          ...baseProps,
+          ...props,
+          children: children as ReactNode,
+        };
+      }
+
+      case 'input': {
+        const props = block.props as InputProps;
+        return {
+          ...baseProps,
+          ...props,
+        };
+      }
+
+      case 'logo': {
+        const props = block.props as LogoProps;
+        return {
+          ...baseProps,
+          ...props,
+        };
+      }
+
       case 'toast': {
+        const props = block.props as ToastProps;
         return {
           ...baseProps,
           ...props,
