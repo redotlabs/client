@@ -1,0 +1,16 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "${VITE_API_DOMAIN}/api/:path*"
+    },
+    {
+      "source": "/api/:path*/",
+      "destination": "${VITE_API_DOMAIN}/api/:path*/"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
