@@ -1,6 +1,18 @@
 import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+import dotenv from "dotenv";
+
+const __dirname = fileURLToPath(new URL('../', import.meta.url));
+
+const isProduction = process.env.VERCEL_ENV === "production";
+const envFile = isProduction ? ".env.production" : ".env.development";
+
+dotenv.config({ path: path.resolve(__dirname, envFile) });
 
 const apiUrl = process.env.VITE_API_DOMAIN;
+
+console.log("Generating vercel.json for:", __dirname, envFile, '->', apiUrl);
 
 fs.writeFileSync("vercel.json", `{
   "rewrites": [
