@@ -20,12 +20,18 @@ export interface CanvasListenerConfig {
  * Drag State
  */
 interface DragState {
+  isMouseDown: boolean;
   isDragging: boolean;
   startX: number;
   startY: number;
   currentX: number;
   currentY: number;
 }
+
+/**
+ * 드래그로 인식할 최소 이동 거리 (px)
+ */
+const DRAG_THRESHOLD = 5;
 
 /**
  * Canvas Event Listener
@@ -41,6 +47,7 @@ export class CanvasListener {
   private dragHandlers: DragEventHandler[] = [];
 
   private dragState: DragState = {
+    isMouseDown: false,
     isDragging: false,
     startX: 0,
     startY: 0,
@@ -146,28 +153,41 @@ export class CanvasListener {
    */
   private handleMouseDown = (event: MouseEvent): void => {
     this.dragState = {
-      isDragging: true,
+      isMouseDown: true,
+      isDragging: false,
       startX: event.clientX,
       startY: event.clientY,
       currentX: event.clientX,
       currentY: event.clientY,
     };
-
-    this.dragHandlers.forEach((handler) => {
-      if (handler.enabled !== false && handler.onDragStart) {
-        handler.onDragStart(event, this.context);
-      }
-    });
   };
 
   /**
    * Mouse Move Event Handler (Drag Move)
    */
   private handleMouseMove = (event: MouseEvent): void => {
-    if (this.dragState.isDragging) {
-      this.dragState.currentX = event.clientX;
-      this.dragState.currentY = event.clientY;
+    if (!this.dragState.isMouseDown) return;
 
+    this.dragState.currentX = event.clientX;
+    this.dragState.currentY = event.clientY;
+
+    // 드래그 시작 여부 판단 (일정 거리 이상 이동 시)
+    if (!this.dragState.isDragging) {
+      const deltaX = Math.abs(event.clientX - this.dragState.startX);
+      const deltaY = Math.abs(event.clientY - this.dragState.startY);
+
+      if (deltaX > DRAG_THRESHOLD || deltaY > DRAG_THRESHOLD) {
+        this.dragState.isDragging = true;
+
+        // 드래그 시작 이벤트
+        this.dragHandlers.forEach((handler) => {
+          if (handler.enabled !== false && handler.onDragStart) {
+            handler.onDragStart(event, this.context);
+          }
+        });
+      }
+    } else {
+      // 드래그 중 이동 이벤트
       this.dragHandlers.forEach((handler) => {
         if (handler.enabled !== false && handler.onDragMove) {
           handler.onDragMove(event, this.context);
@@ -177,18 +197,23 @@ export class CanvasListener {
   };
 
   /**
-   * Mouse Up Event Handler (Drag End)
+   * Mouse Up Event Handler (Drag End or Click)
    */
   private handleMouseUp = (event: MouseEvent): void => {
-    if (this.dragState.isDragging) {
+    const wasDragging = this.dragState.isDragging;
+
+    if (wasDragging) {
+      // 드래그 종료
       this.dragHandlers.forEach((handler) => {
         if (handler.enabled !== false && handler.onDragEnd) {
           handler.onDragEnd(event, this.context);
         }
       });
-
-      this.dragState.isDragging = false;
     }
+
+    // 상태 초기화
+    this.dragState.isMouseDown = false;
+    this.dragState.isDragging = false;
   };
 
   /**
