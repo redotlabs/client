@@ -1,3 +1,4 @@
+import { ThemeProvider } from '@redotlabs/themes';
 import { Canvas } from '@/features/canvas/components/Canvas';
 import { initialEditorData } from '@/shared/constants/editorData';
 import { BlockConverter } from '@/core/blocks';
@@ -45,28 +46,30 @@ export default function BuilderApp() {
   }, [state, dispatch]);
 
   return (
-    <div>
-      {/* 상태 디버깅 정보 */}
-      <div
-        style={{
-          padding: '16px',
-          background: '#f5f5f5',
-          borderBottom: '1px solid #ddd',
-        }}
-      >
-        <p>
-          <strong>Editor State:</strong>
-        </p>
-        <p>Total blocks: {state.blocks.size}</p>
-        <p>Selected: {state.selection.selectedBlockIds.size}</p>
-        <p>Mode: {state.mode}</p>
-        <p>
-          Selected IDs:{' '}
-          {Array.from(state.selection.selectedBlockIds).join(', ') || 'None'}
-        </p>
-      </div>
+    <ThemeProvider color="blue" font="pretendard">
+      <div>
+        {/* 상태 디버깅 정보 */}
+        <div
+          style={{
+            padding: '16px',
+            background: '#f5f5f5',
+            borderBottom: '1px solid #ddd',
+          }}
+        >
+          <p>
+            <strong>Editor State:</strong>
+          </p>
+          <p>Total blocks: {state.blocks.size}</p>
+          <p>Selected: {state.selection.selectedBlockIds.size}</p>
+          <p>Mode: {state.mode}</p>
+          <p>
+            Selected IDs:{' '}
+            {Array.from(state.selection.selectedBlockIds).join(', ') || 'None'}
+          </p>
+        </div>
 
-      <Canvas canvasRef={canvasRef} blocks={renderableBlocks} />
-    </div>
+        <Canvas canvasRef={canvasRef} blocks={renderableBlocks} />
+      </div>
+    </ThemeProvider>
   );
 }
