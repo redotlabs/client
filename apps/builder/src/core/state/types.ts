@@ -1,5 +1,10 @@
 import type { BuilderBlock, GridConfig } from '@/shared/types';
-import type { EditorMode } from '@/core/actions';
+
+/**
+ * Editor Mode
+ * 에디터의 동작 모드
+ */
+export type EditorMode = 'edit' | 'preview' | 'readonly';
 
 /**
  * Selection State

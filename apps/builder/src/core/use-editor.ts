@@ -8,7 +8,6 @@ import type { BuilderBlock, GridConfig } from '@/shared/types';
  * EditorController를 React에서 사용할 수 있게 하는 Hook
  */
 export function useEditor(blocks: BuilderBlock[], gridConfig: GridConfig) {
-  // EditorController 인스턴스 (한 번만 생성)
   const controllerRef = useRef<EditorController | null>(null);
 
   if (!controllerRef.current) {
@@ -17,7 +16,6 @@ export function useEditor(blocks: BuilderBlock[], gridConfig: GridConfig) {
 
   const controller = controllerRef.current;
 
-  // 상태 구독
   const [state, setState] = useState<EditorState>(controller.getState());
 
   useEffect(() => {
@@ -28,7 +26,6 @@ export function useEditor(blocks: BuilderBlock[], gridConfig: GridConfig) {
     return unsubscribe;
   }, [controller]);
 
-  // dispatch 함수를 메모이제이션
   const dispatch = useMemo(() => controller.dispatch, [controller]);
 
   return {

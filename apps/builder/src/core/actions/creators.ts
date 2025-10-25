@@ -46,30 +46,30 @@ export const deselectBlock = (
 /**
  * Block Movement Actions
  */
-export const moveBlock: (
+export const moveBlock = (
   blockId: string,
   position: BlockMoveAction['payload']['position'],
-  phase?: ActionPhase
-) => BlockMoveAction = (blockId, position, phase = 'commit') =>
+  phase: ActionPhase = 'commit'
+): BlockMoveAction =>
   createAction('block.move', { blockId, position }, phase);
 
 /**
  * Block Resize Actions
  */
-export const resizeBlock: (
+export const resizeBlock = (
   blockId: string,
   size: BlockResizeAction['payload']['size'],
-  phase?: ActionPhase
-) => BlockResizeAction = (blockId, size, phase = 'commit') =>
+  phase: ActionPhase = 'commit'
+): BlockResizeAction =>
   createAction('block.resize', { blockId, size }, phase);
 
 /**
  * Block CRUD Actions
  */
-export const createBlock: (
+export const createBlock = (
   block: BlockCreateAction['payload']['block'],
-  phase?: ActionPhase
-) => BlockCreateAction = (block, phase = 'commit') =>
+  phase: ActionPhase = 'commit'
+): BlockCreateAction =>
   createAction('block.create', { block }, phase);
 
 export const deleteBlock = (
@@ -78,18 +78,18 @@ export const deleteBlock = (
 ): BlockDeleteAction =>
   createAction('block.delete', { blockId }, phase);
 
-export const updateBlock: (
+export const updateBlock = (
   blockId: string,
   updates: BlockUpdateAction['payload']['updates'],
-  phase?: ActionPhase
-) => BlockUpdateAction = (blockId, updates, phase = 'commit') =>
+  phase: ActionPhase = 'commit'
+): BlockUpdateAction =>
   createAction('block.update', { blockId, updates }, phase);
 
 /**
  * Editor Mode Actions
  */
-export const changeEditorMode: (
+export const changeEditorMode = (
   mode: EditorModeChangeAction['payload']['mode'],
-  phase?: ActionPhase
-) => EditorModeChangeAction = (mode, phase = 'commit') =>
+  phase: ActionPhase = 'commit'
+): EditorModeChangeAction =>
   createAction('editor.mode.change', { mode }, phase);

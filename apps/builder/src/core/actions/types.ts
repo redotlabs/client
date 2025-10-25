@@ -1,4 +1,5 @@
 import type { BuilderBlock, BlockPosition, BlockSize } from '@/shared/types';
+import type { EditorMode } from '@/core/state/types';
 
 /**
  * Action Phase
@@ -32,7 +33,7 @@ export interface BaseAction {
 }
 
 /**
- * Block Selection Action
+ * Block Selection Actions
  */
 export interface BlockSelectAction extends BaseAction {
   type: 'block.select';
@@ -45,7 +46,7 @@ export interface BlockSelectAction extends BaseAction {
 export interface BlockDeselectAction extends BaseAction {
   type: 'block.deselect';
   payload: {
-    blockId?: string; // undefined면 전체 선택 해제
+    blockId?: string;
   };
 }
 
@@ -93,20 +94,19 @@ export interface BlockDeleteAction extends BaseAction {
 
 /**
  * Block Update Action
+ * position/size는 별도 액션 사용, content/metadata만 업데이트
  */
 export interface BlockUpdateAction extends BaseAction {
   type: 'block.update';
   payload: {
     blockId: string;
-    updates: Partial<BuilderBlock>;
+    updates: Omit<Partial<BuilderBlock>, 'id' | 'position' | 'size'>;
   };
 }
 
 /**
  * Editor Mode Change Action
  */
-export type EditorMode = 'edit' | 'preview' | 'readonly';
-
 export interface EditorModeChangeAction extends BaseAction {
   type: 'editor.mode.change';
   payload: {
@@ -126,12 +126,3 @@ export type EditorAction =
   | BlockDeleteAction
   | BlockUpdateAction
   | EditorModeChangeAction;
-
-/**
- * Action Creator
- * Action을 생성하는 헬퍼 함수들의 타입
- */
-export type ActionCreator<T extends EditorAction> = (
-  payload: T['payload'],
-  phase?: ActionPhase
-) => T;
