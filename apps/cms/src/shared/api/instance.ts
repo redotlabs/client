@@ -3,6 +3,7 @@ import { PATH } from '@/shared/constants/routes';
 import { isServer } from '@tanstack/react-query';
 import { AUTH_WHITE_LIST } from '../constants/auth';
 import { API_DOMAIN, SUBDOMAIN_HEADER } from '@/shared/constants/env-variables';
+import { extractSubdomain, isSubdomainInPath } from '@repo/utils';
 
 export const api = createAxiosInstance({
   baseURL: `${API_DOMAIN}/api/v1`,
@@ -22,9 +23,15 @@ api.interceptors.response.use(
       // 서버 사이드는 middleware에서 처리
       if (!isServer) {
         const pathname = window.location.pathname;
-        if (!AUTH_WHITE_LIST.includes(pathname)) {
+        const subdomain = extractSubdomain();
+        const pathPrefix = isSubdomainInPath(pathname) ? `/s/${subdomain}` : '';
+        const redirect = pathname.replace(`/s/${subdomain}`, '');
+
+        if (
+          !AUTH_WHITE_LIST.some((whiteList) => pathname.includes(whiteList))
+        ) {
           alert('로그인이 만료되었습니다.');
-          window.location.href = `${PATH.auth.signIn}?redirect=${pathname}`;
+          window.location.href = `${pathPrefix}${PATH.auth.signIn}?redirect=${redirect}`;
         }
       }
     }

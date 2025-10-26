@@ -3,13 +3,16 @@
 import { useAuth } from '@/shared/api/queries/auth/sign-in';
 import { AUTH_WHITE_LIST } from '@/shared/constants/auth';
 import { PATH } from '@/shared/constants/routes';
-import { redirect, usePathname } from 'next/navigation';
+import { useTenantRedirect, useTenantPathname } from '@repo/tenant-router/next';
 import type { PropsWithChildren } from 'react';
 import { Loader } from '../ui';
 
 const AuthGuard = ({ children }: PropsWithChildren) => {
-  const pathname = usePathname();
-  const passingFetch = AUTH_WHITE_LIST.includes(pathname);
+  const pathname = useTenantPathname();
+  const redirect = useTenantRedirect();
+  const passingFetch = AUTH_WHITE_LIST.some((whiteList) =>
+    pathname.includes(whiteList)
+  );
 
   const { data, isLoading, isError, isFetched } = useAuth({
     enabled: !passingFetch,
