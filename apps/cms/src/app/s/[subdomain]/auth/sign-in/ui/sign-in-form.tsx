@@ -7,12 +7,12 @@ import { RHFInput } from '@repo/ui';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { PATH } from '@/shared/constants/routes';
-import { useRouter, useSearchParams } from 'next/navigation';
-import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { useQueryClient } from '@tanstack/react-query';
 import { queryKeyFactory } from '@/shared/api/query-key-factory';
 import { Loader } from '@/shared/components/ui';
 import { MOCK_ACCOUNT } from '@/_mock/utils/constants';
+import { useTenantRouter, TenantLink } from '@repo/tenant-router/next';
 
 const schema = z.object({
   email: z
@@ -28,7 +28,7 @@ const schema = z.object({
 });
 
 export default function SignInForm() {
-  const router = useRouter();
+  const router = useTenantRouter();
   const queryClient = useQueryClient();
   const searchParams = useSearchParams();
 
@@ -90,7 +90,10 @@ export default function SignInForm() {
               '로그인'
             )}
           </Button>
-          <Link href={PATH.auth.resetPassword} className="w-full text-center">
+          <TenantLink
+            href={PATH.auth.resetPassword}
+            className="w-full text-center"
+          >
             <Button
               size="sm"
               variant="text"
@@ -98,7 +101,7 @@ export default function SignInForm() {
             >
               비밀번호 초기화
             </Button>
-          </Link>
+          </TenantLink>
         </div>
       </form>
     </FormProvider>
