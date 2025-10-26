@@ -1,53 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
-import {
-  ROOT_DOMAIN,
-  SUBDOMAIN_HEADER,
-} from './shared/constants/env-variables';
-
-function extractSubdomain(request: NextRequest): string | null {
-  const url = request.url;
-  const host = request.headers.get('host') || '';
-  const hostname = host.split(':')[0];
-
-  // Local development environment
-  if (url.includes('localhost') || url.includes('127.0.0.1')) {
-    // ! Will be changed empty string
-    return 'test';
-  }
-
-  // Production environment
-  const rootDomainFormatted = ROOT_DOMAIN.split(':')[0];
-
-  // Regular subdomain detection
-  const isSubdomain =
-    hostname !== rootDomainFormatted &&
-    hostname !== `www.${rootDomainFormatted}` &&
-    hostname.endsWith(`.${rootDomainFormatted}`);
-
-  return isSubdomain ? hostname.replace(`.${rootDomainFormatted}`, '') : null;
-}
+import { extractSubdomain, isSubdomain } from '@repo/utils';
 
 export async function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
-  const subdomain = extractSubdomain(request);
+  const { pathname, hostname } = request.nextUrl;
+  const subdomain = extractSubdomain(request.url);
 
-  if (subdomain) {
-    // Block access to admin page from subdomains
-    // if (pathname.startsWith('/admin')) {
-    //   return NextResponse.redirect(new URL('/', request.url));
-    // }
-
-    // For the root path on a subdomain, rewrite to the subdomain page
-    // if (pathname === '/') {
-
-    const headers = new Headers(request.headers);
-    headers.set(SUBDOMAIN_HEADER, subdomain);
-
+  if (isSubdomain(hostname)) {
     return NextResponse.rewrite(
-      new URL(`/${subdomain}${pathname}`, request.url),
-      {
-        request: { headers },
-      }
+      new URL(`/s/${subdomain}${pathname}`, request.url)
     );
   }
 
@@ -64,6 +24,6 @@ export const config = {
      * 3. all root files inside /public (e.g. /favicon.ico)
      */
     // '/((?!api|_next|[\\w-]+\\.\\w+).*)',
-    '/((?!_next/static|_next/image|favicon.ico|fonts|images|robots.txt|mock|api).*)',
+    '/((?!_next/static|_next/image|favicon.ico|fonts|images|robots.txt|mock|api|.next).*)',
   ],
 };
