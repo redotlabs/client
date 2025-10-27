@@ -6,3 +6,4 @@ export * from './cookie';
 export * from './throttle';
 export * from './debounce';
 export * from './format-timer';
+export * from './get-subdomain';

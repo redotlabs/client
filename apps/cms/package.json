@@ -15,6 +15,7 @@
     "@redotlabs/ui": "^1.2.0",
     "@redotlabs/utils": "^1.0.0",
     "@repo/api-instance": "workspace:*",
+    "@repo/tenant-router/next": "workspace:*",
     "@repo/hooks": "workspace:*",
     "@repo/ui": "workspace:*",
     "@repo/utils": "workspace:*",

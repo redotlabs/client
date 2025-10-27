@@ -32,9 +32,8 @@ export default defineConfig(({ mode }) => {
         clientPort: 3000,
       },
       proxy: {
-        '/api-proxy': {
+        '/api': {
           target: API_DOMAIN,
-          rewrite: (path) => path.replace('api-proxy', 'api'),
           changeOrigin: true,
         },
       },
