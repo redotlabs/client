@@ -1,5 +1,6 @@
 import type { SelectionEventHandler, HandlerContext } from './types';
 import { selectBlock, deselectBlock } from '@/core/actions';
+import { getBlockIdFromEvent } from './utils';
 
 /**
  * Selection Handler
@@ -12,7 +13,7 @@ export const selectionHandler: SelectionEventHandler = {
   handle: (event: MouseEvent, context: HandlerContext) => {
     const { dispatch } = context;
 
-    // TODO: 클릭된 블록 식별
+    // 클릭된 블록 식별
     const clickedBlockId = getBlockIdFromEvent(event);
 
     if (!clickedBlockId) {
@@ -21,25 +22,9 @@ export const selectionHandler: SelectionEventHandler = {
       return;
     }
 
-    // Shift 키로 다중 선택
+    // Shift/Cmd/Ctrl 키로 다중 선택
     const multiSelect = event.shiftKey || event.metaKey || event.ctrlKey;
 
     dispatch(selectBlock(clickedBlockId, multiSelect));
   },
 };
-
-/**
- * 이벤트에서 블록 ID 추출
- * TODO: 실제 구현 필요
- */
-function getBlockIdFromEvent(event: MouseEvent): string | null {
-  const target = event.target as HTMLElement;
-
-  // data-block-id 속성 찾기
-  const blockElement = target.closest('[data-block-id]');
-  if (blockElement) {
-    return blockElement.getAttribute('data-block-id');
-  }
-
-  return null;
-}

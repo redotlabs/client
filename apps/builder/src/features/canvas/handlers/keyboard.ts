@@ -32,36 +32,6 @@ export const keyboardHandler: KeyboardEventHandler = {
         break;
       }
 
-      case 'a':
-      case 'A': {
-        // Ctrl/Cmd + A: 전체 선택 (TODO: 추후 구현)
-        if (event.ctrlKey || event.metaKey) {
-          event.preventDefault();
-          // TODO: 전체 블록 선택 액션
-        }
-        break;
-      }
-
-      case 'z':
-      case 'Z': {
-        // Ctrl/Cmd + Z: Undo (TODO: 추후 구현)
-        if (event.ctrlKey || event.metaKey) {
-          event.preventDefault();
-          // TODO: Undo 액션
-        }
-        break;
-      }
-
-      case 'y':
-      case 'Y': {
-        // Ctrl/Cmd + Y: Redo (TODO: 추후 구현)
-        if (event.ctrlKey || event.metaKey) {
-          event.preventDefault();
-          // TODO: Redo 액션
-        }
-        break;
-      }
-
       default:
         break;
     }
