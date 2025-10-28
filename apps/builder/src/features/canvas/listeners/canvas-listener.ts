@@ -4,14 +4,6 @@ import type {
   MouseEventHandler,
   DragEventHandler,
 } from '../handlers/types';
-import { throttle } from './utils';
-
-/**
- * Canvas Listener Configuration
- */
-export interface CanvasListenerConfig {
-  throttleDelay?: number; // 기본값: 16ms (약 60fps)
-}
 
 interface DragState {
   isMouseDown: boolean;
@@ -34,7 +26,6 @@ const DRAG_THRESHOLD = 5;
 export class CanvasListener {
   private element: HTMLElement;
   private context: HandlerContext;
-  private config: Required<CanvasListenerConfig>;
 
   private keyboardHandlers: KeyboardEventHandler[] = [];
   private mouseHandlers: MouseEventHandler[] = [];
@@ -51,24 +42,9 @@ export class CanvasListener {
 
   private wasDragging = false;
 
-  // Throttled handlers
-  private throttledMouseMove: ((event: MouseEvent) => void) | null = null;
-
-  constructor(
-    element: HTMLElement,
-    context: HandlerContext,
-    config: CanvasListenerConfig = {}
-  ) {
+  constructor(element: HTMLElement, context: HandlerContext) {
     this.element = element;
     this.context = context;
-    this.config = {
-      throttleDelay: config.throttleDelay ?? 16,
-    };
-
-    this.throttledMouseMove = throttle(
-      this.handleMouseMove,
-      this.config.throttleDelay
-    );
   }
 
   /**
@@ -93,7 +69,7 @@ export class CanvasListener {
     document.addEventListener('keydown', this.handleKeyDown);
     this.element.addEventListener('click', this.handleClick);
     this.element.addEventListener('mousedown', this.handleMouseDown);
-    document.addEventListener('mousemove', this.throttledMouseMove!);
+    document.addEventListener('mousemove', this.handleMouseMove);
     document.addEventListener('mouseup', this.handleMouseUp);
   }
 
@@ -104,7 +80,7 @@ export class CanvasListener {
     document.removeEventListener('keydown', this.handleKeyDown);
     this.element.removeEventListener('click', this.handleClick);
     this.element.removeEventListener('mousedown', this.handleMouseDown);
-    document.removeEventListener('mousemove', this.throttledMouseMove!);
+    document.removeEventListener('mousemove', this.handleMouseMove);
     document.removeEventListener('mouseup', this.handleMouseUp);
   }
 
