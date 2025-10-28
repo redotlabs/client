@@ -7,11 +7,6 @@ import type { DragEventHandler, HandlerContext } from './types';
 export const dragHandler: DragEventHandler = {
   name: 'drag',
 
-  handle: (event: MouseEvent, context: HandlerContext) => {
-    // 기본 handle은 사용하지 않음 (onDragStart, onDragMove, onDragEnd 사용)
-    console.log('handle', event, context);
-  },
-
   onDragStart: (event: MouseEvent, context: HandlerContext) => {
     // TODO: 드래그 시작 처리
     // - 드래그할 블록 식별
@@ -34,9 +29,5 @@ export const dragHandler: DragEventHandler = {
     // - commit 액션으로 실제 상태 업데이트
     // - preview 상태 초기화
     console.log('Drag end', event, context);
-
-    // 예시: 블록 이동 액션 (실제 구현 시 계산된 위치 사용)
-    // const { dispatch } = context;
-    // dispatch(moveBlock('block-id', { x: 10, y: 10, zIndex: 1 }));
   },
 };

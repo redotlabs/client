@@ -15,37 +15,19 @@ export interface HandlerContext {
  * 모든 이벤트 핸들러의 기본 인터페이스
  */
 export interface EventHandler<E = Event> {
-  /**
-   * 핸들러 이름
-   */
   name: string;
-
-  /**
-   * 이벤트 처리
-   */
   handle: (event: E, context: HandlerContext) => void;
 }
 
-/**
- * Keyboard Event Handler
- */
 export type KeyboardEventHandler = EventHandler<KeyboardEvent>;
 
-/**
- * Mouse Event Handler
- */
 export type MouseEventHandler = EventHandler<MouseEvent>;
 
-/**
- * Drag Event Handler
- */
-export interface DragEventHandler extends EventHandler<MouseEvent> {
+export interface DragEventHandler {
+  name: string;
   onDragStart?: (event: MouseEvent, context: HandlerContext) => void;
   onDragMove?: (event: MouseEvent, context: HandlerContext) => void;
   onDragEnd?: (event: MouseEvent, context: HandlerContext) => void;
 }
 
-/**
- * Selection Event Handler
- */
 export type SelectionEventHandler = EventHandler<MouseEvent>;

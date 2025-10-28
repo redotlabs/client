@@ -12,16 +12,13 @@ export const selectionHandler: SelectionEventHandler = {
   handle: (event: MouseEvent, context: HandlerContext) => {
     const { dispatch } = context;
 
-    // 클릭된 블록 식별
     const clickedBlockId = getBlockIdFromEvent(event);
 
     if (!clickedBlockId) {
-      // 빈 공간 클릭: 선택 해제
       dispatch(deselectBlock());
       return;
     }
 
-    // Shift/Cmd/Ctrl 키로 다중 선택
     const multiSelect = event.shiftKey || event.metaKey || event.ctrlKey;
 
     dispatch(selectBlock(clickedBlockId, multiSelect));

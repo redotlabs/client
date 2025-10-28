@@ -14,7 +14,6 @@ export const keyboardHandler: KeyboardEventHandler = {
 
     switch (event.key) {
       case 'Escape': {
-        // ESC: 선택 해제
         event.preventDefault();
         dispatch(deselectBlock());
         break;
@@ -22,7 +21,6 @@ export const keyboardHandler: KeyboardEventHandler = {
 
       case 'Delete':
       case 'Backspace': {
-        // Delete/Backspace: 선택된 블록 삭제
         event.preventDefault();
         const selectedIds = getSelectedBlockIds(state);
         selectedIds.forEach((id) => {
