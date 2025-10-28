@@ -7,7 +7,7 @@
  * 이벤트에서 블록 ID 추출
  * data-block-id 속성을 가진 가장 가까운 상위 요소를 찾아서 ID를 반환
  */
-export function getBlockIdFromEvent(event: MouseEvent): string | null {
+export const getBlockIdFromEvent = (event: MouseEvent): string | null => {
   const target = event.target as HTMLElement;
 
   // data-block-id 속성 찾기
@@ -17,12 +17,12 @@ export function getBlockIdFromEvent(event: MouseEvent): string | null {
   }
 
   return null;
-}
+};
 
 /**
  * 키보드 수정자 키(Modifier Key) 체크
  * macOS: Cmd, Windows/Linux: Ctrl
  */
-export function isModifierKey(event: KeyboardEvent): boolean {
+export const isModifierKey = (event: KeyboardEvent): boolean => {
   return event.metaKey || event.ctrlKey;
-}
+};

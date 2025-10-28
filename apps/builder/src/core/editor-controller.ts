@@ -4,6 +4,7 @@ import { createInitialEditorState } from './state';
 import { globalRuleValidator, baseRules } from './rules';
 import type { RuleValidationResult, EditorRuleContext } from './rules';
 import type { BuilderBlock, GridConfig } from '@/shared/types';
+import * as stateUpdaters from './state/updaters';
 
 /**
  * Editor Controller
@@ -62,130 +63,45 @@ export class EditorController {
    */
   private applyAction(action: EditorAction, state: EditorState): EditorState {
     switch (action.type) {
-      case 'block.select': {
-        const { blockId, multiSelect } = action.payload;
-        const selectedBlockIds = multiSelect
-          ? new Set(state.selection.selectedBlockIds).add(blockId)
-          : new Set([blockId]);
+      case 'block.select':
+        return stateUpdaters.selectBlockState(
+          state,
+          action.payload.blockId,
+          action.payload.multiSelect ?? false
+        );
 
-        return {
-          ...state,
-          selection: {
-            selectedBlockIds,
-            lastSelectedId: blockId,
-          },
-        };
-      }
+      case 'block.deselect':
+        return stateUpdaters.deselectBlockState(state, action.payload.blockId);
 
-      case 'block.deselect': {
-        const { blockId } = action.payload;
-        if (!blockId) {
-          return {
-            ...state,
-            selection: {
-              selectedBlockIds: new Set(),
-              lastSelectedId: null,
-            },
-          };
-        }
+      case 'block.move':
+        return stateUpdaters.moveBlockState(
+          state,
+          action.payload.blockId,
+          action.payload.position
+        );
 
-        const selectedBlockIds = new Set(state.selection.selectedBlockIds);
-        selectedBlockIds.delete(blockId);
+      case 'block.resize':
+        return stateUpdaters.resizeBlockState(
+          state,
+          action.payload.blockId,
+          action.payload.size
+        );
 
-        return {
-          ...state,
-          selection: {
-            selectedBlockIds,
-            lastSelectedId:
-              state.selection.lastSelectedId === blockId
-                ? null
-                : state.selection.lastSelectedId,
-          },
-        };
-      }
+      case 'block.create':
+        return stateUpdaters.createBlockState(state, action.payload.block);
 
-      case 'block.move': {
-        const { blockId, position } = action.payload;
-        const block = state.blocks.get(blockId);
-        if (!block) return state;
+      case 'block.delete':
+        return stateUpdaters.deleteBlockState(state, action.payload.blockId);
 
-        const newBlocks = new Map(state.blocks);
-        newBlocks.set(blockId, { ...block, position });
+      case 'block.update':
+        return stateUpdaters.updateBlockState(
+          state,
+          action.payload.blockId,
+          action.payload.updates
+        );
 
-        return {
-          ...state,
-          blocks: newBlocks,
-        };
-      }
-
-      case 'block.resize': {
-        const { blockId, size } = action.payload;
-        const block = state.blocks.get(blockId);
-        if (!block) return state;
-
-        const newBlocks = new Map(state.blocks);
-        newBlocks.set(blockId, { ...block, size });
-
-        return {
-          ...state,
-          blocks: newBlocks,
-        };
-      }
-
-      case 'block.create': {
-        const { block } = action.payload;
-        const newBlocks = new Map(state.blocks);
-        newBlocks.set(block.id, block);
-
-        return {
-          ...state,
-          blocks: newBlocks,
-        };
-      }
-
-      case 'block.delete': {
-        const { blockId } = action.payload;
-        const newBlocks = new Map(state.blocks);
-        newBlocks.delete(blockId);
-
-        // 선택도 제거
-        const selectedBlockIds = new Set(state.selection.selectedBlockIds);
-        selectedBlockIds.delete(blockId);
-
-        return {
-          ...state,
-          blocks: newBlocks,
-          selection: {
-            selectedBlockIds,
-            lastSelectedId:
-              state.selection.lastSelectedId === blockId
-                ? null
-                : state.selection.lastSelectedId,
-          },
-        };
-      }
-
-      case 'block.update': {
-        const { blockId, updates } = action.payload;
-        const block = state.blocks.get(blockId);
-        if (!block) return state;
-
-        const newBlocks = new Map(state.blocks);
-        newBlocks.set(blockId, { ...block, ...updates });
-
-        return {
-          ...state,
-          blocks: newBlocks,
-        };
-      }
-
-      case 'editor.mode.change': {
-        const { mode } = action.payload;
-        return {
-          ...state,
-          mode,
-        };
-      }
+      case 'editor.mode.change':
+        return stateUpdaters.changeEditorModeState(state, action.payload.mode);
 
       default:
         return state;

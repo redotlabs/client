@@ -14,11 +14,6 @@ export type {
 } from './state/types';
 export * from './state/selectors';
 export {
-  addBlock,
-  removeBlock,
-  updateBlock,
-  selectBlock as selectBlockUpdater,
-  deselectBlock as deselectBlockUpdater,
   setPreviewBlock,
   clearPreviewBlock,
   clearAllPreviews,

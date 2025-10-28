@@ -1,87 +1,163 @@
-import type { StateUpdater } from './types';
-import type { BuilderBlock } from '@/shared/types';
-import type { EditorMode } from '@/core/actions';
+import type { EditorState, StateUpdater } from './types';
+import type { BuilderBlock, BlockPosition, BlockSize } from '@/shared/types';
+import type { EditorMode } from './types';
 
 /**
- * Block Updaters
+ * Block Selection Updaters
  */
-export const addBlock =
-  (block: BuilderBlock): StateUpdater =>
-  (state) => ({
+export const selectBlockState = (
+  state: EditorState,
+  blockId: string,
+  multiSelect: boolean
+): EditorState => {
+  const selectedBlockIds = multiSelect
+    ? new Set(state.selection.selectedBlockIds).add(blockId)
+    : new Set([blockId]);
+
+  return {
     ...state,
-    blocks: new Map(state.blocks).set(block.id, block),
-  });
+    selection: {
+      selectedBlockIds,
+      lastSelectedId: blockId,
+    },
+  };
+};
 
-export const removeBlock =
-  (blockId: string): StateUpdater =>
-  (state) => {
-    const newBlocks = new Map(state.blocks);
-    newBlocks.delete(blockId);
+export const deselectBlockState = (
+  state: EditorState,
+  blockId?: string
+): EditorState => {
+  if (!blockId) {
     return {
       ...state,
-      blocks: newBlocks,
+      selection: {
+        selectedBlockIds: new Set(),
+        lastSelectedId: null,
+      },
     };
-  };
+  }
 
-export const updateBlock =
-  (blockId: string, updates: Partial<BuilderBlock>): StateUpdater =>
-  (state) => {
-    const block = state.blocks.get(blockId);
-    if (!block) return state;
+  const selectedBlockIds = new Set(state.selection.selectedBlockIds);
+  selectedBlockIds.delete(blockId);
 
-    return {
-      ...state,
-      blocks: new Map(state.blocks).set(blockId, { ...block, ...updates }),
-    };
+  return {
+    ...state,
+    selection: {
+      selectedBlockIds,
+      lastSelectedId:
+        state.selection.lastSelectedId === blockId
+          ? null
+          : state.selection.lastSelectedId,
+    },
   };
+};
 
 /**
- * Selection Updaters
+ * Block Movement & Resize Updaters
  */
-export const selectBlock =
-  (blockId: string, multiSelect = false): StateUpdater =>
-  (state) => {
-    const selectedBlockIds = multiSelect
-      ? new Set(state.selection.selectedBlockIds).add(blockId)
-      : new Set([blockId]);
+export const moveBlockState = (
+  state: EditorState,
+  blockId: string,
+  position: BlockPosition
+): EditorState => {
+  const block = state.blocks.get(blockId);
+  if (!block) return state;
 
-    return {
-      ...state,
-      selection: {
-        selectedBlockIds,
-        lastSelectedId: blockId,
-      },
-    };
+  const newBlocks = new Map(state.blocks);
+  newBlocks.set(blockId, { ...block, position });
+
+  return {
+    ...state,
+    blocks: newBlocks,
   };
+};
 
-export const deselectBlock =
-  (blockId?: string): StateUpdater =>
-  (state) => {
-    if (!blockId) {
-      // 전체 선택 해제
-      return {
-        ...state,
-        selection: {
-          selectedBlockIds: new Set(),
-          lastSelectedId: null,
-        },
-      };
-    }
+export const resizeBlockState = (
+  state: EditorState,
+  blockId: string,
+  size: BlockSize
+): EditorState => {
+  const block = state.blocks.get(blockId);
+  if (!block) return state;
 
-    const selectedBlockIds = new Set(state.selection.selectedBlockIds);
-    selectedBlockIds.delete(blockId);
+  const newBlocks = new Map(state.blocks);
+  newBlocks.set(blockId, { ...block, size });
 
-    return {
-      ...state,
-      selection: {
-        selectedBlockIds,
-        lastSelectedId:
-          state.selection.lastSelectedId === blockId
-            ? null
-            : state.selection.lastSelectedId,
-      },
-    };
+  return {
+    ...state,
+    blocks: newBlocks,
   };
+};
+
+/**
+ * Block CRUD Updaters
+ */
+export const createBlockState = (
+  state: EditorState,
+  block: BuilderBlock
+): EditorState => {
+  const newBlocks = new Map(state.blocks);
+  newBlocks.set(block.id, block);
+
+  return {
+    ...state,
+    blocks: newBlocks,
+  };
+};
+
+export const deleteBlockState = (
+  state: EditorState,
+  blockId: string
+): EditorState => {
+  const newBlocks = new Map(state.blocks);
+  newBlocks.delete(blockId);
+
+  // 선택도 제거
+  const selectedBlockIds = new Set(state.selection.selectedBlockIds);
+  selectedBlockIds.delete(blockId);
+
+  return {
+    ...state,
+    blocks: newBlocks,
+    selection: {
+      selectedBlockIds,
+      lastSelectedId:
+        state.selection.lastSelectedId === blockId
+          ? null
+          : state.selection.lastSelectedId,
+    },
+  };
+};
+
+export const updateBlockState = (
+  state: EditorState,
+  blockId: string,
+  updates: Omit<Partial<BuilderBlock>, 'id' | 'position' | 'size'>
+): EditorState => {
+  const block = state.blocks.get(blockId);
+  if (!block) return state;
+
+  const newBlocks = new Map(state.blocks);
+  newBlocks.set(blockId, { ...block, ...updates });
+
+  return {
+    ...state,
+    blocks: newBlocks,
+  };
+};
+
+/**
+ * Editor Mode Updater
+ */
+export const changeEditorModeState = (
+  state: EditorState,
+  mode: EditorMode
+): EditorState => {
+  return {
+    ...state,
+    mode,
+  };
+};
 
 /**
  * Preview Updaters
