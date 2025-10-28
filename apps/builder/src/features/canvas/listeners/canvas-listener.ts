@@ -11,9 +11,6 @@ import { throttle } from './utils';
  */
 export interface CanvasListenerConfig {
   throttleDelay?: number; // 기본값: 16ms (약 60fps)
-  enableKeyboard?: boolean;
-  enableMouse?: boolean;
-  enableDrag?: boolean;
 }
 
 interface DragState {
@@ -66,9 +63,6 @@ export class CanvasListener {
     this.context = context;
     this.config = {
       throttleDelay: config.throttleDelay ?? 16,
-      enableKeyboard: config.enableKeyboard ?? true,
-      enableMouse: config.enableMouse ?? true,
-      enableDrag: config.enableDrag ?? true,
     };
 
     this.throttledMouseMove = throttle(
@@ -96,19 +90,11 @@ export class CanvasListener {
    * 리스너 시작
    */
   start(): void {
-    if (this.config.enableKeyboard) {
-      document.addEventListener('keydown', this.handleKeyDown);
-    }
-
-    if (this.config.enableMouse) {
-      this.element.addEventListener('click', this.handleClick);
-    }
-
-    if (this.config.enableDrag) {
-      this.element.addEventListener('mousedown', this.handleMouseDown);
-      document.addEventListener('mousemove', this.throttledMouseMove!);
-      document.addEventListener('mouseup', this.handleMouseUp);
-    }
+    document.addEventListener('keydown', this.handleKeyDown);
+    this.element.addEventListener('click', this.handleClick);
+    this.element.addEventListener('mousedown', this.handleMouseDown);
+    document.addEventListener('mousemove', this.throttledMouseMove!);
+    document.addEventListener('mouseup', this.handleMouseUp);
   }
 
   /**
