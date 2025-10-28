@@ -28,7 +28,6 @@ export interface EditorRuleContext {
   blocks: BuilderBlock[];
   selectedBlockIds: string[];
   gridConfig: GridConfig;
-  editorMode: 'edit' | 'preview' | 'readonly';
 }
 
 /**
@@ -44,13 +43,10 @@ export interface Rule {
   ) => RuleValidationResult;
 }
 
-/**
- * Rule Type Categories
- */
 export type RuleCategory =
-  | 'editor' // 에디터 전반적인 룰
-  | 'block.movement' // 블록 이동 관련
-  | 'block.resize' // 블록 크기 조절 관련
-  | 'block.selection' // 블록 선택 관련
-  | 'block.overlap' // 블록 겹침 관련
-  | 'block.bounds'; // 블록 경계 관련
+  | 'editor'
+  | 'block.movement'
+  | 'block.resize'
+  | 'block.selection'
+  | 'block.overlap'
+  | 'block.bounds';

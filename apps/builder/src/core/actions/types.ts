@@ -1,12 +1,4 @@
 import type { BuilderBlock, BlockPosition, BlockSize } from '@/shared/types';
-import type { EditorMode } from '@/core/state/types';
-
-/**
- * Action Phase
- * - Preview: 임시 상태 변경 (시각적 피드백, 아직 확정 전)
- * - Commit: 실제 상태 변경 (확정)
- */
-export type ActionPhase = 'preview' | 'commit';
 
 /**
  * Action Type
@@ -19,8 +11,7 @@ export type ActionType =
   | 'block.resize'
   | 'block.create'
   | 'block.delete'
-  | 'block.update'
-  | 'editor.mode.change';
+  | 'block.update';
 
 /**
  * Base Action
@@ -28,13 +19,9 @@ export type ActionType =
  */
 export interface BaseAction {
   type: ActionType;
-  phase: ActionPhase;
   timestamp: number;
 }
 
-/**
- * Block Selection Actions
- */
 export interface BlockSelectAction extends BaseAction {
   type: 'block.select';
   payload: {
@@ -50,9 +37,6 @@ export interface BlockDeselectAction extends BaseAction {
   };
 }
 
-/**
- * Block Move Action
- */
 export interface BlockMoveAction extends BaseAction {
   type: 'block.move';
   payload: {
@@ -61,9 +45,6 @@ export interface BlockMoveAction extends BaseAction {
   };
 }
 
-/**
- * Block Resize Action
- */
 export interface BlockResizeAction extends BaseAction {
   type: 'block.resize';
   payload: {
@@ -72,9 +53,6 @@ export interface BlockResizeAction extends BaseAction {
   };
 }
 
-/**
- * Block Create Action
- */
 export interface BlockCreateAction extends BaseAction {
   type: 'block.create';
   payload: {
@@ -82,9 +60,6 @@ export interface BlockCreateAction extends BaseAction {
   };
 }
 
-/**
- * Block Delete Action
- */
 export interface BlockDeleteAction extends BaseAction {
   type: 'block.delete';
   payload: {
@@ -92,10 +67,6 @@ export interface BlockDeleteAction extends BaseAction {
   };
 }
 
-/**
- * Block Update Action
- * position/size는 별도 액션 사용, content/metadata만 업데이트
- */
 export interface BlockUpdateAction extends BaseAction {
   type: 'block.update';
   payload: {
@@ -104,19 +75,6 @@ export interface BlockUpdateAction extends BaseAction {
   };
 }
 
-/**
- * Editor Mode Change Action
- */
-export interface EditorModeChangeAction extends BaseAction {
-  type: 'editor.mode.change';
-  payload: {
-    mode: EditorMode;
-  };
-}
-
-/**
- * Union type of all actions
- */
 export type EditorAction =
   | BlockSelectAction
   | BlockDeselectAction
@@ -124,5 +82,4 @@ export type EditorAction =
   | BlockResizeAction
   | BlockCreateAction
   | BlockDeleteAction
-  | BlockUpdateAction
-  | EditorModeChangeAction;
+  | BlockUpdateAction;

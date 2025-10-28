@@ -1,12 +1,6 @@
 import type { BuilderBlock, GridConfig } from '@/shared/types';
 
 /**
- * Editor Mode
- * 에디터의 동작 모드
- */
-export type EditorMode = 'edit' | 'preview' | 'readonly';
-
-/**
  * Selection State
  * 선택된 블록들의 상태
  */
@@ -16,34 +10,14 @@ export interface SelectionState {
 }
 
 /**
- * Preview State
- * 임시 상태 (드래그 중, 리사이즈 중 등)
- */
-export interface PreviewState {
-  isDragging: boolean;
-  isResizing: boolean;
-  draggedBlockId: string | null;
-  resizedBlockId: string | null;
-  previewBlocks: Map<string, Partial<BuilderBlock>>; // blockId -> 임시 변경사항
-}
-
-/**
  * Editor State
  * 에디터의 전체 상태
  */
 export interface EditorState {
-  // 데이터
   blocks: Map<string, BuilderBlock>;
   gridConfig: GridConfig;
 
-  // 모드
-  mode: EditorMode;
-
-  // 선택
   selection: SelectionState;
-
-  // 프리뷰 (임시 상태)
-  preview: PreviewState;
 
   // 히스토리 (undo/redo를 위한 준비)
   history: {
@@ -61,17 +35,9 @@ export const createInitialEditorState = (
 ): EditorState => ({
   blocks: new Map(blocks.map((block) => [block.id, block])),
   gridConfig,
-  mode: 'edit',
   selection: {
     selectedBlockIds: new Set(),
     lastSelectedId: null,
-  },
-  preview: {
-    isDragging: false,
-    isResizing: false,
-    draggedBlockId: null,
-    resizedBlockId: null,
-    previewBlocks: new Map(),
   },
   history: {
     past: [],

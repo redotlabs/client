@@ -52,7 +52,6 @@ export class EditorController {
       blocks: Array.from(this.state.blocks.values()),
       selectedBlockIds: Array.from(this.state.selection.selectedBlockIds),
       gridConfig: this.state.gridConfig,
-      editorMode: this.state.mode,
     };
 
     return globalRuleValidator.validate(action, context);
@@ -100,36 +99,23 @@ export class EditorController {
           action.payload.updates
         );
 
-      case 'editor.mode.change':
-        return stateUpdaters.changeEditorModeState(state, action.payload.mode);
-
       default:
         return state;
     }
   }
 
-  /**
-   * 상태 조회
-   */
   getState(): Readonly<EditorState> {
     return this.state;
   }
 
-  /**
-   * 상태 변경 구독
-   */
   subscribe(listener: (state: EditorState) => void): () => void {
     this.listeners.push(listener);
 
-    // 구독 해제 함수 반환
     return () => {
       this.listeners = this.listeners.filter((l) => l !== listener);
     };
   }
 
-  /**
-   * 리스너에게 상태 변경 알림
-   */
   private notifyListeners(): void {
     this.listeners.forEach((listener) => {
       listener(this.state);

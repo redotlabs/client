@@ -34,31 +34,6 @@ export const isBlockSelected: (blockId: string) => StateSelector<boolean> =
 export const getSelectionCount: StateSelector<number> = (state) =>
   state.selection.selectedBlockIds.size;
 
-/**
- * Preview Selectors
- */
-export const isDragging: StateSelector<boolean> = (state) =>
-  state.preview.isDragging;
-
-export const isResizing: StateSelector<boolean> = (state) =>
-  state.preview.isResizing;
-
-export const getPreviewBlock: (
-  blockId: string
-) => StateSelector<Partial<BuilderBlock> | undefined> = (blockId) => (state) =>
-  state.preview.previewBlocks.get(blockId);
-
-/**
- * Mode Selectors
- */
-export const getEditorMode: StateSelector<EditorState['mode']> = (state) =>
-  state.mode;
-
-export const isEditable: StateSelector<boolean> = (state) =>
-  state.mode === 'edit';
-
-export const isReadonly: StateSelector<boolean> = (state) =>
-  state.mode === 'readonly';
 
 /**
  * Grid Selectors
