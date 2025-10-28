@@ -55,6 +55,9 @@ export class CanvasListener {
     currentY: 0,
   };
 
+  // 드래그가 방금 끝났는지 추적 (click 이벤트 무시용)
+  private wasDragging = false;
+
   // Throttled handlers
   private throttledMouseMove: ((event: MouseEvent) => void) | null = null;
 
@@ -73,7 +76,7 @@ export class CanvasListener {
     };
 
     this.throttledMouseMove = throttle(
-      this.handleMouseMove.bind(this),
+      this.handleMouseMove,
       this.config.throttleDelay
     );
   }
@@ -138,14 +141,18 @@ export class CanvasListener {
    * Click Event Handler
    */
   private handleClick = (event: MouseEvent): void => {
-    // 드래그 중이 아닐 때만 클릭 이벤트 처리
-    if (!this.dragState.isDragging) {
-      this.mouseHandlers.forEach((handler) => {
-        if (handler.enabled !== false) {
-          handler.handle(event, this.context);
-        }
-      });
+    // 드래그가 방금 끝났으면 클릭 이벤트 무시
+    if (this.wasDragging) {
+      this.wasDragging = false;
+      return;
     }
+
+    // 클릭 이벤트 처리
+    this.mouseHandlers.forEach((handler) => {
+      if (handler.enabled !== false) {
+        handler.handle(event, this.context);
+      }
+    });
   };
 
   /**
@@ -209,6 +216,9 @@ export class CanvasListener {
           handler.onDragEnd(event, this.context);
         }
       });
+
+      // 드래그가 끝났음을 표시 (다음 click 이벤트 무시용)
+      this.wasDragging = true;
     }
 
     // 상태 초기화
