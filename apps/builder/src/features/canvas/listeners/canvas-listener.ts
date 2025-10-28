@@ -16,9 +16,6 @@ export interface CanvasListenerConfig {
   enableDrag?: boolean;
 }
 
-/**
- * Drag State
- */
 interface DragState {
   isMouseDown: boolean;
   isDragging: boolean;
@@ -55,7 +52,6 @@ export class CanvasListener {
     currentY: 0,
   };
 
-  // 드래그가 방금 끝났는지 추적 (click 이벤트 무시용)
   private wasDragging = false;
 
   // Throttled handlers
@@ -131,9 +127,7 @@ export class CanvasListener {
    */
   private handleKeyDown = (event: KeyboardEvent): void => {
     this.keyboardHandlers.forEach((handler) => {
-      if (handler.enabled !== false) {
-        handler.handle(event, this.context);
-      }
+      handler.handle(event, this.context);
     });
   };
 
@@ -149,9 +143,7 @@ export class CanvasListener {
 
     // 클릭 이벤트 처리
     this.mouseHandlers.forEach((handler) => {
-      if (handler.enabled !== false) {
-        handler.handle(event, this.context);
-      }
+      handler.handle(event, this.context);
     });
   };
 
@@ -188,7 +180,7 @@ export class CanvasListener {
 
         // 드래그 시작 이벤트
         this.dragHandlers.forEach((handler) => {
-          if (handler.enabled !== false && handler.onDragStart) {
+          if (handler.onDragStart) {
             handler.onDragStart(event, this.context);
           }
         });
@@ -196,7 +188,7 @@ export class CanvasListener {
     } else {
       // 드래그 중 이동 이벤트
       this.dragHandlers.forEach((handler) => {
-        if (handler.enabled !== false && handler.onDragMove) {
+        if (handler.onDragMove) {
           handler.onDragMove(event, this.context);
         }
       });
@@ -212,7 +204,7 @@ export class CanvasListener {
     if (wasDragging) {
       // 드래그 종료
       this.dragHandlers.forEach((handler) => {
-        if (handler.enabled !== false && handler.onDragEnd) {
+        if (handler.onDragEnd) {
           handler.onDragEnd(event, this.context);
         }
       });

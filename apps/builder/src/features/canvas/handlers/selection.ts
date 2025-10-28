@@ -8,7 +8,6 @@ import { getBlockIdFromEvent } from './utils';
  */
 export const selectionHandler: SelectionEventHandler = {
   name: 'selection',
-  enabled: true,
 
   handle: (event: MouseEvent, context: HandlerContext) => {
     const { dispatch } = context;

@@ -8,7 +8,6 @@ import { getSelectedBlockIds } from '@/core/state';
  */
 export const keyboardHandler: KeyboardEventHandler = {
   name: 'keyboard',
-  enabled: true,
 
   handle: (event: KeyboardEvent, context: HandlerContext) => {
     const { state, dispatch } = context;

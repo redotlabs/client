@@ -24,11 +24,6 @@ export interface EventHandler<E = Event> {
    * 이벤트 처리
    */
   handle: (event: E, context: HandlerContext) => void;
-
-  /**
-   * 핸들러 활성화 여부
-   */
-  enabled?: boolean;
 }
 
 /**

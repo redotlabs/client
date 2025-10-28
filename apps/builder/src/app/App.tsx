@@ -14,7 +14,6 @@ import {
 export default function BuilderApp() {
   const canvasRef = useRef<HTMLDivElement | null>(null);
 
-  // Editor 상태 및 dispatch
   const { state, dispatch } = useEditor(
     initialEditorData.blocks,
     initialEditorData.grid
@@ -48,7 +47,7 @@ export default function BuilderApp() {
   return (
     <ThemeProvider color="blue" font="pretendard">
       <div>
-        {/* 상태 디버깅 정보 */}
+        {/* 상태 디버깅 정보 -> 현재는 리뷰 확인용으로 작성하였으며, 다음 PR 작업에서 삭제 예정*/}
         <div
           style={{
             padding: '16px',

@@ -6,7 +6,6 @@ import type { DragEventHandler, HandlerContext } from './types';
  */
 export const dragHandler: DragEventHandler = {
   name: 'drag',
-  enabled: true,
 
   handle: (event: MouseEvent, context: HandlerContext) => {
     // 기본 handle은 사용하지 않음 (onDragStart, onDragMove, onDragEnd 사용)
