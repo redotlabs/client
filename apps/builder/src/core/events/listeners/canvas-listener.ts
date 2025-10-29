@@ -1,9 +1,9 @@
-import type { HandlerContext } from '../handlers/types';
 import type {
   KeyboardEventHandler,
   MouseEventHandler,
   DragEventHandler,
-} from '../handlers/types';
+  HandlerContext,
+} from '@/core/events/handlers';
 
 interface DragState {
   isMouseDown: boolean;

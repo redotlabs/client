@@ -1,9 +1,6 @@
 import type { EditorState } from './types';
 import type { BuilderBlock, BlockPosition, BlockSize } from '@/shared/types';
 
-/**
- * Block Selection Updaters
- */
 export const selectBlockState = (
   state: EditorState,
   blockId: string,
@@ -51,9 +48,6 @@ export const deselectBlockState = (
   };
 };
 
-/**
- * Block Movement & Resize Updaters
- */
 export const moveBlockState = (
   state: EditorState,
   blockId: string,
@@ -88,9 +82,6 @@ export const resizeBlockState = (
   };
 };
 
-/**
- * Block CRUD Updaters
- */
 export const createBlockState = (
   state: EditorState,
   block: BuilderBlock

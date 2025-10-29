@@ -17,7 +17,6 @@ export class EditorController {
   constructor(blocks: BuilderBlock[], gridConfig: GridConfig) {
     this.state = createInitialEditorState(blocks, gridConfig);
 
-    // 기본 룰 등록
     baseRules.forEach((rule) => {
       globalRuleValidator.registerRule(rule);
     });
@@ -44,9 +43,6 @@ export class EditorController {
     this.notifyListeners();
   };
 
-  /**
-   * Rule 검증
-   */
   private validateAction(action: EditorAction): RuleValidationResult {
     const context: EditorRuleContext = {
       blocks: Array.from(this.state.blocks.values()),
@@ -57,9 +53,6 @@ export class EditorController {
     return globalRuleValidator.validate(action, context);
   }
 
-  /**
-   * Action 적용 (상태 업데이트)
-   */
   private applyAction(action: EditorAction, state: EditorState): EditorState {
     switch (action.type) {
       case 'block.select':

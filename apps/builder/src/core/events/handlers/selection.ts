@@ -1,6 +1,6 @@
+import { getBlockIdFromEvent } from './utils';
 import type { SelectionEventHandler, HandlerContext } from './types';
 import { selectBlock, deselectBlock } from '@/core/actions';
-import { getBlockIdFromEvent } from './utils';
 
 /**
  * Selection Handler

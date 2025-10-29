@@ -4,12 +4,12 @@ import { initialEditorData } from '@/shared/constants/editorData';
 import { BlockConverter } from '@/core/blocks';
 import { useEditor } from '@/core';
 import { useRef, useMemo, useEffect } from 'react';
-import { CanvasListener } from '@/features/canvas/listeners';
+import { CanvasListener } from '@/core/events/listeners';
 import {
   keyboardHandler,
   dragHandler,
   selectionHandler,
-} from '@/features/canvas/handlers';
+} from '@/core/events/handlers';
 
 export default function BuilderApp() {
   const canvasRef = useRef<HTMLDivElement | null>(null);
@@ -60,7 +60,6 @@ export default function BuilderApp() {
           </p>
           <p>Total blocks: {state.blocks.size}</p>
           <p>Selected: {state.selection.selectedBlockIds.size}</p>
-          <p>Mode: {state.mode}</p>
           <p>
             Selected IDs:{' '}
             {Array.from(state.selection.selectedBlockIds).join(', ') || 'None'}
