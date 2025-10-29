@@ -13,23 +13,14 @@ import type {
 export class RuleValidator {
   private rules: Map<string, Rule> = new Map();
 
-  /**
-   * 룰 등록
-   */
   registerRule(rule: Rule): void {
     this.rules.set(rule.name, rule);
   }
 
-  /**
-   * 룰 제거
-   */
   unregisterRule(ruleName: string): void {
     this.rules.delete(ruleName);
   }
 
-  /**
-   * 모든 룰 검증
-   */
   validate(
     action: EditorAction,
     context: EditorRuleContext
@@ -50,9 +41,6 @@ export class RuleValidator {
     };
   }
 
-  /**
-   * 특정 룰만 검증
-   */
   validateRule(
     ruleName: string,
     action: EditorAction,
@@ -70,22 +58,13 @@ export class RuleValidator {
     return rule.validate(action, context);
   }
 
-  /**
-   * 등록된 모든 룰 목록
-   */
   getRules(): Rule[] {
     return Array.from(this.rules.values());
   }
 
-  /**
-   * 룰 개수
-   */
   getRuleCount(): number {
     return this.rules.size;
   }
 }
 
-/**
- * 글로벌 Validator 인스턴스
- */
 export const globalRuleValidator = new RuleValidator();

@@ -1,38 +1,6 @@
 import type { Rule, RuleValidationResult } from './types';
 
 /**
- * 에디터가 편집 가능한 상태인지 확인
- */
-export const editableRule: Rule = {
-  name: 'editor.editable',
-  description: 'Editor must be in edit mode for modifications',
-  validate: (action, context) => {
-    // readonly 모드에서는 변경 불가
-    if (
-      context.editorMode === 'readonly' &&
-      (action.type.startsWith('block.create') ||
-        action.type.startsWith('block.delete') ||
-        action.type.startsWith('block.update') ||
-        action.type.startsWith('block.move') ||
-        action.type.startsWith('block.resize'))
-    ) {
-      return {
-        valid: false,
-        violations: [
-          {
-            rule: 'editor.editable',
-            message: 'Cannot modify blocks in readonly mode',
-            severity: 'error',
-          },
-        ],
-      };
-    }
-
-    return { valid: true, violations: [] };
-  },
-};
-
-/**
  * 블록이 그리드 영역 밖으로 나갈 수 없음
  */
 export const blockBoundsRule: Rule = {
@@ -85,8 +53,4 @@ export const blockOverlapRule: Rule = {
 /**
  * 기본 룰들을 배열로 export
  */
-export const baseRules: Rule[] = [
-  editableRule,
-  blockBoundsRule,
-  blockOverlapRule,
-];
+export const baseRules: Rule[] = [blockBoundsRule, blockOverlapRule];

@@ -45,21 +45,6 @@ export const initialEditorData: EditorData = {
     },
 
     {
-      id: 'block-3',
-      component: 'toast',
-      position: { x: 13, y: 10, zIndex: 1 },
-      size: { width: 8, height: 2 },
-      props: {
-        title: 'Show Toast',
-        variant: 'success',
-      },
-      metadata: {
-        createdAt: '2024-01-01T00:00:00.000Z',
-        updatedAt: '2024-01-01T00:00:00.000Z',
-      },
-    },
-
-    {
       id: 'block-4',
       component: 'button',
       position: { x: 6, y: 14, zIndex: 1 },
@@ -128,4 +113,3 @@ export const initialEditorData: EditorData = {
     description: 'Example page with various block types',
   },
 };
-

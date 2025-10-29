@@ -12,9 +12,6 @@ export interface RuleViolation {
   severity: 'error' | 'warning';
 }
 
-/**
- * Rule Validation Result
- */
 export interface RuleValidationResult {
   valid: boolean;
   violations: RuleViolation[];

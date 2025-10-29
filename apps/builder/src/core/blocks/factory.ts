@@ -13,7 +13,6 @@ import type {
   ButtonProps,
   InputProps,
   LogoProps,
-  ToastProps,
 } from '@/shared/types';
 
 export const createTextBlock = (
@@ -99,22 +98,6 @@ export const createLogoBlock = (
   },
 });
 
-export const createToastBlock = (
-  position: BlockPosition,
-  size: BlockSize,
-  props: ToastProps
-): BuilderBlock<'toast'> => ({
-  id: `block-${Math.random().toString(36).substring(2, 8)}`,
-  component: 'toast',
-  props,
-  position,
-  size,
-  metadata: {
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  },
-});
-
 export const createTextBlockFromCoords = (
   x: number,
   y: number,
@@ -182,20 +165,6 @@ export const createLogoBlockFromCoords = (
   options?: Partial<LogoProps>
 ): BuilderBlock<'logo'> => {
   return createLogoBlock(
-    { x, y, zIndex: 1 },
-    { width, height },
-    { ...options }
-  );
-};
-
-export const createToastBlockFromCoords = (
-  x: number,
-  y: number,
-  width: number,
-  height: number,
-  options?: Partial<ToastProps>
-): BuilderBlock<'toast'> => {
-  return createToastBlock(
     { x, y, zIndex: 1 },
     { width, height },
     { ...options }

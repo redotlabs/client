@@ -19,16 +19,13 @@ export interface EditorState {
 
   selection: SelectionState;
 
-  // 히스토리 (undo/redo를 위한 준비)
+  // TODO: 히스토리 구현 (undo/redo)
   history: {
     past: EditorState[];
     future: EditorState[];
   };
 }
 
-/**
- * Initial Editor State
- */
 export const createInitialEditorState = (
   blocks: BuilderBlock[] = [],
   gridConfig: GridConfig
@@ -45,14 +42,6 @@ export const createInitialEditorState = (
   },
 });
 
-/**
- * State Updater
- * 상태를 업데이트하는 함수의 타입
- */
 export type StateUpdater = (state: EditorState) => EditorState;
 
-/**
- * State Selector
- * 상태에서 특정 값을 추출하는 함수의 타입
- */
 export type StateSelector<T> = (state: EditorState) => T;
