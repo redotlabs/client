@@ -1,7 +1,7 @@
 export * from './actions';
 export * from './rules';
 export * from './blocks';
-export * from './editor-controller';
+export * from './controller';
 export * from './use-editor';
 export type {
   EditorState,

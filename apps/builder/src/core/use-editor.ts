@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
-import { EditorController } from './editor-controller';
+import { EditorController } from './controller';
 import type { EditorState } from './state';
 import type { BuilderBlock, GridConfig } from '@/shared/types';
 

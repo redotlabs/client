@@ -1,7 +1,7 @@
 import { ThemeProvider } from '@redotlabs/themes';
 import { Canvas } from '@/features/canvas/components/Canvas';
 import { initialEditorData } from '@/shared/constants/editorData';
-import { BlockConverter } from '@/core/blocks';
+import { BlockConverter } from '@/features/canvas/utils/block-converter';
 import { useEditor } from '@/core';
 import { useRef, useMemo, useEffect } from 'react';
 import { CanvasListener } from '@/core/events/listeners';

@@ -1,10 +1,13 @@
-import type { EditorAction } from './actions';
-import type { EditorState } from './state';
-import { createInitialEditorState } from './state';
-import { globalRuleValidator, baseRules } from './rules';
-import type { RuleValidationResult, EditorRuleContext } from './rules';
+import { createInitialEditorState, type EditorState } from '@/core/state';
+import {
+  type RuleValidationResult,
+  type EditorRuleContext,
+  baseRules,
+  globalRuleValidator,
+} from '@/core/rules';
 import type { BuilderBlock, GridConfig } from '@/shared/types';
-import * as stateUpdaters from './state/updaters';
+import type { EditorAction } from '@/core/actions';
+import { actionHandlers } from './action-handlers';
 
 /**
  * Editor Controller
@@ -54,47 +57,8 @@ export class EditorController {
   }
 
   private applyAction(action: EditorAction, state: EditorState): EditorState {
-    switch (action.type) {
-      case 'block.select':
-        return stateUpdaters.selectBlockState(
-          state,
-          action.payload.blockId,
-          action.payload.multiSelect ?? false
-        );
-
-      case 'block.deselect':
-        return stateUpdaters.deselectBlockState(state, action.payload.blockId);
-
-      case 'block.move':
-        return stateUpdaters.moveBlockState(
-          state,
-          action.payload.blockId,
-          action.payload.position
-        );
-
-      case 'block.resize':
-        return stateUpdaters.resizeBlockState(
-          state,
-          action.payload.blockId,
-          action.payload.size
-        );
-
-      case 'block.create':
-        return stateUpdaters.createBlockState(state, action.payload.block);
-
-      case 'block.delete':
-        return stateUpdaters.deleteBlockState(state, action.payload.blockId);
-
-      case 'block.update':
-        return stateUpdaters.updateBlockState(
-          state,
-          action.payload.blockId,
-          action.payload.updates
-        );
-
-      default:
-        return state;
-    }
+    const handler = actionHandlers[action.type];
+    return handler ? handler(state, action) : state;
   }
 
   getState(): Readonly<EditorState> {
