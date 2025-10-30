@@ -13,17 +13,10 @@ export const initialEditorData: EditorData = {
     {
       id: 'block-1',
       component: 'text',
-      position: {
-        x: 6,
-        y: 8,
-        zIndex: 1,
-      },
-      size: {
-        width: 18,
-        height: 4,
-      },
+      position: { x: 6, y: 4, zIndex: 1 },
+      size: { width: 18, height: 3 },
       props: {
-        children: '제목 텍스트',
+        children: 'Design System Components',
         fontSize: 24,
         fontWeight: 'bold',
         textAlign: 'center',
@@ -37,45 +30,13 @@ export const initialEditorData: EditorData = {
 
     {
       id: 'block-2',
-      component: 'text',
-      position: {
-        x: 6,
-        y: 16,
-        zIndex: 1,
-      },
-      size: {
-        width: 14,
-        height: 4,
-      },
+      component: 'badge',
+      position: { x: 6, y: 10, zIndex: 1 },
+      size: { width: 6, height: 2 },
       props: {
-        children: '부제목 텍스트',
-        fontSize: 16,
-        textAlign: 'left',
-        color: '#6b7280',
-      },
-      metadata: {
-        createdAt: '2024-01-01T00:00:00.000Z',
-        updatedAt: '2024-01-01T00:00:00.000Z',
-      },
-    },
-
-    {
-      id: 'block-3',
-      component: 'image',
-      position: {
-        x: 28,
-        y: 8,
-        zIndex: 1,
-      },
-      size: {
-        width: 12,
-        height: 8,
-      },
-      props: {
-        src: 'https://picsum.photos/400/600',
-        alt: 'Example Image',
-        objectFit: 'cover',
-        borderRadius: 8,
+        children: 'New',
+        color: 'success',
+        size: 'md',
       },
       metadata: {
         createdAt: '2024-01-01T00:00:00.000Z',
@@ -86,21 +47,58 @@ export const initialEditorData: EditorData = {
     {
       id: 'block-4',
       component: 'button',
-      position: {
-        x: 6,
-        y: 24,
-        zIndex: 1,
-      },
-      size: {
-        width: 8,
-        height: 3,
-      },
+      position: { x: 6, y: 14, zIndex: 1 },
+      size: { width: 8, height: 3 },
       props: {
-        children: 'Click Me',
-        backgroundColor: '#3b82f6',
-        color: '#ffffff',
-        borderRadius: 6,
-        onClick: 'button_click_action',
+        children: 'Primary Button',
+        variant: 'contained',
+        size: 'md',
+      },
+      metadata: {
+        createdAt: '2024-01-01T00:00:00.000Z',
+        updatedAt: '2024-01-01T00:00:00.000Z',
+      },
+    },
+
+    {
+      id: 'block-5',
+      component: 'button',
+      position: { x: 16, y: 14, zIndex: 1 },
+      size: { width: 8, height: 3 },
+      props: {
+        children: 'Outlined Button',
+        variant: 'outlined',
+        size: 'md',
+      },
+      metadata: {
+        createdAt: '2024-01-01T00:00:00.000Z',
+        updatedAt: '2024-01-01T00:00:00.000Z',
+      },
+    },
+
+    {
+      id: 'block-6',
+      component: 'input',
+      position: { x: 6, y: 19, zIndex: 1 },
+      size: { width: 18, height: 3 },
+      props: {
+        placeholder: 'Enter your email...',
+        type: 'email',
+        size: 'md',
+      },
+      metadata: {
+        createdAt: '2024-01-01T00:00:00.000Z',
+        updatedAt: '2024-01-01T00:00:00.000Z',
+      },
+    },
+
+    {
+      id: 'block-7',
+      component: 'logo',
+      position: { x: 28, y: 10, zIndex: 1 },
+      size: { width: 12, height: 8 },
+      props: {
+        type: 'logo',
       },
       metadata: {
         createdAt: '2024-01-01T00:00:00.000Z',
@@ -115,4 +113,3 @@ export const initialEditorData: EditorData = {
     description: 'Example page with various block types',
   },
 };
-

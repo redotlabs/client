@@ -9,17 +9,19 @@ import type {
   BlockPosition,
   BlockSize,
   TextProps,
-  ImageProps,
+  BadgeProps,
   ButtonProps,
-} from "@/shared/types";
+  InputProps,
+  LogoProps,
+} from '@/shared/types';
 
 export const createTextBlock = (
   position: BlockPosition,
   size: BlockSize,
   props: TextProps
-): BuilderBlock => ({
+): BuilderBlock<'text'> => ({
   id: `block-${Math.random().toString(36).substring(2, 8)}`,
-  component: "text",
+  component: 'text',
   props,
   children: props.children,
   position,
@@ -30,14 +32,15 @@ export const createTextBlock = (
   },
 });
 
-export const createImageBlock = (
+export const createBadgeBlock = (
   position: BlockPosition,
   size: BlockSize,
-  props: ImageProps
-): BuilderBlock => ({
+  props: BadgeProps
+): BuilderBlock<'badge'> => ({
   id: `block-${Math.random().toString(36).substring(2, 8)}`,
-  component: "image",
+  component: 'badge',
   props,
+  children: props.children as string,
   position,
   size,
   metadata: {
@@ -50,11 +53,43 @@ export const createButtonBlock = (
   position: BlockPosition,
   size: BlockSize,
   props: ButtonProps
-): BuilderBlock => ({
+): BuilderBlock<'button'> => ({
   id: `block-${Math.random().toString(36).substring(2, 8)}`,
-  component: "button",
+  component: 'button',
   props,
-  children: props.children,
+  children: props.children as string,
+  position,
+  size,
+  metadata: {
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  },
+});
+
+export const createInputBlock = (
+  position: BlockPosition,
+  size: BlockSize,
+  props: InputProps
+): BuilderBlock<'input'> => ({
+  id: `block-${Math.random().toString(36).substring(2, 8)}`,
+  component: 'input',
+  props,
+  position,
+  size,
+  metadata: {
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  },
+});
+
+export const createLogoBlock = (
+  position: BlockPosition,
+  size: BlockSize,
+  props: LogoProps
+): BuilderBlock<'logo'> => ({
+  id: `block-${Math.random().toString(36).substring(2, 8)}`,
+  component: 'logo',
+  props,
   position,
   size,
   metadata: {
@@ -70,7 +105,7 @@ export const createTextBlockFromCoords = (
   height: number,
   text: string,
   options?: Partial<TextProps>
-): BuilderBlock => {
+): BuilderBlock<'text'> => {
   return createTextBlock(
     { x, y, zIndex: 1 },
     { width, height },
@@ -78,18 +113,18 @@ export const createTextBlockFromCoords = (
   );
 };
 
-export const createImageBlockFromCoords = (
+export const createBadgeBlockFromCoords = (
   x: number,
   y: number,
   width: number,
   height: number,
-  src: string,
-  options?: Partial<ImageProps>
-): BuilderBlock => {
-  return createImageBlock(
+  text: string,
+  options?: Partial<BadgeProps>
+): BuilderBlock<'badge'> => {
+  return createBadgeBlock(
     { x, y, zIndex: 1 },
     { width, height },
-    { src, ...options }
+    { children: text, ...options }
   );
 };
 
@@ -100,10 +135,38 @@ export const createButtonBlockFromCoords = (
   height: number,
   text: string,
   options?: Partial<ButtonProps>
-): BuilderBlock => {
+): BuilderBlock<'button'> => {
   return createButtonBlock(
     { x, y, zIndex: 1 },
     { width, height },
     { children: text, ...options }
+  );
+};
+
+export const createInputBlockFromCoords = (
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+  options?: Partial<InputProps>
+): BuilderBlock<'input'> => {
+  return createInputBlock(
+    { x, y, zIndex: 1 },
+    { width, height },
+    { ...options }
+  );
+};
+
+export const createLogoBlockFromCoords = (
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+  options?: Partial<LogoProps>
+): BuilderBlock<'logo'> => {
+  return createLogoBlock(
+    { x, y, zIndex: 1 },
+    { width, height },
+    { ...options }
   );
 };
