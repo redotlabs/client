@@ -1,26 +1,31 @@
-import type { RenderableBlock } from '@/shared/types';
+import type { RenderableBlock } from "@/shared/types";
 import type {
   TextProps,
   BadgeProps,
   ButtonProps,
   InputProps,
   LogoProps,
-} from '@/shared/types';
-import { Badge, Button, Input, Logo } from '@redotlabs/ui';
+} from "@/shared/types";
+import { Badge, Button, Input, Logo } from "@redotlabs/ui";
+import { useSelection } from "@/app/context/EditorContext";
+import { SelectionOverlay } from "./SelectionOverlay";
 
 interface BlockRendererProps {
   block: RenderableBlock;
 }
 
 export const BlockRenderer = ({ block }: BlockRendererProps) => {
+  const selection = useSelection();
+  const isSelected = selection.selectedBlockIds.has(block.id);
+
   const renderContent = () => {
     switch (block.type) {
-      case 'text': {
+      case "text": {
         const props = block.props as TextProps;
         return <div>{props.children}</div>;
       }
 
-      case 'badge': {
+      case "badge": {
         const props = block.props as BadgeProps;
         return (
           <Badge
@@ -33,7 +38,7 @@ export const BlockRenderer = ({ block }: BlockRendererProps) => {
         );
       }
 
-      case 'button': {
+      case "button": {
         const props = block.props as ButtonProps;
         return (
           <Button
@@ -47,11 +52,11 @@ export const BlockRenderer = ({ block }: BlockRendererProps) => {
         );
       }
 
-      case 'input': {
+      case "input": {
         const props = block.props as InputProps;
         return (
           <Input
-            size={props.size || 'md'}
+            size={props.size || "md"}
             placeholder={props.placeholder}
             value={props.value}
             type={props.type}
@@ -62,7 +67,7 @@ export const BlockRenderer = ({ block }: BlockRendererProps) => {
         );
       }
 
-      case 'logo': {
+      case "logo": {
         const props = block.props as LogoProps;
         return <Logo type={props.type} className={props.className} />;
       }
@@ -78,7 +83,13 @@ export const BlockRenderer = ({ block }: BlockRendererProps) => {
       data-block-type={block.type}
       style={block.style}
     >
-      {renderContent()}
+      <div className="relative inline-block">
+        <SelectionOverlay isSelected={isSelected} />
+
+        <div className="cursor-pointer">
+          {renderContent()}
+        </div>
+      </div>
     </div>
   );
 };
