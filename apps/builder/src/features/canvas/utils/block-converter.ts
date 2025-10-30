@@ -8,9 +8,66 @@ import type {
   ButtonProps,
   InputProps,
   LogoProps,
-  ToastProps,
 } from '@/shared/types';
 import type { CSSProperties, ReactNode } from 'react';
+
+type ComponentPropHandler = (
+  block: BuilderBlock,
+  baseProps: BaseRenderProps & Record<string, unknown>
+) => BaseRenderProps & Record<string, unknown>;
+
+const componentPropHandlers: Record<string, ComponentPropHandler> = {
+  text: (block, baseProps) => {
+    const props = block.props as TextProps;
+    const children =
+      typeof block.children === 'string' ? block.children : props.children;
+
+    return {
+      ...baseProps,
+      children: children as ReactNode,
+    };
+  },
+
+  badge: (block, baseProps) => {
+    const props = block.props as BadgeProps;
+    const children =
+      typeof block.children === 'string' ? block.children : props.children;
+
+    return {
+      ...baseProps,
+      ...props,
+      children: children as ReactNode,
+    };
+  },
+
+  button: (block, baseProps) => {
+    const props = block.props as ButtonProps;
+    const children =
+      typeof block.children === 'string' ? block.children : props.children;
+
+    return {
+      ...baseProps,
+      ...props,
+      children: children as ReactNode,
+    };
+  },
+
+  input: (block, baseProps) => {
+    const props = block.props as InputProps;
+    return {
+      ...baseProps,
+      ...props,
+    };
+  },
+
+  logo: (block, baseProps) => {
+    const props = block.props as LogoProps;
+    return {
+      ...baseProps,
+      ...props,
+    };
+  },
+};
 
 export class BlockConverter {
   private gridConfig: GridConfig;
@@ -70,75 +127,14 @@ export class BlockConverter {
   private convertToProps(
     block: BuilderBlock
   ): BaseRenderProps & Record<string, unknown> {
-    const baseProps = {
+    const baseProps: BaseRenderProps & Record<string, unknown> = {
       id: block.id,
       'data-block-type': block.component,
       'data-block-id': block.id,
     };
 
-    switch (block.component) {
-      case 'text': {
-        const props = block.props as TextProps;
-        const children =
-          typeof block.children === 'string' ? block.children : props.children;
-
-        return {
-          ...baseProps,
-          children: children as ReactNode,
-        };
-      }
-
-      case 'badge': {
-        const props = block.props as BadgeProps;
-        const children =
-          typeof block.children === 'string' ? block.children : props.children;
-
-        return {
-          ...baseProps,
-          ...props,
-          children: children as ReactNode,
-        };
-      }
-
-      case 'button': {
-        const props = block.props as ButtonProps;
-        const children =
-          typeof block.children === 'string' ? block.children : props.children;
-
-        return {
-          ...baseProps,
-          ...props,
-          children: children as ReactNode,
-        };
-      }
-
-      case 'input': {
-        const props = block.props as InputProps;
-        return {
-          ...baseProps,
-          ...props,
-        };
-      }
-
-      case 'logo': {
-        const props = block.props as LogoProps;
-        return {
-          ...baseProps,
-          ...props,
-        };
-      }
-
-      case 'toast': {
-        const props = block.props as ToastProps;
-        return {
-          ...baseProps,
-          ...props,
-        };
-      }
-
-      default:
-        return baseProps;
-    }
+    const handler = componentPropHandlers[block.component];
+    return handler ? handler(block, baseProps) : baseProps;
   }
 
   public convertBlock(block: BuilderBlock): RenderableBlock {
