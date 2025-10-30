@@ -29,26 +29,16 @@ export interface TextProps {
 // TODO: 디자인 시스템에서 ButtonProps export 되면 교체
 export type ButtonProps = ReactComponentProps<'button'> & ButtonVariants;
 
-export interface ToastProps {
-  className?: string;
-  title?: string;
-  description?: string;
-  variant?: 'success' | 'warning' | 'error';
-  [key: string]: unknown;
-}
-
 export type ComponentProps =
   | TextProps
   | BadgeProps
   | ButtonProps
   | InputProps
-  | LogoProps
-  | ToastProps;
+  | LogoProps;
 
 export type TextBlockAttributes = TextProps;
 export type BadgeBlockAttributes = BadgeProps;
 export type ButtonBlockAttributes = ButtonProps;
 export type InputBlockAttributes = InputProps;
 export type LogoBlockAttributes = LogoProps;
-export type ToastBlockAttributes = ToastProps;
 export type BlockAttributes = ComponentProps;

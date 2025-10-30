@@ -5,9 +5,8 @@ import type {
   ButtonProps,
   InputProps,
   LogoProps,
-  ToastProps,
 } from '@/shared/types';
-import { Badge, Button, Input, Logo, toast } from '@redotlabs/ui';
+import { Badge, Button, Input, Logo } from '@redotlabs/ui';
 
 interface BlockRendererProps {
   block: RenderableBlock;
@@ -66,36 +65,6 @@ export const BlockRenderer = ({ block }: BlockRendererProps) => {
       case 'logo': {
         const props = block.props as LogoProps;
         return <Logo type={props.type} className={props.className} />;
-      }
-
-      case 'toast': {
-        const props = block.props as ToastProps;
-        const handleToastClick = () => {
-          const message = props.title || 'Notification';
-          switch (props.variant) {
-            case 'success':
-              toast.success(message);
-              break;
-            case 'warning':
-              toast.warning(message);
-              break;
-            case 'error':
-              toast.error(message);
-              break;
-            default:
-              toast(message);
-          }
-        };
-        return (
-          <Button
-            variant="outlined"
-            size="sm"
-            className={props.className}
-            onClick={handleToastClick}
-          >
-            {props.title || 'Toast Trigger'}
-          </Button>
-        );
       }
 
       default:
