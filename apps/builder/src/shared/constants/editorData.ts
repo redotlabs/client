@@ -4,7 +4,7 @@ export const DEFAULT_GRID_CONFIG = {
   columns: 48,
   rows: 48,
   rowHeight: 24,
-  gap: 4,
+  gap: 0,
 };
 
 export const initialEditorData: EditorData = {

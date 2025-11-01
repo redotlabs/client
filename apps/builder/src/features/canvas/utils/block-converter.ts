@@ -8,8 +8,8 @@ import type {
   ButtonProps,
   InputProps,
   LogoProps,
-} from '@/shared/types';
-import type { CSSProperties, ReactNode } from 'react';
+} from "@/shared/types";
+import type { CSSProperties, ReactNode } from "react";
 
 type ComponentPropHandler = (
   block: BuilderBlock,
@@ -20,7 +20,7 @@ const componentPropHandlers: Record<string, ComponentPropHandler> = {
   text: (block, baseProps) => {
     const props = block.props as TextProps;
     const children =
-      typeof block.children === 'string' ? block.children : props.children;
+      typeof block.children === "string" ? block.children : props.children;
 
     return {
       ...baseProps,
@@ -31,7 +31,7 @@ const componentPropHandlers: Record<string, ComponentPropHandler> = {
   badge: (block, baseProps) => {
     const props = block.props as BadgeProps;
     const children =
-      typeof block.children === 'string' ? block.children : props.children;
+      typeof block.children === "string" ? block.children : props.children;
 
     return {
       ...baseProps,
@@ -43,7 +43,7 @@ const componentPropHandlers: Record<string, ComponentPropHandler> = {
   button: (block, baseProps) => {
     const props = block.props as ButtonProps;
     const children =
-      typeof block.children === 'string' ? block.children : props.children;
+      typeof block.children === "string" ? block.children : props.children;
 
     return {
       ...baseProps,
@@ -82,10 +82,10 @@ export class BlockConverter {
 
   private convertToGridArea(block: BuilderBlock): string {
     const { position, size } = block;
-    const rowStart = position.y;
-    const colStart = position.x;
-    const rowEnd = position.y + size.height;
-    const colEnd = position.x + size.width;
+    const rowStart = position.y + 1;
+    const colStart = position.x + 1;
+    const rowEnd = position.y + size.height + 1;
+    const colEnd = position.x + size.width + 1;
 
     return `${rowStart} / ${colStart} / ${rowEnd} / ${colEnd}`;
   }
@@ -97,25 +97,24 @@ export class BlockConverter {
     };
 
     switch (block.component) {
-      case 'text': {
+      case "text": {
         const props = block.props as TextProps;
         return {
           ...baseStyle,
-          color: props.color || '#000000',
-          fontSize: props.fontSize ? `${props.fontSize}px` : '16px',
-          fontWeight: props.fontWeight || 'normal',
-          textAlign: props.textAlign || 'left',
-          backgroundColor: props.backgroundColor || 'transparent',
-          display: 'flex',
-          alignItems: 'center',
+          color: props.color || "#000000",
+          fontSize: props.fontSize ? `${props.fontSize}px` : "16px",
+          fontWeight: props.fontWeight || "normal",
+          textAlign: props.textAlign || "left",
+          backgroundColor: props.backgroundColor || "transparent",
+          display: "flex",
+          alignItems: "center",
           justifyContent:
-            props.textAlign === 'center'
-              ? 'center'
-              : props.textAlign === 'right'
-                ? 'flex-end'
-                : 'flex-start',
-          padding: '8px',
-          overflow: 'hidden',
+            props.textAlign === "center"
+              ? "center"
+              : props.textAlign === "right"
+                ? "flex-end"
+                : "flex-start",
+          overflow: "hidden",
         };
       }
 
@@ -129,8 +128,8 @@ export class BlockConverter {
   ): BaseRenderProps & Record<string, unknown> {
     const baseProps: BaseRenderProps & Record<string, unknown> = {
       id: block.id,
-      'data-block-type': block.component,
-      'data-block-id': block.id,
+      "data-block-type": block.component,
+      "data-block-id": block.id,
     };
 
     const handler = componentPropHandlers[block.component];

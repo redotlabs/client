@@ -7,12 +7,15 @@ import type {
   LogoProps,
 } from "@/shared/types";
 import { Badge, Button, Input, Logo } from "@redotlabs/ui";
+import { cn } from "@redotlabs/utils";
 import { useSelection } from "@/app/context/EditorContext";
 import { SelectionOverlay } from "./SelectionOverlay";
 
 interface BlockRendererProps {
   block: RenderableBlock;
 }
+
+const BLOCK_FILL_CLASSES = "w-full h-full";
 
 export const BlockRenderer = ({ block }: BlockRendererProps) => {
   const selection = useSelection();
@@ -31,7 +34,7 @@ export const BlockRenderer = ({ block }: BlockRendererProps) => {
           <Badge
             color={props.color}
             size={props.size}
-            className={props.className}
+            className={cn(BLOCK_FILL_CLASSES, props.className)}
           >
             {props.children}
           </Badge>
@@ -44,7 +47,7 @@ export const BlockRenderer = ({ block }: BlockRendererProps) => {
           <Button
             variant={props.variant}
             size={props.size}
-            className={props.className}
+            className={cn(BLOCK_FILL_CLASSES, props.className)}
             disabled={props.disabled}
           >
             {props.children}
@@ -62,7 +65,7 @@ export const BlockRenderer = ({ block }: BlockRendererProps) => {
             type={props.type}
             disabled={props.disabled}
             error={props.error}
-            className={props.className}
+            className={cn(BLOCK_FILL_CLASSES, props.className)}
           />
         );
       }
@@ -81,12 +84,11 @@ export const BlockRenderer = ({ block }: BlockRendererProps) => {
     <div
       data-block-id={block.id}
       data-block-type={block.type}
-      style={block.style}
+      style={{ ...block.style, overflow: "visible" }}
     >
-      <div className="relative inline-block">
-        <SelectionOverlay isSelected={isSelected} />
-
-        <div className="cursor-pointer">
+      <div className="relative w-full h-full">
+        <SelectionOverlay isSelected={isSelected} blockId={block.id} />
+        <div className="w-full h-full cursor-pointer flex items-center justify-center">
           {renderContent()}
         </div>
       </div>
