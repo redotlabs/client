@@ -1,5 +1,6 @@
 import { useEditorContext } from '@/app/context/EditorContext';
-import { startResize, type ResizeDirection } from '@/core/events/handlers';
+import { startResize, startDrag, type ResizeDirection } from '@/core/events/handlers';
+import { selectBlock } from '@/core/actions';
 
 interface SelectionOverlayProps {
   isSelected: boolean;
@@ -22,6 +23,18 @@ export const SelectionOverlay = ({
     startResize(event.nativeEvent, context, blockId, direction);
   };
 
+  const handleDragStart = (event: React.MouseEvent) => {
+    // 블록 선택 (Cmd/Ctrl 키로 다중 선택 지원)
+    const multiSelect = event.metaKey || event.ctrlKey;
+    if (multiSelect) {
+      dispatch(selectBlock(blockId, multiSelect));
+    }
+
+    // 드래그 시작
+    const context = { state, dispatch };
+    startDrag(event.nativeEvent, context, blockId);
+  };
+
   const Handle = ({
     position,
     cursor,
@@ -34,12 +47,20 @@ export const SelectionOverlay = ({
     <div
       className={`absolute w-2 h-2 bg-white border-2 border-blue-500 rounded-full ${position} cursor-${cursor}-resize`}
       onMouseDown={(e) => handleResizeStart(e, direction)}
+      data-resize-handle
     />
   );
 
   return (
     <>
+      {/* 드래그 가능한 영역 - border와 겹치지만 pointer-events를 활성화 */}
+      <div
+        className="absolute inset-0 cursor-move"
+        onMouseDown={handleDragStart}
+      />
+      {/* Selection border - pointer-events 비활성화 */}
       <div className="absolute inset-0 border-2 border-blue-500 pointer-events-none rounded" />
+      {/* Resize handles */}
       <Handle position="-top-1 -left-1" cursor="nw" direction="nw" />
       <Handle position="-top-1 -right-1" cursor="ne" direction="ne" />
       <Handle position="-bottom-1 -left-1" cursor="sw" direction="sw" />

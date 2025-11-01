@@ -8,8 +8,6 @@ import type {
 } from "@/shared/types";
 import { Badge, Button, Input, Logo } from "@redotlabs/ui";
 import { cn } from "@redotlabs/utils";
-import { useSelection } from "@/app/context/EditorContext";
-import { SelectionOverlay } from "./SelectionOverlay";
 
 interface BlockRendererProps {
   block: RenderableBlock;
@@ -18,9 +16,6 @@ interface BlockRendererProps {
 const BLOCK_FILL_CLASSES = "w-full h-full";
 
 export const BlockRenderer = ({ block }: BlockRendererProps) => {
-  const selection = useSelection();
-  const isSelected = selection.selectedBlockIds.has(block.id);
-
   const renderContent = () => {
     switch (block.type) {
       case "text": {
@@ -80,18 +75,5 @@ export const BlockRenderer = ({ block }: BlockRendererProps) => {
     }
   };
 
-  return (
-    <div
-      data-block-id={block.id}
-      data-block-type={block.type}
-      style={{ ...block.style, overflow: "visible" }}
-    >
-      <div className="relative w-full h-full">
-        <SelectionOverlay isSelected={isSelected} blockId={block.id} />
-        <div className="w-full h-full cursor-pointer flex items-center justify-center">
-          {renderContent()}
-        </div>
-      </div>
-    </div>
-  );
+  return renderContent();
 };

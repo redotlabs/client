@@ -1,6 +1,7 @@
 import { useRef, useMemo, useEffect } from 'react';
 import { DEFAULT_GRID_CONFIG } from '@/shared/constants/editorData';
 import { BlockRenderer } from '@/features/canvas/components/BlockRenderer';
+import { InteractiveBlock } from '@/features/canvas/components/InteractiveBlock';
 import { BlockConverter } from '@/features/canvas/utils/block-converter';
 import { useEditorContext } from '@/app/context/EditorContext';
 import { CanvasListener } from '@/core/events/listeners';
@@ -58,7 +59,16 @@ export const Canvas = () => {
       }}
     >
       {renderableBlocks.map((block) => (
-        <BlockRenderer key={block.id} block={block} />
+        <div
+          key={block.id}
+          data-block-id={block.id}
+          data-block-type={block.type}
+          style={{ ...block.style, overflow: "visible" }}
+        >
+          <InteractiveBlock blockId={block.id}>
+            <BlockRenderer block={block} />
+          </InteractiveBlock>
+        </div>
       ))}
     </div>
   );

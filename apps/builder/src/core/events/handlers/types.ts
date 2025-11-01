@@ -25,7 +25,7 @@ export type MouseEventHandler = EventHandler<MouseEvent>;
 
 export interface DragEventHandler {
   name: string;
-  onDragStart?: (event: MouseEvent, context: HandlerContext) => void;
+  onDragStart?: (event: MouseEvent, context: HandlerContext, blockId: string) => void;
   onDragMove?: (event: MouseEvent, context: HandlerContext) => void;
   onDragEnd?: (event: MouseEvent, context: HandlerContext) => void;
 }
