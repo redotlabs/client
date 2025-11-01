@@ -30,4 +30,18 @@ export interface DragEventHandler {
   onDragEnd?: (event: MouseEvent, context: HandlerContext) => void;
 }
 
+export type ResizeDirection = 'n' | 'ne' | 'e' | 'se' | 's' | 'sw' | 'w' | 'nw';
+
+export interface ResizeEventHandler {
+  name: string;
+  onResizeStart?: (
+    event: MouseEvent,
+    context: HandlerContext,
+    blockId: string,
+    direction: ResizeDirection
+  ) => void;
+  onResizeMove?: (event: MouseEvent, context: HandlerContext) => void;
+  onResizeEnd?: (event: MouseEvent, context: HandlerContext) => void;
+}
+
 export type SelectionEventHandler = EventHandler<MouseEvent>;

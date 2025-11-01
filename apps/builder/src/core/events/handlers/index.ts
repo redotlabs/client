@@ -3,3 +3,4 @@ export * from './utils';
 export * from './keyboard';
 export * from './drag';
 export * from './selection';
+export * from './resize';
