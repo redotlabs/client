@@ -1,8 +1,8 @@
-import { useRef, useMemo, useEffect } from "react";
+import { useRef, useEffect } from "react";
+import { cn } from "@redotlabs/utils";
 import { DEFAULT_GRID_CONFIG } from "@/shared/constants/editorData";
 import { BlockRenderer } from "@/features/canvas/components/BlockRenderer";
 import { InteractiveBlock } from "@/features/canvas/components/InteractiveBlock";
-import { BlockConverter } from "@/features/canvas/utils/block-converter";
 import { useEditorContext } from "@/app/context/EditorContext";
 import { CanvasListener } from "@/core/events/listeners";
 import {
@@ -11,6 +11,7 @@ import {
   selectionHandler,
 } from "@/core/events/handlers";
 import { useDragAndDrop } from "@/features/canvas/hooks/useDragAndDrop";
+import { useRenderableBlocks } from "@/features/canvas/hooks/useRenderableBlocks";
 import type { BlockTemplate } from "@/core/blocks";
 
 interface CanvasProps {
@@ -24,16 +25,13 @@ export const Canvas = ({ onAddBlock }: CanvasProps = {}) => {
   const canvasRef = useRef<HTMLDivElement | null>(null);
   const { state, dispatch } = useEditorContext();
 
-  const { handleDrop, handleDragOver } = useDragAndDrop({
-    canvasRef,
-    onAddBlock: onAddBlock || (() => {}),
-  });
+  const { handleDrop, handleDragOver, handleDragLeave, isDragging } =
+    useDragAndDrop({
+      canvasRef,
+      onAddBlock: onAddBlock || (() => {}),
+    });
 
-  const renderableBlocks = useMemo(() => {
-    const converter = new BlockConverter(state.gridConfig);
-    const blocks = Array.from(state.blocks.values());
-    return converter.convertBlocks(blocks);
-  }, [state.blocks, state.gridConfig]);
+  const renderableBlocks = useRenderableBlocks();
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -57,21 +55,18 @@ export const Canvas = ({ onAddBlock }: CanvasProps = {}) => {
   return (
     <div
       ref={canvasRef}
-      className="w-full h-screen bg-gray-100 overflow-auto"
+      className={cn(
+        "w-full h-screen bg-gray-100 overflow-auto grid gap-0 p-0 transition-[background-image] duration-200 ease-in-out",
+        "bg-size-[40px_24px] bg-position-[0_0]",
+        isDragging &&
+          "bg-[linear-gradient(to_right,rgba(0,0,0,0.1)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.1)_1px,transparent_1px)]"
+      )}
       onDrop={handleDrop}
       onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
       style={{
-        display: "grid",
         gridTemplateRows: `repeat(${DEFAULT_GRID_CONFIG.rows}, ${DEFAULT_GRID_CONFIG.rowHeight}px)`,
         gridTemplateColumns: `repeat(${DEFAULT_GRID_CONFIG.columns}, 40px)`,
-        gap: 0,
-        padding: 0,
-        backgroundImage: `
-          linear-gradient(to right, rgba(0,0,0,0.1) 1px, transparent 1px),
-          linear-gradient(to bottom, rgba(0,0,0,0.1) 1px, transparent 1px)
-        `,
-        backgroundSize: "40px 24px",
-        backgroundPosition: "0 0",
       }}
     >
       {renderableBlocks.map((block) => (
