@@ -1,19 +1,33 @@
-import { useRef, useMemo, useEffect } from 'react';
-import { DEFAULT_GRID_CONFIG } from '@/shared/constants/editorData';
-import { BlockRenderer } from '@/features/canvas/components/BlockRenderer';
-import { InteractiveBlock } from '@/features/canvas/components/InteractiveBlock';
-import { BlockConverter } from '@/features/canvas/utils/block-converter';
-import { useEditorContext } from '@/app/context/EditorContext';
-import { CanvasListener } from '@/core/events/listeners';
+import { useRef, useMemo, useEffect } from "react";
+import { DEFAULT_GRID_CONFIG } from "@/shared/constants/editorData";
+import { BlockRenderer } from "@/features/canvas/components/BlockRenderer";
+import { InteractiveBlock } from "@/features/canvas/components/InteractiveBlock";
+import { BlockConverter } from "@/features/canvas/utils/block-converter";
+import { useEditorContext } from "@/app/context/EditorContext";
+import { CanvasListener } from "@/core/events/listeners";
 import {
   keyboardHandler,
   dragHandler,
   selectionHandler,
-} from '@/core/events/handlers';
+} from "@/core/events/handlers";
+import { useDragAndDrop } from "@/features/canvas/hooks/useDragAndDrop";
+import type { BlockTemplate } from "@/core/blocks";
 
-export const Canvas = () => {
+interface CanvasProps {
+  onAddBlock?: (
+    template: BlockTemplate,
+    position: { x: number; y: number }
+  ) => void;
+}
+
+export const Canvas = ({ onAddBlock }: CanvasProps = {}) => {
   const canvasRef = useRef<HTMLDivElement | null>(null);
   const { state, dispatch } = useEditorContext();
+
+  const { handleDrop, handleDragOver } = useDragAndDrop({
+    canvasRef,
+    onAddBlock: onAddBlock || (() => {}),
+  });
 
   const renderableBlocks = useMemo(() => {
     const converter = new BlockConverter(state.gridConfig);
@@ -44,8 +58,10 @@ export const Canvas = () => {
     <div
       ref={canvasRef}
       className="w-full h-screen bg-gray-100 overflow-auto"
+      onDrop={handleDrop}
+      onDragOver={handleDragOver}
       style={{
-        display: 'grid',
+        display: "grid",
         gridTemplateRows: `repeat(${DEFAULT_GRID_CONFIG.rows}, ${DEFAULT_GRID_CONFIG.rowHeight}px)`,
         gridTemplateColumns: `repeat(${DEFAULT_GRID_CONFIG.columns}, 40px)`,
         gap: 0,
@@ -54,8 +70,8 @@ export const Canvas = () => {
           linear-gradient(to right, rgba(0,0,0,0.1) 1px, transparent 1px),
           linear-gradient(to bottom, rgba(0,0,0,0.1) 1px, transparent 1px)
         `,
-        backgroundSize: '40px 24px',
-        backgroundPosition: '0 0',
+        backgroundSize: "40px 24px",
+        backgroundPosition: "0 0",
       }}
     >
       {renderableBlocks.map((block) => (

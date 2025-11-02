@@ -1,7 +1,7 @@
-import { ThemeProvider } from '@redotlabs/themes';
-import { Canvas } from '@/features/canvas/components/Canvas';
-import { initialEditorData } from '@/shared/constants/editorData';
-import { EditorProvider } from './context/EditorContext';
+import { ThemeProvider } from "@redotlabs/themes";
+import { initialEditorData } from "@/shared/constants/editorData";
+import { EditorProvider } from "./context/EditorContext";
+import { EditorLayout } from "./components/EditorLayout";
 
 export default function BuilderApp() {
   return (
@@ -10,12 +10,8 @@ export default function BuilderApp() {
         blocks={initialEditorData.blocks}
         gridConfig={initialEditorData.grid}
       >
-        <EditorContent />
+        <EditorLayout />
       </EditorProvider>
     </ThemeProvider>
   );
-}
-
-function EditorContent() {
-  return <Canvas />;
 }
