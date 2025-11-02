@@ -1,4 +1,4 @@
-import { useCallback, type RefObject } from "react";
+import { useCallback, useState, useEffect, type RefObject } from "react";
 import type { BlockTemplate } from "@/core/blocks";
 import { useGridCoordinates } from "./useGridCoordinates";
 
@@ -13,6 +13,8 @@ interface UseDragAndDropProps {
 interface UseDragAndDropReturn {
   handleDrop: (e: React.DragEvent) => void;
   handleDragOver: (e: React.DragEvent) => void;
+  handleDragLeave: (e: React.DragEvent) => void;
+  isDragging: boolean;
 }
 
 /**
@@ -34,10 +36,37 @@ export const useDragAndDrop = ({
   onAddBlock,
 }: UseDragAndDropProps): UseDragAndDropReturn => {
   const { convertToGridCoordinates } = useGridCoordinates();
+  const [isDragging, setIsDragging] = useState(false);
+
+  useEffect(() => {
+    if (!canvasRef.current) return;
+
+    const handleMouseDown = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      const blockElement = target.closest("[data-block-id]");
+      if (blockElement) {
+        setIsDragging(true);
+      }
+    };
+
+    const handleMouseUp = () => {
+      setIsDragging(false);
+    };
+
+    const canvas = canvasRef.current;
+    canvas.addEventListener("mousedown", handleMouseDown);
+    document.addEventListener("mouseup", handleMouseUp);
+
+    return () => {
+      canvas.removeEventListener("mousedown", handleMouseDown);
+      document.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [canvasRef]);
 
   const handleDrop = useCallback(
     (e: React.DragEvent) => {
       e.preventDefault();
+      setIsDragging(false);
 
       if (!canvasRef.current) return;
 
@@ -61,10 +90,19 @@ export const useDragAndDrop = ({
   const handleDragOver = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     e.dataTransfer.dropEffect = "copy";
+    setIsDragging(true);
+  }, []);
+
+  const handleDragLeave = useCallback((e: React.DragEvent) => {
+    if (e.currentTarget === e.target) {
+      setIsDragging(false);
+    }
   }, []);
 
   return {
     handleDrop,
     handleDragOver,
+    handleDragLeave,
+    isDragging,
   };
 };
