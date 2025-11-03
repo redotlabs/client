@@ -1,10 +1,18 @@
-import { Button } from '@redotlabs/ui';
+import HeroSection from './sections/hero-section';
+import ProcessSection from './sections/process-section';
+import WebsiteExamplesSection from './sections/website-examples-section';
+import OptionsSection from './sections/options-section';
+import BusinessSection from './sections/business-section';
 
 export default function Home() {
   return (
-    <main className="flex flex-col items-center justify-center min-h-svh">
-      <h1 className="text-3xl font-bold text-primary-800">Redot</h1>
-      <Button>반갑슴</Button>
+    <main className="flex flex-col min-h-svh">
+      <HeroSection />
+      {/* <BannerSection /> */}
+      <ProcessSection />
+      <WebsiteExamplesSection />
+      <OptionsSection />
+      <BusinessSection />
     </main>
   );
 }
