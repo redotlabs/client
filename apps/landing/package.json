@@ -14,8 +14,12 @@
     "@redotlabs/fonts": "^1.0.1",
     "@redotlabs/themes": "^1.1.0",
     "@redotlabs/tokens": "^1.0.0",
-    "@redotlabs/ui": "^1.2.0",
+    "@redotlabs/ui": "^1.4.1",
     "@redotlabs/utils": "^1.0.0",
+    "@repo/hooks": "workspace:*",
+    "embla-carousel-auto-scroll": "^8.6.0",
+    "embla-carousel-autoplay": "^8.6.0",
+    "embla-carousel-react": "^8.6.0",
     "next": "^15.3.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
