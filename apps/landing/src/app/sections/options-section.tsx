@@ -44,11 +44,12 @@ const OptionsSection = () => {
         <video
           src="/assets/logo-graphic.mp4"
           width={500}
-          height={204}
+          height={200}
           autoPlay
           muted
           loop
-          className="-translate-x-1 translate-y-1"
+          className="scale-101"
+          playsInline
         />
       </div>
       <h2 className="mt-10 text-gray-700 text-2xl md:text-4xl font-medium text-center">
