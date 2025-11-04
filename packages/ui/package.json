@@ -37,5 +37,8 @@
     "lucide-react": "^0.479.0",
     "react": "^19.0.0",
     "react-hook-form": "^7.64.0"
+  },
+  "dependencies": {
+    "@radix-ui/react-dialog": "^1.1.15"
   }
 }
