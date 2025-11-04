@@ -40,7 +40,17 @@ export const updateAdmin = async (
   return data;
 };
 
-export const deleteAdmin = async ({ id }: { id: number }) => {
+export const deleteAdmin = async ({ id }: Pick<Admin, 'id'>) => {
   const { data } = await api.delete(API_PATH.admin.detail(id));
+  return data;
+};
+
+export const resetPassword = async ({
+  id,
+  password,
+}: Pick<Admin, 'id' | 'password'>) => {
+  const { data } = await api.post(API_PATH.admin.resetPassword(id), {
+    password,
+  });
   return data;
 };

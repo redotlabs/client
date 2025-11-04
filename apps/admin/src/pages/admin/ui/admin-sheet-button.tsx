@@ -14,6 +14,7 @@ import {
 import type { PropsWithChildren } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import z from 'zod';
+import ResetPasswordButton from './reset-password-button';
 
 interface AdminSheetButtonProps extends PropsWithChildren {
   admin: Admin;
@@ -105,6 +106,8 @@ const AdminSheetButton = ({ admin, children }: AdminSheetButtonProps) => {
               </div>
               <RHFInput name="name" label="이름" />
               <RHFInput name="email" label="이메일" />
+
+              <ResetPasswordButton admin={admin} />
 
               <div className="mt-auto flex justify-end gap-3">
                 <Button

@@ -11,6 +11,7 @@ import {
   updateAdmin,
   deleteAdmin,
   createAdmin,
+  resetPassword,
 } from '@/shared/api/services/admin';
 
 export const useAdmins = (props?: { enabled?: boolean }) => {
@@ -72,5 +73,11 @@ export const useUpdateAdmin = () => {
         queryKey: queryKeyFactory.admin.list,
       });
     },
+  });
+};
+
+export const useResetPassword = () => {
+  return useMutation({
+    mutationFn: resetPassword,
   });
 };

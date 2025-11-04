@@ -8,5 +8,6 @@ export const API_PATH = {
   admin: {
     root: '/admin',
     detail: (adminId: number) => `/admin/${adminId}`,
+    resetPassword: (adminId: number) => `/admin/${adminId}/reset-password`,
   },
 };
