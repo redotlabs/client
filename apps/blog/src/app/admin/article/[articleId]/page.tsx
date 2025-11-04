@@ -1,10 +1,10 @@
 'use client';
 
 import AdminHeader from '@/shared/components/layout/admin/header';
-import { Controller, FormProvider, useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { RHFInput } from '@repo/ui';
+import { RHFInput, RHFCheckbox } from '@repo/ui';
 import CategoryForm from '../ui/form/category-form';
 import TagForm from '../ui/form/tag-form';
 import ThumbnailForm from '../ui/form/thumbnail-form';
@@ -18,6 +18,7 @@ import ArticleSaveButton from '../ui/article-save-button';
 import ArticlePublishButton from '../ui/article-publish-button';
 import ContentForm from '../ui/form/content-form';
 import { EditorProvider } from '@/shared/components/ui';
+import ArticleStatusBadge from '../../ui/article-status-badge';
 
 const articleSchema = z.object({
   title: z.string().min(1, '제목을 입력해주세요.'),
@@ -72,6 +73,7 @@ const ArticleEditPage = () => {
             <ChevronLeft />
           </Link>
           글쓰기
+          {article?.status && <ArticleStatusBadge status={article.status} />}
         </h1>
 
         <FormProvider {...form}>
@@ -91,22 +93,7 @@ const ArticleEditPage = () => {
 
               <section className="mt-8">
                 <div className="flex justify-end font-semibold">
-                  <Controller
-                    control={form.control}
-                    name="isPublic"
-                    render={({ field }) => (
-                      <div className="flex items-center gap-2">
-                        <input
-                          type="checkbox"
-                          id={field.name}
-                          checked={field.value}
-                          onChange={field.onChange}
-                          onBlur={field.onBlur}
-                        />
-                        <label htmlFor={field.name}>공개</label>
-                      </div>
-                    )}
-                  />
+                  <RHFCheckbox name="isPublic" label="공개" size="md" />
                 </div>
               </section>
 
