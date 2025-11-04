@@ -45,3 +45,10 @@ export interface ResizeEventHandler {
 }
 
 export type SelectionEventHandler = EventHandler<MouseEvent>;
+
+export interface DropEventHandler {
+  name: string;
+  onDragOver: (event: DragEvent, context: HandlerContext) => void;
+  onDrop: (event: DragEvent, context: HandlerContext) => void;
+  onDragLeave: (event: DragEvent, context: HandlerContext) => void;
+}

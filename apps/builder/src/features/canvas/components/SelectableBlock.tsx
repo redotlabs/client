@@ -1,10 +1,6 @@
 import { useEditorContext } from "@/app/context/EditorContext";
 import { selectBlock } from "@/core/actions";
-import {
-  dragHandler,
-  resizeHandler,
-  type ResizeDirection,
-} from "@/core/events/handlers";
+import { resizeHandler, type ResizeDirection } from "@/core/events/handlers";
 import { cn } from "@redotlabs/utils";
 import type { ReactNode } from "react";
 
@@ -17,17 +13,8 @@ interface SelectableBlockProps {
  * SelectableBlock
  *
  * 블록을 클릭하여 선택할 수 있게 만들고,
- * 선택된 블록은 드래그(이동) 및 리사이즈(크기 조정) 기능을 제공합니다.
+ * 선택된 블록은 드래그 및 리사이징 기능을 제공합니다.
  *
- * Features:
- * - Click to select (Cmd/Ctrl for multi-select)
- * - Drag to move (when selected)
- * - Resize handles (8-directional, when selected)
- *
- * @example
- * <SelectableBlock blockId="block-123">
- *   <BlockRenderer block={block} />
- * </SelectableBlock>
  */
 export const SelectableBlock = ({
   blockId,
@@ -44,9 +31,6 @@ export const SelectableBlock = ({
     if (!isSelected || multiSelect) {
       dispatch(selectBlock(blockId, multiSelect));
     }
-
-    const context = { state, dispatch };
-    dragHandler.onDragStart(event.nativeEvent, context, blockId);
   };
 
   const handleResizeStart = (
@@ -60,6 +44,7 @@ export const SelectableBlock = ({
   return (
     <div className="relative w-full h-full">
       <div
+        data-draggable="true"
         className="absolute inset-0 cursor-move"
         onMouseDown={handleMouseDown}
       />

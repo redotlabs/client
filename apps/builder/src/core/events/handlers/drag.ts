@@ -1,5 +1,5 @@
 import type { DragEventHandler, HandlerContext } from "./types";
-import { moveBlock } from "../../actions";
+import { moveBlock, setDragging } from "../../actions";
 
 const GRID_CELL_WIDTH = 40;
 const GRID_CELL_HEIGHT = 24;
@@ -12,80 +12,90 @@ interface DragState {
   currentPosition: { x: number; y: number };
 }
 
-let dragState: DragState | null = null;
-let currentContext: HandlerContext | null = null;
-
-const handleMouseMove = (event: MouseEvent) => {
-  if (!dragState || !currentContext) return;
-  dragHandler.onDragMove(event, currentContext);
-};
-
-const handleMouseUp = (event: MouseEvent) => {
-  if (!currentContext) return;
-  dragHandler.onDragEnd(event, currentContext);
-};
-
 /**
  * Drag Handler
  * 블록 드래그를 처리하는 핸들러
  */
-export const dragHandler: DragEventHandler = {
-  name: "drag",
+export const createDragHandler = (): DragEventHandler => {
+  let dragState: DragState | null = null;
+  let currentContext: HandlerContext | null = null;
 
-  onDragStart: (
-    event: MouseEvent,
-    context: HandlerContext,
-    blockId: string
-  ) => {
-    const block = context.state.blocks.get(blockId);
-    if (!block) return;
+  const handleMouseMove = (event: MouseEvent) => {
+    if (!dragState || !currentContext) return;
+    handler.onDragMove(event, currentContext);
+  };
 
-    dragState = {
-      blockId,
-      startX: event.clientX,
-      startY: event.clientY,
-      startPosition: { ...block.position },
-      currentPosition: { x: block.position.x, y: block.position.y },
-    };
-    currentContext = context;
+  const handleMouseUp = (event: MouseEvent) => {
+    if (!currentContext) return;
+    handler.onDragEnd(event, currentContext);
+  };
 
-    document.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("mouseup", handleMouseUp);
-  },
+  const handler: DragEventHandler = {
+    name: "drag",
 
-  onDragMove: (event: MouseEvent, context: HandlerContext) => {
-    if (!dragState) return;
+    onDragStart: (
+      event: MouseEvent,
+      context: HandlerContext,
+      blockId: string
+    ) => {
+      const block = context.state.blocks.get(blockId);
+      if (!block) return;
 
-    const { blockId, startX, startY, startPosition, currentPosition } =
-      dragState;
-    const { dispatch } = context;
+      dragState = {
+        blockId,
+        startX: event.clientX,
+        startY: event.clientY,
+        startPosition: { ...block.position },
+        currentPosition: { x: block.position.x, y: block.position.y },
+      };
+      currentContext = context;
 
-    const deltaX = event.clientX - startX;
-    const deltaY = event.clientY - startY;
+      context.dispatch(setDragging(true));
 
-    const deltaColumns = Math.round(deltaX / GRID_CELL_WIDTH);
-    const deltaRows = Math.round(deltaY / GRID_CELL_HEIGHT);
+      document.addEventListener("mousemove", handleMouseMove);
+      document.addEventListener("mouseup", handleMouseUp);
+    },
 
-    const newX = Math.max(0, startPosition.x + deltaColumns);
-    const newY = Math.max(0, startPosition.y + deltaRows);
+    onDragMove: (event: MouseEvent, context: HandlerContext) => {
+      if (!dragState) return;
 
-    if (newX !== currentPosition.x || newY !== currentPosition.y) {
-      dragState.currentPosition = { x: newX, y: newY };
-      dispatch(
-        moveBlock(blockId, {
-          x: newX,
-          y: newY,
-          zIndex: startPosition.zIndex,
-        })
-      );
-    }
-  },
+      const { blockId, startX, startY, startPosition, currentPosition } =
+        dragState;
+      const { dispatch } = context;
 
-  onDragEnd: () => {
-    document.removeEventListener("mousemove", handleMouseMove);
-    document.removeEventListener("mouseup", handleMouseUp);
+      const deltaX = event.clientX - startX;
+      const deltaY = event.clientY - startY;
 
-    dragState = null;
-    currentContext = null;
-  },
+      const deltaColumns = Math.round(deltaX / GRID_CELL_WIDTH);
+      const deltaRows = Math.round(deltaY / GRID_CELL_HEIGHT);
+
+      const newX = Math.max(0, startPosition.x + deltaColumns);
+      const newY = Math.max(0, startPosition.y + deltaRows);
+
+      if (newX !== currentPosition.x || newY !== currentPosition.y) {
+        dragState.currentPosition = { x: newX, y: newY };
+        dispatch(
+          moveBlock(blockId, {
+            x: newX,
+            y: newY,
+            zIndex: startPosition.zIndex,
+          })
+        );
+      }
+    },
+
+    onDragEnd: () => {
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+
+      if (currentContext) {
+        currentContext.dispatch(setDragging(false));
+      }
+
+      dragState = null;
+      currentContext = null;
+    },
+  };
+
+  return handler;
 };

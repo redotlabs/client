@@ -8,29 +8,18 @@ import { CanvasListener } from "@/core/events/listeners";
 import {
   keyboardHandler,
   selectionHandler,
+  createDropHandler,
+  createDragHandler,
 } from "@/core/events/handlers";
-import { useDragAndDrop } from "@/features/canvas/hooks/useDragAndDrop";
 import { useRenderableBlocks } from "@/features/canvas/hooks/useRenderableBlocks";
-import type { BlockTemplate } from "@/core/blocks";
 
-interface CanvasProps {
-  onAddBlock?: (
-    template: BlockTemplate,
-    position: { x: number; y: number }
-  ) => void;
-}
-
-export const Canvas = ({ onAddBlock }: CanvasProps = {}) => {
+export const Canvas = () => {
   const canvasRef = useRef<HTMLDivElement | null>(null);
   const { state, dispatch } = useEditorContext();
 
-  const { handleDrop, handleDragOver, handleDragLeave, isDragging } =
-    useDragAndDrop({
-      canvasRef,
-      onAddBlock: onAddBlock || (() => {}),
-    });
-
   const renderableBlocks = useRenderableBlocks();
+
+  const isDragging = state.ui.isDragging;
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -40,8 +29,13 @@ export const Canvas = ({ onAddBlock }: CanvasProps = {}) => {
       dispatch,
     });
 
+    const dropHandler = createDropHandler();
+    const dragHandler = createDragHandler();
+
     listener.registerKeyboardHandler(keyboardHandler);
     listener.registerMouseHandler(selectionHandler);
+    listener.registerDropHandler(dropHandler);
+    listener.registerDragHandler(dragHandler);
 
     listener.start();
 
@@ -59,9 +53,6 @@ export const Canvas = ({ onAddBlock }: CanvasProps = {}) => {
         isDragging &&
           "bg-[linear-gradient(to_right,rgba(0,0,0,0.1)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.1)_1px,transparent_1px)]"
       )}
-      onDrop={handleDrop}
-      onDragOver={handleDragOver}
-      onDragLeave={handleDragLeave}
       style={{
         gridTemplateRows: `repeat(${DEFAULT_GRID_CONFIG.rows}, ${DEFAULT_GRID_CONFIG.rowHeight}px)`,
         gridTemplateColumns: `repeat(${DEFAULT_GRID_CONFIG.columns}, 40px)`,
