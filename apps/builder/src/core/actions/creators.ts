@@ -52,3 +52,6 @@ export const updateBlock = (
   blockId: string,
   updates: BlockUpdateAction['payload']['updates']
 ): BlockUpdateAction => createAction('block.update', { blockId, updates });
+
+export const setDragging = (isDragging: boolean) =>
+  createAction('ui.setDragging', { isDragging });

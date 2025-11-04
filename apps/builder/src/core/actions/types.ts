@@ -1,17 +1,18 @@
-import type { BuilderBlock, BlockPosition, BlockSize } from '@/shared/types';
+import type { BuilderBlock, BlockPosition, BlockSize } from "@/shared/types";
 
 /**
  * Action Type
  * 에디터에서 발생할 수 있는 모든 액션 유형
  */
 export type ActionType =
-  | 'block.select'
-  | 'block.deselect'
-  | 'block.move'
-  | 'block.resize'
-  | 'block.create'
-  | 'block.delete'
-  | 'block.update';
+  | "block.select"
+  | "block.deselect"
+  | "block.move"
+  | "block.resize"
+  | "block.create"
+  | "block.delete"
+  | "block.update"
+  | "ui.setDragging";
 
 /**
  * Base Action
@@ -23,7 +24,7 @@ export interface BaseAction {
 }
 
 export interface BlockSelectAction extends BaseAction {
-  type: 'block.select';
+  type: "block.select";
   payload: {
     blockId: string;
     multiSelect?: boolean;
@@ -31,14 +32,14 @@ export interface BlockSelectAction extends BaseAction {
 }
 
 export interface BlockDeselectAction extends BaseAction {
-  type: 'block.deselect';
+  type: "block.deselect";
   payload: {
     blockId?: string;
   };
 }
 
 export interface BlockMoveAction extends BaseAction {
-  type: 'block.move';
+  type: "block.move";
   payload: {
     blockId: string;
     position: BlockPosition;
@@ -46,7 +47,7 @@ export interface BlockMoveAction extends BaseAction {
 }
 
 export interface BlockResizeAction extends BaseAction {
-  type: 'block.resize';
+  type: "block.resize";
   payload: {
     blockId: string;
     size: BlockSize;
@@ -54,24 +55,31 @@ export interface BlockResizeAction extends BaseAction {
 }
 
 export interface BlockCreateAction extends BaseAction {
-  type: 'block.create';
+  type: "block.create";
   payload: {
     block: BuilderBlock;
   };
 }
 
 export interface BlockDeleteAction extends BaseAction {
-  type: 'block.delete';
+  type: "block.delete";
   payload: {
     blockId: string;
   };
 }
 
 export interface BlockUpdateAction extends BaseAction {
-  type: 'block.update';
+  type: "block.update";
   payload: {
     blockId: string;
-    updates: Omit<Partial<BuilderBlock>, 'id' | 'position' | 'size'>;
+    updates: Omit<Partial<BuilderBlock>, "id" | "position" | "size">;
+  };
+}
+
+export interface UISetDraggingAction extends BaseAction {
+  type: "ui.setDragging";
+  payload: {
+    isDragging: boolean;
   };
 }
 
@@ -82,4 +90,5 @@ export type EditorAction =
   | BlockResizeAction
   | BlockCreateAction
   | BlockDeleteAction
-  | BlockUpdateAction;
+  | BlockUpdateAction
+  | UISetDraggingAction;
