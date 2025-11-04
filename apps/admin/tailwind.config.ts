@@ -1,4 +1,5 @@
 import { colors, typography } from '@redotlabs/tokens';
+import tailwindcssAnimate from 'tailwindcss-animate';
 import type { Config } from 'tailwindcss';
 
 export default {
@@ -24,5 +25,5 @@ export default {
       fontWeight: typography.weight,
     },
   },
-  plugins: [],
+  plugins: [tailwindcssAnimate],
 } satisfies Config;
