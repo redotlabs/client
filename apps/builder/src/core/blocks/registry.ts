@@ -1,8 +1,7 @@
 /**
  * 블록 타입 정의 및 메타데이터 관리
  * - 블록 템플릿 정의 (타입, 기본값, UI 메타데이터)
- * - 블록 생성 로직 포함 (Factory 패턴 병합)
- * - Feature 레이어에서 사용할 수 있는 표준 인터페이스 제공
+ * - 블록 생성 로직 포함
  */
 
 import type { BuilderBlock, BlockPosition, BlockSize } from "@/shared/types";
@@ -50,6 +49,10 @@ type ComponentPropsDefaults = {
     type?: "symbol" | "full";
   };
 };
+
+/*
+TODO: generateBlockId, createBlockMetadata 추후 수정 or 삭제 예정
+*/
 
 const generateBlockId = (): string => {
   return `block-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;

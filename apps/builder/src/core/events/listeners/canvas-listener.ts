@@ -116,11 +116,8 @@ export class CanvasListener {
       if (deltaX > DRAG_THRESHOLD || deltaY > DRAG_THRESHOLD) {
         this.dragState.isDragging = true;
 
-        this.dragHandlers.forEach((handler) => {
-          if (handler.onDragStart) {
-            handler.onDragStart(event, this.context);
-          }
-        });
+        // DragEventHandler는 CanvasListener에서 호출하지 않음
+        // SelectableBlock에서 직접 dragHandler.onDragStart() 호출
       }
     } else {
       this.dragHandlers.forEach((handler) => {

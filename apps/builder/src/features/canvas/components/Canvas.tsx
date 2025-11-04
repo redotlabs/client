@@ -2,12 +2,11 @@ import { useRef, useEffect } from "react";
 import { cn } from "@redotlabs/utils";
 import { DEFAULT_GRID_CONFIG } from "@/shared/constants/editorData";
 import { BlockRenderer } from "@/features/canvas/components/BlockRenderer";
-import { InteractiveBlock } from "@/features/canvas/components/InteractiveBlock";
+import { SelectableBlock } from "@/features/canvas/components/SelectableBlock";
 import { useEditorContext } from "@/app/context/EditorContext";
 import { CanvasListener } from "@/core/events/listeners";
 import {
   keyboardHandler,
-  dragHandler,
   selectionHandler,
 } from "@/core/events/handlers";
 import { useDragAndDrop } from "@/features/canvas/hooks/useDragAndDrop";
@@ -42,7 +41,6 @@ export const Canvas = ({ onAddBlock }: CanvasProps = {}) => {
     });
 
     listener.registerKeyboardHandler(keyboardHandler);
-    listener.registerDragHandler(dragHandler);
     listener.registerMouseHandler(selectionHandler);
 
     listener.start();
@@ -76,9 +74,9 @@ export const Canvas = ({ onAddBlock }: CanvasProps = {}) => {
           data-block-type={block.type}
           style={{ ...block.style, overflow: "visible" }}
         >
-          <InteractiveBlock blockId={block.id}>
+          <SelectableBlock blockId={block.id}>
             <BlockRenderer block={block} />
-          </InteractiveBlock>
+          </SelectableBlock>
         </div>
       ))}
     </div>

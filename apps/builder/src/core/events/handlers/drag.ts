@@ -17,20 +17,12 @@ let currentContext: HandlerContext | null = null;
 
 const handleMouseMove = (event: MouseEvent) => {
   if (!dragState || !currentContext) return;
-  dragHandler.onDragMove?.(event, currentContext);
+  dragHandler.onDragMove(event, currentContext);
 };
 
 const handleMouseUp = (event: MouseEvent) => {
   if (!currentContext) return;
-  dragHandler.onDragEnd?.(event, currentContext);
-};
-
-export const startDrag = (
-  event: MouseEvent,
-  context: HandlerContext,
-  blockId: string
-) => {
-  dragHandler.onDragStart?.(event, context, blockId);
+  dragHandler.onDragEnd(event, currentContext);
 };
 
 /**

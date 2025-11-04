@@ -58,11 +58,6 @@ export const BlockLibrary = ({
           />
         ))}
       </div>
-      <div className="mt-6 p-3 bg-gray-50 rounded-lg">
-        <p className="text-xs text-gray-600">
-          <strong>Tip:</strong> Double-click or drag to add components to canvas
-        </p>
-      </div>
     </div>
   );
 };

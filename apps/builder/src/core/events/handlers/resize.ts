@@ -1,5 +1,9 @@
-import type { ResizeEventHandler, HandlerContext, ResizeDirection } from './types';
-import { resizeBlock, moveBlock } from '@/core/actions';
+import type {
+  ResizeEventHandler,
+  HandlerContext,
+  ResizeDirection,
+} from "./types";
+import { resizeBlock, moveBlock } from "@/core/actions";
 
 /**
  * Resize State
@@ -30,8 +34,8 @@ const handleMouseUp = (event: MouseEvent) => {
 };
 
 const cleanup = () => {
-  document.removeEventListener('mousemove', handleMouseMove);
-  document.removeEventListener('mouseup', handleMouseUp);
+  document.removeEventListener("mousemove", handleMouseMove);
+  document.removeEventListener("mouseup", handleMouseUp);
   currentContext = null;
 };
 
@@ -40,7 +44,7 @@ const cleanup = () => {
  * 블록 리사이징을 처리하는 핸들러
  */
 export const resizeHandler: ResizeEventHandler = {
-  name: 'resize',
+  name: "resize",
 
   onResizeStart: (
     event: MouseEvent,
@@ -65,12 +69,11 @@ export const resizeHandler: ResizeEventHandler = {
       startPosition: { ...block.position },
     };
 
-    // Global event listeners 등록
     currentContext = context;
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', handleMouseUp);
+    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mouseup", handleMouseUp);
 
-    console.log('Resize start', resizeState);
+    console.log("Resize start", resizeState);
   },
 
   onResizeMove: (event: MouseEvent, context: HandlerContext) => {
@@ -82,8 +85,8 @@ export const resizeHandler: ResizeEventHandler = {
     const deltaX = event.clientX - resizeState.startX;
     const deltaY = event.clientY - resizeState.startY;
 
-    // Grid 단위로 변환 (픽셀 → 그리드 셀 수)
-    const cellWidth = gridConfig.columns > 0 ? window.innerWidth / gridConfig.columns : 100;
+    const cellWidth =
+      gridConfig.columns > 0 ? window.innerWidth / gridConfig.columns : 100;
     const cellHeight = gridConfig.rowHeight;
 
     const deltaColumns = Math.round(deltaX / cellWidth);
@@ -97,11 +100,11 @@ export const resizeHandler: ResizeEventHandler = {
     let newY = startPosition.y;
 
     // 방향에 따른 크기 조정
-    if (direction.includes('e')) {
+    if (direction.includes("e")) {
       // 오른쪽: 크기만 증가
       newWidth = Math.max(1, startSize.width + deltaColumns);
     }
-    if (direction.includes('w')) {
+    if (direction.includes("w")) {
       // 왼쪽: 위치 이동 + 크기 증가
       // 왼쪽으로 드래그하면 deltaColumns < 0
       // newWidth = startSize.width - deltaColumns (deltaColumns이 음수이므로 크기 증가)
@@ -109,11 +112,11 @@ export const resizeHandler: ResizeEventHandler = {
       const widthChange = newWidth - startSize.width;
       newX = startPosition.x - widthChange;
     }
-    if (direction.includes('s')) {
+    if (direction.includes("s")) {
       // 아래: 크기만 증가
       newHeight = Math.max(1, startSize.height + deltaRows);
     }
-    if (direction.includes('n')) {
+    if (direction.includes("n")) {
       // 위: 위치 이동 + 크기 증가
       // 위로 드래그하면 deltaRows < 0
       // newHeight = startSize.height - deltaRows (deltaRows가 음수이므로 크기 증가)
@@ -142,22 +145,10 @@ export const resizeHandler: ResizeEventHandler = {
     }
   },
 
-  onResizeEnd: (event: MouseEvent, context: HandlerContext) => {
+  onResizeEnd: () => {
     if (!resizeState) return;
 
-    console.log('Resize end', resizeState);
+    console.log("Resize end", resizeState);
     resizeState = null;
   },
 };
-
-/**
- * 리사이징 시작 헬퍼 함수
- */
-export function startResize(
-  event: MouseEvent,
-  context: HandlerContext,
-  blockId: string,
-  direction: ResizeDirection
-) {
-  resizeHandler.onResizeStart?.(event, context, blockId, direction);
-}

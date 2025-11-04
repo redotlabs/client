@@ -1,29 +1,40 @@
-import { useEditorContext, useSelection } from "@/app/context/EditorContext";
+import { useEditorContext } from "@/app/context/EditorContext";
 import { selectBlock } from "@/core/actions";
 import {
-  startDrag,
-  startResize,
+  dragHandler,
+  resizeHandler,
   type ResizeDirection,
 } from "@/core/events/handlers";
 import { cn } from "@redotlabs/utils";
 import type { ReactNode } from "react";
 
-interface InteractiveBlockProps {
+interface SelectableBlockProps {
   blockId: string;
   children: ReactNode;
 }
 
 /**
- * InteractiveBlock
- * 블록의 모든 인터랙션(클릭, 드래그, 리사이즈)을 처리하는 래퍼 컴포넌트
+ * SelectableBlock
+ *
+ * 블록을 클릭하여 선택할 수 있게 만들고,
+ * 선택된 블록은 드래그(이동) 및 리사이즈(크기 조정) 기능을 제공합니다.
+ *
+ * Features:
+ * - Click to select (Cmd/Ctrl for multi-select)
+ * - Drag to move (when selected)
+ * - Resize handles (8-directional, when selected)
+ *
+ * @example
+ * <SelectableBlock blockId="block-123">
+ *   <BlockRenderer block={block} />
+ * </SelectableBlock>
  */
-export const InteractiveBlock = ({
+export const SelectableBlock = ({
   blockId,
   children,
-}: InteractiveBlockProps) => {
+}: SelectableBlockProps) => {
   const { state, dispatch } = useEditorContext();
-  const selection = useSelection();
-  const isSelected = selection.selectedBlockIds.has(blockId);
+  const isSelected = state.selection.selectedBlockIds.has(blockId);
 
   const handleMouseDown = (event: React.MouseEvent) => {
     const target = event.target as HTMLElement;
@@ -35,7 +46,7 @@ export const InteractiveBlock = ({
     }
 
     const context = { state, dispatch };
-    startDrag(event.nativeEvent, context, blockId);
+    dragHandler.onDragStart(event.nativeEvent, context, blockId);
   };
 
   const handleResizeStart = (
@@ -43,7 +54,7 @@ export const InteractiveBlock = ({
     direction: ResizeDirection
   ) => {
     const context = { state, dispatch };
-    startResize(event.nativeEvent, context, blockId, direction);
+    resizeHandler.onResizeStart(event.nativeEvent, context, blockId, direction);
   };
 
   return (
@@ -140,7 +151,7 @@ const ResizeHandle = ({
 }: ResizeHandleProps) => (
   <div
     className={cn(
-      "absolute w-2 h-2 bg-white border-2 border-blue-500 rounded-full",
+      "absolute w-2 h-2 bg-white border-2 border-blue-500 rounded-full z-10",
       position,
       CURSOR_CLASSES[cursor]
     )}

@@ -25,23 +25,23 @@ export type MouseEventHandler = EventHandler<MouseEvent>;
 
 export interface DragEventHandler {
   name: string;
-  onDragStart?: (event: MouseEvent, context: HandlerContext, blockId: string) => void;
-  onDragMove?: (event: MouseEvent, context: HandlerContext) => void;
-  onDragEnd?: (event: MouseEvent, context: HandlerContext) => void;
+  onDragStart: (event: MouseEvent, context: HandlerContext, blockId: string) => void;
+  onDragMove: (event: MouseEvent, context: HandlerContext) => void;
+  onDragEnd: (event: MouseEvent, context: HandlerContext) => void;
 }
 
 export type ResizeDirection = 'n' | 'ne' | 'e' | 'se' | 's' | 'sw' | 'w' | 'nw';
 
 export interface ResizeEventHandler {
   name: string;
-  onResizeStart?: (
+  onResizeStart: (
     event: MouseEvent,
     context: HandlerContext,
     blockId: string,
     direction: ResizeDirection
   ) => void;
-  onResizeMove?: (event: MouseEvent, context: HandlerContext) => void;
-  onResizeEnd?: (event: MouseEvent, context: HandlerContext) => void;
+  onResizeMove: (event: MouseEvent, context: HandlerContext) => void;
+  onResizeEnd: (event: MouseEvent, context: HandlerContext) => void;
 }
 
 export type SelectionEventHandler = EventHandler<MouseEvent>;
