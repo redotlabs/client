@@ -8,7 +8,7 @@ const AdminPage = () => {
 
   return (
     <main className="p-10 container mx-auto flex-1">
-      <h1 className="text-2xl font-bold">회원 목록</h1>
+      <h1 className="text-2xl font-bold">관리자 목록</h1>
 
       <div className="mt-8">
         <div className="flex justify-end">

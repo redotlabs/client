@@ -20,7 +20,7 @@ const SIDEBAR_ITEMS = [
   },
   {
     icon: <UserRoundPen size="20" />,
-    label: '회원 관리',
+    label: '관리자 관리',
     path: PATH.admin.root,
   },
 ] as const;
