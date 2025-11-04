@@ -2,7 +2,8 @@
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { queryKeyFactory } from '@/shared/api/query-key-factory';
-import { getMe, reIssue, signIn } from '@/shared/api/services/sign-in';
+import { getMe, reIssue, signIn, signOut } from '@/shared/api/services/auth';
+import { PATH } from '@/shared/routes';
 
 export const useSignIn = () => {
   return useMutation({
@@ -43,5 +44,14 @@ export const useAuth = (props?: { enabled?: boolean }) => {
     gcTime: Infinity,
     staleTime: Infinity,
     enabled: props?.enabled ?? true,
+  });
+};
+
+export const useSignOut = () => {
+  return useMutation({
+    mutationFn: signOut,
+    onSuccess: () => {
+      window.location.href = PATH.auth.signIn;
+    },
   });
 };
