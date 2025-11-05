@@ -134,3 +134,29 @@ export const updateBlockState = (
     blocks: newBlocks,
   };
 };
+
+export const setDraggingState = (
+  state: EditorState,
+  isDragging: boolean
+): EditorState => {
+  return {
+    ...state,
+    ui: {
+      ...state.ui,
+      isDragging,
+    },
+  };
+};
+
+export const setResizingState = (
+  state: EditorState,
+  isResizing: boolean
+): EditorState => {
+  return {
+    ...state,
+    ui: {
+      ...state.ui,
+      isResizing,
+    },
+  };
+};

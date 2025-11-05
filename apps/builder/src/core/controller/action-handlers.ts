@@ -63,4 +63,14 @@ export const actionHandlers: Record<ActionType, ActionHandler> = {
       action.payload.updates
     );
   },
+
+  'ui.setDragging': (state, action) => {
+    if (action.type !== 'ui.setDragging') return state;
+    return stateUpdaters.setDraggingState(state, action.payload.isDragging);
+  },
+
+  'ui.setResizing': (state, action) => {
+    if (action.type !== 'ui.setResizing') return state;
+    return stateUpdaters.setResizingState(state, action.payload.isResizing);
+  },
 };

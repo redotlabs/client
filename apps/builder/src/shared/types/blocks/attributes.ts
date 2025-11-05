@@ -8,12 +8,11 @@ import type {
   ButtonVariants,
   InputProps,
   InputVariants,
-  LogoProps,
-} from '@redotlabs/ui';
-import type { ComponentProps as ReactComponentProps } from 'react';
+} from "@redotlabs/ui";
+import type { ComponentProps as ReactComponentProps } from "react";
 
 // 디자인 시스템 타입 re-export
-export type { BadgeProps, BadgeVariants, InputProps, InputVariants, LogoProps };
+export type { BadgeProps, BadgeVariants, InputProps, InputVariants };
 
 export interface TextProps {
   className?: string;
@@ -21,24 +20,18 @@ export interface TextProps {
   color?: string;
   fontSize?: number;
   fontWeight?: string;
-  textAlign?: 'left' | 'center' | 'right';
+  textAlign?: "left" | "center" | "right";
   backgroundColor?: string;
   [key: string]: unknown;
 }
 
 // TODO: 디자인 시스템에서 ButtonProps export 되면 교체
-export type ButtonProps = ReactComponentProps<'button'> & ButtonVariants;
+export type ButtonProps = ReactComponentProps<"button"> & ButtonVariants;
 
-export type ComponentProps =
-  | TextProps
-  | BadgeProps
-  | ButtonProps
-  | InputProps
-  | LogoProps;
+export type ComponentProps = TextProps | BadgeProps | ButtonProps | InputProps;
 
 export type TextBlockAttributes = TextProps;
 export type BadgeBlockAttributes = BadgeProps;
 export type ButtonBlockAttributes = ButtonProps;
 export type InputBlockAttributes = InputProps;
-export type LogoBlockAttributes = LogoProps;
 export type BlockAttributes = ComponentProps;

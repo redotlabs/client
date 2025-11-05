@@ -2,8 +2,9 @@ import type {
   KeyboardEventHandler,
   MouseEventHandler,
   DragEventHandler,
+  DropEventHandler,
   HandlerContext,
-} from '@/core/events/handlers';
+} from "@/core/events/handlers";
 
 interface DragState {
   isMouseDown: boolean;
@@ -12,6 +13,7 @@ interface DragState {
   startY: number;
   currentX: number;
   currentY: number;
+  blockId: string | null;
 }
 
 /**
@@ -30,6 +32,7 @@ export class CanvasListener {
   private keyboardHandlers: KeyboardEventHandler[] = [];
   private mouseHandlers: MouseEventHandler[] = [];
   private dragHandlers: DragEventHandler[] = [];
+  private dropHandlers: DropEventHandler[] = [];
 
   private dragState: DragState = {
     isMouseDown: false,
@@ -38,6 +41,7 @@ export class CanvasListener {
     startY: 0,
     currentX: 0,
     currentY: 0,
+    blockId: null,
   };
 
   private wasDragging = false;
@@ -59,20 +63,36 @@ export class CanvasListener {
     this.dragHandlers.push(handler);
   }
 
+  registerDropHandler(handler: DropEventHandler): void {
+    this.dropHandlers.push(handler);
+  }
+
+  setContext(context: HandlerContext): void {
+    this.context = context;
+  }
+
   start(): void {
-    document.addEventListener('keydown', this.handleKeyDown);
-    this.element.addEventListener('click', this.handleClick);
-    this.element.addEventListener('mousedown', this.handleMouseDown);
-    document.addEventListener('mousemove', this.handleMouseMove);
-    document.addEventListener('mouseup', this.handleMouseUp);
+    document.addEventListener("keydown", this.handleKeyDown);
+    this.element.addEventListener("click", this.handleClick);
+    this.element.addEventListener("mousedown", this.handleMouseDown);
+    document.addEventListener("mousemove", this.handleMouseMove);
+    document.addEventListener("mouseup", this.handleMouseUp);
+
+    this.element.addEventListener("dragover", this.handleDragOver);
+    this.element.addEventListener("drop", this.handleDrop);
+    this.element.addEventListener("dragleave", this.handleDragLeave);
   }
 
   stop(): void {
-    document.removeEventListener('keydown', this.handleKeyDown);
-    this.element.removeEventListener('click', this.handleClick);
-    this.element.removeEventListener('mousedown', this.handleMouseDown);
-    document.removeEventListener('mousemove', this.handleMouseMove);
-    document.removeEventListener('mouseup', this.handleMouseUp);
+    document.removeEventListener("keydown", this.handleKeyDown);
+    this.element.removeEventListener("click", this.handleClick);
+    this.element.removeEventListener("mousedown", this.handleMouseDown);
+    document.removeEventListener("mousemove", this.handleMouseMove);
+    document.removeEventListener("mouseup", this.handleMouseUp);
+
+    this.element.removeEventListener("dragover", this.handleDragOver);
+    this.element.removeEventListener("drop", this.handleDrop);
+    this.element.removeEventListener("dragleave", this.handleDragLeave);
   }
 
   private handleKeyDown = (event: KeyboardEvent): void => {
@@ -87,12 +107,29 @@ export class CanvasListener {
       return;
     }
 
+    if (this.context.state.ui.isResizing) {
+      return;
+    }
+
     this.mouseHandlers.forEach((handler) => {
       handler.handle(event, this.context);
     });
   };
 
   private handleMouseDown = (event: MouseEvent): void => {
+    const target = event.target as HTMLElement;
+    const blockElement = target.closest("[data-block-id]");
+    const blockId = blockElement?.getAttribute("data-block-id");
+
+    const isDraggable = target.closest("[data-draggable]");
+    const isResizeHandle = target.closest("[data-resize-handle]");
+
+    if (blockId && isDraggable && !isResizeHandle) {
+      this.dragHandlers.forEach((handler) => {
+        handler.onDragStart(event, this.context, blockId);
+      });
+    }
+
     this.dragState = {
       isMouseDown: true,
       isDragging: false,
@@ -100,6 +137,7 @@ export class CanvasListener {
       startY: event.clientY,
       currentX: event.clientX,
       currentY: event.clientY,
+      blockId: blockId && isDraggable && !isResizeHandle ? blockId : null,
     };
   };
 
@@ -115,12 +153,6 @@ export class CanvasListener {
 
       if (deltaX > DRAG_THRESHOLD || deltaY > DRAG_THRESHOLD) {
         this.dragState.isDragging = true;
-
-        this.dragHandlers.forEach((handler) => {
-          if (handler.onDragStart) {
-            handler.onDragStart(event, this.context);
-          }
-        });
       }
     } else {
       this.dragHandlers.forEach((handler) => {
@@ -151,4 +183,22 @@ export class CanvasListener {
   getDragState(): Readonly<DragState> {
     return { ...this.dragState };
   }
+
+  private handleDragOver = (event: DragEvent): void => {
+    this.dropHandlers.forEach((handler) => {
+      handler.onDragOver(event, this.context);
+    });
+  };
+
+  private handleDrop = (event: DragEvent): void => {
+    this.dropHandlers.forEach((handler) => {
+      handler.onDrop(event, this.context);
+    });
+  };
+
+  private handleDragLeave = (event: DragEvent): void => {
+    this.dropHandlers.forEach((handler) => {
+      handler.onDragLeave(event, this.context);
+    });
+  };
 }

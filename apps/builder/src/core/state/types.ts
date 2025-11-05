@@ -1,4 +1,4 @@
-import type { BuilderBlock, GridConfig } from '@/shared/types';
+import type { BuilderBlock, GridConfig } from "@/shared/types";
 
 /**
  * Selection State
@@ -10,6 +10,15 @@ export interface SelectionState {
 }
 
 /**
+ * UI State
+ * 에디터 UI 관련 상태
+ */
+export interface UIState {
+  isDragging: boolean;
+  isResizing: boolean;
+}
+
+/**
  * Editor State
  * 에디터의 전체 상태
  */
@@ -18,6 +27,7 @@ export interface EditorState {
   gridConfig: GridConfig;
 
   selection: SelectionState;
+  ui: UIState;
 
   // TODO: 히스토리 구현 (undo/redo)
   history: {
@@ -35,6 +45,10 @@ export const createInitialEditorState = (
   selection: {
     selectedBlockIds: new Set(),
     lastSelectedId: null,
+  },
+  ui: {
+    isDragging: false,
+    isResizing: false,
   },
   history: {
     past: [],
