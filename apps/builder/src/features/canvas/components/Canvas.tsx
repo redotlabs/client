@@ -1,34 +1,83 @@
-import { type RefObject } from 'react';
-import { DEFAULT_GRID_CONFIG } from '@/shared/constants/editorData';
-import type { RenderableBlock } from '@/shared/types';
-import { BlockRenderer } from '@/features/canvas/components/BlockRenderer';
+import { useRef, useEffect } from "react";
+import { cn } from "@redotlabs/utils";
+import { COLUMN_WIDTH } from "@/shared/constants/editorData";
+import { BlockRenderer } from "@/features/canvas/components/BlockRenderer";
+import { SelectableBlock } from "@/features/canvas/components/SelectableBlock";
+import { useEditorContext } from "@/app/context/EditorContext";
+import { CanvasListener } from "@/core/events/listeners";
+import {
+  keyboardHandler,
+  selectionHandler,
+  createDropHandler,
+  createDragHandler,
+} from "@/core/events/handlers";
+import { useRenderableBlocks } from "@/features/canvas/hooks/useRenderableBlocks";
 
-interface CanvasProps {
-  canvasRef: RefObject<HTMLDivElement | null>;
-  blocks: RenderableBlock[];
-}
+export const Canvas = () => {
+  const canvasRef = useRef<HTMLDivElement | null>(null);
+  const { state, dispatch } = useEditorContext();
 
-export const Canvas = ({ canvasRef, blocks }: CanvasProps) => {
+  const renderableBlocks = useRenderableBlocks();
+
+  const isDragging = state.ui.isDragging;
+  const isResizing = state.ui.isResizing;
+  const showGrid = isDragging || isResizing;
+
+  const listenerRef = useRef<CanvasListener | null>(null);
+  const contextRef = useRef({ state, dispatch });
+
+  useEffect(() => {
+    contextRef.current = { state, dispatch };
+    listenerRef.current?.setContext(contextRef.current);
+  }, [state, dispatch]);
+
+  useEffect(() => {
+    if (!canvasRef.current) return;
+
+    const listener = new CanvasListener(canvasRef.current, contextRef.current);
+
+    const dropHandler = createDropHandler();
+    const dragHandler = createDragHandler();
+
+    listener.registerKeyboardHandler(keyboardHandler);
+    listener.registerMouseHandler(selectionHandler);
+    listener.registerDropHandler(dropHandler);
+    listener.registerDragHandler(dragHandler);
+
+    listener.start();
+    listenerRef.current = listener;
+
+    return () => {
+      listener.stop();
+      listenerRef.current = null;
+    };
+  }, []);
+
   return (
     <div
       ref={canvasRef}
-      className="w-full h-screen bg-gray-100 overflow-auto"
+      className={cn(
+        "w-full h-screen bg-gray-100 overflow-auto grid gap-0 p-0 transition-[background-image] duration-200 ease-in-out",
+        "bg-size-[40px_24px] bg-position-[0_0]",
+        showGrid &&
+          "bg-[linear-gradient(to_right,rgba(0,0,0,0.1)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.1)_1px,transparent_1px)]"
+      )}
       style={{
-        display: 'grid',
-        gridTemplateRows: `repeat(${DEFAULT_GRID_CONFIG.rows}, ${DEFAULT_GRID_CONFIG.rowHeight}px)`,
-        gridTemplateColumns: `repeat(${DEFAULT_GRID_CONFIG.columns}, 1fr)`,
-        gap: `${DEFAULT_GRID_CONFIG.gap}px`,
-        padding: '16px',
-        backgroundImage: `
-          linear-gradient(to right, rgba(0,0,0,0.1) 1px, transparent 1px),
-          linear-gradient(to bottom, rgba(0,0,0,0.1) 1px, transparent 1px)
-        `,
-        backgroundSize: `calc(100% / ${DEFAULT_GRID_CONFIG.columns}) ${DEFAULT_GRID_CONFIG.rowHeight}px`,
-        backgroundPosition: '16px 16px',
+        gridTemplateRows: `repeat(${state.gridConfig.rows}, ${state.gridConfig.rowHeight}px)`,
+        gridTemplateColumns: `repeat(${state.gridConfig.columns}, ${COLUMN_WIDTH}px)`,
       }}
     >
-      {blocks.map((block) => (
-        <BlockRenderer key={block.id} block={block} />
+      {renderableBlocks.map((block) => (
+        <div
+          key={block.id}
+          data-block-id={block.id}
+          data-block-type={block.type}
+          style={{ ...block.style, overflow: "visible" }}
+        >
+          <SelectableBlock blockId={block.id}>
+            <BlockRenderer block={block} />
+          </SelectableBlock>
+        </div>
       ))}
     </div>
   );

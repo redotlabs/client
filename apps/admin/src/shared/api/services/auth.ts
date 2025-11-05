@@ -46,3 +46,8 @@ export const getMe = async () => {
   const response = await api.get(API_PATH.auth.me);
   return response.data;
 };
+
+export const signOut = async () => {
+  const { data } = await api.post(API_PATH.auth.signOut, {});
+  return data;
+};

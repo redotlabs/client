@@ -1,45 +1,47 @@
-import type { RenderableBlock } from '@/shared/types';
+import type { RenderableBlock } from "@/shared/types";
 import type {
   TextProps,
   BadgeProps,
   ButtonProps,
   InputProps,
-  LogoProps,
-} from '@/shared/types';
-import { Badge, Button, Input, Logo } from '@redotlabs/ui';
+} from "@/shared/types";
+import { Badge, Button, Input } from "@redotlabs/ui";
+import { cn } from "@redotlabs/utils";
 
 interface BlockRendererProps {
   block: RenderableBlock;
 }
 
+const BLOCK_FILL_CLASSES = "w-full h-full";
+
 export const BlockRenderer = ({ block }: BlockRendererProps) => {
   const renderContent = () => {
     switch (block.type) {
-      case 'text': {
+      case "text": {
         const props = block.props as TextProps;
         return <div>{props.children}</div>;
       }
 
-      case 'badge': {
+      case "badge": {
         const props = block.props as BadgeProps;
         return (
           <Badge
             color={props.color}
             size={props.size}
-            className={props.className}
+            className={cn(BLOCK_FILL_CLASSES, props.className)}
           >
             {props.children}
           </Badge>
         );
       }
 
-      case 'button': {
+      case "button": {
         const props = block.props as ButtonProps;
         return (
           <Button
             variant={props.variant}
             size={props.size}
-            className={props.className}
+            className={cn(BLOCK_FILL_CLASSES, props.className)}
             disabled={props.disabled}
           >
             {props.children}
@@ -47,24 +49,19 @@ export const BlockRenderer = ({ block }: BlockRendererProps) => {
         );
       }
 
-      case 'input': {
+      case "input": {
         const props = block.props as InputProps;
         return (
           <Input
-            size={props.size || 'md'}
+            size={props.size || "md"}
             placeholder={props.placeholder}
             value={props.value}
             type={props.type}
             disabled={props.disabled}
             error={props.error}
-            className={props.className}
+            className={cn(BLOCK_FILL_CLASSES, props.className)}
           />
         );
-      }
-
-      case 'logo': {
-        const props = block.props as LogoProps;
-        return <Logo type={props.type} className={props.className} />;
       }
 
       default:
@@ -72,13 +69,5 @@ export const BlockRenderer = ({ block }: BlockRendererProps) => {
     }
   };
 
-  return (
-    <div
-      data-block-id={block.id}
-      data-block-type={block.type}
-      style={block.style}
-    >
-      {renderContent()}
-    </div>
-  );
+  return renderContent();
 };

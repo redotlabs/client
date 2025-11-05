@@ -6,7 +6,7 @@ import { Loader2 } from 'lucide-react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useSignIn } from '@/shared/api/queries/auth/sign-in';
+import { useSignIn } from '@/shared/api/queries/auth';
 import { useQueryClient } from '@tanstack/react-query';
 import { queryKeyFactory } from '@/shared/api/query-key-factory';
 import { useNavigate } from 'react-router-dom';

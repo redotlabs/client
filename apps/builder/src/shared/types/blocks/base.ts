@@ -1,19 +1,17 @@
-import type { HTMLElementType } from 'react';
+import type { HTMLElementType } from "react";
 import type {
   BadgeProps,
   ButtonProps,
   InputProps,
-  LogoProps,
   TextProps,
-} from './attributes';
-import type { BlockPosition, BlockSize } from '@/shared/types/blocks/position';
+} from "./attributes";
+import type { BlockPosition, BlockSize } from "@/shared/types/blocks/position";
 
 export type ComponentType =
-  | 'text'
-  | 'badge'
-  | 'button'
-  | 'input'
-  | 'logo'
+  | "text"
+  | "badge"
+  | "button"
+  | "input"
   | HTMLElementType;
 
 /**
@@ -24,7 +22,6 @@ export type ComponentPropsMap = {
   badge: BadgeProps;
   button: ButtonProps;
   input: InputProps;
-  logo: LogoProps;
 };
 
 export interface ContentBlock<T extends ComponentType = ComponentType> {
