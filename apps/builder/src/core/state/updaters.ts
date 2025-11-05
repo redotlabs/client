@@ -147,3 +147,16 @@ export const setDraggingState = (
     },
   };
 };
+
+export const setResizingState = (
+  state: EditorState,
+  isResizing: boolean
+): EditorState => {
+  return {
+    ...state,
+    ui: {
+      ...state.ui,
+      isResizing,
+    },
+  };
+};

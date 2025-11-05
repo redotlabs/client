@@ -20,6 +20,8 @@ export const Canvas = () => {
   const renderableBlocks = useRenderableBlocks();
 
   const isDragging = state.ui.isDragging;
+  const isResizing = state.ui.isResizing;
+  const showGrid = isDragging || isResizing;
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -50,7 +52,7 @@ export const Canvas = () => {
       className={cn(
         "w-full h-screen bg-gray-100 overflow-auto grid gap-0 p-0 transition-[background-image] duration-200 ease-in-out",
         "bg-size-[40px_24px] bg-position-[0_0]",
-        isDragging &&
+        showGrid &&
           "bg-[linear-gradient(to_right,rgba(0,0,0,0.1)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.1)_1px,transparent_1px)]"
       )}
       style={{

@@ -12,7 +12,8 @@ export type ActionType =
   | "block.create"
   | "block.delete"
   | "block.update"
-  | "ui.setDragging";
+  | "ui.setDragging"
+  | "ui.setResizing";
 
 /**
  * Base Action
@@ -83,6 +84,13 @@ export interface UISetDraggingAction extends BaseAction {
   };
 }
 
+export interface UISetResizingAction extends BaseAction {
+  type: "ui.setResizing";
+  payload: {
+    isResizing: boolean;
+  };
+}
+
 export type EditorAction =
   | BlockSelectAction
   | BlockDeselectAction
@@ -91,4 +99,5 @@ export type EditorAction =
   | BlockCreateAction
   | BlockDeleteAction
   | BlockUpdateAction
-  | UISetDraggingAction;
+  | UISetDraggingAction
+  | UISetResizingAction;

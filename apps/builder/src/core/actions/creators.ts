@@ -55,3 +55,6 @@ export const updateBlock = (
 
 export const setDragging = (isDragging: boolean) =>
   createAction('ui.setDragging', { isDragging });
+
+export const setResizing = (isResizing: boolean) =>
+  createAction('ui.setResizing', { isResizing });

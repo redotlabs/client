@@ -103,6 +103,10 @@ export class CanvasListener {
       return;
     }
 
+    if (this.context.state.ui.isResizing) {
+      return;
+    }
+
     this.mouseHandlers.forEach((handler) => {
       handler.handle(event, this.context);
     });

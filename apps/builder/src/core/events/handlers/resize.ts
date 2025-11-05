@@ -3,7 +3,7 @@ import type {
   HandlerContext,
   ResizeDirection,
 } from "./types";
-import { resizeBlock, moveBlock } from "@/core/actions";
+import { resizeBlock, moveBlock, setResizing } from "@/core/actions";
 
 /**
  * Resize State
@@ -16,6 +16,7 @@ interface ResizeState {
   startY: number;
   startSize: { width: number; height: number };
   startPosition: { x: number; y: number; zIndex: number };
+  hasStartedResizing: boolean;
 }
 
 let resizeState: ResizeState | null = null;
@@ -66,6 +67,7 @@ export const resizeHandler: ResizeEventHandler = {
       startY: event.clientY,
       startSize: { ...block.size },
       startPosition: { ...block.position },
+      hasStartedResizing: false,
     };
 
     currentContext = context;
@@ -78,6 +80,11 @@ export const resizeHandler: ResizeEventHandler = {
 
     const { dispatch, state } = context;
     const { gridConfig } = state;
+
+    if (!resizeState.hasStartedResizing) {
+      resizeState.hasStartedResizing = true;
+      dispatch(setResizing(true));
+    }
 
     const deltaX = event.clientX - resizeState.startX;
     const deltaY = event.clientY - resizeState.startY;
@@ -133,6 +140,11 @@ export const resizeHandler: ResizeEventHandler = {
 
   onResizeEnd: () => {
     if (!resizeState) return;
+
+    if (currentContext) {
+      currentContext.dispatch(setResizing(false));
+    }
+
     resizeState = null;
   },
 };

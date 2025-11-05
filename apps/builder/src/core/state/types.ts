@@ -15,6 +15,7 @@ export interface SelectionState {
  */
 export interface UIState {
   isDragging: boolean;
+  isResizing: boolean;
 }
 
 /**
@@ -47,6 +48,7 @@ export const createInitialEditorState = (
   },
   ui: {
     isDragging: false,
+    isResizing: false,
   },
   history: {
     past: [],
