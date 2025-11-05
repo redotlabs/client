@@ -10,11 +10,8 @@ interface SelectableBlockProps {
 }
 
 /**
- * SelectableBlock
- *
  * 블록을 클릭하여 선택할 수 있게 만들고,
- * 선택된 블록은 드래그 및 리사이징 기능을 제공합니다.
- *
+ * 선택된 블록은 드래그 및 리사이징 기능을 제공
  */
 export const SelectableBlock = ({
   blockId,

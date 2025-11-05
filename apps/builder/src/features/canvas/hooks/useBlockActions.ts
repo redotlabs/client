@@ -15,19 +15,6 @@ interface UseBlockActionsReturn {
 
 /**
  * 블록 추가 및 드래그 액션을 관리하는 커스텀 훅
- *
- * @returns 블록 추가/드래그 핸들러
- *
- * @example
- * ```tsx
- * const { handleAddBlock, handleDragStart } = useBlockActions();
- *
- * // 블록 추가 (기본 위치)
- * handleAddBlock(textTemplate);
- *
- * // 블록 추가 (특정 위치)
- * handleAddBlock(buttonTemplate, { x: 5, y: 10 });
- * ```
  */
 export const useBlockActions = (): UseBlockActionsReturn => {
   const { dispatch } = useEditorContext();
@@ -50,7 +37,6 @@ export const useBlockActions = (): UseBlockActionsReturn => {
 
   /**
    * 드래그 시작 시 템플릿을 전역에 저장
-   * - Canvas 컴포넌트의 onDrop에서 접근
    * - TODO: Context나 State로 개선 고려
    */
   const handleDragStart = useCallback((template: BlockTemplate) => {

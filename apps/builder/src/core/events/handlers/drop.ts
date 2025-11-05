@@ -4,9 +4,6 @@ import type { BlockTemplate } from "@/core/blocks";
 
 const COLUMN_WIDTH = 40;
 
-/**
- * 마우스 좌표를 그리드 좌표로 변환
- */
 const convertToGridCoordinates = (
   event: DragEvent,
   containerElement: HTMLElement,
@@ -25,7 +22,6 @@ const convertToGridCoordinates = (
 
 /**
  * Drop Handler
- * HTML5 Drag API를 사용한 BlockLibrary에서 Canvas로의 드롭 처리
  *
  * Flow:
  * 1. BlockLibrary에서 드래그 시작 → window.__draggedTemplate에 저장

@@ -1,4 +1,5 @@
 import { BLOCK_REGISTRY, type BlockTemplate } from "@/core/blocks";
+import { useBlockActions } from "@/features/canvas/hooks/useBlockActions";
 
 interface BlockLibraryItemProps {
   template: BlockTemplate;
@@ -29,20 +30,11 @@ const BlockLibraryItem = ({
   );
 };
 
-interface BlockLibraryProps {
-  onAddBlock: (
-    template: BlockTemplate,
-    position?: { x: number; y: number }
-  ) => void;
-  onDragStart: (template: BlockTemplate) => void;
-}
+export const BlockLibrary = () => {
+  const { handleAddBlock, handleDragStart } = useBlockActions();
 
-export const BlockLibrary = ({
-  onAddBlock,
-  onDragStart,
-}: BlockLibraryProps) => {
   const handleDoubleClick = (template: BlockTemplate) => {
-    onAddBlock(template);
+    handleAddBlock(template);
   };
 
   return (
@@ -54,7 +46,7 @@ export const BlockLibrary = ({
             key={template.id}
             template={template}
             onDoubleClick={handleDoubleClick}
-            onDragStart={onDragStart}
+            onDragStart={handleDragStart}
           />
         ))}
       </div>

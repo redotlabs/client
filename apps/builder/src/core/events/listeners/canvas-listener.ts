@@ -107,16 +107,13 @@ export class CanvasListener {
   };
 
   private handleMouseDown = (event: MouseEvent): void => {
-    // 블록 요소 감지
     const target = event.target as HTMLElement;
-    const blockElement = target.closest('[data-block-id]');
-    const blockId = blockElement?.getAttribute('data-block-id');
+    const blockElement = target.closest("[data-block-id]");
+    const blockId = blockElement?.getAttribute("data-block-id");
 
-    // 드래그 가능한 요소인지 확인
-    const isDraggable = target.closest('[data-draggable]');
-    const isResizeHandle = target.closest('[data-resize-handle]');
+    const isDraggable = target.closest("[data-draggable]");
+    const isResizeHandle = target.closest("[data-resize-handle]");
 
-    // 드래그 가능한 블록을 클릭했을 때 dragHandler 시작
     if (blockId && isDraggable && !isResizeHandle) {
       this.dragHandlers.forEach((handler) => {
         handler.onDragStart(event, this.context, blockId);
@@ -145,9 +142,6 @@ export class CanvasListener {
 
       if (deltaX > DRAG_THRESHOLD || deltaY > DRAG_THRESHOLD) {
         this.dragState.isDragging = true;
-
-        // DragEventHandler는 CanvasListener에서 호출하지 않음
-        // SelectableBlock에서 직접 dragHandler.onDragStart() 호출
       }
     } else {
       this.dragHandlers.forEach((handler) => {

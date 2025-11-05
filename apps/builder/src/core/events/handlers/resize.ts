@@ -21,7 +21,6 @@ interface ResizeState {
 let resizeState: ResizeState | null = null;
 let currentContext: HandlerContext | null = null;
 
-// Global event handlers
 const handleMouseMove = (event: MouseEvent) => {
   if (!currentContext) return;
   resizeHandler.onResizeMove?.(event, currentContext);
@@ -72,8 +71,6 @@ export const resizeHandler: ResizeEventHandler = {
     currentContext = context;
     document.addEventListener("mousemove", handleMouseMove);
     document.addEventListener("mouseup", handleMouseUp);
-
-    console.log("Resize start", resizeState);
   },
 
   onResizeMove: (event: MouseEvent, context: HandlerContext) => {
@@ -99,33 +96,23 @@ export const resizeHandler: ResizeEventHandler = {
     let newX = startPosition.x;
     let newY = startPosition.y;
 
-    // 방향에 따른 크기 조정
     if (direction.includes("e")) {
-      // 오른쪽: 크기만 증가
       newWidth = Math.max(1, startSize.width + deltaColumns);
     }
     if (direction.includes("w")) {
-      // 왼쪽: 위치 이동 + 크기 증가
-      // 왼쪽으로 드래그하면 deltaColumns < 0
-      // newWidth = startSize.width - deltaColumns (deltaColumns이 음수이므로 크기 증가)
       newWidth = Math.max(1, startSize.width - deltaColumns);
       const widthChange = newWidth - startSize.width;
       newX = startPosition.x - widthChange;
     }
     if (direction.includes("s")) {
-      // 아래: 크기만 증가
       newHeight = Math.max(1, startSize.height + deltaRows);
     }
     if (direction.includes("n")) {
-      // 위: 위치 이동 + 크기 증가
-      // 위로 드래그하면 deltaRows < 0
-      // newHeight = startSize.height - deltaRows (deltaRows가 음수이므로 크기 증가)
       newHeight = Math.max(1, startSize.height - deltaRows);
       const heightChange = newHeight - startSize.height;
       newY = startPosition.y - heightChange;
     }
 
-    // 크기 변경
     dispatch(
       resizeBlock(resizeState.blockId, {
         width: newWidth,
@@ -133,7 +120,6 @@ export const resizeHandler: ResizeEventHandler = {
       })
     );
 
-    // 위치 변경 (n, w 방향일 때 필요)
     if (newX !== startPosition.x || newY !== startPosition.y) {
       dispatch(
         moveBlock(resizeState.blockId, {
@@ -147,8 +133,6 @@ export const resizeHandler: ResizeEventHandler = {
 
   onResizeEnd: () => {
     if (!resizeState) return;
-
-    console.log("Resize end", resizeState);
     resizeState = null;
   },
 };
