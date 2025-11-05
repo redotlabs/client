@@ -33,7 +33,7 @@
     "zod": "^4.1.11"
   },
   "peerDependencies": {
-    "@redotlabs/ui": "^1.0.0",
+    "@redotlabs/ui": "^1.5.0",
     "lucide-react": "^0.479.0",
     "react": "^19.0.0",
     "react-hook-form": "^7.64.0"

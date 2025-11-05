@@ -1,6 +1,7 @@
 'use client';
 
 import { useCategories } from '@/shared/api/queries/category';
+import { RHFRadio } from '@repo/ui';
 import { Controller, useFormContext } from 'react-hook-form';
 
 const CategoryForm = () => {
@@ -17,20 +18,17 @@ const CategoryForm = () => {
         render={({ field }) => (
           <div className="p-4 flex items-center gap-4">
             {categories?.map((category) => (
-              <div
-                key={category.id}
-                className="flex items-center gap-2 font-medium"
-              >
-                <input
+              <div key={category.id} className="flex items-center gap-2">
+                <RHFRadio
+                  size="md"
                   name={field.name}
-                  type="radio"
                   value={category.id}
                   id={category.id.toString()}
                   checked={field.value === category.id}
                   onChange={(e) => field.onChange(+e.target.value)}
                   onBlur={field.onBlur}
+                  label={category.name}
                 />
-                <label htmlFor={category.id.toString()}>{category.name}</label>
               </div>
             ))}
           </div>
