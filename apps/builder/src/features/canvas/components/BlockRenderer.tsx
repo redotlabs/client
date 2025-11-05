@@ -4,9 +4,8 @@ import type {
   BadgeProps,
   ButtonProps,
   InputProps,
-  LogoProps,
 } from "@/shared/types";
-import { Badge, Button, Input, Logo } from "@redotlabs/ui";
+import { Badge, Button, Input } from "@redotlabs/ui";
 import { cn } from "@redotlabs/utils";
 
 interface BlockRendererProps {
@@ -63,11 +62,6 @@ export const BlockRenderer = ({ block }: BlockRendererProps) => {
             className={cn(BLOCK_FILL_CLASSES, props.className)}
           />
         );
-      }
-
-      case "logo": {
-        const props = block.props as LogoProps;
-        return <Logo type={props.type} className={props.className} />;
       }
 
       default:

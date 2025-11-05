@@ -93,20 +93,6 @@ export const initialEditorData: EditorData = {
         updatedAt: "2024-01-01T00:00:00.000Z",
       },
     },
-
-    {
-      id: "block-7",
-      component: "logo",
-      position: { x: 28, y: 10, zIndex: 1 },
-      size: { width: 12, height: 8 },
-      props: {
-        type: "logo",
-      },
-      metadata: {
-        createdAt: "2024-01-01T00:00:00.000Z",
-        updatedAt: "2024-01-01T00:00:00.000Z",
-      },
-    },
   ],
   metadata: {
     version: "1.0.0",

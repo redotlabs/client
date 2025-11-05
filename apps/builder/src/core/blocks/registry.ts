@@ -45,9 +45,6 @@ type ComponentPropsDefaults = {
     color?: "default" | "primary" | "secondary";
     size?: "sm" | "md" | "lg";
   };
-  logo: {
-    type?: "symbol" | "full";
-  };
 };
 
 /*
@@ -166,28 +163,6 @@ export const BLOCK_REGISTRY: BlockTemplate[] = [
       children: "Badge",
       position,
       size: size || { width: 3, height: 2 },
-      metadata: createBlockMetadata(),
-    }),
-  },
-  {
-    id: "logo",
-    type: "logo",
-    label: "Logo",
-    defaultProps: {
-      component: "logo",
-      props: {
-        type: "symbol",
-      },
-      size: { width: 2, height: 2 },
-    },
-    createBlock: (position, size) => ({
-      id: generateBlockId(),
-      component: "logo",
-      props: {
-        type: "symbol",
-      },
-      position,
-      size: size || { width: 2, height: 2 },
       metadata: createBlockMetadata(),
     }),
   },
