@@ -1,3 +1,7 @@
 @import "tailwindcss";
 @config '../tailwind.config.ts';
 @source '../node_modules/@redotlabs/ui';
+
+body {
+  @apply bg-white;
+}
