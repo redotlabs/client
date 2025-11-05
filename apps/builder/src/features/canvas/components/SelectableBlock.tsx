@@ -39,7 +39,11 @@ export const SelectableBlock = ({
   };
 
   return (
-    <div className="relative w-full h-full">
+    <div
+      className="relative w-full h-full"
+      data-block-id={blockId}
+      id={blockId}
+    >
       <div
         data-draggable="true"
         className="absolute inset-0 cursor-move"
