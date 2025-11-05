@@ -1,6 +1,6 @@
 import { useRef, useEffect } from "react";
 import { cn } from "@redotlabs/utils";
-import { DEFAULT_GRID_CONFIG } from "@/shared/constants/editorData";
+import { COLUMN_WIDTH } from "@/shared/constants/editorData";
 import { BlockRenderer } from "@/features/canvas/components/BlockRenderer";
 import { SelectableBlock } from "@/features/canvas/components/SelectableBlock";
 import { useEditorContext } from "@/app/context/EditorContext";
@@ -23,13 +23,18 @@ export const Canvas = () => {
   const isResizing = state.ui.isResizing;
   const showGrid = isDragging || isResizing;
 
+  const listenerRef = useRef<CanvasListener | null>(null);
+  const contextRef = useRef({ state, dispatch });
+
+  useEffect(() => {
+    contextRef.current = { state, dispatch };
+    listenerRef.current?.setContext(contextRef.current);
+  }, [state, dispatch]);
+
   useEffect(() => {
     if (!canvasRef.current) return;
 
-    const listener = new CanvasListener(canvasRef.current, {
-      state,
-      dispatch,
-    });
+    const listener = new CanvasListener(canvasRef.current, contextRef.current);
 
     const dropHandler = createDropHandler();
     const dragHandler = createDragHandler();
@@ -40,11 +45,13 @@ export const Canvas = () => {
     listener.registerDragHandler(dragHandler);
 
     listener.start();
+    listenerRef.current = listener;
 
     return () => {
       listener.stop();
+      listenerRef.current = null;
     };
-  }, [state, dispatch]);
+  }, []);
 
   return (
     <div
@@ -56,8 +63,8 @@ export const Canvas = () => {
           "bg-[linear-gradient(to_right,rgba(0,0,0,0.1)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.1)_1px,transparent_1px)]"
       )}
       style={{
-        gridTemplateRows: `repeat(${DEFAULT_GRID_CONFIG.rows}, ${DEFAULT_GRID_CONFIG.rowHeight}px)`,
-        gridTemplateColumns: `repeat(${DEFAULT_GRID_CONFIG.columns}, 40px)`,
+        gridTemplateRows: `repeat(${state.gridConfig.rows}, ${state.gridConfig.rowHeight}px)`,
+        gridTemplateColumns: `repeat(${state.gridConfig.columns}, ${COLUMN_WIDTH}px)`,
       }}
     >
       {renderableBlocks.map((block) => (

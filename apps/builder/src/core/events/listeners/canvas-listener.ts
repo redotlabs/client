@@ -67,6 +67,10 @@ export class CanvasListener {
     this.dropHandlers.push(handler);
   }
 
+  setContext(context: HandlerContext): void {
+    this.context = context;
+  }
+
   start(): void {
     document.addEventListener("keydown", this.handleKeyDown);
     this.element.addEventListener("click", this.handleClick);
