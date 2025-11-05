@@ -13,6 +13,7 @@ interface DragState {
   startY: number;
   currentX: number;
   currentY: number;
+  blockId: string | null;
 }
 
 /**
@@ -40,6 +41,7 @@ export class CanvasListener {
     startY: 0,
     currentX: 0,
     currentY: 0,
+    blockId: null,
   };
 
   private wasDragging = false;
@@ -127,6 +129,7 @@ export class CanvasListener {
       startY: event.clientY,
       currentX: event.clientX,
       currentY: event.clientY,
+      blockId: blockId && isDraggable && !isResizeHandle ? blockId : null,
     };
   };
 

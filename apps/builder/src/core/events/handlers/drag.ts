@@ -10,6 +10,7 @@ interface DragState {
   startY: number;
   startPosition: { x: number; y: number; zIndex: number };
   currentPosition: { x: number; y: number };
+  hasStartedDragging: boolean;
 }
 
 /**
@@ -47,10 +48,9 @@ export const createDragHandler = (): DragEventHandler => {
         startY: event.clientY,
         startPosition: { ...block.position },
         currentPosition: { x: block.position.x, y: block.position.y },
+        hasStartedDragging: false,
       };
       currentContext = context;
-
-      context.dispatch(setDragging(true));
 
       document.addEventListener("mousemove", handleMouseMove);
       document.addEventListener("mouseup", handleMouseUp);
@@ -62,6 +62,11 @@ export const createDragHandler = (): DragEventHandler => {
       const { blockId, startX, startY, startPosition, currentPosition } =
         dragState;
       const { dispatch } = context;
+
+      if (!dragState.hasStartedDragging) {
+        dragState.hasStartedDragging = true;
+        dispatch(setDragging(true));
+      }
 
       const deltaX = event.clientX - startX;
       const deltaY = event.clientY - startY;
