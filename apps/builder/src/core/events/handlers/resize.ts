@@ -4,6 +4,7 @@ import type {
   ResizeDirection,
 } from "./types";
 import { resizeBlock, moveBlock, setResizing } from "@/core/actions";
+import { COLUMN_WIDTH } from "@/shared/constants/editorData";
 
 /**
  * Resize State
@@ -89,8 +90,7 @@ export const resizeHandler: ResizeEventHandler = {
     const deltaX = event.clientX - resizeState.startX;
     const deltaY = event.clientY - resizeState.startY;
 
-    const cellWidth =
-      gridConfig.columns > 0 ? window.innerWidth / gridConfig.columns : 100;
+    const cellWidth = COLUMN_WIDTH;
     const cellHeight = gridConfig.rowHeight;
 
     const deltaColumns = Math.round(deltaX / cellWidth);
@@ -118,6 +118,23 @@ export const resizeHandler: ResizeEventHandler = {
       newHeight = Math.max(1, startSize.height - deltaRows);
       const heightChange = newHeight - startSize.height;
       newY = startPosition.y - heightChange;
+    }
+
+    if (newX < 0) {
+      const adjustedWidth = newWidth + newX;
+      newX = 0;
+      newWidth = Math.max(1, adjustedWidth);
+    }
+
+    if (newY < 0) {
+      const adjustedHeight = newHeight + newY;
+      newY = 0;
+      newHeight = Math.max(1, adjustedHeight);
+    }
+
+    if (gridConfig.columns > 0) {
+      const maxWidth = Math.max(1, gridConfig.columns - newX);
+      newWidth = Math.min(newWidth, maxWidth);
     }
 
     dispatch(
