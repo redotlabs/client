@@ -45,6 +45,8 @@ const ArticleCard = ({ article }: { article: Article }) => {
       <div className="flex flex-col gap-2">
         <p className="text-sm text-gray-500">
           {format(createdAt, 'yyyy.MM.dd HH:mm')}
+          {' · '}
+          {author.name}
         </p>
       </div>
     </div>

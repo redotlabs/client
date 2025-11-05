@@ -4,6 +4,9 @@
 import { useArticleDetail } from '@/shared/api/queries/article/detail';
 import EnduserHeader from '@/shared/components/layout/enduser/header';
 import { Editor, EditorProvider, Loader } from '@/shared/components/ui';
+import Avatar from '@/shared/components/ui/avatar';
+import Tag from '@/shared/components/ui/tag';
+import { format } from 'date-fns';
 import { useParams } from 'next/navigation';
 
 const ArticlePage = () => {
@@ -21,6 +24,18 @@ const ArticlePage = () => {
           <h1 className="text-2xl font-bold flex items-center gap-2">
             {article?.title}
           </h1>
+        </section>
+        <section className="mt-8 flex items-center gap-2">
+          {article?.tags.map((tag) => (
+            <Tag key={tag} tag={tag} />
+          ))}
+        </section>
+        <section className="mt-8 flex items-center gap-2 text-gray-700">
+          <span>
+            {format(new Date(article?.createdAt ?? ''), 'yyyy.MM.dd HH:mm')}
+          </span>
+          {' · '}
+          {article?.author && <Avatar user={article?.author} />}
         </section>
         <section className="mt-8">
           <img
