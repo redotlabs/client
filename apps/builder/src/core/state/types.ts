@@ -1,4 +1,4 @@
-import type { BuilderBlock, Section } from "@/shared/types";
+import type { BuilderBlock, Section, GridConfig } from "@/shared/types";
 
 /**
  * Selection State
@@ -24,6 +24,7 @@ export interface UIState {
  * 에디터의 전체 상태
  */
 export interface EditorState {
+  gridConfig: GridConfig;
   sections: Map<string, Section>;
 
   selection: SelectionState;
@@ -37,8 +38,10 @@ export interface EditorState {
 }
 
 export const createInitialEditorState = (
+  gridConfig: GridConfig,
   sections: Section[] = []
 ): EditorState => ({
+  gridConfig,
   sections: new Map(sections.map((section) => [section.id, section])),
   selection: {
     selectedBlockIds: new Set(),

@@ -10,11 +10,11 @@ export const DEFAULT_GRID_CONFIG = {
 export const COLUMN_WIDTH = 40;
 
 export const initialEditorData: EditorData = {
+  gridConfig: DEFAULT_GRID_CONFIG,
   sections: [
     {
       id: "section-1",
       name: "Main Section",
-      gridConfig: DEFAULT_GRID_CONFIG,
       order: 0,
       blocks: [
         {

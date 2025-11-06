@@ -1,6 +1,6 @@
 import { createContext, useContext, type ReactNode } from "react";
 import { useEditor } from "@/core/hooks/use-editor";
-import type { BuilderBlock, GridConfig } from "@/shared/types";
+import type { Section, GridConfig } from "@/shared/types";
 import type { EditorState } from "@/core/state";
 import type { EditorAction } from "@/core/actions";
 
@@ -13,8 +13,8 @@ const EditorContext = createContext<EditorContextValue | null>(null);
 
 interface EditorProviderProps {
   children: ReactNode;
-  blocks: BuilderBlock[];
   gridConfig: GridConfig;
+  sections: Section[];
 }
 
 /**
@@ -23,10 +23,10 @@ interface EditorProviderProps {
  */
 export function EditorProvider({
   children,
-  blocks,
   gridConfig,
+  sections,
 }: EditorProviderProps) {
-  const { state, dispatch } = useEditor(blocks, gridConfig);
+  const { state, dispatch } = useEditor(gridConfig, sections);
 
   return (
     <EditorContext.Provider value={{ state, dispatch }}>

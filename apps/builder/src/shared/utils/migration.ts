@@ -35,7 +35,6 @@ export function migrateLegacyEditorData(
   const defaultSection: Section = {
     id: generateId(),
     name: "Section 1",
-    gridConfig: legacyData.grid,
     blocks: legacyData.blocks,
     order: 0,
     metadata: {
@@ -45,6 +44,7 @@ export function migrateLegacyEditorData(
   };
 
   return {
+    gridConfig: legacyData.grid,
     sections: [defaultSection],
     metadata: legacyData.metadata,
   };
@@ -52,13 +52,11 @@ export function migrateLegacyEditorData(
 
 /**
  * 빈 섹션 생성
- * @param gridConfig - 섹션의 그리드 설정
  * @param name - 섹션 이름
  * @param order - 섹션 순서
  * @returns 새로운 Section 객체
  */
 export function createEmptySection(
-  gridConfig: GridConfig,
   name: string = "New Section",
   order: number = 0
 ): Section {
@@ -67,7 +65,6 @@ export function createEmptySection(
   return {
     id: generateId(),
     name,
-    gridConfig,
     blocks: [],
     order,
     metadata: {

@@ -1,14 +1,13 @@
 import type { BuilderBlock } from "./blocks";
-import type { GridConfig } from "./blocks/position";
 
 /**
  * Section
- * 빌더의 섹션 단위 - 블록들을 그룹화하고 독립적인 그리드를 가짐
+ * 빌더의 섹션 단위 - 블록들을 그룹화하는 독립적인 영역
+ * gridConfig는 전역적으로 모든 섹션에 동일하게 적용됨
  */
 export interface Section {
   id: string;
   name: string;
-  gridConfig: GridConfig;
   blocks: BuilderBlock[];
   order: number;
   metadata?: {
@@ -22,6 +21,5 @@ export interface Section {
  */
 export interface CreateSectionInput {
   name?: string;
-  gridConfig?: GridConfig;
   order?: number;
 }
