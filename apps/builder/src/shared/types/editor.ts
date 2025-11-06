@@ -1,8 +1,7 @@
-import type { BuilderBlock, GridConfig } from "@/shared/types/blocks";
+import type { Section } from "@/shared/types/section";
 
 export interface EditorData {
-  grid: GridConfig;
-  blocks: BuilderBlock[];
+  sections: Section[];
   metadata?: {
     version: string;
     lastModified: string;

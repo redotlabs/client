@@ -1,4 +1,4 @@
-import type { BuilderBlock, GridConfig } from "@/shared/types";
+import type { BuilderBlock, Section } from "@/shared/types";
 
 /**
  * Selection State
@@ -7,6 +7,7 @@ import type { BuilderBlock, GridConfig } from "@/shared/types";
 export interface SelectionState {
   selectedBlockIds: Set<string>;
   lastSelectedId: string | null;
+  activeSectionId: string | null;
 }
 
 /**
@@ -23,8 +24,7 @@ export interface UIState {
  * 에디터의 전체 상태
  */
 export interface EditorState {
-  blocks: Map<string, BuilderBlock>;
-  gridConfig: GridConfig;
+  sections: Map<string, Section>;
 
   selection: SelectionState;
   ui: UIState;
@@ -37,14 +37,13 @@ export interface EditorState {
 }
 
 export const createInitialEditorState = (
-  blocks: BuilderBlock[] = [],
-  gridConfig: GridConfig
+  sections: Section[] = []
 ): EditorState => ({
-  blocks: new Map(blocks.map((block) => [block.id, block])),
-  gridConfig,
+  sections: new Map(sections.map((section) => [section.id, section])),
   selection: {
     selectedBlockIds: new Set(),
     lastSelectedId: null,
+    activeSectionId: sections.length > 0 ? sections[0].id : null,
   },
   ui: {
     isDragging: false,
