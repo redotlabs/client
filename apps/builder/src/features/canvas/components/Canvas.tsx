@@ -11,26 +11,21 @@ import { SectionCanvas } from "./SectionCanvas";
 export const Canvas = () => {
   const { state } = useEditorContext();
 
-  // 섹션을 order 순서대로 정렬
   const sortedSections = useMemo(() => {
-    return Array.from(state.sections.values()).sort((a, b) => a.order - b.order);
+    return Array.from(state.sections.values()).sort(
+      (a, b) => a.order - b.order
+    );
   }, [state.sections]);
 
   return (
-    <div className="w-full h-screen overflow-auto bg-gray-50">
-      {sortedSections.map((section) => (
-        <div key={section.id} className="mb-8">
-          {/* Section Header - TODO: 섹션 이름, 설정, 삭제 UI */}
-          <div className="px-4 py-2 bg-white border-b">
-            <h2 className="text-sm font-medium text-gray-700">{section.name}</h2>
+    <div className="w-full h-screen overflow-y-auto overflow-x-hidden bg-gray-50">
+      <div className="w-[1920px] mx-auto">
+        {sortedSections.map((section) => (
+          <div key={section.id} className="mb-8">
+            <SectionCanvas section={section} />
           </div>
-
-          {/* Section Canvas */}
-          <SectionCanvas section={section} />
-        </div>
-      ))}
-
-      {/* TODO: Section 추가 버튼 */}
+        ))}
+      </div>
     </div>
   );
 };

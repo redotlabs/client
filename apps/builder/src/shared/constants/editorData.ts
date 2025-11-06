@@ -100,6 +100,64 @@ export const initialEditorData: EditorData = {
         updatedAt: "2024-01-01T00:00:00.000Z",
       },
     },
+    {
+      id: "section-2",
+      name: "Secondary Section",
+      order: 1,
+      blocks: [
+        {
+          id: "block-7",
+          component: "text",
+          position: { x: 10, y: 5, zIndex: 1 },
+          size: { width: 20, height: 4 },
+          props: {
+            children: "Welcome to Section 2",
+            fontSize: 28,
+            fontWeight: "bold",
+            textAlign: "left",
+            color: "#2563eb",
+          },
+          metadata: {
+            createdAt: "2024-01-01T00:00:00.000Z",
+            updatedAt: "2024-01-01T00:00:00.000Z",
+          },
+        },
+        {
+          id: "block-8",
+          component: "button",
+          position: { x: 10, y: 11, zIndex: 1 },
+          size: { width: 10, height: 3 },
+          props: {
+            children: "Get Started",
+            variant: "contained",
+            size: "lg",
+          },
+          metadata: {
+            createdAt: "2024-01-01T00:00:00.000Z",
+            updatedAt: "2024-01-01T00:00:00.000Z",
+          },
+        },
+        {
+          id: "block-9",
+          component: "badge",
+          position: { x: 22, y: 11, zIndex: 1 },
+          size: { width: 8, height: 2 },
+          props: {
+            children: "Featured",
+            color: "primary",
+            size: "lg",
+          },
+          metadata: {
+            createdAt: "2024-01-01T00:00:00.000Z",
+            updatedAt: "2024-01-01T00:00:00.000Z",
+          },
+        },
+      ],
+      metadata: {
+        createdAt: "2024-01-01T00:00:00.000Z",
+        updatedAt: "2024-01-01T00:00:00.000Z",
+      },
+    },
   ],
   metadata: {
     version: "1.0.0",
