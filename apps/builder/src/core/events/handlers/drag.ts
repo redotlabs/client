@@ -37,7 +37,12 @@ export const createDragHandler = (): DragEventHandler => {
       context: HandlerContext,
       blockId: string
     ) => {
-      const block = context.state.blocks.get(blockId);
+      let block = null;
+      for (const section of context.state.sections.values()) {
+        block = section.blocks.find((b) => b.id === blockId);
+        if (block) break;
+      }
+
       if (!block) return;
 
       dragState = {

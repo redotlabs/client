@@ -1,4 +1,4 @@
-import type { BuilderBlock, Section, GridConfig } from "@/shared/types";
+import type { Section, GridConfig } from "@/shared/types";
 
 /**
  * Selection State

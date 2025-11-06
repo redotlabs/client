@@ -84,7 +84,7 @@ export const updateSectionState = (
     ...section,
     ...updates,
     metadata: {
-      ...section.metadata,
+      createdAt: section.metadata?.createdAt || now,
       updatedAt: now,
     },
   });
