@@ -2,11 +2,12 @@ import { createAxiosInstance } from '@repo/api-instance';
 import { PATH } from '@/shared/constants/routes';
 import { isServer } from '@tanstack/react-query';
 import { AUTH_WHITE_LIST } from '../constants/auth';
-import { API_DOMAIN, SUBDOMAIN_HEADER } from '@/shared/constants/env-variables';
+import { SUBDOMAIN_HEADER } from '@/shared/constants/env-variables';
 import { extractSubdomain, isSubdomainInPath } from '@repo/utils';
+import { API_DOMAIN } from '../constants/env-variables';
 
 export const api = createAxiosInstance({
-  baseURL: `${API_DOMAIN}/api/v1`,
+  baseURL: isServer ? `${API_DOMAIN}/api/v1` : '/api/v1',
 });
 
 export const initializeSubdomainHeader = (subdomain: string) => {
