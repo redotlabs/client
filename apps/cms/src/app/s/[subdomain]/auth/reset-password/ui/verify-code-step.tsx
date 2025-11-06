@@ -9,7 +9,7 @@ import {
 } from '@/shared/api/queries/auth/reset-password';
 import { formatTimer, minutes } from '@repo/utils';
 import { Button, toast } from '@redotlabs/ui';
-import Link from 'next/link';
+import { TenantLink } from '@repo/tenant-router/next';
 import { PATH } from '@/shared/constants/routes';
 
 const VerifyCodeStep = () => {
@@ -131,7 +131,11 @@ const VerifyCodeStep = () => {
         {verifyMutation.isPending ? '인증 중입니다..' : '다음'}
       </Button>
 
-      <Link replace href={PATH.auth.signIn} className="mt-5 w-full text-center">
+      <TenantLink
+        href={PATH.auth.signIn}
+        replace
+        className="mt-5 w-full text-center"
+      >
         <Button
           size="sm"
           variant="text"
@@ -139,7 +143,7 @@ const VerifyCodeStep = () => {
         >
           로그인 페이지로 돌아가기
         </Button>
-      </Link>
+      </TenantLink>
     </>
   );
 };

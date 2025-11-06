@@ -6,8 +6,8 @@ import { useSendEmailVerificationCode } from '@/shared/api/queries/auth/reset-pa
 import { RHFInput } from '@repo/ui';
 import { Button, toast } from '@redotlabs/ui';
 import { minutes } from '@repo/utils';
-import Link from 'next/link';
 import { PATH } from '@/shared/constants/routes';
+import { TenantLink } from '@repo/tenant-router/next';
 
 const SendCodeStep = () => {
   const { setStep } = useResetPasswordStep();
@@ -75,7 +75,11 @@ const SendCodeStep = () => {
         {isPending ? '인증코드 전송 중..' : '인증코드 전송'}
       </Button>
 
-      <Link replace href={PATH.auth.signIn} className="mt-5 w-full text-center">
+      <TenantLink
+        href={PATH.auth.signIn}
+        replace
+        className="mt-5 w-full text-center"
+      >
         <Button
           size="sm"
           variant="text"
@@ -83,7 +87,7 @@ const SendCodeStep = () => {
         >
           로그인 페이지로 돌아가기
         </Button>
-      </Link>
+      </TenantLink>
     </>
   );
 };
