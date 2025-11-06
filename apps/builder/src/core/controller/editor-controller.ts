@@ -5,7 +5,7 @@ import {
   baseRules,
   globalRuleValidator,
 } from '@/core/rules';
-import type { BuilderBlock, GridConfig } from '@/shared/types';
+import type { Section, GridConfig } from '@/shared/types';
 import type { EditorAction } from '@/core/actions';
 import { actionHandlers } from './action-handlers';
 
@@ -17,8 +17,8 @@ export class EditorController {
   private state: EditorState;
   private listeners: ((state: EditorState) => void)[] = [];
 
-  constructor(blocks: BuilderBlock[], gridConfig: GridConfig) {
-    this.state = createInitialEditorState(blocks, gridConfig);
+  constructor(gridConfig: GridConfig, sections: Section[]) {
+    this.state = createInitialEditorState(gridConfig, sections);
 
     baseRules.forEach((rule) => {
       globalRuleValidator.registerRule(rule);
@@ -47,8 +47,13 @@ export class EditorController {
   };
 
   private validateAction(action: EditorAction): RuleValidationResult {
+    // 현재 활성 섹션의 blocks를 가져옴
+    const activeSection = this.state.selection.activeSectionId
+      ? this.state.sections.get(this.state.selection.activeSectionId)
+      : Array.from(this.state.sections.values())[0];
+
     const context: EditorRuleContext = {
-      blocks: Array.from(this.state.blocks.values()),
+      blocks: activeSection?.blocks || [],
       selectedBlockIds: Array.from(this.state.selection.selectedBlockIds),
       gridConfig: this.state.gridConfig,
     };

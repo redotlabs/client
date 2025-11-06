@@ -13,6 +13,41 @@ type ActionHandler = (state: EditorState, action: EditorAction) => EditorState;
  * 각 action type에 대응하는 state updater 매핑
  */
 export const actionHandlers: Record<ActionType, ActionHandler> = {
+  // Section Handlers
+  'section.create': (state, action) => {
+    if (action.type !== 'section.create') return state;
+    return stateUpdaters.createSectionState(state, action.payload.section);
+  },
+
+  'section.delete': (state, action) => {
+    if (action.type !== 'section.delete') return state;
+    return stateUpdaters.deleteSectionState(state, action.payload.sectionId);
+  },
+
+  'section.reorder': (state, action) => {
+    if (action.type !== 'section.reorder') return state;
+    return stateUpdaters.reorderSectionState(
+      state,
+      action.payload.sectionId,
+      action.payload.newOrder
+    );
+  },
+
+  'section.update': (state, action) => {
+    if (action.type !== 'section.update') return state;
+    return stateUpdaters.updateSectionState(
+      state,
+      action.payload.sectionId,
+      action.payload.updates
+    );
+  },
+
+  'section.select': (state, action) => {
+    if (action.type !== 'section.select') return state;
+    return stateUpdaters.selectSectionState(state, action.payload.sectionId);
+  },
+
+  // Block Handlers
   'block.select': (state, action) => {
     if (action.type !== 'block.select') return state;
     return stateUpdaters.selectBlockState(
@@ -47,23 +82,33 @@ export const actionHandlers: Record<ActionType, ActionHandler> = {
 
   'block.create': (state, action) => {
     if (action.type !== 'block.create') return state;
-    return stateUpdaters.createBlockState(state, action.payload.block);
+    return stateUpdaters.createBlockState(
+      state,
+      action.payload.sectionId,
+      action.payload.block
+    );
   },
 
   'block.delete': (state, action) => {
     if (action.type !== 'block.delete') return state;
-    return stateUpdaters.deleteBlockState(state, action.payload.blockId);
+    return stateUpdaters.deleteBlockState(
+      state,
+      action.payload.sectionId,
+      action.payload.blockId
+    );
   },
 
   'block.update': (state, action) => {
     if (action.type !== 'block.update') return state;
     return stateUpdaters.updateBlockState(
       state,
+      action.payload.sectionId,
       action.payload.blockId,
       action.payload.updates
     );
   },
 
+  // UI Handlers
   'ui.setDragging': (state, action) => {
     if (action.type !== 'ui.setDragging') return state;
     return stateUpdaters.setDraggingState(state, action.payload.isDragging);

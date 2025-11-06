@@ -1,5 +1,116 @@
 import type { EditorState } from './types';
-import type { BuilderBlock, BlockPosition, BlockSize } from '@/shared/types';
+import type {
+  BuilderBlock,
+  BlockPosition,
+  BlockSize,
+  Section,
+} from '@/shared/types';
+
+// ============================================
+// Section State Updaters
+// ============================================
+
+export const createSectionState = (
+  state: EditorState,
+  section: Section
+): EditorState => {
+  const newSections = new Map(state.sections);
+  newSections.set(section.id, section);
+
+  return {
+    ...state,
+    sections: newSections,
+    selection: {
+      ...state.selection,
+      activeSectionId: section.id,
+    },
+  };
+};
+
+export const deleteSectionState = (
+  state: EditorState,
+  sectionId: string
+): EditorState => {
+  const newSections = new Map(state.sections);
+  newSections.delete(sectionId);
+
+  // activeSectionId가 삭제된 섹션이면 첫 번째 섹션으로 변경
+  const newActiveSectionId =
+    state.selection.activeSectionId === sectionId
+      ? Array.from(newSections.keys())[0] || null
+      : state.selection.activeSectionId;
+
+  return {
+    ...state,
+    sections: newSections,
+    selection: {
+      ...state.selection,
+      activeSectionId: newActiveSectionId,
+      // 삭제된 섹션에 속한 블록 선택 해제
+      selectedBlockIds: new Set(),
+      lastSelectedId: null,
+    },
+  };
+};
+
+export const reorderSectionState = (
+  state: EditorState,
+  sectionId: string,
+  newOrder: number
+): EditorState => {
+  const section = state.sections.get(sectionId);
+  if (!section) return state;
+
+  const newSections = new Map(state.sections);
+  newSections.set(sectionId, { ...section, order: newOrder });
+
+  return {
+    ...state,
+    sections: newSections,
+  };
+};
+
+export const updateSectionState = (
+  state: EditorState,
+  sectionId: string,
+  updates: { name?: string }
+): EditorState => {
+  const section = state.sections.get(sectionId);
+  if (!section) return state;
+
+  const now = new Date().toISOString();
+  const newSections = new Map(state.sections);
+  newSections.set(sectionId, {
+    ...section,
+    ...updates,
+    metadata: {
+      ...section.metadata,
+      updatedAt: now,
+    },
+  });
+
+  return {
+    ...state,
+    sections: newSections,
+  };
+};
+
+export const selectSectionState = (
+  state: EditorState,
+  sectionId: string
+): EditorState => {
+  return {
+    ...state,
+    selection: {
+      ...state.selection,
+      activeSectionId: sectionId,
+    },
+  };
+};
+
+// ============================================
+// Block State Updaters
+// ============================================
 
 export const selectBlockState = (
   state: EditorState,
@@ -13,6 +124,7 @@ export const selectBlockState = (
   return {
     ...state,
     selection: {
+      ...state.selection,
       selectedBlockIds,
       lastSelectedId: blockId,
     },
@@ -27,6 +139,7 @@ export const deselectBlockState = (
     return {
       ...state,
       selection: {
+        ...state.selection,
         selectedBlockIds: new Set(),
         lastSelectedId: null,
       },
@@ -39,6 +152,7 @@ export const deselectBlockState = (
   return {
     ...state,
     selection: {
+      ...state.selection,
       selectedBlockIds,
       lastSelectedId:
         state.selection.lastSelectedId === blockId
@@ -53,15 +167,30 @@ export const moveBlockState = (
   blockId: string,
   position: BlockPosition
 ): EditorState => {
-  const block = state.blocks.get(blockId);
-  if (!block) return state;
+  // 블록이 속한 섹션 찾기
+  let targetSectionId: string | null = null;
+  for (const [sectionId, section] of state.sections) {
+    if (section.blocks.some((b) => b.id === blockId)) {
+      targetSectionId = sectionId;
+      break;
+    }
+  }
 
-  const newBlocks = new Map(state.blocks);
-  newBlocks.set(blockId, { ...block, position });
+  if (!targetSectionId) return state;
+
+  const section = state.sections.get(targetSectionId);
+  if (!section) return state;
+
+  const updatedBlocks = section.blocks.map((block) =>
+    block.id === blockId ? { ...block, position } : block
+  );
+
+  const newSections = new Map(state.sections);
+  newSections.set(targetSectionId, { ...section, blocks: updatedBlocks });
 
   return {
     ...state,
-    blocks: newBlocks,
+    sections: newSections,
   };
 };
 
@@ -70,45 +199,73 @@ export const resizeBlockState = (
   blockId: string,
   size: BlockSize
 ): EditorState => {
-  const block = state.blocks.get(blockId);
-  if (!block) return state;
+  // 블록이 속한 섹션 찾기
+  let targetSectionId: string | null = null;
+  for (const [sectionId, section] of state.sections) {
+    if (section.blocks.some((b) => b.id === blockId)) {
+      targetSectionId = sectionId;
+      break;
+    }
+  }
 
-  const newBlocks = new Map(state.blocks);
-  newBlocks.set(blockId, { ...block, size });
+  if (!targetSectionId) return state;
+
+  const section = state.sections.get(targetSectionId);
+  if (!section) return state;
+
+  const updatedBlocks = section.blocks.map((block) =>
+    block.id === blockId ? { ...block, size } : block
+  );
+
+  const newSections = new Map(state.sections);
+  newSections.set(targetSectionId, { ...section, blocks: updatedBlocks });
 
   return {
     ...state,
-    blocks: newBlocks,
+    sections: newSections,
   };
 };
 
 export const createBlockState = (
   state: EditorState,
+  sectionId: string,
   block: BuilderBlock
 ): EditorState => {
-  const newBlocks = new Map(state.blocks);
-  newBlocks.set(block.id, block);
+  const section = state.sections.get(sectionId);
+  if (!section) return state;
+
+  const updatedBlocks = [...section.blocks, block];
+
+  const newSections = new Map(state.sections);
+  newSections.set(sectionId, { ...section, blocks: updatedBlocks });
 
   return {
     ...state,
-    blocks: newBlocks,
+    sections: newSections,
   };
 };
 
 export const deleteBlockState = (
   state: EditorState,
+  sectionId: string,
   blockId: string
 ): EditorState => {
-  const newBlocks = new Map(state.blocks);
-  newBlocks.delete(blockId);
+  const section = state.sections.get(sectionId);
+  if (!section) return state;
+
+  const updatedBlocks = section.blocks.filter((block) => block.id !== blockId);
 
   const selectedBlockIds = new Set(state.selection.selectedBlockIds);
   selectedBlockIds.delete(blockId);
 
+  const newSections = new Map(state.sections);
+  newSections.set(sectionId, { ...section, blocks: updatedBlocks });
+
   return {
     ...state,
-    blocks: newBlocks,
+    sections: newSections,
     selection: {
+      ...state.selection,
       selectedBlockIds,
       lastSelectedId:
         state.selection.lastSelectedId === blockId
@@ -120,18 +277,23 @@ export const deleteBlockState = (
 
 export const updateBlockState = (
   state: EditorState,
+  sectionId: string,
   blockId: string,
   updates: Omit<Partial<BuilderBlock>, 'id' | 'position' | 'size'>
 ): EditorState => {
-  const block = state.blocks.get(blockId);
-  if (!block) return state;
+  const section = state.sections.get(sectionId);
+  if (!section) return state;
 
-  const newBlocks = new Map(state.blocks);
-  newBlocks.set(blockId, { ...block, ...updates });
+  const updatedBlocks = section.blocks.map((block) =>
+    block.id === blockId ? { ...block, ...updates } : block
+  );
+
+  const newSections = new Map(state.sections);
+  newSections.set(sectionId, { ...section, blocks: updatedBlocks });
 
   return {
     ...state,
-    blocks: newBlocks,
+    sections: newSections,
   };
 };
 
