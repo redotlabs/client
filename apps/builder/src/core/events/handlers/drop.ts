@@ -55,6 +55,16 @@ export const createDropHandler = (): DropEventHandler => ({
       return;
     }
 
+    // 드롭된 섹션 ID 찾기 (data-section-id 속성 사용)
+    const sectionElement = target.closest('[data-section-id]') as HTMLElement;
+    const sectionId = sectionElement?.dataset.sectionId || context.state.selection.activeSectionId;
+
+    if (!sectionId) {
+      console.warn('No section found for drop');
+      context.dispatch(setDragging(false));
+      return;
+    }
+
     const gridPosition = convertToGridCoordinates(
       event,
       target,
@@ -70,7 +80,7 @@ export const createDropHandler = (): DropEventHandler => ({
     const blockSize = template.defaultProps.size;
     const newBlock = template.createBlock(blockPosition, blockSize);
 
-    context.dispatch(createBlock(newBlock));
+    context.dispatch(createBlock(sectionId, newBlock));
 
     delete window.__draggedTemplate;
 

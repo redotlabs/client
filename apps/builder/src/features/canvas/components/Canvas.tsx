@@ -1,84 +1,36 @@
-import { useRef, useEffect } from "react";
-import { cn } from "@redotlabs/utils";
-import { COLUMN_WIDTH } from "@/shared/constants/editorData";
-import { BlockRenderer } from "@/features/canvas/components/BlockRenderer";
-import { SelectableBlock } from "@/features/canvas/components/SelectableBlock";
+import { useMemo } from "react";
 import { useEditorContext } from "@/app/context/EditorContext";
-import { CanvasListener } from "@/core/events/listeners";
-import {
-  keyboardHandler,
-  selectionHandler,
-  createDropHandler,
-  createDragHandler,
-} from "@/core/events/handlers";
-import { useRenderableBlocks } from "@/features/canvas/hooks/useRenderableBlocks";
+import { SectionCanvas } from "./SectionCanvas";
 
+/**
+ * Canvas
+ * 모든 섹션을 순서대로 렌더링하는 컨테이너
+ * - 각 섹션마다 SectionCanvas 인스턴스 생성
+ * - 섹션 추가 UI 제공 (TODO)
+ */
 export const Canvas = () => {
-  const canvasRef = useRef<HTMLDivElement | null>(null);
-  const { state, dispatch } = useEditorContext();
+  const { state } = useEditorContext();
 
-  const renderableBlocks = useRenderableBlocks();
-
-  const isDragging = state.ui.isDragging;
-  const isResizing = state.ui.isResizing;
-  const showGrid = isDragging || isResizing;
-
-  const listenerRef = useRef<CanvasListener | null>(null);
-  const contextRef = useRef({ state, dispatch });
-
-  useEffect(() => {
-    contextRef.current = { state, dispatch };
-    listenerRef.current?.setContext(contextRef.current);
-  }, [state, dispatch]);
-
-  useEffect(() => {
-    if (!canvasRef.current) return;
-
-    const listener = new CanvasListener(canvasRef.current, contextRef.current);
-
-    const dropHandler = createDropHandler();
-    const dragHandler = createDragHandler();
-
-    listener.registerKeyboardHandler(keyboardHandler);
-    listener.registerMouseHandler(selectionHandler);
-    listener.registerDropHandler(dropHandler);
-    listener.registerDragHandler(dragHandler);
-
-    listener.start();
-    listenerRef.current = listener;
-
-    return () => {
-      listener.stop();
-      listenerRef.current = null;
-    };
-  }, []);
+  // 섹션을 order 순서대로 정렬
+  const sortedSections = useMemo(() => {
+    return Array.from(state.sections.values()).sort((a, b) => a.order - b.order);
+  }, [state.sections]);
 
   return (
-    <div
-      ref={canvasRef}
-      className={cn(
-        "w-full h-screen bg-gray-100 overflow-auto grid gap-0 p-0 transition-[background-image] duration-200 ease-in-out",
-        "bg-size-[40px_24px] bg-position-[0_0]",
-        showGrid &&
-          "bg-[linear-gradient(to_right,rgba(0,0,0,0.1)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.1)_1px,transparent_1px)]"
-      )}
-      style={{
-        gridTemplateRows: `repeat(${state.gridConfig.rows}, ${state.gridConfig.rowHeight}px)`,
-        gridTemplateColumns: `repeat(${state.gridConfig.columns}, ${COLUMN_WIDTH}px)`,
-      }}
-    >
-      {renderableBlocks.map((block) => (
-        <div
-          key={block.id}
-          data-block-id={block.id}
-          data-block-type={block.type}
-          style={{ ...block.style, overflow: "visible" }}
-        >
-          <SelectableBlock blockId={block.id}>
-            <BlockRenderer block={block} />
-          </SelectableBlock>
+    <div className="w-full h-screen overflow-auto bg-gray-50">
+      {sortedSections.map((section) => (
+        <div key={section.id} className="mb-8">
+          {/* Section Header - TODO: 섹션 이름, 설정, 삭제 UI */}
+          <div className="px-4 py-2 bg-white border-b">
+            <h2 className="text-sm font-medium text-gray-700">{section.name}</h2>
+          </div>
+
+          {/* Section Canvas */}
+          <SectionCanvas section={section} />
         </div>
       ))}
+
+      {/* TODO: Section 추가 버튼 */}
     </div>
   );
 };
