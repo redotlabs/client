@@ -1,13 +1,13 @@
 export const API_PATH = {
   auth: {
-    me: '/customer/cms/auth/me',
-    signIn: '/customer/cms/auth/sign-in',
-    reIssue: '/customer/cms/auth/re-issue',
+    me: '/auth/customer/cms/me',
+    signIn: '/auth/customer/cms/sign-in',
+    reIssue: '/auth/customer/cms/reissue',
     sendEmailVerificationCode:
-      '/customer/cms/auth/send-email-verification-code',
+      '/auth/customer/cms/send-email-verification-code',
     verifyEmailVerificationCode:
-      '/customer/cms/auth/verify-email-verification-code',
-    resetPassword: '/customer/cms/auth/reset-password',
+      '/auth/customer/cms/verify-email-verification-code',
+    resetPassword: '/auth/customer/cms/reset-password',
   },
   customer: {
     root: '/customer',
