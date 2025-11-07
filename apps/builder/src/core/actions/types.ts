@@ -44,7 +44,7 @@ export interface BaseAction {
 export interface SectionCreateAction extends BaseAction {
   type: "section.create";
   payload: {
-    section: Section;
+    section?: Section;
   };
 }
 

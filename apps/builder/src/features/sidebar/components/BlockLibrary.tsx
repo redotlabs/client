@@ -1,5 +1,8 @@
 import { BLOCK_REGISTRY, type BlockTemplate } from "@/core/blocks";
 import { useBlockActions } from "@/features/canvas/hooks/useBlockActions";
+import { useEditorContext } from "@/app/context/EditorContext";
+import { createSection, deleteSection } from "@/core/actions";
+import { useMemo } from "react";
 
 interface BlockLibraryItemProps {
   template: BlockTemplate;
@@ -32,23 +35,81 @@ const BlockLibraryItem = ({
 
 export const BlockLibrary = () => {
   const { handleAddBlock, handleDragStart } = useBlockActions();
+  const { state, dispatch } = useEditorContext();
 
   const handleDoubleClick = (template: BlockTemplate) => {
     handleAddBlock(template);
   };
 
+  const sortedSections = useMemo(
+    () => Array.from(state.sections.values()).sort((a, b) => a.order - b.order),
+    [state.sections]
+  );
+
+  const handleAddSection = () => {
+    dispatch(createSection());
+  };
+
+  const handleDeleteSection = (sectionId: string) => {
+    dispatch(deleteSection(sectionId));
+  };
+
   return (
     <div className="w-64 h-full bg-white border-r border-gray-200 p-4 overflow-y-auto">
-      <h2 className="text-lg font-semibold text-gray-800 mb-4">Components</h2>
-      <div className="space-y-2">
-        {BLOCK_REGISTRY.map((template) => (
-          <BlockLibraryItem
-            key={template.id}
-            template={template}
-            onDoubleClick={handleDoubleClick}
-            onDragStart={handleDragStart}
-          />
-        ))}
+      {/* Sections Section */}
+      <div className="mb-6">
+        <h2 className="text-lg font-semibold text-gray-800 mb-3">Sections</h2>
+        <div className="space-y-2 mb-3">
+          {sortedSections.map((section) => (
+            <div
+              key={section.id}
+              className="px-3 py-2 bg-gray-50 rounded-lg border border-gray-200 flex items-center justify-between group"
+            >
+              <span className="text-sm text-gray-700">{section.name}</span>
+              <button
+                onClick={() => handleDeleteSection(section.id)}
+                className="opacity-0 group-hover:opacity-100 p-1 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded transition-all"
+                title="Delete Section"
+              >
+                <svg
+                  className="w-3.5 h-3.5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                  />
+                </svg>
+              </button>
+            </div>
+          ))}
+        </div>
+        <button
+          onClick={handleAddSection}
+          className="w-full px-3 py-2 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-2"
+        >
+          <span>+</span>
+          <span>Add Section</span>
+        </button>
+      </div>
+
+      {/* Components Section */}
+      <div>
+        <h2 className="text-lg font-semibold text-gray-800 mb-4">Components</h2>
+        <div className="space-y-2">
+          {BLOCK_REGISTRY.map((template) => (
+            <BlockLibraryItem
+              key={template.id}
+              template={template}
+              onDoubleClick={handleDoubleClick}
+              onDragStart={handleDragStart}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );

@@ -1,28 +1,50 @@
-import type { EditorState } from './types';
+import type { EditorState } from "./types";
 import type {
   BuilderBlock,
   BlockPosition,
   BlockSize,
   Section,
-} from '@/shared/types';
+} from "@/shared/types";
 
 // ============================================
 // Section State Updaters
 // ============================================
 
+/**
+ * Helper to generate temporary ID
+ */
+const generateTempId = (): string => {
+  return `temp-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+};
+
 export const createSectionState = (
   state: EditorState,
-  section: Section
+  section?: Section
 ): EditorState => {
+  const newSection = section || {
+    id: generateTempId(),
+    name: `Section ${state.sections.size + 1}`,
+    order:
+      state.sections.size > 0
+        ? Math.max(...Array.from(state.sections.values()).map((s) => s.order)) +
+          1
+        : 0,
+    blocks: [],
+    metadata: {
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    },
+  };
+
   const newSections = new Map(state.sections);
-  newSections.set(section.id, section);
+  newSections.set(newSection.id, newSection);
 
   return {
     ...state,
     sections: newSections,
     selection: {
       ...state.selection,
-      activeSectionId: section.id,
+      activeSectionId: newSection.id,
     },
   };
 };
@@ -279,7 +301,7 @@ export const updateBlockState = (
   state: EditorState,
   sectionId: string,
   blockId: string,
-  updates: Omit<Partial<BuilderBlock>, 'id' | 'position' | 'size'>
+  updates: Omit<Partial<BuilderBlock>, "id" | "position" | "size">
 ): EditorState => {
   const section = state.sections.get(sectionId);
   if (!section) return state;
