@@ -9,7 +9,6 @@ export interface Section {
   id: string;
   name: string;
   blocks: BuilderBlock[];
-  order: number;
   metadata?: {
     createdAt: string;
     updatedAt: string;
@@ -21,5 +20,4 @@ export interface Section {
  */
 export interface CreateSectionInput {
   name?: string;
-  order?: number;
 }

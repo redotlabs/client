@@ -25,7 +25,7 @@ export interface UIState {
  */
 export interface EditorState {
   gridConfig: GridConfig;
-  sections: Map<string, Section>;
+  sections: Section[];
 
   selection: SelectionState;
   ui: UIState;
@@ -42,7 +42,7 @@ export const createInitialEditorState = (
   sections: Section[] = []
 ): EditorState => ({
   gridConfig,
-  sections: new Map(sections.map((section) => [section.id, section])),
+  sections,
   selection: {
     selectedBlockIds: new Set(),
     lastSelectedId: null,

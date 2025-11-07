@@ -58,8 +58,8 @@ export interface SectionDeleteAction extends BaseAction {
 export interface SectionReorderAction extends BaseAction {
   type: "section.reorder";
   payload: {
-    sectionId: string;
-    newOrder: number;
+    fromIndex: number;
+    toIndex: number;
   };
 }
 

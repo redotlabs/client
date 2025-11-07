@@ -7,13 +7,13 @@ import type { BuilderBlock, Section } from "@/shared/types";
 export const getSection: (
   sectionId: string
 ) => StateSelector<Section | undefined> = (sectionId) => (state) =>
-  state.sections.get(sectionId);
+  state.sections.find((s) => s.id === sectionId);
 
 export const getAllSections: StateSelector<Section[]> = (state) =>
-  Array.from(state.sections.values());
+  state.sections;
 
 export const getSectionCount: StateSelector<number> = (state) =>
-  state.sections.size;
+  state.sections.length;
 
 /**
  * Block Selectors
@@ -21,7 +21,7 @@ export const getSectionCount: StateSelector<number> = (state) =>
 export const getBlock: (
   blockId: string
 ) => StateSelector<BuilderBlock | undefined> = (blockId) => (state) => {
-  for (const section of state.sections.values()) {
+  for (const section of state.sections) {
     const block = section.blocks.find((b) => b.id === blockId);
     if (block) return block;
   }
@@ -29,10 +29,10 @@ export const getBlock: (
 };
 
 export const getAllBlocks: StateSelector<BuilderBlock[]> = (state) =>
-  Array.from(state.sections.values()).flatMap((section) => section.blocks);
+  state.sections.flatMap((section) => section.blocks);
 
 export const getBlockCount: StateSelector<number> = (state) =>
-  Array.from(state.sections.values()).reduce(
+  state.sections.reduce(
     (count, section) => count + section.blocks.length,
     0
   );
@@ -40,7 +40,7 @@ export const getBlockCount: StateSelector<number> = (state) =>
 export const getBlocksInSection: (
   sectionId: string
 ) => StateSelector<BuilderBlock[]> = (sectionId) => (state) => {
-  const section = state.sections.get(sectionId);
+  const section = state.sections.find((s) => s.id === sectionId);
   return section?.blocks || [];
 };
 

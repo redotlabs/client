@@ -2,7 +2,6 @@ import { BLOCK_REGISTRY, type BlockTemplate } from "@/core/blocks";
 import { useBlockActions } from "@/features/canvas/hooks/useBlockActions";
 import { useEditorContext } from "@/app/context/EditorContext";
 import { createSection, deleteSection } from "@/core/actions";
-import { useMemo } from "react";
 
 interface BlockLibraryItemProps {
   template: BlockTemplate;
@@ -41,17 +40,19 @@ export const BlockLibrary = () => {
     handleAddBlock(template);
   };
 
-  const sortedSections = useMemo(
-    () => Array.from(state.sections.values()).sort((a, b) => a.order - b.order),
-    [state.sections]
-  );
-
   const handleAddSection = () => {
     dispatch(createSection());
   };
 
   const handleDeleteSection = (sectionId: string) => {
-    dispatch(deleteSection(sectionId));
+    if (state.sections.length <= 1) {
+      alert('Cannot delete the last section');
+      return;
+    }
+
+    if (confirm('Are you sure you want to delete this section? All blocks in this section will be deleted.')) {
+      dispatch(deleteSection(sectionId));
+    }
   };
 
   return (
@@ -60,7 +61,7 @@ export const BlockLibrary = () => {
       <div className="mb-6">
         <h2 className="text-lg font-semibold text-gray-800 mb-3">Sections</h2>
         <div className="space-y-2 mb-3">
-          {sortedSections.map((section) => (
+          {state.sections.map((section) => (
             <div
               key={section.id}
               className="px-3 py-2 bg-gray-50 rounded-lg border border-gray-200 flex items-center justify-between group"

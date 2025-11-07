@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import { useEditorContext } from "@/app/context/EditorContext";
 import { reorderSection } from "@/core/actions";
 
@@ -14,34 +13,19 @@ interface SectionToolbarProps {
 export const SectionToolbar = ({ sectionId }: SectionToolbarProps) => {
   const { state, dispatch } = useEditorContext();
 
-  const sortedSections = useMemo(() => {
-    return Array.from(state.sections.values()).sort(
-      (a, b) => a.order - b.order
-    );
-  }, [state.sections]);
-
-  const currentSection = state.sections.get(sectionId);
-  const currentIndex = sortedSections.findIndex((s) => s.id === sectionId);
+  const currentIndex = state.sections.findIndex((s) => s.id === sectionId);
 
   const canMoveUp = currentIndex > 0;
-  const canMoveDown = currentIndex < sortedSections.length - 1;
+  const canMoveDown = currentIndex < state.sections.length - 1;
 
   const handleMoveUp = () => {
-    if (!currentSection || !canMoveUp) return;
-
-    const targetSection = sortedSections[currentIndex - 1];
-    // Swap orders
-    dispatch(reorderSection(sectionId, currentSection.order - 1));
-    dispatch(reorderSection(targetSection.id, currentSection.order));
+    if (!canMoveUp) return;
+    dispatch(reorderSection(currentIndex, currentIndex - 1));
   };
 
   const handleMoveDown = () => {
-    if (!currentSection || !canMoveDown) return;
-
-    const targetSection = sortedSections[currentIndex + 1];
-    // Swap orders
-    dispatch(reorderSection(sectionId, currentSection.order + 1));
-    dispatch(reorderSection(targetSection.id, currentSection.order));
+    if (!canMoveDown) return;
+    dispatch(reorderSection(currentIndex, currentIndex + 1));
   };
 
   return (

@@ -48,8 +48,8 @@ export class EditorController {
 
   private validateAction(action: EditorAction): RuleValidationResult {
     const selectedSection = this.state.selection.selectedSectionId
-      ? this.state.sections.get(this.state.selection.selectedSectionId)
-      : Array.from(this.state.sections.values())[0];
+      ? this.state.sections.find((s) => s.id === this.state.selection.selectedSectionId)
+      : this.state.sections[0];
 
     const context: EditorRuleContext = {
       blocks: selectedSection?.blocks || [],

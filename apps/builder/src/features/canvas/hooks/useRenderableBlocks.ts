@@ -18,13 +18,11 @@ export const useRenderableBlocks = (sectionId?: string) => {
     // sectionId가 제공되면 해당 섹션의 블록만, 없으면 모든 블록
     let blocks;
     if (sectionId) {
-      const section = state.sections.get(sectionId);
+      const section = state.sections.find((s) => s.id === sectionId);
       blocks = section?.blocks || [];
     } else {
       // 모든 섹션의 블록을 합침
-      blocks = Array.from(state.sections.values()).flatMap(
-        (section) => section.blocks
-      );
+      blocks = state.sections.flatMap((section) => section.blocks);
     }
 
     return converter.convertBlocks(blocks);

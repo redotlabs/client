@@ -59,7 +59,7 @@ export const resizeHandler: ResizeEventHandler = {
     const { state } = context;
 
     let block = null;
-    for (const section of state.sections.values()) {
+    for (const section of state.sections) {
       block = section.blocks.find((b) => b.id === blockId);
       if (block) break;
     }

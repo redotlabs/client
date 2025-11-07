@@ -28,8 +28,8 @@ export const actionHandlers: Record<ActionType, ActionHandler> = {
     if (action.type !== 'section.reorder') return state;
     return stateUpdaters.reorderSectionState(
       state,
-      action.payload.sectionId,
-      action.payload.newOrder
+      action.payload.fromIndex,
+      action.payload.toIndex
     );
   },
 

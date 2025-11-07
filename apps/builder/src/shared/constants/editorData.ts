@@ -15,7 +15,6 @@ export const initialEditorData: EditorData = {
     {
       id: "section-1",
       name: "Main Section",
-      order: 0,
       blocks: [
         {
           id: "block-1",
@@ -103,7 +102,6 @@ export const initialEditorData: EditorData = {
     {
       id: "section-2",
       name: "Secondary Section",
-      order: 1,
       blocks: [
         {
           id: "block-7",

@@ -46,10 +46,10 @@ export const deleteSection = (sectionId: string): SectionDeleteAction =>
   createAction("section.delete", { sectionId });
 
 export const reorderSection = (
-  sectionId: string,
-  newOrder: number
+  fromIndex: number,
+  toIndex: number
 ): SectionReorderAction =>
-  createAction("section.reorder", { sectionId, newOrder });
+  createAction("section.reorder", { fromIndex, toIndex });
 
 export const updateSection = (
   sectionId: string,

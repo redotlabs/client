@@ -17,18 +17,28 @@ const generateTempId = (): string => {
   return `temp-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 };
 
+/**
+ * Helper to update a section's blocks in the sections array
+ */
+const updateSectionBlocks = (
+  sections: Section[],
+  sectionId: string,
+  updateFn: (blocks: BuilderBlock[]) => BuilderBlock[]
+): Section[] => {
+  return sections.map((section) =>
+    section.id === sectionId
+      ? { ...section, blocks: updateFn(section.blocks) }
+      : section
+  );
+};
+
 export const createSectionState = (
   state: EditorState,
   section?: Section
 ): EditorState => {
   const newSection = section || {
     id: generateTempId(),
-    name: `Section ${state.sections.size + 1}`,
-    order:
-      state.sections.size > 0
-        ? Math.max(...Array.from(state.sections.values()).map((s) => s.order)) +
-          1
-        : 0,
+    name: `Section ${state.sections.length + 1}`,
     blocks: [],
     metadata: {
       createdAt: new Date().toISOString(),
@@ -36,12 +46,9 @@ export const createSectionState = (
     },
   };
 
-  const newSections = new Map(state.sections);
-  newSections.set(newSection.id, newSection);
-
   return {
     ...state,
-    sections: newSections,
+    sections: [...state.sections, newSection],
     selection: {
       ...state.selection,
       selectedSectionId: newSection.id,
@@ -53,12 +60,12 @@ export const deleteSectionState = (
   state: EditorState,
   sectionId: string
 ): EditorState => {
-  const newSections = new Map(state.sections);
-  newSections.delete(sectionId);
+  // 배열에서 제거
+  const newSections = state.sections.filter((s) => s.id !== sectionId);
 
   const newSelectedSectionId =
     state.selection.selectedSectionId === sectionId
-      ? Array.from(newSections.keys())[0] || null
+      ? newSections[0]?.id || null
       : state.selection.selectedSectionId;
 
   return {
@@ -76,14 +83,25 @@ export const deleteSectionState = (
 
 export const reorderSectionState = (
   state: EditorState,
-  sectionId: string,
-  newOrder: number
+  fromIndex: number,
+  toIndex: number
 ): EditorState => {
-  const section = state.sections.get(sectionId);
-  if (!section) return state;
+  // 인덱스 유효성 검사
+  if (
+    fromIndex < 0 ||
+    fromIndex >= state.sections.length ||
+    toIndex < 0 ||
+    toIndex >= state.sections.length
+  ) {
+    return state;
+  }
 
-  const newSections = new Map(state.sections);
-  newSections.set(sectionId, { ...section, order: newOrder });
+  // 배열 복사 후 요소 swap
+  const newSections = [...state.sections];
+  [newSections[fromIndex], newSections[toIndex]] = [
+    newSections[toIndex],
+    newSections[fromIndex],
+  ];
 
   return {
     ...state,
@@ -96,19 +114,20 @@ export const updateSectionState = (
   sectionId: string,
   updates: { name?: string }
 ): EditorState => {
-  const section = state.sections.get(sectionId);
-  if (!section) return state;
-
   const now = new Date().toISOString();
-  const newSections = new Map(state.sections);
-  newSections.set(sectionId, {
-    ...section,
-    ...updates,
-    metadata: {
-      createdAt: section.metadata?.createdAt || now,
-      updatedAt: now,
-    },
-  });
+
+  const newSections = state.sections.map((section) =>
+    section.id === sectionId
+      ? {
+          ...section,
+          ...updates,
+          metadata: {
+            createdAt: section.metadata?.createdAt || now,
+            updatedAt: now,
+          },
+        }
+      : section
+  );
 
   return {
     ...state,
@@ -189,29 +208,19 @@ export const moveBlockState = (
   position: BlockPosition
 ): EditorState => {
   // 블록이 속한 섹션 찾기
-  let targetSectionId: string | null = null;
-  for (const [sectionId, section] of state.sections) {
-    if (section.blocks.some((b) => b.id === blockId)) {
-      targetSectionId = sectionId;
-      break;
-    }
-  }
-
-  if (!targetSectionId) return state;
-
-  const section = state.sections.get(targetSectionId);
-  if (!section) return state;
-
-  const updatedBlocks = section.blocks.map((block) =>
-    block.id === blockId ? { ...block, position } : block
+  const targetSection = state.sections.find((section) =>
+    section.blocks.some((b) => b.id === blockId)
   );
 
-  const newSections = new Map(state.sections);
-  newSections.set(targetSectionId, { ...section, blocks: updatedBlocks });
+  if (!targetSection) return state;
 
   return {
     ...state,
-    sections: newSections,
+    sections: updateSectionBlocks(state.sections, targetSection.id, (blocks) =>
+      blocks.map((block) =>
+        block.id === blockId ? { ...block, position } : block
+      )
+    ),
   };
 };
 
@@ -221,29 +230,17 @@ export const resizeBlockState = (
   size: BlockSize
 ): EditorState => {
   // 블록이 속한 섹션 찾기
-  let targetSectionId: string | null = null;
-  for (const [sectionId, section] of state.sections) {
-    if (section.blocks.some((b) => b.id === blockId)) {
-      targetSectionId = sectionId;
-      break;
-    }
-  }
-
-  if (!targetSectionId) return state;
-
-  const section = state.sections.get(targetSectionId);
-  if (!section) return state;
-
-  const updatedBlocks = section.blocks.map((block) =>
-    block.id === blockId ? { ...block, size } : block
+  const targetSection = state.sections.find((section) =>
+    section.blocks.some((b) => b.id === blockId)
   );
 
-  const newSections = new Map(state.sections);
-  newSections.set(targetSectionId, { ...section, blocks: updatedBlocks });
+  if (!targetSection) return state;
 
   return {
     ...state,
-    sections: newSections,
+    sections: updateSectionBlocks(state.sections, targetSection.id, (blocks) =>
+      blocks.map((block) => (block.id === blockId ? { ...block, size } : block))
+    ),
   };
 };
 
@@ -252,17 +249,12 @@ export const createBlockState = (
   sectionId: string,
   block: BuilderBlock
 ): EditorState => {
-  const section = state.sections.get(sectionId);
-  if (!section) return state;
-
-  const updatedBlocks = [...section.blocks, block];
-
-  const newSections = new Map(state.sections);
-  newSections.set(sectionId, { ...section, blocks: updatedBlocks });
-
   return {
     ...state,
-    sections: newSections,
+    sections: updateSectionBlocks(state.sections, sectionId, (blocks) => [
+      ...blocks,
+      block,
+    ]),
   };
 };
 
@@ -271,20 +263,14 @@ export const deleteBlockState = (
   sectionId: string,
   blockId: string
 ): EditorState => {
-  const section = state.sections.get(sectionId);
-  if (!section) return state;
-
-  const updatedBlocks = section.blocks.filter((block) => block.id !== blockId);
-
   const selectedBlockIds = new Set(state.selection.selectedBlockIds);
   selectedBlockIds.delete(blockId);
 
-  const newSections = new Map(state.sections);
-  newSections.set(sectionId, { ...section, blocks: updatedBlocks });
-
   return {
     ...state,
-    sections: newSections,
+    sections: updateSectionBlocks(state.sections, sectionId, (blocks) =>
+      blocks.filter((block) => block.id !== blockId)
+    ),
     selection: {
       ...state.selection,
       selectedBlockIds,
@@ -302,19 +288,13 @@ export const updateBlockState = (
   blockId: string,
   updates: Omit<Partial<BuilderBlock>, "id" | "position" | "size">
 ): EditorState => {
-  const section = state.sections.get(sectionId);
-  if (!section) return state;
-
-  const updatedBlocks = section.blocks.map((block) =>
-    block.id === blockId ? { ...block, ...updates } : block
-  );
-
-  const newSections = new Map(state.sections);
-  newSections.set(sectionId, { ...section, blocks: updatedBlocks });
-
   return {
     ...state,
-    sections: newSections,
+    sections: updateSectionBlocks(state.sections, sectionId, (blocks) =>
+      blocks.map((block) =>
+        block.id === blockId ? { ...block, ...updates } : block
+      )
+    ),
   };
 };
 
