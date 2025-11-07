@@ -1,13 +1,13 @@
-import { createInitialEditorState, type EditorState } from '@/core/state';
+import { createInitialEditorState, type EditorState } from "@/core/state";
 import {
   type RuleValidationResult,
   type EditorRuleContext,
   baseRules,
   globalRuleValidator,
-} from '@/core/rules';
-import type { Section, GridConfig } from '@/shared/types';
-import type { EditorAction } from '@/core/actions';
-import { actionHandlers } from './action-handlers';
+} from "@/core/rules";
+import type { Section, GridConfig } from "@/shared/types";
+import type { EditorAction } from "@/core/actions";
+import { actionHandlers } from "./action-handlers";
 
 /**
  * Editor Controller
@@ -34,7 +34,7 @@ export class EditorController {
     const validationResult = this.validateAction(action);
 
     if (!validationResult.valid) {
-      console.warn('Action validation failed:', validationResult.violations);
+      console.warn("Action validation failed:", validationResult.violations);
       // TODO: 에러 처리 (UI 피드백 등)
       return;
     }
@@ -47,13 +47,12 @@ export class EditorController {
   };
 
   private validateAction(action: EditorAction): RuleValidationResult {
-    // 현재 활성 섹션의 blocks를 가져옴
-    const activeSection = this.state.selection.activeSectionId
-      ? this.state.sections.get(this.state.selection.activeSectionId)
+    const selectedSection = this.state.selection.selectedSectionId
+      ? this.state.sections.get(this.state.selection.selectedSectionId)
       : Array.from(this.state.sections.values())[0];
 
     const context: EditorRuleContext = {
-      blocks: activeSection?.blocks || [],
+      blocks: selectedSection?.blocks || [],
       selectedBlockIds: Array.from(this.state.selection.selectedBlockIds),
       gridConfig: this.state.gridConfig,
     };

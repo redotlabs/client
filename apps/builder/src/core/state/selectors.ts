@@ -63,8 +63,8 @@ export const isBlockSelected: (blockId: string) => StateSelector<boolean> =
 export const getSelectionCount: StateSelector<number> = (state) =>
   state.selection.selectedBlockIds.size;
 
-export const getActiveSectionId: StateSelector<string | null> = (state) =>
-  state.selection.activeSectionId;
+export const getSelectedSectionId: StateSelector<string | null> = (state) =>
+  state.selection.selectedSectionId;
 
 /**
  * Grid Selectors

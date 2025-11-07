@@ -30,15 +30,15 @@ export const useBlockActions = (): UseBlockActionsReturn => {
       const blockSize = template.defaultProps.size;
       const newBlock = template.createBlock(blockPosition, blockSize);
 
-      const activeSectionId = state.selection.activeSectionId;
-      if (!activeSectionId) {
-        console.warn("No active section found");
+      const selectedSectionId = state.selection.selectedSectionId;
+      if (!selectedSectionId) {
+        console.warn("No selected section found");
         return;
       }
 
-      dispatch(createBlock(activeSectionId, newBlock));
+      dispatch(createBlock(selectedSectionId, newBlock));
     },
-    [dispatch, state.selection.activeSectionId]
+    [dispatch, state.selection.selectedSectionId]
   );
 
   /**

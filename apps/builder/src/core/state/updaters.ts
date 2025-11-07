@@ -44,7 +44,7 @@ export const createSectionState = (
     sections: newSections,
     selection: {
       ...state.selection,
-      activeSectionId: newSection.id,
+      selectedSectionId: newSection.id,
     },
   };
 };
@@ -56,18 +56,17 @@ export const deleteSectionState = (
   const newSections = new Map(state.sections);
   newSections.delete(sectionId);
 
-  // activeSectionId가 삭제된 섹션이면 첫 번째 섹션으로 변경
-  const newActiveSectionId =
-    state.selection.activeSectionId === sectionId
+  const newSelectedSectionId =
+    state.selection.selectedSectionId === sectionId
       ? Array.from(newSections.keys())[0] || null
-      : state.selection.activeSectionId;
+      : state.selection.selectedSectionId;
 
   return {
     ...state,
     sections: newSections,
     selection: {
       ...state.selection,
-      activeSectionId: newActiveSectionId,
+      selectedSectionId: newSelectedSectionId,
       // 삭제된 섹션에 속한 블록 선택 해제
       selectedBlockIds: new Set(),
       lastSelectedId: null,
@@ -125,7 +124,7 @@ export const selectSectionState = (
     ...state,
     selection: {
       ...state.selection,
-      activeSectionId: sectionId,
+      selectedSectionId: sectionId,
     },
   };
 };

@@ -7,7 +7,7 @@ import type { Section, GridConfig } from "@/shared/types";
 export interface SelectionState {
   selectedBlockIds: Set<string>;
   lastSelectedId: string | null;
-  activeSectionId: string | null;
+  selectedSectionId: string | null;
 }
 
 /**
@@ -46,7 +46,7 @@ export const createInitialEditorState = (
   selection: {
     selectedBlockIds: new Set(),
     lastSelectedId: null,
-    activeSectionId: sections.length > 0 ? sections[0].id : null,
+    selectedSectionId: sections.length > 0 ? sections[0].id : null,
   },
   ui: {
     isDragging: false,

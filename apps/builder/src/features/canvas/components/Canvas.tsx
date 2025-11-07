@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { useEditorContext } from "@/app/context/EditorContext";
 import { SectionCanvas } from "./SectionCanvas";
+import { selectSection } from "@/core/actions";
 
 /**
  * Canvas
@@ -8,7 +9,7 @@ import { SectionCanvas } from "./SectionCanvas";
  * - 각 섹션마다 SectionCanvas 인스턴스 생성
  */
 export const Canvas = () => {
-  const { state } = useEditorContext();
+  const { state, dispatch } = useEditorContext();
 
   const sortedSections = useMemo(() => {
     return Array.from(state.sections.values()).sort(
@@ -16,20 +17,31 @@ export const Canvas = () => {
     );
   }, [state.sections]);
 
+  const handleSectionClick = (sectionId: string) => {
+    dispatch(selectSection(sectionId));
+  };
+
   return (
     <div className="w-full h-screen overflow-y-auto overflow-x-hidden bg-gray-50">
-      <div className="w-[1920px] mx-auto">
-        {sortedSections.map((section) => (
-          <div key={section.id} className="mb-8">
-            {/* Section Header */}
-            <div className="px-4 py-2 bg-white border-b">
-              <h2 className="text-sm font-medium text-gray-700">{section.name}</h2>
-            </div>
+      <div className="w-full mx-auto ">
+        {sortedSections.map((section) => {
+          const isSelected = state.selection.selectedSectionId === section.id;
 
-            {/* Section Canvas */}
-            <SectionCanvas section={section} />
-          </div>
-        ))}
+          return (
+            <div
+              key={section.id}
+              className={`mb-8 transition-all cursor-pointer ${
+                isSelected
+                  ? "border-4 border-blue-500 shadow-lg"
+                  : "border-4 border-transparent"
+              }`}
+              onClick={() => handleSectionClick(section.id)}
+            >
+              {/* Section Canvas */}
+              <SectionCanvas section={section} />
+            </div>
+          );
+        })}
       </div>
     </div>
   );
