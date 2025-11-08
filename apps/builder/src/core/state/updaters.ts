@@ -56,6 +56,37 @@ export const createSectionState = (
   };
 };
 
+export const insertSectionState = (
+  state: EditorState,
+  targetIndex: number,
+  section?: Section
+): EditorState => {
+  const newSection = section || {
+    id: generateTempId(),
+    name: `Section ${state.sections.length + 1}`,
+    blocks: [],
+    metadata: {
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    },
+  };
+
+  const newSections = [
+    ...state.sections.slice(0, targetIndex),
+    newSection,
+    ...state.sections.slice(targetIndex),
+  ];
+
+  return {
+    ...state,
+    sections: newSections,
+    selection: {
+      ...state.selection,
+      selectedSectionId: newSection.id,
+    },
+  };
+};
+
 export const deleteSectionState = (
   state: EditorState,
   sectionId: string
@@ -65,7 +96,7 @@ export const deleteSectionState = (
 
   const newSelectedSectionId =
     state.selection.selectedSectionId === sectionId
-      ? newSections[0]?.id || null
+      ? null
       : state.selection.selectedSectionId;
 
   return {

@@ -19,6 +19,11 @@ export const actionHandlers: Record<ActionType, ActionHandler> = {
     return stateUpdaters.createSectionState(state, action.payload.section);
   },
 
+  'section.insert': (state, action) => {
+    if (action.type !== 'section.insert') return state;
+    return stateUpdaters.insertSectionState(state, action.payload.targetIndex, action.payload.section);
+  },
+
   'section.delete': (state, action) => {
     if (action.type !== 'section.delete') return state;
     return stateUpdaters.deleteSectionState(state, action.payload.sectionId);

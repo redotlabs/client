@@ -1,5 +1,5 @@
 import { useEditorContext } from "@/app/context/EditorContext";
-import { reorderSection } from "@/core/actions";
+import { reorderSection, insertSection, deleteSection } from "@/core/actions";
 
 interface SectionToolbarProps {
   sectionId: string;
@@ -8,7 +8,9 @@ interface SectionToolbarProps {
 /**
  * SectionToolbar
  * 선택된 섹션 하단에 표시되는 툴바
- * - 섹션을 위/아래로 이동할 수 있는 화살표 버튼 제공
+ * - 섹션 이동 (위/아래)
+ * - 섹션 추가 (현재 섹션 바로 아래에)
+ * - 섹션 삭제
  */
 export const SectionToolbar = ({ sectionId }: SectionToolbarProps) => {
   const { state, dispatch } = useEditorContext();
@@ -26,6 +28,15 @@ export const SectionToolbar = ({ sectionId }: SectionToolbarProps) => {
   const handleMoveDown = () => {
     if (!canMoveDown) return;
     dispatch(reorderSection(currentIndex, currentIndex + 1));
+  };
+
+  const handleAddSection = () => {
+    const targetIndex = currentIndex + 1;
+    dispatch(insertSection(targetIndex));
+  };
+
+  const handleDelete = () => {
+    dispatch(deleteSection(sectionId));
   };
 
   return (
@@ -62,6 +73,33 @@ export const SectionToolbar = ({ sectionId }: SectionToolbarProps) => {
       {/* Divider */}
       <div className="w-px h-6 bg-gray-300" />
 
+      {/* Add Section Button */}
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          handleAddSection();
+        }}
+        className="p-2 rounded transition-colors hover:bg-gray-100 text-gray-700"
+        title="Add Section Below"
+      >
+        <svg
+          className="w-5 h-5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M12 4v16m8-8H4"
+          />
+        </svg>
+      </button>
+
+      {/* Divider */}
+      <div className="w-px h-6 bg-gray-300" />
+
       {/* Move Down Button */}
       <button
         onClick={(e) => {
@@ -87,6 +125,33 @@ export const SectionToolbar = ({ sectionId }: SectionToolbarProps) => {
             strokeLinejoin="round"
             strokeWidth={2}
             d="M19 9l-7 7-7-7"
+          />
+        </svg>
+      </button>
+
+      {/* Divider */}
+      <div className="w-px h-6 bg-gray-300" />
+
+      {/* Delete Section Button */}
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          handleDelete();
+        }}
+        className="p-2 rounded transition-colors text-red-600 hover:bg-red-100 "
+        title="Delete Section"
+      >
+        <svg
+          className="w-5 h-5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
           />
         </svg>
       </button>

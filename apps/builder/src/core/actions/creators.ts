@@ -1,6 +1,7 @@
 import type {
   EditorAction,
   SectionCreateAction,
+  SectionInsertAction,
   SectionDeleteAction,
   SectionReorderAction,
   SectionUpdateAction,
@@ -33,14 +34,25 @@ function createAction<T extends EditorAction>(
 // ============================================
 
 /**
- * Create a new section
+ * Create a new section at the end of the list
  * - If section is provided, use it directly
- * - If section is undefined, the action handler will auto-generate name and order
+ * - If section is undefined, the action handler will auto-generate name
  */
 export const createSection = (
   section?: SectionCreateAction["payload"]["section"]
 ): SectionCreateAction =>
   createAction("section.create", { section });
+
+/**
+ * Insert a new section at a specific position
+ * - If section is provided, use it directly
+ * - If section is undefined, the action handler will auto-generate name
+ */
+export const insertSection = (
+  targetIndex: number,
+  section?: SectionInsertAction["payload"]["section"]
+): SectionInsertAction =>
+  createAction("section.insert", { section, targetIndex });
 
 export const deleteSection = (sectionId: string): SectionDeleteAction =>
   createAction("section.delete", { sectionId });

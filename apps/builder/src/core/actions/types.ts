@@ -12,6 +12,7 @@ import type {
 export type ActionType =
   // Section Actions
   | "section.create"
+  | "section.insert"
   | "section.delete"
   | "section.reorder"
   | "section.update"
@@ -45,6 +46,14 @@ export interface SectionCreateAction extends BaseAction {
   type: "section.create";
   payload: {
     section?: Section;
+  };
+}
+
+export interface SectionInsertAction extends BaseAction {
+  type: "section.insert";
+  payload: {
+    section?: Section;
+    targetIndex: number;
   };
 }
 
@@ -161,6 +170,7 @@ export interface UISetResizingAction extends BaseAction {
 export type EditorAction =
   // Section Actions
   | SectionCreateAction
+  | SectionInsertAction
   | SectionDeleteAction
   | SectionReorderAction
   | SectionUpdateAction
