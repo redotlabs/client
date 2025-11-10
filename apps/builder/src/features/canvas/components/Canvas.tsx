@@ -2,11 +2,6 @@ import { useEditorContext } from "@/app/context/EditorContext";
 import { SectionCanvas } from "./SectionCanvas";
 import { SelectableSection } from "./SelectableSection";
 
-/**
- * Canvas
- * 모든 섹션을 순서대로 렌더링하는 컨테이너
- * - 각 섹션마다 SelectableSection으로 감싸서 렌더링
- */
 export const Canvas = () => {
   const { state } = useEditorContext();
 

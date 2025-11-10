@@ -2,10 +2,7 @@ import { useEditorContext } from "@/app/context/EditorContext";
 import { selectSection } from "@/core/actions";
 import { SectionToolbar } from "./SectionToolbar";
 import { SectionResizeHandle } from "./SectionResizeHandle";
-import {
-  getSectionRows,
-  calculateMinSectionRows,
-} from "@/shared/utils/sectionHeight";
+import { calculateMinSectionRows } from "@/shared/utils/sectionHeight";
 import type { ReactNode } from "react";
 import type { Section } from "@/shared/types";
 

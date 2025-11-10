@@ -1,6 +1,6 @@
-import type { EditorAction, ActionType } from '@/core/actions';
-import type { EditorState } from '@/core/state';
-import * as stateUpdaters from '@/core/state/updaters';
+import type { EditorAction, ActionType } from "@/core/actions";
+import type { EditorState } from "@/core/state";
+import * as stateUpdaters from "@/core/state/updaters";
 
 /**
  * Action Handler Type
@@ -14,23 +14,27 @@ type ActionHandler = (state: EditorState, action: EditorAction) => EditorState;
  */
 export const actionHandlers: Record<ActionType, ActionHandler> = {
   // Section Handlers
-  'section.create': (state, action) => {
-    if (action.type !== 'section.create') return state;
+  "section.create": (state, action) => {
+    if (action.type !== "section.create") return state;
     return stateUpdaters.createSectionState(state, action.payload.section);
   },
 
-  'section.insert': (state, action) => {
-    if (action.type !== 'section.insert') return state;
-    return stateUpdaters.insertSectionState(state, action.payload.targetIndex, action.payload.section);
+  "section.insert": (state, action) => {
+    if (action.type !== "section.insert") return state;
+    return stateUpdaters.insertSectionState(
+      state,
+      action.payload.targetIndex,
+      action.payload.section
+    );
   },
 
-  'section.delete': (state, action) => {
-    if (action.type !== 'section.delete') return state;
+  "section.delete": (state, action) => {
+    if (action.type !== "section.delete") return state;
     return stateUpdaters.deleteSectionState(state, action.payload.sectionId);
   },
 
-  'section.reorder': (state, action) => {
-    if (action.type !== 'section.reorder') return state;
+  "section.reorder": (state, action) => {
+    if (action.type !== "section.reorder") return state;
     return stateUpdaters.reorderSectionState(
       state,
       action.payload.fromIndex,
@@ -38,8 +42,8 @@ export const actionHandlers: Record<ActionType, ActionHandler> = {
     );
   },
 
-  'section.update': (state, action) => {
-    if (action.type !== 'section.update') return state;
+  "section.update": (state, action) => {
+    if (action.type !== "section.update") return state;
     return stateUpdaters.updateSectionState(
       state,
       action.payload.sectionId,
@@ -47,8 +51,8 @@ export const actionHandlers: Record<ActionType, ActionHandler> = {
     );
   },
 
-  'section.resize': (state, action) => {
-    if (action.type !== 'section.resize') return state;
+  "section.resize": (state, action) => {
+    if (action.type !== "section.resize") return state;
     return stateUpdaters.resizeSectionState(
       state,
       action.payload.sectionId,
@@ -56,14 +60,14 @@ export const actionHandlers: Record<ActionType, ActionHandler> = {
     );
   },
 
-  'section.select': (state, action) => {
-    if (action.type !== 'section.select') return state;
+  "section.select": (state, action) => {
+    if (action.type !== "section.select") return state;
     return stateUpdaters.selectSectionState(state, action.payload.sectionId);
   },
 
   // Block Handlers
-  'block.select': (state, action) => {
-    if (action.type !== 'block.select') return state;
+  "block.select": (state, action) => {
+    if (action.type !== "block.select") return state;
     return stateUpdaters.selectBlockState(
       state,
       action.payload.blockId,
@@ -71,13 +75,13 @@ export const actionHandlers: Record<ActionType, ActionHandler> = {
     );
   },
 
-  'block.deselect': (state, action) => {
-    if (action.type !== 'block.deselect') return state;
+  "block.deselect": (state, action) => {
+    if (action.type !== "block.deselect") return state;
     return stateUpdaters.deselectBlockState(state, action.payload.blockId);
   },
 
-  'block.move': (state, action) => {
-    if (action.type !== 'block.move') return state;
+  "block.move": (state, action) => {
+    if (action.type !== "block.move") return state;
     return stateUpdaters.moveBlockState(
       state,
       action.payload.blockId,
@@ -85,8 +89,8 @@ export const actionHandlers: Record<ActionType, ActionHandler> = {
     );
   },
 
-  'block.resize': (state, action) => {
-    if (action.type !== 'block.resize') return state;
+  "block.resize": (state, action) => {
+    if (action.type !== "block.resize") return state;
     return stateUpdaters.resizeBlockState(
       state,
       action.payload.blockId,
@@ -94,8 +98,8 @@ export const actionHandlers: Record<ActionType, ActionHandler> = {
     );
   },
 
-  'block.create': (state, action) => {
-    if (action.type !== 'block.create') return state;
+  "block.create": (state, action) => {
+    if (action.type !== "block.create") return state;
     return stateUpdaters.createBlockState(
       state,
       action.payload.sectionId,
@@ -103,8 +107,8 @@ export const actionHandlers: Record<ActionType, ActionHandler> = {
     );
   },
 
-  'block.delete': (state, action) => {
-    if (action.type !== 'block.delete') return state;
+  "block.delete": (state, action) => {
+    if (action.type !== "block.delete") return state;
     return stateUpdaters.deleteBlockState(
       state,
       action.payload.sectionId,
@@ -112,8 +116,8 @@ export const actionHandlers: Record<ActionType, ActionHandler> = {
     );
   },
 
-  'block.update': (state, action) => {
-    if (action.type !== 'block.update') return state;
+  "block.update": (state, action) => {
+    if (action.type !== "block.update") return state;
     return stateUpdaters.updateBlockState(
       state,
       action.payload.sectionId,
@@ -123,18 +127,27 @@ export const actionHandlers: Record<ActionType, ActionHandler> = {
   },
 
   // UI Handlers
-  'ui.setBlockDragging': (state, action) => {
-    if (action.type !== 'ui.setBlockDragging') return state;
-    return stateUpdaters.setBlockDraggingState(state, action.payload.isBlockDragging);
+  "ui.setBlockDragging": (state, action) => {
+    if (action.type !== "ui.setBlockDragging") return state;
+    return stateUpdaters.setBlockDraggingState(
+      state,
+      action.payload.isBlockDragging
+    );
   },
 
-  'ui.setBlockResizing': (state, action) => {
-    if (action.type !== 'ui.setBlockResizing') return state;
-    return stateUpdaters.setBlockResizingState(state, action.payload.isBlockResizing);
+  "ui.setBlockResizing": (state, action) => {
+    if (action.type !== "ui.setBlockResizing") return state;
+    return stateUpdaters.setBlockResizingState(
+      state,
+      action.payload.isBlockResizing
+    );
   },
 
-  'ui.setSectionResizing': (state, action) => {
-    if (action.type !== 'ui.setSectionResizing') return state;
-    return stateUpdaters.setSectionResizingState(state, action.payload.isSectionResizing);
+  "ui.setSectionResizing": (state, action) => {
+    if (action.type !== "ui.setSectionResizing") return state;
+    return stateUpdaters.setSectionResizingState(
+      state,
+      action.payload.isSectionResizing
+    );
   },
 };

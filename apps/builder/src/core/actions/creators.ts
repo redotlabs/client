@@ -34,21 +34,10 @@ function createAction<T extends EditorAction>(
 // Section Action Creators
 // ============================================
 
-/**
- * Create a new section at the end of the list
- * - If section is provided, use it directly
- * - If section is undefined, the action handler will auto-generate name
- */
 export const createSection = (
   section?: SectionCreateAction["payload"]["section"]
-): SectionCreateAction =>
-  createAction("section.create", { section });
+): SectionCreateAction => createAction("section.create", { section });
 
-/**
- * Insert a new section at a specific position
- * - If section is provided, use it directly
- * - If section is undefined, the action handler will auto-generate name
- */
 export const insertSection = (
   targetIndex: number,
   section?: SectionInsertAction["payload"]["section"]
@@ -73,8 +62,7 @@ export const updateSection = (
 export const resizeSection = (
   sectionId: string,
   rows: number
-): SectionResizeAction =>
-  createAction("section.resize", { sectionId, rows });
+): SectionResizeAction => createAction("section.resize", { sectionId, rows });
 
 export const selectSection = (sectionId: string): SectionSelectAction =>
   createAction("section.select", { sectionId });
