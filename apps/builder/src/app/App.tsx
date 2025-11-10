@@ -7,8 +7,8 @@ export default function BuilderApp() {
   return (
     <ThemeProvider color="blue" font="pretendard">
       <EditorProvider
-        blocks={initialEditorData.blocks}
-        gridConfig={initialEditorData.grid}
+        gridConfig={initialEditorData.gridConfig}
+        sections={initialEditorData.sections}
       >
         <EditorLayout />
       </EditorProvider>

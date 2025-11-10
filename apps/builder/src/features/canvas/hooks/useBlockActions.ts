@@ -17,7 +17,7 @@ interface UseBlockActionsReturn {
  * 블록 추가 및 드래그 액션을 관리하는 커스텀 훅
  */
 export const useBlockActions = (): UseBlockActionsReturn => {
-  const { dispatch } = useEditorContext();
+  const { state, dispatch } = useEditorContext();
 
   const handleAddBlock = useCallback(
     (template: BlockTemplate, position?: BlockPosition) => {
@@ -30,9 +30,15 @@ export const useBlockActions = (): UseBlockActionsReturn => {
       const blockSize = template.defaultProps.size;
       const newBlock = template.createBlock(blockPosition, blockSize);
 
-      dispatch(createBlock(newBlock));
+      const selectedSectionId = state.selection.selectedSectionId;
+      if (!selectedSectionId) {
+        console.warn("No selected section found");
+        return;
+      }
+
+      dispatch(createBlock(selectedSectionId, newBlock));
     },
-    [dispatch]
+    [dispatch, state.selection.selectedSectionId]
   );
 
   /**

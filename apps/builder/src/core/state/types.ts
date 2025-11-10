@@ -1,4 +1,4 @@
-import type { BuilderBlock, GridConfig } from "@/shared/types";
+import type { Section, GridConfig } from "@/shared/types";
 
 /**
  * Selection State
@@ -7,6 +7,7 @@ import type { BuilderBlock, GridConfig } from "@/shared/types";
 export interface SelectionState {
   selectedBlockIds: Set<string>;
   lastSelectedId: string | null;
+  selectedSectionId: string | null;
 }
 
 /**
@@ -14,8 +15,9 @@ export interface SelectionState {
  * 에디터 UI 관련 상태
  */
 export interface UIState {
-  isDragging: boolean;
-  isResizing: boolean;
+  isBlockDragging: boolean;
+  isBlockResizing: boolean;
+  isSectionResizing: boolean;
 }
 
 /**
@@ -23,8 +25,8 @@ export interface UIState {
  * 에디터의 전체 상태
  */
 export interface EditorState {
-  blocks: Map<string, BuilderBlock>;
   gridConfig: GridConfig;
+  sections: Section[];
 
   selection: SelectionState;
   ui: UIState;
@@ -37,18 +39,20 @@ export interface EditorState {
 }
 
 export const createInitialEditorState = (
-  blocks: BuilderBlock[] = [],
-  gridConfig: GridConfig
+  gridConfig: GridConfig,
+  sections: Section[] = []
 ): EditorState => ({
-  blocks: new Map(blocks.map((block) => [block.id, block])),
   gridConfig,
+  sections,
   selection: {
     selectedBlockIds: new Set(),
     lastSelectedId: null,
+    selectedSectionId: sections.length > 0 ? sections[0].id : null,
   },
   ui: {
-    isDragging: false,
-    isResizing: false,
+    isBlockDragging: false,
+    isBlockResizing: false,
+    isSectionResizing: false,
   },
   history: {
     past: [],

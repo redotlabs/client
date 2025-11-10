@@ -3,7 +3,7 @@ import type {
   HandlerContext,
   ResizeDirection,
 } from "./types";
-import { resizeBlock, moveBlock, setResizing } from "@/core/actions";
+import { resizeBlock, moveBlock, setBlockResizing } from "@/core/actions";
 import { COLUMN_WIDTH } from "@/shared/constants/editorData";
 
 /**
@@ -57,7 +57,12 @@ export const resizeHandler: ResizeEventHandler = {
     event.preventDefault();
 
     const { state } = context;
-    const block = state.blocks.get(blockId);
+
+    let block = null;
+    for (const section of state.sections) {
+      block = section.blocks.find((b) => b.id === blockId);
+      if (block) break;
+    }
 
     if (!block) return;
 
@@ -84,7 +89,7 @@ export const resizeHandler: ResizeEventHandler = {
 
     if (!resizeState.hasStartedResizing) {
       resizeState.hasStartedResizing = true;
-      dispatch(setResizing(true));
+      dispatch(setBlockResizing(true));
     }
 
     const deltaX = event.clientX - resizeState.startX;
@@ -159,7 +164,7 @@ export const resizeHandler: ResizeEventHandler = {
     if (!resizeState) return;
 
     if (currentContext) {
-      currentContext.dispatch(setResizing(false));
+      currentContext.dispatch(setBlockResizing(false));
     }
 
     resizeState = null;

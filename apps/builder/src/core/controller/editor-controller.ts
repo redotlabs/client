@@ -1,13 +1,13 @@
-import { createInitialEditorState, type EditorState } from '@/core/state';
+import { createInitialEditorState, type EditorState } from "@/core/state";
 import {
   type RuleValidationResult,
   type EditorRuleContext,
   baseRules,
   globalRuleValidator,
-} from '@/core/rules';
-import type { BuilderBlock, GridConfig } from '@/shared/types';
-import type { EditorAction } from '@/core/actions';
-import { actionHandlers } from './action-handlers';
+} from "@/core/rules";
+import type { Section, GridConfig } from "@/shared/types";
+import type { EditorAction } from "@/core/actions";
+import { actionHandlers } from "./action-handlers";
 
 /**
  * Editor Controller
@@ -17,8 +17,8 @@ export class EditorController {
   private state: EditorState;
   private listeners: ((state: EditorState) => void)[] = [];
 
-  constructor(blocks: BuilderBlock[], gridConfig: GridConfig) {
-    this.state = createInitialEditorState(blocks, gridConfig);
+  constructor(gridConfig: GridConfig, sections: Section[]) {
+    this.state = createInitialEditorState(gridConfig, sections);
 
     baseRules.forEach((rule) => {
       globalRuleValidator.registerRule(rule);
@@ -34,7 +34,7 @@ export class EditorController {
     const validationResult = this.validateAction(action);
 
     if (!validationResult.valid) {
-      console.warn('Action validation failed:', validationResult.violations);
+      console.warn("Action validation failed:", validationResult.violations);
       // TODO: 에러 처리 (UI 피드백 등)
       return;
     }
@@ -47,8 +47,12 @@ export class EditorController {
   };
 
   private validateAction(action: EditorAction): RuleValidationResult {
+    const selectedSection = this.state.selection.selectedSectionId
+      ? this.state.sections.find((s) => s.id === this.state.selection.selectedSectionId)
+      : this.state.sections[0];
+
     const context: EditorRuleContext = {
-      blocks: Array.from(this.state.blocks.values()),
+      blocks: selectedSection?.blocks || [],
       selectedBlockIds: Array.from(this.state.selection.selectedBlockIds),
       gridConfig: this.state.gridConfig,
     };

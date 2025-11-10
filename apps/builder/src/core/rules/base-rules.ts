@@ -1,15 +1,15 @@
-import type { Rule, RuleValidationResult } from './types';
+import type { Rule, RuleValidationResult } from "./types";
 
 /**
  * 블록이 그리드 영역 밖으로 나갈 수 없음
  */
 export const blockBoundsRule: Rule = {
-  name: 'block.bounds',
-  description: 'Blocks must stay within grid boundaries',
+  name: "block.bounds",
+  description: "Blocks must stay within grid boundaries",
   validate: (action, context) => {
-    const violations: RuleValidationResult['violations'] = [];
+    const violations: RuleValidationResult["violations"] = [];
 
-    if (action.type === 'block.move') {
+    if (action.type === "block.move") {
       const { position } = action.payload;
       const { gridConfig } = context;
 
@@ -21,10 +21,10 @@ export const blockBoundsRule: Rule = {
         position.y > gridConfig.rows
       ) {
         violations.push({
-          rule: 'block.bounds',
-          message: 'Block cannot be moved outside grid boundaries',
+          rule: "block.bounds",
+          message: "Block cannot be moved outside grid boundaries",
           blockId: action.payload.blockId,
-          severity: 'error',
+          severity: "error",
         });
       }
     }
@@ -40,12 +40,12 @@ export const blockBoundsRule: Rule = {
  * 블록 겹침 검사 (기본 구조만)
  */
 export const blockOverlapRule: Rule = {
-  name: 'block.overlap',
-  description: 'Blocks cannot overlap with each other',
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  name: "block.overlap",
+  description: "Blocks cannot overlap with each other",
   validate: (action, context) => {
     // TODO: 실제 겹침 검사 로직 구현 (추후 작업)
     // 현재는 통과
+    console.log(action, context);
     return { valid: true, violations: [] };
   },
 };

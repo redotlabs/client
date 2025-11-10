@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { EditorController } from '@/core/controller';
 import type { EditorState } from '@/core/state';
-import type { BuilderBlock, GridConfig } from '@/shared/types';
+import type { Section, GridConfig } from '@/shared/types';
 
 /**
  * useEditor Hook
@@ -9,11 +9,11 @@ import type { BuilderBlock, GridConfig } from '@/shared/types';
  *
  * TODO: 전역 상태 관리로 전환 필요
  */
-export function useEditor(blocks: BuilderBlock[], gridConfig: GridConfig) {
+export function useEditor(gridConfig: GridConfig, sections: Section[]) {
   const controllerRef = useRef<EditorController | null>(null);
 
   if (!controllerRef.current) {
-    controllerRef.current = new EditorController(blocks, gridConfig);
+    controllerRef.current = new EditorController(gridConfig, sections);
   }
 
   const controller = controllerRef.current;

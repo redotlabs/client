@@ -107,7 +107,7 @@ export class CanvasListener {
       return;
     }
 
-    if (this.context.state.ui.isResizing) {
+    if (this.context.state.ui.isBlockResizing) {
       return;
     }
 

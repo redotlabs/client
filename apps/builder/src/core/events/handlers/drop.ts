@@ -1,5 +1,5 @@
 import type { DropEventHandler, HandlerContext } from "./types";
-import { createBlock, setDragging } from "@/core/actions";
+import { createBlock, setBlockDragging } from "@/core/actions";
 import type { BlockTemplate } from "@/core/blocks";
 
 const COLUMN_WIDTH = 40;
@@ -35,8 +35,8 @@ export const createDropHandler = (): DropEventHandler => ({
     event.preventDefault();
     event.dataTransfer!.dropEffect = "copy";
 
-    if (!context.state.ui.isDragging) {
-      context.dispatch(setDragging(true));
+    if (!context.state.ui.isBlockDragging) {
+      context.dispatch(setBlockDragging(true));
     }
   },
 
@@ -45,13 +45,24 @@ export const createDropHandler = (): DropEventHandler => ({
 
     const template = window.__draggedTemplate as BlockTemplate | undefined;
     if (!template) {
-      context.dispatch(setDragging(false));
+      context.dispatch(setBlockDragging(false));
       return;
     }
 
     const target = event.currentTarget as HTMLElement;
     if (!target) {
-      context.dispatch(setDragging(false));
+      context.dispatch(setBlockDragging(false));
+      return;
+    }
+
+    const sectionElement = target.closest("[data-section-id]") as HTMLElement;
+    const sectionId =
+      sectionElement?.dataset.sectionId ||
+      context.state.selection.selectedSectionId;
+
+    if (!sectionId) {
+      console.warn("No section found for drop");
+      context.dispatch(setBlockDragging(false));
       return;
     }
 
@@ -70,16 +81,16 @@ export const createDropHandler = (): DropEventHandler => ({
     const blockSize = template.defaultProps.size;
     const newBlock = template.createBlock(blockPosition, blockSize);
 
-    context.dispatch(createBlock(newBlock));
+    context.dispatch(createBlock(sectionId, newBlock));
 
     delete window.__draggedTemplate;
 
-    context.dispatch(setDragging(false));
+    context.dispatch(setBlockDragging(false));
   },
 
   onDragLeave: (event: DragEvent, context: HandlerContext) => {
     if (event.currentTarget === event.target) {
-      context.dispatch(setDragging(false));
+      context.dispatch(setBlockDragging(false));
     }
   },
 });
