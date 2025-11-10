@@ -4,7 +4,7 @@ import { useFormContext, useWatch } from 'react-hook-form';
 import { Button, toast } from '@redotlabs/ui';
 import { useResetPassword } from '@/shared/api/queries/auth/reset-password';
 import { useResetPasswordStep } from '../hooks/reset-password-step.hook';
-import Link from 'next/link';
+import { TenantLink } from '@repo/tenant-router/next';
 import { PATH } from '@/shared/constants/routes';
 
 const ResetPasswordStep = () => {
@@ -80,7 +80,11 @@ const ResetPasswordStep = () => {
         {isPending ? '비밀번호 재설정 중입니다..' : '비밀번호 재설정하기'}
       </Button>
 
-      <Link replace href={PATH.auth.signIn} className="mt-5 w-full text-center">
+      <TenantLink
+        href={PATH.auth.signIn}
+        replace
+        className="mt-5 w-full text-center"
+      >
         <Button
           size="sm"
           variant="text"
@@ -88,7 +92,7 @@ const ResetPasswordStep = () => {
         >
           로그인 페이지로 돌아가기
         </Button>
-      </Link>
+      </TenantLink>
     </>
   );
 };

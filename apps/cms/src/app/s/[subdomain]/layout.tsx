@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { ThemeProvider } from '@redotlabs/themes';
-import MSWProvider from '@/_mock/msw-provider';
 import ClientQueryClientProvider from '@/shared/components/wrapper/query-client-provider';
 import ClientToastProvider from '@/shared/components/wrapper/client-toast-provider';
 import AuthGuard from '@/shared/components/wrapper/auth-guard';
@@ -10,6 +9,7 @@ import { initializeSubdomainHeader } from '@/shared/api/instance';
 import { redirect } from 'next/navigation';
 import { PATH } from '@/shared/constants/routes';
 import { TenantProvider } from '@repo/tenant-router/next';
+import SubdomainInitializer from '@/shared/components/wrapper/subdomain-initializer';
 
 export const metadata: Metadata = {
   title: 'Redot CMS',
@@ -28,18 +28,21 @@ export default async function CustomerRootLayout({
   });
 
   return (
-    <TenantProvider subdomain={subdomain}>
-      <ClientQueryClientProvider>
-        <ThemeProvider color={customer.color} font={customer.font}>
-          <MSWProvider>
+    <SubdomainInitializer subdomain={subdomain}>
+      <TenantProvider subdomain={subdomain}>
+        <ClientQueryClientProvider>
+          <ThemeProvider
+            color={customer.styleInfo?.color}
+            font={customer.styleInfo?.font}
+          >
             <ClientToastProvider>
               <AuthGuard>
                 <main>{children}</main>
               </AuthGuard>
             </ClientToastProvider>
-          </MSWProvider>
-        </ThemeProvider>
-      </ClientQueryClientProvider>
-    </TenantProvider>
+          </ThemeProvider>
+        </ClientQueryClientProvider>
+      </TenantProvider>
+    </SubdomainInitializer>
   );
 }
