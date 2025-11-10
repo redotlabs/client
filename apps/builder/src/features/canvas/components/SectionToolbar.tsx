@@ -41,6 +41,33 @@ export const SectionToolbar = ({ sectionId }: SectionToolbarProps) => {
 
   return (
     <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex items-center gap-2 bg-white rounded-lg shadow-lg border border-gray-200 px-3 py-2 z-10">
+      {/* Add Section Button */}
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          handleAddSection();
+        }}
+        className="p-2 rounded transition-colors hover:bg-gray-100 text-gray-700"
+        title="Add Section Below"
+      >
+        <svg
+          className="w-5 h-5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M12 4v16m8-8H4"
+          />
+        </svg>
+      </button>
+
+      {/* Divider */}
+      <div className="w-px h-6 bg-gray-300" />
+
       {/* Move Up Button */}
       <button
         onClick={(e) => {
@@ -66,33 +93,6 @@ export const SectionToolbar = ({ sectionId }: SectionToolbarProps) => {
             strokeLinejoin="round"
             strokeWidth={2}
             d="M5 15l7-7 7 7"
-          />
-        </svg>
-      </button>
-
-      {/* Divider */}
-      <div className="w-px h-6 bg-gray-300" />
-
-      {/* Add Section Button */}
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          handleAddSection();
-        }}
-        className="p-2 rounded transition-colors hover:bg-gray-100 text-gray-700"
-        title="Add Section Below"
-      >
-        <svg
-          className="w-5 h-5"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M12 4v16m8-8H4"
           />
         </svg>
       </button>

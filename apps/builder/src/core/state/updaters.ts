@@ -5,6 +5,8 @@ import type {
   BlockSize,
   Section,
 } from "@/shared/types";
+import { getSectionRows } from "@/shared/utils/sectionHeight";
+import { DEFAULT_SECTION_ROWS } from "@/shared/constants/editorData";
 
 // ============================================
 // Section State Updaters
@@ -39,6 +41,7 @@ export const createSectionState = (
   const newSection = section || {
     id: generateTempId(),
     name: `Section ${state.sections.length + 1}`,
+    rows: DEFAULT_SECTION_ROWS,
     blocks: [],
     metadata: {
       createdAt: new Date().toISOString(),
@@ -64,6 +67,7 @@ export const insertSectionState = (
   const newSection = section || {
     id: generateTempId(),
     name: `Section ${state.sections.length + 1}`,
+    rows: DEFAULT_SECTION_ROWS,
     blocks: [],
     metadata: {
       createdAt: new Date().toISOString(),
@@ -166,6 +170,21 @@ export const updateSectionState = (
   };
 };
 
+export const resizeSectionState = (
+  state: EditorState,
+  sectionId: string,
+  rows: number
+): EditorState => {
+  const newSections = state.sections.map((section) =>
+    section.id === sectionId ? { ...section, rows } : section
+  );
+
+  return {
+    ...state,
+    sections: newSections,
+  };
+};
+
 export const selectSectionState = (
   state: EditorState,
   sectionId: string
@@ -245,11 +264,22 @@ export const moveBlockState = (
 
   if (!targetSection) return state;
 
+  const block = targetSection.blocks.find((b) => b.id === blockId);
+  if (!block) return state;
+
+  const sectionRows = getSectionRows(targetSection);
+
+  const maxY = sectionRows - block.size.height;
+  const clampedPosition = {
+    ...position,
+    y: Math.max(0, Math.min(position.y, maxY)),
+  };
+
   return {
     ...state,
     sections: updateSectionBlocks(state.sections, targetSection.id, (blocks) =>
-      blocks.map((block) =>
-        block.id === blockId ? { ...block, position } : block
+      blocks.map((b) =>
+        b.id === blockId ? { ...b, position: clampedPosition } : b
       )
     ),
   };
@@ -260,17 +290,27 @@ export const resizeBlockState = (
   blockId: string,
   size: BlockSize
 ): EditorState => {
-  // 블록이 속한 섹션 찾기
   const targetSection = state.sections.find((section) =>
     section.blocks.some((b) => b.id === blockId)
   );
 
   if (!targetSection) return state;
 
+  const block = targetSection.blocks.find((b) => b.id === blockId);
+  if (!block) return state;
+
+  const sectionRows = getSectionRows(targetSection);
+
+  const maxHeight = sectionRows - block.position.y;
+  const clampedSize = {
+    ...size,
+    height: Math.max(1, Math.min(size.height, maxHeight)),
+  };
+
   return {
     ...state,
     sections: updateSectionBlocks(state.sections, targetSection.id, (blocks) =>
-      blocks.map((block) => (block.id === blockId ? { ...block, size } : block))
+      blocks.map((b) => (b.id === blockId ? { ...b, size: clampedSize } : b))
     ),
   };
 };
@@ -329,28 +369,41 @@ export const updateBlockState = (
   };
 };
 
-export const setDraggingState = (
+export const setBlockDraggingState = (
   state: EditorState,
-  isDragging: boolean
+  isBlockDragging: boolean
 ): EditorState => {
   return {
     ...state,
     ui: {
       ...state.ui,
-      isDragging,
+      isBlockDragging,
     },
   };
 };
 
-export const setResizingState = (
+export const setBlockResizingState = (
   state: EditorState,
-  isResizing: boolean
+  isBlockResizing: boolean
 ): EditorState => {
   return {
     ...state,
     ui: {
       ...state.ui,
-      isResizing,
+      isBlockResizing,
+    },
+  };
+};
+
+export const setSectionResizingState = (
+  state: EditorState,
+  isSectionResizing: boolean
+): EditorState => {
+  return {
+    ...state,
+    ui: {
+      ...state.ui,
+      isSectionResizing,
     },
   };
 };

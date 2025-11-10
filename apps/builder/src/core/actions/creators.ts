@@ -5,6 +5,7 @@ import type {
   SectionDeleteAction,
   SectionReorderAction,
   SectionUpdateAction,
+  SectionResizeAction,
   SectionSelectAction,
   BlockSelectAction,
   BlockDeselectAction,
@@ -69,6 +70,12 @@ export const updateSection = (
 ): SectionUpdateAction =>
   createAction("section.update", { sectionId, updates });
 
+export const resizeSection = (
+  sectionId: string,
+  rows: number
+): SectionResizeAction =>
+  createAction("section.resize", { sectionId, rows });
+
 export const selectSection = (sectionId: string): SectionSelectAction =>
   createAction("section.select", { sectionId });
 
@@ -111,8 +118,11 @@ export const updateBlock = (
 ): BlockUpdateAction =>
   createAction("block.update", { sectionId, blockId, updates });
 
-export const setDragging = (isDragging: boolean) =>
-  createAction("ui.setDragging", { isDragging });
+export const setBlockDragging = (isBlockDragging: boolean) =>
+  createAction("ui.setBlockDragging", { isBlockDragging });
 
-export const setResizing = (isResizing: boolean) =>
-  createAction("ui.setResizing", { isResizing });
+export const setBlockResizing = (isBlockResizing: boolean) =>
+  createAction("ui.setBlockResizing", { isBlockResizing });
+
+export const setSectionResizing = (isSectionResizing: boolean) =>
+  createAction("ui.setSectionResizing", { isSectionResizing });

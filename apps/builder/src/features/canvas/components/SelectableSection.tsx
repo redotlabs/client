@@ -1,6 +1,11 @@
 import { useEditorContext } from "@/app/context/EditorContext";
 import { selectSection } from "@/core/actions";
 import { SectionToolbar } from "./SectionToolbar";
+import { SectionResizeHandle } from "./SectionResizeHandle";
+import {
+  getSectionRows,
+  calculateMinSectionRows,
+} from "@/shared/utils/sectionHeight";
 import type { ReactNode } from "react";
 import type { Section } from "@/shared/types";
 
@@ -25,9 +30,11 @@ export const SelectableSection = ({
     dispatch(selectSection(section.id));
   };
 
+  const minRows = calculateMinSectionRows(section.blocks);
+
   return (
     <div
-      className={`mb-8 transition-all cursor-pointer relative ${
+      className={`mb-8 cursor-pointer relative ${
         isSelected
           ? "border-4 border-blue-500 shadow-lg"
           : "border-4 border-transparent"
@@ -36,7 +43,16 @@ export const SelectableSection = ({
     >
       {children}
 
-      {isSelected && <SectionToolbar sectionId={section.id} />}
+      {isSelected && (
+        <>
+          <SectionToolbar sectionId={section.id} />
+          <SectionResizeHandle
+            sectionId={section.id}
+            currentRows={section.rows}
+            minRows={minRows}
+          />
+        </>
+      )}
     </div>
   );
 };

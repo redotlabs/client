@@ -1,5 +1,5 @@
 import type { DragEventHandler, HandlerContext } from "./types";
-import { moveBlock, setDragging } from "../../actions";
+import { moveBlock, setBlockDragging } from "../../actions";
 import { COLUMN_WIDTH } from "@/shared/constants/editorData";
 
 interface DragState {
@@ -69,7 +69,7 @@ export const createDragHandler = (): DragEventHandler => {
 
       if (!dragState.hasStartedDragging) {
         dragState.hasStartedDragging = true;
-        dispatch(setDragging(true));
+        dispatch(setBlockDragging(true));
       }
 
       const cellWidth = COLUMN_WIDTH;
@@ -101,7 +101,7 @@ export const createDragHandler = (): DragEventHandler => {
       document.removeEventListener("mouseup", handleMouseUp);
 
       if (currentContext) {
-        currentContext.dispatch(setDragging(false));
+        currentContext.dispatch(setBlockDragging(false));
       }
 
       dragState = null;

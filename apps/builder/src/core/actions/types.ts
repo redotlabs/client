@@ -16,6 +16,7 @@ export type ActionType =
   | "section.delete"
   | "section.reorder"
   | "section.update"
+  | "section.resize"
   | "section.select"
   // Block Actions
   | "block.select"
@@ -26,8 +27,9 @@ export type ActionType =
   | "block.delete"
   | "block.update"
   // UI Actions
-  | "ui.setDragging"
-  | "ui.setResizing";
+  | "ui.setBlockDragging"
+  | "ui.setBlockResizing"
+  | "ui.setSectionResizing";
 
 /**
  * Base Action
@@ -79,6 +81,14 @@ export interface SectionUpdateAction extends BaseAction {
     updates: {
       name?: string;
     };
+  };
+}
+
+export interface SectionResizeAction extends BaseAction {
+  type: "section.resize";
+  payload: {
+    sectionId: string;
+    rows: number;
   };
 }
 
@@ -153,17 +163,24 @@ export interface BlockUpdateAction extends BaseAction {
 // UI Actions
 // ============================================
 
-export interface UISetDraggingAction extends BaseAction {
-  type: "ui.setDragging";
+export interface UISetBlockDraggingAction extends BaseAction {
+  type: "ui.setBlockDragging";
   payload: {
-    isDragging: boolean;
+    isBlockDragging: boolean;
   };
 }
 
-export interface UISetResizingAction extends BaseAction {
-  type: "ui.setResizing";
+export interface UISetBlockResizingAction extends BaseAction {
+  type: "ui.setBlockResizing";
   payload: {
-    isResizing: boolean;
+    isBlockResizing: boolean;
+  };
+}
+
+export interface UISetSectionResizingAction extends BaseAction {
+  type: "ui.setSectionResizing";
+  payload: {
+    isSectionResizing: boolean;
   };
 }
 
@@ -174,6 +191,7 @@ export type EditorAction =
   | SectionDeleteAction
   | SectionReorderAction
   | SectionUpdateAction
+  | SectionResizeAction
   | SectionSelectAction
   // Block Actions
   | BlockSelectAction
@@ -184,5 +202,6 @@ export type EditorAction =
   | BlockDeleteAction
   | BlockUpdateAction
   // UI Actions
-  | UISetDraggingAction
-  | UISetResizingAction;
+  | UISetBlockDraggingAction
+  | UISetBlockResizingAction
+  | UISetSectionResizingAction;

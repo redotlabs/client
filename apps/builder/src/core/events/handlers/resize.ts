@@ -3,7 +3,7 @@ import type {
   HandlerContext,
   ResizeDirection,
 } from "./types";
-import { resizeBlock, moveBlock, setResizing } from "@/core/actions";
+import { resizeBlock, moveBlock, setBlockResizing } from "@/core/actions";
 import { COLUMN_WIDTH } from "@/shared/constants/editorData";
 
 /**
@@ -89,7 +89,7 @@ export const resizeHandler: ResizeEventHandler = {
 
     if (!resizeState.hasStartedResizing) {
       resizeState.hasStartedResizing = true;
-      dispatch(setResizing(true));
+      dispatch(setBlockResizing(true));
     }
 
     const deltaX = event.clientX - resizeState.startX;
@@ -164,7 +164,7 @@ export const resizeHandler: ResizeEventHandler = {
     if (!resizeState) return;
 
     if (currentContext) {
-      currentContext.dispatch(setResizing(false));
+      currentContext.dispatch(setBlockResizing(false));
     }
 
     resizeState = null;

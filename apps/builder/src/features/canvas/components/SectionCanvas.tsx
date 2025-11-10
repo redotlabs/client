@@ -12,6 +12,7 @@ import {
   createDragHandler,
 } from "@/core/events/handlers";
 import { useRenderableBlocks } from "@/features/canvas/hooks/useRenderableBlocks";
+import { getSectionRows } from "@/shared/utils/sectionHeight";
 import type { Section } from "@/shared/types";
 
 interface SectionCanvasProps {
@@ -30,9 +31,15 @@ export const SectionCanvas = ({ section }: SectionCanvasProps) => {
 
   const renderableBlocks = useRenderableBlocks(section.id);
 
-  const isDragging = state.ui.isDragging;
-  const isResizing = state.ui.isResizing;
-  const showGrid = isDragging || isResizing;
+  const sectionRows = getSectionRows(section);
+
+  const isBlockDragging = state.ui.isBlockDragging;
+  const isBlockResizing = state.ui.isBlockResizing;
+  const isSectionResizing = state.ui.isSectionResizing;
+  const isSelected = state.selection.selectedSectionId === section.id;
+
+  const showGrid =
+    isSelected && (isBlockDragging || isBlockResizing || isSectionResizing);
 
   const listenerRef = useRef<CanvasListener | null>(null);
   const contextRef = useRef({ state, dispatch });
@@ -75,9 +82,9 @@ export const SectionCanvas = ({ section }: SectionCanvasProps) => {
           "bg-[linear-gradient(to_right,rgba(0,0,0,0.1)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.1)_1px,transparent_1px)]"
       )}
       style={{
-        gridTemplateRows: `repeat(${state.gridConfig.rows}, ${state.gridConfig.rowHeight}px)`,
+        gridTemplateRows: `repeat(${sectionRows}, ${state.gridConfig.rowHeight}px)`,
         gridTemplateColumns: `repeat(${state.gridConfig.columns}, ${COLUMN_WIDTH}px)`,
-        minHeight: `${state.gridConfig.rows * state.gridConfig.rowHeight}px`,
+        minHeight: `${sectionRows * state.gridConfig.rowHeight}px`,
       }}
     >
       {renderableBlocks.map((block) => (

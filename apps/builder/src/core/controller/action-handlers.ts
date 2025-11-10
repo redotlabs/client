@@ -47,6 +47,15 @@ export const actionHandlers: Record<ActionType, ActionHandler> = {
     );
   },
 
+  'section.resize': (state, action) => {
+    if (action.type !== 'section.resize') return state;
+    return stateUpdaters.resizeSectionState(
+      state,
+      action.payload.sectionId,
+      action.payload.rows
+    );
+  },
+
   'section.select': (state, action) => {
     if (action.type !== 'section.select') return state;
     return stateUpdaters.selectSectionState(state, action.payload.sectionId);
@@ -114,13 +123,18 @@ export const actionHandlers: Record<ActionType, ActionHandler> = {
   },
 
   // UI Handlers
-  'ui.setDragging': (state, action) => {
-    if (action.type !== 'ui.setDragging') return state;
-    return stateUpdaters.setDraggingState(state, action.payload.isDragging);
+  'ui.setBlockDragging': (state, action) => {
+    if (action.type !== 'ui.setBlockDragging') return state;
+    return stateUpdaters.setBlockDraggingState(state, action.payload.isBlockDragging);
   },
 
-  'ui.setResizing': (state, action) => {
-    if (action.type !== 'ui.setResizing') return state;
-    return stateUpdaters.setResizingState(state, action.payload.isResizing);
+  'ui.setBlockResizing': (state, action) => {
+    if (action.type !== 'ui.setBlockResizing') return state;
+    return stateUpdaters.setBlockResizingState(state, action.payload.isBlockResizing);
+  },
+
+  'ui.setSectionResizing': (state, action) => {
+    if (action.type !== 'ui.setSectionResizing') return state;
+    return stateUpdaters.setSectionResizingState(state, action.payload.isSectionResizing);
   },
 };

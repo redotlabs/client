@@ -15,8 +15,9 @@ export interface SelectionState {
  * 에디터 UI 관련 상태
  */
 export interface UIState {
-  isDragging: boolean;
-  isResizing: boolean;
+  isBlockDragging: boolean;
+  isBlockResizing: boolean;
+  isSectionResizing: boolean;
 }
 
 /**
@@ -49,8 +50,9 @@ export const createInitialEditorState = (
     selectedSectionId: sections.length > 0 ? sections[0].id : null,
   },
   ui: {
-    isDragging: false,
-    isResizing: false,
+    isBlockDragging: false,
+    isBlockResizing: false,
+    isSectionResizing: false,
   },
   history: {
     past: [],

@@ -9,12 +9,26 @@ export const DEFAULT_GRID_CONFIG = {
 
 export const COLUMN_WIDTH = 40;
 
+/**
+ * Section 기본 행 수
+ * 블록이 없을 때 사용하는 기본 행 수
+ */
+export const DEFAULT_SECTION_ROWS = 25;
+
+/**
+ * Section 절대 최소 행 수
+ * 블록이 아무리 적어도 이 값 이하로는 줄어들지 않음
+ * 추후에 필요없으면 삭제 예정
+ */
+export const ABSOLUTE_MIN_SECTION_ROWS = 5;
+
 export const initialEditorData: EditorData = {
   gridConfig: DEFAULT_GRID_CONFIG,
   sections: [
     {
       id: "section-1",
       name: "Main Section",
+      rows: 30,
       blocks: [
         {
           id: "block-1",
@@ -102,6 +116,7 @@ export const initialEditorData: EditorData = {
     {
       id: "section-2",
       name: "Secondary Section",
+      rows: 20,
       blocks: [
         {
           id: "block-7",

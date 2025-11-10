@@ -25,9 +25,9 @@ export const keyboardHandler: KeyboardEventHandler = {
         const selectedIds = getSelectedBlockIds(state);
 
         selectedIds.forEach((blockId) => {
-          for (const [sectionId, section] of state.sections) {
+          for (const section of state.sections) {
             if (section.blocks.some((b) => b.id === blockId)) {
-              dispatch(deleteBlock(sectionId, blockId));
+              dispatch(deleteBlock(section.id, blockId));
               break;
             }
           }
