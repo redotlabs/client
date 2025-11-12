@@ -1,10 +1,17 @@
 import type { Section, GridConfig } from "@/shared/types";
 
 /**
+ * Selection Type
+ * Inspector에서 표시할 선택 타입
+ */
+export type SelectionType = "section" | "block" | null;
+
+/**
  * Selection State
  * 선택된 블록들의 상태
  */
 export interface SelectionState {
+  selectionType: SelectionType;
   selectedBlockIds: Set<string>;
   lastSelectedId: string | null;
   selectedSectionId: string | null;
@@ -45,6 +52,7 @@ export const createInitialEditorState = (
   gridConfig,
   sections,
   selection: {
+    selectionType: null,
     selectedBlockIds: new Set(),
     lastSelectedId: null,
     selectedSectionId: sections.length > 0 ? sections[0].id : null,

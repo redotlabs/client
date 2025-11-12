@@ -193,6 +193,7 @@ export const selectSectionState = (
     ...state,
     selection: {
       ...state.selection,
+      selectionType: "section",
       selectedSectionId: sectionId,
     },
   };
@@ -215,6 +216,7 @@ export const selectBlockState = (
     ...state,
     selection: {
       ...state.selection,
+      selectionType: "block",
       selectedBlockIds,
       lastSelectedId: blockId,
     },
