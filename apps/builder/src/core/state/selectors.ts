@@ -88,6 +88,17 @@ export const getSelectionType: StateSelector<
 > = (state) => state.selection.selectionType;
 
 /**
+ * 블록이 속한 섹션 찾기
+ */
+export const getParentSection: (
+  blockId: string
+) => StateSelector<Section | undefined> = (blockId) => (state) => {
+  return state.sections.find((section) =>
+    section.blocks.some((b) => b.id === blockId)
+  );
+};
+
+/**
  * Grid Selectors
  */
 export const getGridConfig: StateSelector<EditorState["gridConfig"]> = (

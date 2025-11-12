@@ -9,10 +9,18 @@ import type {
   InputProps,
   InputVariants,
 } from "@redotlabs/ui";
+import {
+  badgeVariantsOptions,
+  buttonVariantsOptions,
+  inputVariantsOptions,
+} from "@redotlabs/ui";
 import type { ComponentProps as ReactComponentProps } from "react";
 
 // 디자인 시스템 타입 re-export
 export type { BadgeProps, BadgeVariants, InputProps, InputVariants };
+
+// 디자인 시스템 variants options re-export
+export { badgeVariantsOptions, buttonVariantsOptions, inputVariantsOptions };
 
 export interface TextProps {
   className?: string;

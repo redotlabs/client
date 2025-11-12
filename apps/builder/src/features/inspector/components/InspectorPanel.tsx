@@ -5,7 +5,11 @@ import {
   getSelectionType,
   getFirstSelectedBlock,
   getSelectedSection,
+  getParentSection,
 } from "@/core/state/selectors";
+import { getPropertyEditor } from "./property-editors";
+import { SectionEditor } from "./SectionEditor";
+import { updateBlock, updateSection } from "@/core/actions";
 
 interface InspectorPanelProps {
   onClose?: () => void;
@@ -13,51 +17,46 @@ interface InspectorPanelProps {
 
 export const InspectorPanel = ({ onClose }: InspectorPanelProps) => {
   const [isMinimized, setIsMinimized] = useState(false);
-  const { state } = useEditorContext();
+  const { state, dispatch } = useEditorContext();
 
   const renderContent = () => {
     const selectionType = getSelectionType(state);
     const selectedBlock = getFirstSelectedBlock(state);
     const selectedSection = getSelectedSection(state);
 
+    // 블록이 선택된 경우
     if (selectionType === "block" && selectedBlock) {
-      const hasProps: boolean =
-        !!selectedBlock.props &&
-        typeof selectedBlock.props === "object" &&
-        Object.keys(selectedBlock.props as Record<string, unknown>).length > 0;
+      const parentSection = getParentSection(selectedBlock.id)(state);
+
+      if (!parentSection) return <EmptyState />;
+
+      const PropertyEditor = getPropertyEditor(selectedBlock.component);
+
+      const handleBlockUpdate = (updates: Partial<typeof selectedBlock>) => {
+        dispatch(
+          updateBlock(parentSection.id, selectedBlock.id, {
+            props: updates.props,
+          })
+        );
+      };
 
       return (
         <div className="space-y-4">
+          {/* 기본 정보 */}
           <div>
             <h4 className="font-semibold text-xs text-gray-500 uppercase mb-2">
-              Block Properties
+              Block Info
             </h4>
             <div className="space-y-2">
               <PropertyRow label="Type" value={selectedBlock.component} />
               <PropertyRow label="ID" value={selectedBlock.id} />
-              <PropertyRow
-                label="Position"
-                value={`(${selectedBlock.position.x}, ${selectedBlock.position.y})`}
-              />
-              <PropertyRow
-                label="Size"
-                value={`${selectedBlock.size.width} × ${selectedBlock.size.height}`}
-              />
-              <PropertyRow
-                label="Z-Index"
-                value={String(selectedBlock.position.zIndex)}
-              />
             </div>
           </div>
 
-          {hasProps && (
-            <div>
-              <h4 className="font-semibold text-xs text-gray-500 uppercase mb-2">
-                Component Props
-              </h4>
-              <div className="bg-gray-50 p-3 rounded text-xs font-mono">
-                <pre>{JSON.stringify(selectedBlock.props, null, 2)}</pre>
-              </div>
+          {/* Property Editor */}
+          {PropertyEditor && (
+            <div className="pt-3 border-t border-gray-200">
+              <PropertyEditor block={selectedBlock} onUpdate={handleBlockUpdate} />
             </div>
           )}
         </div>
@@ -66,26 +65,12 @@ export const InspectorPanel = ({ onClose }: InspectorPanelProps) => {
 
     // 섹션이 선택된 경우
     if (selectionType === "section" && selectedSection) {
+      const handleSectionUpdate = (updates: Partial<typeof selectedSection>) => {
+        dispatch(updateSection(selectedSection.id, updates));
+      };
+
       return (
-        <div className="space-y-4">
-          <div>
-            <h4 className="font-semibold text-xs text-gray-500 uppercase mb-2">
-              Section Properties
-            </h4>
-            <div className="space-y-2">
-              <PropertyRow label="Name" value={selectedSection.name} />
-              <PropertyRow label="ID" value={selectedSection.id} />
-              <PropertyRow
-                label="Rows"
-                value={String(selectedSection.rows || "auto")}
-              />
-              <PropertyRow
-                label="Blocks"
-                value={String(selectedSection.blocks.length)}
-              />
-            </div>
-          </div>
-        </div>
+        <SectionEditor section={selectedSection} onUpdate={handleSectionUpdate} />
       );
     }
 
