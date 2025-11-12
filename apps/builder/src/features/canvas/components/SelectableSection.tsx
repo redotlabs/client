@@ -23,7 +23,12 @@ export const SelectableSection = ({
   const { state, dispatch } = useEditorContext();
   const isSelected = state.selection.selectedSectionId === section.id;
 
-  const handleClick = () => {
+  const handleClick = (event: React.MouseEvent) => {
+    const target = event.target as HTMLElement;
+    if (target.closest("[data-block-id]")) {
+      return;
+    }
+
     dispatch(selectSection(section.id));
   };
 
