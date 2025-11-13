@@ -55,7 +55,7 @@ export const createInitialEditorState = (
     selectionType: null,
     selectedBlockIds: new Set(),
     lastSelectedId: null,
-    selectedSectionId: sections.length > 0 ? sections[0].id : null,
+    selectedSectionId: null,
   },
   ui: {
     isBlockDragging: false,

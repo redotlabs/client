@@ -1,7 +1,7 @@
 import { Canvas } from "@/features/canvas/components/Canvas";
-import { LeftPanel } from "@/features/sidebar/components/LeftPanel";
-import { InspectorPanel } from "@/features/inspector/components";
 import { Header } from "@/features/header/components";
+import { LeftPanel } from "@/features/toolbox/components";
+import { InspectorPanel } from "@/features/inspector/components";
 
 export const EditorLayout = () => {
   return (

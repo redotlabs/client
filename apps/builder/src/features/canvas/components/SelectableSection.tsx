@@ -36,10 +36,10 @@ export const SelectableSection = ({
 
   return (
     <div
-      className={`mb-8 cursor-pointer relative ${
+      className={`cursor-pointer relative transition-all ${
         isSelected
-          ? "border-4 border-blue-500 shadow-lg"
-          : "border-4 border-transparent"
+          ? "border-2 border-blue-500 shadow-lg"
+          : "border border-gray-300"
       }`}
       onClick={handleClick}
     >
