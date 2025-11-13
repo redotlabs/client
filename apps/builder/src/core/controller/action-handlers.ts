@@ -150,4 +150,52 @@ export const actionHandlers: Record<ActionType, ActionHandler> = {
       action.payload.isSectionResizing
     );
   },
+
+  // Interaction Handlers (Preview)
+  "interaction.startDrag": (state, action) => {
+    if (action.type !== "interaction.startDrag") return state;
+    return stateUpdaters.startDragInteractionState(
+      state,
+      action.payload.dragState
+    );
+  },
+
+  "interaction.updateDrag": (state, action) => {
+    if (action.type !== "interaction.updateDrag") return state;
+    return stateUpdaters.updateDragInteractionState(
+      state,
+      action.payload.dragState
+    );
+  },
+
+  "interaction.endDrag": (state, action) => {
+    if (action.type !== "interaction.endDrag") return state;
+    return stateUpdaters.endDragInteractionState(state);
+  },
+
+  "interaction.startResize": (state, action) => {
+    if (action.type !== "interaction.startResize") return state;
+    return stateUpdaters.startResizeInteractionState(
+      state,
+      action.payload.resizeState
+    );
+  },
+
+  "interaction.updateResize": (state, action) => {
+    if (action.type !== "interaction.updateResize") return state;
+    return stateUpdaters.updateResizeInteractionState(
+      state,
+      action.payload.resizeState
+    );
+  },
+
+  "interaction.endResize": (state, action) => {
+    if (action.type !== "interaction.endResize") return state;
+    return stateUpdaters.endResizeInteractionState(state);
+  },
+
+  "interaction.clear": (state, action) => {
+    if (action.type !== "interaction.clear") return state;
+    return stateUpdaters.clearInteractionState(state);
+  },
 };

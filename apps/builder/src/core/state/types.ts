@@ -1,4 +1,5 @@
 import type { Section, GridConfig } from "@/shared/types";
+import type { InteractionState } from "../interactions/types";
 
 /**
  * Selection Type
@@ -38,6 +39,13 @@ export interface EditorState {
   selection: SelectionState;
   ui: UIState;
 
+  /**
+   * Interaction State
+   * 인터랙션 중간 상태 (드래그, 리사이즈 등)
+   * 실제 데이터에 반영되지 않으며, 미리보기 렌더링에만 사용됨
+   */
+  interaction: InteractionState;
+
   // TODO: 히스토리 구현 (undo/redo)
   history: {
     past: EditorState[];
@@ -61,6 +69,11 @@ export const createInitialEditorState = (
     isBlockDragging: false,
     isBlockResizing: false,
     isSectionResizing: false,
+  },
+  interaction: {
+    type: null,
+    drag: null,
+    resize: null,
   },
   history: {
     past: [],

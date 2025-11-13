@@ -5,6 +5,10 @@ import type {
   BlockSize,
   Section,
 } from "@/shared/types";
+import type {
+  DragInteractionState,
+  ResizeInteractionState,
+} from "../interactions/types";
 import { getSectionRows } from "@/shared/utils/sectionHeight";
 import { DEFAULT_SECTION_ROWS } from "@/shared/constants/editorData";
 
@@ -409,6 +413,107 @@ export const setSectionResizingState = (
     ui: {
       ...state.ui,
       isSectionResizing,
+    },
+  };
+};
+
+// ============================================
+// Interaction State Updaters (Preview)
+// ============================================
+
+export const startDragInteractionState = (
+  state: EditorState,
+  dragState: DragInteractionState
+): EditorState => {
+  return {
+    ...state,
+    interaction: {
+      type: "drag",
+      drag: dragState,
+      resize: null,
+    },
+  };
+};
+
+export const updateDragInteractionState = (
+  state: EditorState,
+  dragState: Partial<DragInteractionState>
+): EditorState => {
+  if (!state.interaction.drag) return state;
+
+  return {
+    ...state,
+    interaction: {
+      ...state.interaction,
+      drag: {
+        ...state.interaction.drag,
+        ...dragState,
+      },
+    },
+  };
+};
+
+export const endDragInteractionState = (state: EditorState): EditorState => {
+  return {
+    ...state,
+    interaction: {
+      type: null,
+      drag: null,
+      resize: null,
+    },
+  };
+};
+
+export const startResizeInteractionState = (
+  state: EditorState,
+  resizeState: ResizeInteractionState
+): EditorState => {
+  return {
+    ...state,
+    interaction: {
+      type: "resize",
+      drag: null,
+      resize: resizeState,
+    },
+  };
+};
+
+export const updateResizeInteractionState = (
+  state: EditorState,
+  resizeState: Partial<ResizeInteractionState>
+): EditorState => {
+  if (!state.interaction.resize) return state;
+
+  return {
+    ...state,
+    interaction: {
+      ...state.interaction,
+      resize: {
+        ...state.interaction.resize,
+        ...resizeState,
+      },
+    },
+  };
+};
+
+export const endResizeInteractionState = (state: EditorState): EditorState => {
+  return {
+    ...state,
+    interaction: {
+      type: null,
+      drag: null,
+      resize: null,
+    },
+  };
+};
+
+export const clearInteractionState = (state: EditorState): EditorState => {
+  return {
+    ...state,
+    interaction: {
+      type: null,
+      drag: null,
+      resize: null,
     },
   };
 };

@@ -4,6 +4,10 @@ import type {
   BlockSize,
   Section,
 } from "@/shared/types";
+import type {
+  DragInteractionState,
+  ResizeInteractionState,
+} from "../interactions/types";
 
 /**
  * Action Type
@@ -29,7 +33,15 @@ export type ActionType =
   // UI Actions
   | "ui.setBlockDragging"
   | "ui.setBlockResizing"
-  | "ui.setSectionResizing";
+  | "ui.setSectionResizing"
+  // Interaction Actions (Preview)
+  | "interaction.startDrag"
+  | "interaction.updateDrag"
+  | "interaction.endDrag"
+  | "interaction.startResize"
+  | "interaction.updateResize"
+  | "interaction.endResize"
+  | "interaction.clear";
 
 /**
  * Base Action
@@ -184,6 +196,50 @@ export interface UISetSectionResizingAction extends BaseAction {
   };
 }
 
+// ============================================
+// Interaction Actions (Preview)
+// ============================================
+
+export interface InteractionStartDragAction extends BaseAction {
+  type: "interaction.startDrag";
+  payload: {
+    dragState: DragInteractionState;
+  };
+}
+
+export interface InteractionUpdateDragAction extends BaseAction {
+  type: "interaction.updateDrag";
+  payload: {
+    dragState: Partial<DragInteractionState>;
+  };
+}
+
+export interface InteractionEndDragAction extends BaseAction {
+  type: "interaction.endDrag";
+}
+
+export interface InteractionStartResizeAction extends BaseAction {
+  type: "interaction.startResize";
+  payload: {
+    resizeState: ResizeInteractionState;
+  };
+}
+
+export interface InteractionUpdateResizeAction extends BaseAction {
+  type: "interaction.updateResize";
+  payload: {
+    resizeState: Partial<ResizeInteractionState>;
+  };
+}
+
+export interface InteractionEndResizeAction extends BaseAction {
+  type: "interaction.endResize";
+}
+
+export interface InteractionClearAction extends BaseAction {
+  type: "interaction.clear";
+}
+
 export type EditorAction =
   // Section Actions
   | SectionCreateAction
@@ -204,4 +260,12 @@ export type EditorAction =
   // UI Actions
   | UISetBlockDraggingAction
   | UISetBlockResizingAction
-  | UISetSectionResizingAction;
+  | UISetSectionResizingAction
+  // Interaction Actions
+  | InteractionStartDragAction
+  | InteractionUpdateDragAction
+  | InteractionEndDragAction
+  | InteractionStartResizeAction
+  | InteractionUpdateResizeAction
+  | InteractionEndResizeAction
+  | InteractionClearAction;
