@@ -228,12 +228,15 @@ export const deselectBlockState = (
   blockId?: string
 ): EditorState => {
   if (!blockId) {
+    // blockId가 없으면 모든 선택 해제 (블록 + 섹션)
     return {
       ...state,
       selection: {
         ...state.selection,
+        selectionType: null,
         selectedBlockIds: new Set(),
         lastSelectedId: null,
+        selectedSectionId: null,
       },
     };
   }
