@@ -22,9 +22,10 @@ interface DragState {
  * 블록 드래그를 미리보기 방식으로 처리하는 핸들러
  *
  * Flow:
- * 1. onDragStart: Interaction State 초기화 + UI 플래그 설정
- * 2. onDragMove: Interaction State만 업데이트 (실제 데이터 변경 없음)
- * 3. onDragEnd: 최종 위치를 실제 데이터에 반영 + Interaction 종료
+ * 1. onDragStart: 이벤트 리스너 등록 (내부 dragState만 초기화)
+ * 2. onDragMove (첫 움직임): Interaction State 초기화 + UI 플래그 설정
+ * 3. onDragMove (이후): Interaction State만 업데이트 (실제 데이터 변경 없음)
+ * 4. onDragEnd: 드래그가 발생했으면 최종 위치를 데이터에 반영 + Interaction 종료
  */
 export const createDragHandler = (): DragEventHandler => {
   let dragState: DragState | null = null;
@@ -66,20 +67,7 @@ export const createDragHandler = (): DragEventHandler => {
       };
       currentContext = context;
 
-      // Interaction State 초기화
-      context.dispatch(
-        startDragInteraction({
-          blockId,
-          startPosition: block.position,
-          currentPosition: block.position,
-          previewPosition: block.position,
-          startMousePosition: { x: event.clientX, y: event.clientY },
-        })
-      );
-
-      // UI 플래그 설정
-      context.dispatch(setBlockDragging(true));
-
+      // 이벤트 리스너만 등록 (Interaction은 실제로 움직일 때 시작)
       document.addEventListener("mousemove", handleMouseMove);
       document.addEventListener("mouseup", handleMouseUp);
     },
@@ -87,9 +75,29 @@ export const createDragHandler = (): DragEventHandler => {
     onDragMove: (event: MouseEvent, context: HandlerContext) => {
       if (!dragState) return;
 
-      const { startX, startY, startPosition, currentPosition } = dragState;
+      const { blockId, startX, startY, startPosition, currentPosition } =
+        dragState;
       const { dispatch, state } = context;
       const { gridConfig } = state;
+
+      // 처음 움직이기 시작할 때만 Interaction 시작
+      if (!dragState.hasStartedDragging) {
+        dragState.hasStartedDragging = true;
+
+        // Interaction State 초기화
+        dispatch(
+          startDragInteraction({
+            blockId,
+            startPosition: startPosition,
+            currentPosition: startPosition,
+            previewPosition: startPosition,
+            startMousePosition: { x: startX, y: startY },
+          })
+        );
+
+        // UI 플래그 설정
+        dispatch(setBlockDragging(true));
+      }
 
       const cellWidth = COLUMN_WIDTH;
       const cellHeight = gridConfig.rowHeight;
@@ -130,22 +138,25 @@ export const createDragHandler = (): DragEventHandler => {
       document.removeEventListener("mouseup", handleMouseUp);
 
       if (currentContext && dragState) {
-        const { blockId, currentPosition, startPosition } = dragState;
+        // 실제로 드래그가 시작되었을 때만 처리
+        if (dragState.hasStartedDragging) {
+          const { blockId, currentPosition, startPosition } = dragState;
 
-        // 최종 위치를 실제 데이터에 반영 (여기서만 데이터 변경!)
-        currentContext.dispatch(
-          moveBlock(blockId, {
-            x: currentPosition.x,
-            y: currentPosition.y,
-            zIndex: startPosition.zIndex,
-          })
-        );
+          // 최종 위치를 실제 데이터에 반영 (여기서만 데이터 변경!)
+          currentContext.dispatch(
+            moveBlock(blockId, {
+              x: currentPosition.x,
+              y: currentPosition.y,
+              zIndex: startPosition.zIndex,
+            })
+          );
 
-        // Interaction 종료
-        currentContext.dispatch(endDragInteraction());
+          // Interaction 종료
+          currentContext.dispatch(endDragInteraction());
 
-        // UI 플래그 해제
-        currentContext.dispatch(setBlockDragging(false));
+          // UI 플래그 해제
+          currentContext.dispatch(setBlockDragging(false));
+        }
       }
 
       dragState = null;

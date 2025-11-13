@@ -54,9 +54,10 @@ const cleanup = () => {
  * 블록 리사이징을 미리보기 방식으로 처리하는 핸들러
  *
  * Flow:
- * 1. onResizeStart: Interaction State 초기화 + UI 플래그 설정
- * 2. onResizeMove: Interaction State만 업데이트 (실제 데이터 변경 없음)
- * 3. onResizeEnd: 최종 크기/위치를 실제 데이터에 반영 + Interaction 종료
+ * 1. onResizeStart: 이벤트 리스너 등록 (내부 resizeState만 초기화)
+ * 2. onResizeMove (첫 움직임): Interaction State 초기화 + UI 플래그 설정
+ * 3. onResizeMove (이후): Interaction State만 업데이트 (실제 데이터 변경 없음)
+ * 4. onResizeEnd: 리사이즈가 발생했으면 최종 크기/위치를 데이터에 반영 + Interaction 종료
  */
 export const resizeHandler: ResizeEventHandler = {
   name: "resize",
@@ -70,7 +71,7 @@ export const resizeHandler: ResizeEventHandler = {
     event.stopPropagation();
     event.preventDefault();
 
-    const { state, dispatch } = context;
+    const { state } = context;
 
     let block = null;
     for (const section of state.sections) {
@@ -92,23 +93,9 @@ export const resizeHandler: ResizeEventHandler = {
       hasStartedResizing: false,
     };
 
-    // Interaction State 초기화
-    dispatch(
-      startResizeInteraction({
-        blockId,
-        direction,
-        startPosition: block.position,
-        startSize: block.size,
-        currentSize: block.size,
-        previewSize: block.size,
-        startMousePosition: { x: event.clientX, y: event.clientY },
-      })
-    );
-
-    // UI 플래그 설정
-    dispatch(setBlockResizing(true));
-
     currentContext = context;
+
+    // 이벤트 리스너만 등록 (Interaction은 실제로 움직일 때 시작)
     document.addEventListener("mousemove", handleMouseMove);
     document.addEventListener("mouseup", handleMouseUp);
   },
@@ -118,6 +105,30 @@ export const resizeHandler: ResizeEventHandler = {
 
     const { dispatch, state } = context;
     const { gridConfig } = state;
+
+    // 처음 움직이기 시작할 때만 Interaction 시작
+    if (!resizeState.hasStartedResizing) {
+      resizeState.hasStartedResizing = true;
+
+      // Interaction State 초기화
+      dispatch(
+        startResizeInteraction({
+          blockId: resizeState.blockId,
+          direction: resizeState.direction,
+          startPosition: resizeState.startPosition,
+          startSize: resizeState.startSize,
+          currentSize: resizeState.currentSize,
+          previewSize: resizeState.currentSize,
+          startMousePosition: {
+            x: resizeState.startX,
+            y: resizeState.startY,
+          },
+        })
+      );
+
+      // UI 플래그 설정
+      dispatch(setBlockResizing(true));
+    }
 
     const deltaX = event.clientX - resizeState.startX;
     const deltaY = event.clientY - resizeState.startY;
@@ -197,36 +208,39 @@ export const resizeHandler: ResizeEventHandler = {
   onResizeEnd: () => {
     if (!resizeState || !currentContext) return;
 
-    const { blockId, currentSize, currentPosition, startPosition } =
-      resizeState;
+    // 실제로 리사이즈가 시작되었을 때만 처리
+    if (resizeState.hasStartedResizing) {
+      const { blockId, currentSize, currentPosition, startPosition } =
+        resizeState;
 
-    // 최종 크기를 실제 데이터에 반영 (여기서만 데이터 변경!)
-    currentContext.dispatch(
-      resizeBlock(blockId, {
-        width: currentSize.width,
-        height: currentSize.height,
-      })
-    );
-
-    // 위치가 변경된 경우 (n, w, nw, sw 방향 리사이즈)
-    if (
-      currentPosition.x !== startPosition.x ||
-      currentPosition.y !== startPosition.y
-    ) {
+      // 최종 크기를 실제 데이터에 반영 (여기서만 데이터 변경!)
       currentContext.dispatch(
-        moveBlock(blockId, {
-          x: currentPosition.x,
-          y: currentPosition.y,
-          zIndex: startPosition.zIndex,
+        resizeBlock(blockId, {
+          width: currentSize.width,
+          height: currentSize.height,
         })
       );
+
+      // 위치가 변경된 경우 (n, w, nw, sw 방향 리사이즈)
+      if (
+        currentPosition.x !== startPosition.x ||
+        currentPosition.y !== startPosition.y
+      ) {
+        currentContext.dispatch(
+          moveBlock(blockId, {
+            x: currentPosition.x,
+            y: currentPosition.y,
+            zIndex: startPosition.zIndex,
+          })
+        );
+      }
+
+      // Interaction 종료
+      currentContext.dispatch(endResizeInteraction());
+
+      // UI 플래그 해제
+      currentContext.dispatch(setBlockResizing(false));
     }
-
-    // Interaction 종료
-    currentContext.dispatch(endResizeInteraction());
-
-    // UI 플래그 해제
-    currentContext.dispatch(setBlockResizing(false));
 
     resizeState = null;
   },

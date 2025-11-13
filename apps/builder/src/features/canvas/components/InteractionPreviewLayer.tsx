@@ -82,7 +82,7 @@ const DragPreview = ({
 
   return (
     <div
-      className="absolute border-2 border-blue-400 border-dashed bg-blue-100/30 rounded"
+      className="absolute border-2 border-green-400 border-dashed bg-green-100/30 rounded"
       style={{
         gridColumnStart: x + 1,
         gridColumnEnd: x + 1 + width,
@@ -94,7 +94,7 @@ const DragPreview = ({
         top: `${y * rowHeight}px`,
       }}
     >
-      <div className="w-full h-full flex items-center justify-center text-xs text-blue-600 font-medium">
+      <div className="w-full h-full flex items-center justify-center text-xs text-green-600 font-medium">
         Drop here
       </div>
     </div>

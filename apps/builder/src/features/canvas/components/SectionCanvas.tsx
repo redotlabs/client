@@ -35,12 +35,24 @@ export const SectionCanvas = ({ section }: SectionCanvasProps) => {
   const sectionRows = getSectionRows(section);
 
   const isBlockDragging = state.ui.isBlockDragging;
-  const isBlockResizing = state.ui.isBlockResizing;
   const isSectionResizing = state.ui.isSectionResizing;
   const isSelected = state.selection.selectedSectionId === section.id;
 
+  // Preview 인터랙션이 현재 섹션에서 발생 중인지 확인
+  const hasInteractionInThisSection =
+    (state.interaction.type === "drag" &&
+      section.blocks.some((b) => b.id === state.interaction.drag?.blockId)) ||
+    (state.interaction.type === "resize" &&
+      section.blocks.some((b) => b.id === state.interaction.resize?.blockId));
+
+  // 그리드 표시 조건:
+  // 1. 섹션 리사이징 중
+  // 2. 현재 섹션에서 블록 드래그/리사이즈 중 (Preview)
+  // 3. 외부에서 블록 드래그 중 (BlockLibrary → Canvas)
   const showGrid =
-    isSelected && (isBlockDragging || isBlockResizing || isSectionResizing);
+    (isSelected && isSectionResizing) ||
+    hasInteractionInThisSection ||
+    isBlockDragging;
 
   const listenerRef = useRef<CanvasListener | null>(null);
   const contextRef = useRef({ state, dispatch });
