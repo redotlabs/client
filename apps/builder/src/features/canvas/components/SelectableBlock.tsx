@@ -20,6 +20,16 @@ export const SelectableBlock = ({
   const { state, dispatch } = useEditorContext();
   const isSelected = state.selection.selectedBlockIds.has(blockId);
 
+  // 드래그 중인지 확인
+  const isDragging =
+    state.interaction.type === "drag" &&
+    state.interaction.drag?.blockId === blockId;
+
+  // 리사이즈 중인지 확인
+  const isResizing =
+    state.interaction.type === "resize" &&
+    state.interaction.resize?.blockId === blockId;
+
   const handleMouseDown = (event: React.MouseEvent) => {
     const target = event.target as HTMLElement;
     if (target.closest("[data-resize-handle]")) return;
@@ -40,7 +50,10 @@ export const SelectableBlock = ({
 
   return (
     <div
-      className="relative w-full h-full"
+      className={cn(
+        "relative w-full h-full transition-opacity duration-75",
+        (isDragging || isResizing) && "opacity-30"
+      )}
       data-block-id={blockId}
       id={blockId}
     >
