@@ -3,6 +3,7 @@ import { cn } from "@redotlabs/utils";
 import { COLUMN_WIDTH } from "@/shared/constants/editorData";
 import { BlockRenderer } from "@/features/canvas/components/BlockRenderer";
 import { SelectableBlock } from "@/features/canvas/components/SelectableBlock";
+import { InteractionPreviewLayer } from "@/features/canvas/components/InteractionPreviewLayer";
 import { useEditorContext } from "@/app/context/EditorContext";
 import { CanvasListener } from "@/core/events/listeners";
 import {
@@ -76,7 +77,7 @@ export const SectionCanvas = ({ section }: SectionCanvasProps) => {
       ref={canvasRef}
       data-section-id={section.id}
       className={cn(
-        "w-full bg-gray-100 overflow-hidden grid gap-0 p-0 transition-[background-image] duration-200 ease-in-out",
+        "w-full bg-gray-100 overflow-hidden grid gap-0 p-0 transition-[background-image] duration-200 ease-in-out relative",
         "bg-size-[40px_24px] bg-position-[0_0]",
         showGrid &&
           "bg-[linear-gradient(to_right,rgba(0,0,0,0.1)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.1)_1px,transparent_1px)]"
@@ -99,6 +100,9 @@ export const SectionCanvas = ({ section }: SectionCanvasProps) => {
           </SelectableBlock>
         </div>
       ))}
+
+      {/* Interaction Preview Layer */}
+      <InteractionPreviewLayer section={section} />
     </div>
   );
 };
