@@ -19,7 +19,19 @@ export const BlockRenderer = ({ block }: BlockRendererProps) => {
     switch (block.type) {
       case "text": {
         const props = block.props as TextProps;
-        return <div>{props.children}</div>;
+        return (
+          <div
+            style={{
+              color: props.color,
+              fontSize: props.fontSize ? `${props.fontSize}px` : undefined,
+              fontWeight: props.fontWeight,
+              textAlign: props.textAlign,
+              backgroundColor: props.backgroundColor,
+            }}
+          >
+            {props.children}
+          </div>
+        );
       }
 
       case "badge": {

@@ -12,6 +12,17 @@ export const keyboardHandler: KeyboardEventHandler = {
   handle: (event: KeyboardEvent, context: HandlerContext) => {
     const { state, dispatch } = context;
 
+    // 폼 요소(input, textarea, select 등)에서 발생한 이벤트는 무시
+    const target = event.target as HTMLElement;
+    if (
+      target.tagName === "INPUT" ||
+      target.tagName === "TEXTAREA" ||
+      target.tagName === "SELECT" ||
+      target.isContentEditable
+    ) {
+      return;
+    }
+
     switch (event.key) {
       case "Escape": {
         event.preventDefault();
