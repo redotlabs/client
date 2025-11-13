@@ -24,7 +24,6 @@ export const InspectorPanel = ({ onClose }: InspectorPanelProps) => {
     const selectedBlock = getFirstSelectedBlock(state);
     const selectedSection = getSelectedSection(state);
 
-    // 블록이 선택된 경우
     if (selectionType === "block" && selectedBlock) {
       const parentSection = getParentSection(selectedBlock.id)(state);
 
@@ -42,7 +41,7 @@ export const InspectorPanel = ({ onClose }: InspectorPanelProps) => {
 
       return (
         <div className="space-y-4">
-          {/* 기본 정보 */}
+          {/* Basic Info */}
           <div>
             <h4 className="font-semibold text-xs text-gray-500 uppercase mb-2">
               Block Info
@@ -56,37 +55,39 @@ export const InspectorPanel = ({ onClose }: InspectorPanelProps) => {
           {/* Property Editor */}
           {PropertyEditor && (
             <div className="pt-3 border-t border-gray-200">
-              <PropertyEditor block={selectedBlock} onUpdate={handleBlockUpdate} />
+              <PropertyEditor
+                block={selectedBlock}
+                onUpdate={handleBlockUpdate}
+              />
             </div>
           )}
         </div>
       );
     }
 
-    // 섹션이 선택된 경우
     if (selectionType === "section" && selectedSection) {
-      const handleSectionUpdate = (updates: Partial<typeof selectedSection>) => {
+      const handleSectionUpdate = (
+        updates: Partial<typeof selectedSection>
+      ) => {
         dispatch(updateSection(selectedSection.id, updates));
       };
 
       return (
-        <SectionEditor section={selectedSection} onUpdate={handleSectionUpdate} />
+        <SectionEditor
+          section={selectedSection}
+          onUpdate={handleSectionUpdate}
+        />
       );
     }
 
-    // 선택 없음
     return <EmptyState />;
   };
 
   return (
     <div
-      className="fixed bg-white shadow-lg rounded-lg border border-gray-200 z-50"
-      style={{
-        right: "16px",
-        top: "16px",
-        width: "360px",
-        maxHeight: isMinimized ? "48px" : "calc(100vh - 32px)",
-      }}
+      className={`fixed right-4 top-[72px] w-[280px] bg-white shadow-lg rounded-lg border border-gray-200 z-50 ${
+        isMinimized ? "max-h-12" : "max-h-[calc(100vh-88px)]"
+      }`}
     >
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200 bg-gray-50 rounded-t-lg">
@@ -117,10 +118,7 @@ export const InspectorPanel = ({ onClose }: InspectorPanelProps) => {
 
       {/* Content */}
       {!isMinimized && (
-        <div
-          className="p-4 overflow-y-auto"
-          style={{ maxHeight: "calc(100vh - 100px)" }}
-        >
+        <div className="p-4 overflow-y-auto max-h-[calc(100vh-156px)]">
           {renderContent()}
         </div>
       )}

@@ -1,13 +1,17 @@
 import { Canvas } from "@/features/canvas/components/Canvas";
-import { BlockLibrary } from "@/features/sidebar/components/BlockLibrary";
+import { LeftPanel } from "@/features/sidebar/components/LeftPanel";
 import { InspectorPanel } from "@/features/inspector/components";
+import { Header } from "@/features/header/components";
 
 export const EditorLayout = () => {
   return (
-    <div className="flex h-screen">
-      <BlockLibrary />
-      <Canvas />
-      <InspectorPanel />
+    <div className="h-screen flex flex-col">
+      <Header />
+      <div className="flex flex-1 mt-14">
+        <LeftPanel />
+        <Canvas />
+        <InspectorPanel />
+      </div>
     </div>
   );
 };

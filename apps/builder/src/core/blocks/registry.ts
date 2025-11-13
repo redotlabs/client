@@ -6,12 +6,15 @@
 
 import type { BuilderBlock, BlockPosition, BlockSize } from "@/shared/types";
 
+export type BlockCategory = "text" | "button" | "input" | "badge";
+
 export interface BlockTemplate<
   T extends BuilderBlock["component"] = BuilderBlock["component"],
 > {
   id: string;
   type: T;
   label: string;
+  category: BlockCategory;
 
   defaultProps: {
     component: T;
@@ -65,6 +68,7 @@ export const BLOCK_REGISTRY: BlockTemplate[] = [
     id: "text",
     type: "text",
     label: "Text",
+    category: "text",
     defaultProps: {
       component: "text",
       props: {
@@ -92,6 +96,7 @@ export const BLOCK_REGISTRY: BlockTemplate[] = [
     id: "button",
     type: "button",
     label: "Button",
+    category: "button",
     defaultProps: {
       component: "button",
       props: {
@@ -119,6 +124,7 @@ export const BLOCK_REGISTRY: BlockTemplate[] = [
     id: "input",
     type: "input",
     label: "Input",
+    category: "input",
     defaultProps: {
       component: "input",
       props: {
@@ -143,6 +149,7 @@ export const BLOCK_REGISTRY: BlockTemplate[] = [
     id: "badge",
     type: "badge",
     label: "Badge",
+    category: "badge",
     defaultProps: {
       component: "badge",
       props: {
