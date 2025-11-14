@@ -17,17 +17,14 @@ export const InteractionPreviewLayer = ({
   const { state } = useEditorContext();
   const { interaction, gridConfig } = state;
 
-  // 현재 섹션과 관련된 인터랙션만 렌더링
   const shouldRenderDragPreview =
     interaction.type === "drag" &&
     interaction.drag &&
-    // 드래그 중인 블록이 현재 섹션에 속하는지 확인
     section.blocks.some((block) => block.id === interaction.drag?.blockId);
 
   const shouldRenderResizePreview =
     interaction.type === "resize" &&
     interaction.resize &&
-    // 리사이즈 중인 블록이 현재 섹션에 속하는지 확인
     section.blocks.some((block) => block.id === interaction.resize?.blockId);
 
   if (!shouldRenderDragPreview && !shouldRenderResizePreview) {

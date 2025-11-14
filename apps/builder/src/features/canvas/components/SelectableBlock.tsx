@@ -20,12 +20,10 @@ export const SelectableBlock = ({
   const { state, dispatch } = useEditorContext();
   const isSelected = state.selection.selectedBlockIds.has(blockId);
 
-  // 드래그 중인지 확인
   const isDragging =
     state.interaction.type === "drag" &&
     state.interaction.drag?.blockId === blockId;
 
-  // 리사이즈 중인지 확인
   const isResizing =
     state.interaction.type === "resize" &&
     state.interaction.resize?.blockId === blockId;
