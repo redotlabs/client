@@ -7,7 +7,7 @@ import type {
 import type {
   DragInteractionState,
   ResizeInteractionState,
-} from "../interactions/types";
+} from "@/core/state/types";
 
 /**
  * Action Type

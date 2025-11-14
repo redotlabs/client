@@ -1,14 +1,14 @@
-import type { EditorState } from "./types";
+import type {
+  EditorState,
+  DragInteractionState,
+  ResizeInteractionState,
+} from "./types";
 import type {
   BuilderBlock,
   BlockPosition,
   BlockSize,
   Section,
 } from "@/shared/types";
-import type {
-  DragInteractionState,
-  ResizeInteractionState,
-} from "../interactions/types";
 import { getSectionRows } from "@/shared/utils/sectionHeight";
 import { DEFAULT_SECTION_ROWS } from "@/shared/constants/editorData";
 
@@ -99,7 +99,6 @@ export const deleteSectionState = (
   state: EditorState,
   sectionId: string
 ): EditorState => {
-  // 배열에서 제거
   const newSections = state.sections.filter((s) => s.id !== sectionId);
 
   const newSelectedSectionId =
@@ -113,7 +112,6 @@ export const deleteSectionState = (
     selection: {
       ...state.selection,
       selectedSectionId: newSelectedSectionId,
-      // 삭제된 섹션에 속한 블록 선택 해제
       selectedBlockIds: new Set(),
       lastSelectedId: null,
     },
@@ -125,7 +123,6 @@ export const reorderSectionState = (
   fromIndex: number,
   toIndex: number
 ): EditorState => {
-  // 인덱스 유효성 검사
   if (
     fromIndex < 0 ||
     fromIndex >= state.sections.length ||
@@ -135,7 +132,6 @@ export const reorderSectionState = (
     return state;
   }
 
-  // 배열 복사 후 요소 swap
   const newSections = [...state.sections];
   [newSections[fromIndex], newSections[toIndex]] = [
     newSections[toIndex],
@@ -266,7 +262,6 @@ export const moveBlockState = (
   blockId: string,
   position: BlockPosition
 ): EditorState => {
-  // 블록이 속한 섹션 찾기
   const targetSection = state.sections.find((section) =>
     section.blocks.some((b) => b.id === blockId)
   );
