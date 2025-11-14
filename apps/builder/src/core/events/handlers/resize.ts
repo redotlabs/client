@@ -12,11 +12,8 @@ import {
   endResizeInteraction,
 } from "@/core/actions";
 import { COLUMN_WIDTH } from "@/shared/constants/editorData";
+import { toast } from "@redotlabs/ui";
 
-/**
- * Resize State
- * 리사이징 중 상태를 관리 (Handler 내부용)
- */
 interface ResizeState {
   blockId: string;
   direction: ResizeDirection;
@@ -95,7 +92,6 @@ export const resizeHandler: ResizeEventHandler = {
 
     currentContext = context;
 
-    // 이벤트 리스너만 등록 (Interaction은 실제로 움직일 때 시작)
     document.addEventListener("mousemove", handleMouseMove);
     document.addEventListener("mouseup", handleMouseUp);
   },
@@ -106,11 +102,9 @@ export const resizeHandler: ResizeEventHandler = {
     const { dispatch, state } = context;
     const { gridConfig } = state;
 
-    // 처음 움직이기 시작할 때만 Interaction 시작
     if (!resizeState.hasStartedResizing) {
       resizeState.hasStartedResizing = true;
 
-      // Interaction State 초기화
       dispatch(
         startResizeInteraction({
           blockId: resizeState.blockId,
@@ -126,7 +120,6 @@ export const resizeHandler: ResizeEventHandler = {
         })
       );
 
-      // UI 플래그 설정
       dispatch(setBlockResizing(true));
     }
 
@@ -163,24 +156,6 @@ export const resizeHandler: ResizeEventHandler = {
       newY = startPosition.y - heightChange;
     }
 
-    if (newX < 0) {
-      const adjustedWidth = newWidth + newX;
-      newX = 0;
-      newWidth = Math.max(1, adjustedWidth);
-    }
-
-    if (newY < 0) {
-      const adjustedHeight = newHeight + newY;
-      newY = 0;
-      newHeight = Math.max(1, adjustedHeight);
-    }
-
-    if (gridConfig.columns > 0) {
-      const maxWidth = Math.max(1, gridConfig.columns - newX);
-      newWidth = Math.min(newWidth, maxWidth);
-    }
-
-    // 크기나 위치가 변경된 경우에만 Interaction State 업데이트
     if (
       newWidth !== resizeState.currentSize.width ||
       newHeight !== resizeState.currentSize.height ||
@@ -190,7 +165,6 @@ export const resizeHandler: ResizeEventHandler = {
       resizeState.currentSize = { width: newWidth, height: newHeight };
       resizeState.currentPosition = { x: newX, y: newY };
 
-      // 실제 데이터 변경 대신 Interaction State만 업데이트
       dispatch(
         updateResizeInteraction({
           currentSize: { width: newWidth, height: newHeight },
@@ -208,37 +182,45 @@ export const resizeHandler: ResizeEventHandler = {
   onResizeEnd: () => {
     if (!resizeState || !currentContext) return;
 
-    // 실제로 리사이즈가 시작되었을 때만 처리
     if (resizeState.hasStartedResizing) {
       const { blockId, currentSize, currentPosition, startPosition } =
         resizeState;
 
-      // 최종 크기를 실제 데이터에 반영 (여기서만 데이터 변경!)
-      currentContext.dispatch(
-        resizeBlock(blockId, {
-          width: currentSize.width,
-          height: currentSize.height,
-        })
-      );
+      const resizeAction = resizeBlock(blockId, {
+        width: currentSize.width,
+        height: currentSize.height,
+      });
 
-      // 위치가 변경된 경우 (n, w, nw, sw 방향 리사이즈)
-      if (
-        currentPosition.x !== startPosition.x ||
-        currentPosition.y !== startPosition.y
-      ) {
-        currentContext.dispatch(
-          moveBlock(blockId, {
+      const validationResult = currentContext.dispatch(resizeAction);
+
+      if (validationResult.valid) {
+        if (
+          currentPosition.x !== startPosition.x ||
+          currentPosition.y !== startPosition.y
+        ) {
+          const moveAction = moveBlock(blockId, {
             x: currentPosition.x,
             y: currentPosition.y,
             zIndex: startPosition.zIndex,
-          })
-        );
+          });
+
+          const moveValidationResult = currentContext.dispatch(moveAction);
+
+          if (!moveValidationResult.valid) {
+            const errorMessage =
+              moveValidationResult.violations[0]?.message ||
+              "블록을 이동할 수 없습니다";
+            toast.error(errorMessage);
+          }
+        }
+      } else {
+        const errorMessage =
+          validationResult.violations[0]?.message ||
+          "블록을 리사이즈할 수 없습니다";
+        toast.error(errorMessage);
       }
 
-      // Interaction 종료
       currentContext.dispatch(endResizeInteraction());
-
-      // UI 플래그 해제
       currentContext.dispatch(setBlockResizing(false));
     }
 

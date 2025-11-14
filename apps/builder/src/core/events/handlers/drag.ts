@@ -5,8 +5,9 @@ import {
   startDragInteraction,
   updateDragInteraction,
   endDragInteraction,
-} from "../../actions";
+} from "@/core/actions";
 import { COLUMN_WIDTH } from "@/shared/constants/editorData";
+import { toast } from "@redotlabs/ui";
 
 interface DragState {
   blockId: string;
@@ -67,7 +68,6 @@ export const createDragHandler = (): DragEventHandler => {
       };
       currentContext = context;
 
-      // 이벤트 리스너만 등록 (Interaction은 실제로 움직일 때 시작)
       document.addEventListener("mousemove", handleMouseMove);
       document.addEventListener("mouseup", handleMouseUp);
     },
@@ -80,11 +80,9 @@ export const createDragHandler = (): DragEventHandler => {
       const { dispatch, state } = context;
       const { gridConfig } = state;
 
-      // 처음 움직이기 시작할 때만 Interaction 시작
       if (!dragState.hasStartedDragging) {
         dragState.hasStartedDragging = true;
 
-        // Interaction State 초기화
         dispatch(
           startDragInteraction({
             blockId,
@@ -95,7 +93,6 @@ export const createDragHandler = (): DragEventHandler => {
           })
         );
 
-        // UI 플래그 설정
         dispatch(setBlockDragging(true));
       }
 
@@ -108,14 +105,12 @@ export const createDragHandler = (): DragEventHandler => {
       const deltaColumns = Math.round(deltaX / cellWidth);
       const deltaRows = Math.round(deltaY / cellHeight);
 
-      const newX = Math.max(0, startPosition.x + deltaColumns);
-      const newY = Math.max(0, startPosition.y + deltaRows);
+      const newX = startPosition.x + deltaColumns;
+      const newY = startPosition.y + deltaRows;
 
-      // 위치가 변경된 경우에만 Interaction State 업데이트
       if (newX !== currentPosition.x || newY !== currentPosition.y) {
         dragState.currentPosition = { x: newX, y: newY };
 
-        // 실제 데이터 변경 대신 Interaction State만 업데이트
         dispatch(
           updateDragInteraction({
             currentPosition: {
@@ -138,23 +133,25 @@ export const createDragHandler = (): DragEventHandler => {
       document.removeEventListener("mouseup", handleMouseUp);
 
       if (currentContext && dragState) {
-        // 실제로 드래그가 시작되었을 때만 처리
         if (dragState.hasStartedDragging) {
           const { blockId, currentPosition, startPosition } = dragState;
 
-          // 최종 위치를 실제 데이터에 반영 (여기서만 데이터 변경!)
-          currentContext.dispatch(
-            moveBlock(blockId, {
-              x: currentPosition.x,
-              y: currentPosition.y,
-              zIndex: startPosition.zIndex,
-            })
-          );
+          const action = moveBlock(blockId, {
+            x: currentPosition.x,
+            y: currentPosition.y,
+            zIndex: startPosition.zIndex,
+          });
 
-          // Interaction 종료
+          const validationResult = currentContext.dispatch(action);
+
+          if (!validationResult.valid) {
+            const errorMessage =
+              validationResult.violations[0]?.message ||
+              "블록을 이동할 수 없습니다";
+            toast.error(errorMessage);
+          }
+
           currentContext.dispatch(endDragInteraction());
-
-          // UI 플래그 해제
           currentContext.dispatch(setBlockDragging(false));
         }
       }
