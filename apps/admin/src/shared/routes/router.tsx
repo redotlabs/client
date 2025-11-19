@@ -6,6 +6,8 @@ import SignInPage from '@/pages/auth/sign-in';
 import AdminLayout from '../components/layouts/admin-layout';
 import AdminPage from '@/pages/admin';
 import DashboardPage from '@/pages/dashboard';
+import CustomerPage from '@/pages/customer';
+import ConsultantPage from '@/pages/consultant';
 
 // ----------------------------------------------------------------------
 
@@ -27,6 +29,8 @@ export default function Router() {
       children: [
         { path: '', element: <DashboardPage /> },
         { path: 'admin', element: <AdminPage /> },
+        { path: 'customer', element: <CustomerPage /> },
+        { path: 'consultant', element: <ConsultantPage /> },
       ],
     },
     // error

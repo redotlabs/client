@@ -6,6 +6,14 @@ export const PATH = {
     resetPassword: '/auth/reset-password',
   },
   dashboard: '/',
+  customer: {
+    root: '/customer',
+    detail: (customerId: number) => `/customer/${customerId}`,
+  },
+  consultant: {
+    root: '/consultant',
+    detail: (consultantId: number) => `/consultant/${consultantId}`,
+  },
   admin: {
     root: '/admin',
     detail: (adminId: number) => `/admin/${adminId}`,

@@ -1,7 +1,7 @@
 import { Logo } from '@redotlabs/ui';
 import { Link, useLocation } from 'react-router-dom';
 import { PATH } from '@/shared/routes';
-import { SquareKanban, UserRoundPen } from 'lucide-react';
+import { SquareKanban, UserRoundPen, Users, Briefcase } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { cn } from '@redotlabs/utils';
 
@@ -22,6 +22,16 @@ const SIDEBAR_ITEMS = [
     icon: <UserRoundPen size="20" />,
     label: '관리자 관리',
     path: PATH.admin.root,
+  },
+  {
+    icon: <Users size="20" />,
+    label: '고객 관리',
+    path: PATH.customer.root,
+  },
+  {
+    icon: <Briefcase size="20" />,
+    label: '상담 요청 관리',
+    path: PATH.consultant.root,
   },
 ] as const;
 
