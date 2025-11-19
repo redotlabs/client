@@ -2,6 +2,8 @@ import React from 'react';
 import Image from 'next/image';
 import { Button } from '@redotlabs/ui';
 import { ArrowUpIcon } from '@/shared/components/ui/icons';
+import { PATH } from '@/shared/constants/routes';
+import Link from 'next/link';
 
 const HeroSection = () => {
   return (
@@ -35,10 +37,12 @@ const HeroSection = () => {
             <ArrowUpIcon />
             홈페이지 신규 제작
           </Button>
-          <Button className="flex items-center gap-6 px-8">
-            <ArrowUpIcon />
-            기존 페이지 리뉴얼
-          </Button>
+          <Link href={PATH.renewal}>
+            <Button className="flex items-center gap-6 px-8">
+              <ArrowUpIcon />
+              기존 페이지 리뉴얼
+            </Button>
+          </Link>
         </div>
       </div>
     </section>

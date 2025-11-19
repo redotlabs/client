@@ -8,4 +8,5 @@ export const PATH = {
     root: '/dashboard',
     create: '/dashboard/create',
   },
+  renewal: '/renewal',
 };
