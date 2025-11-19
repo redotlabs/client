@@ -1,30 +1,25 @@
-'use client';
-
-import { Input, type InputProps } from '@redotlabs/ui';
 import { Controller, useFormContext } from 'react-hook-form';
-import PasswordInput from '../password-input';
+import { DatePicker, DatePickerProps } from '@redotlabs/ui';
 import { cn } from '@redotlabs/utils';
 
-export interface RHFInputProps extends InputProps {
+export interface RHFDatePickerProps extends DatePickerProps {
   name: string;
   label?: string;
   labelPlacement?: 'top' | 'left';
 }
-
-const RHFInput = ({
+const RHFDatePicker = ({
   name,
   label,
   labelPlacement = 'top',
-  type = 'text',
   ...props
-}: RHFInputProps) => {
+}: RHFDatePickerProps) => {
   const { control } = useFormContext();
-
   return (
     <Controller
       control={control}
       name={name}
       render={({ field, fieldState }) => {
+        const { value, onChange, ...rest } = field;
         return (
           <div>
             <div
@@ -38,22 +33,14 @@ const RHFInput = ({
                 </label>
               )}
               <div className={cn(labelPlacement === 'top' && 'mt-2.5')}>
-                {type === 'password' ? (
-                  <PasswordInput
-                    id={name}
-                    error={!!fieldState.error}
-                    {...field}
-                    {...props}
-                  />
-                ) : (
-                  <Input
-                    id={name}
-                    error={!!fieldState.error}
-                    type={type}
-                    {...field}
-                    {...props}
-                  />
-                )}
+                <DatePicker
+                  id={name}
+                  error={!!fieldState.error}
+                  setValue={onChange}
+                  defaultValue={value}
+                  {...rest}
+                  {...props}
+                />
               </div>
             </div>
             {fieldState.error && (
@@ -68,4 +55,4 @@ const RHFInput = ({
   );
 };
 
-export default RHFInput;
+export default RHFDatePicker;

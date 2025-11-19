@@ -1,23 +1,21 @@
 'use client';
 
-import { Input, type InputProps } from '@redotlabs/ui';
+import { Textarea, type TextareaProps } from '@redotlabs/ui';
 import { Controller, useFormContext } from 'react-hook-form';
-import PasswordInput from '../password-input';
 import { cn } from '@redotlabs/utils';
 
-export interface RHFInputProps extends InputProps {
+export interface RHFTextareaProps extends TextareaProps {
   name: string;
   label?: string;
   labelPlacement?: 'top' | 'left';
 }
 
-const RHFInput = ({
+const RHFTextarea = ({
   name,
   label,
   labelPlacement = 'top',
-  type = 'text',
   ...props
-}: RHFInputProps) => {
+}: RHFTextareaProps) => {
   const { control } = useFormContext();
 
   return (
@@ -38,22 +36,7 @@ const RHFInput = ({
                 </label>
               )}
               <div className={cn(labelPlacement === 'top' && 'mt-2.5')}>
-                {type === 'password' ? (
-                  <PasswordInput
-                    id={name}
-                    error={!!fieldState.error}
-                    {...field}
-                    {...props}
-                  />
-                ) : (
-                  <Input
-                    id={name}
-                    error={!!fieldState.error}
-                    type={type}
-                    {...field}
-                    {...props}
-                  />
-                )}
+                <Textarea id={name} {...field} {...props} />
               </div>
             </div>
             {fieldState.error && (
@@ -68,4 +51,4 @@ const RHFInput = ({
   );
 };
 
-export default RHFInput;
+export default RHFTextarea;
