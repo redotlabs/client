@@ -8,6 +8,7 @@ export const API_PATH = {
     verifyEmailVerificationCode:
       '/auth/customer/cms/verify-email-verification-code',
     resetPassword: '/auth/customer/cms/reset-password',
+    signOut: '/auth/customer/cms/sign-out',
   },
   customer: {
     root: '/customer',

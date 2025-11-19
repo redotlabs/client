@@ -3,6 +3,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { signIn, reIssue, getMe } from '@/shared/api/services/auth/sign-in';
 import { queryKeyFactory } from '@/shared/api/query-key-factory';
+import { signOut } from '@/shared/api/services/auth/sign-in';
 
 export const useSignIn = () => {
   return useMutation({
@@ -43,5 +44,11 @@ export const useAuth = (props?: { enabled?: boolean }) => {
     gcTime: Infinity,
     staleTime: Infinity,
     enabled: props?.enabled ?? true,
+  });
+};
+
+export const useSignOut = () => {
+  return useMutation({
+    mutationFn: signOut,
   });
 };
