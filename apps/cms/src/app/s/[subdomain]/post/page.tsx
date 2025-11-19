@@ -16,14 +16,12 @@ import {
   Eye,
   Edit,
   Trash2,
-  Calendar,
   User,
   MoreVertical,
 } from 'lucide-react';
-import { cn } from '@redotlabs/utils';
 import { useState } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
-import { RHFInput, RHFSelect } from '@repo/ui';
+import { RHFInput, RHFSelect, Card } from '@repo/ui';
 
 const POSTS = [
   {
@@ -338,17 +336,3 @@ export default function PostPage() {
     </main>
   );
 }
-
-const Card = ({
-  children,
-  className,
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) => {
-  return (
-    <div className={cn('border border-gray-200 rounded-lg p-6', className)}>
-      {children}
-    </div>
-  );
-};
