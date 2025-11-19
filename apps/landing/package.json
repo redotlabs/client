@@ -11,18 +11,23 @@
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.2.2",
     "@redotlabs/fonts": "^1.0.1",
     "@redotlabs/themes": "^1.1.0",
     "@redotlabs/tokens": "^1.0.0",
     "@redotlabs/ui": "^1.4.1",
     "@redotlabs/utils": "^1.0.0",
+    "@repo/api-instance": "workspace:*",
     "@repo/hooks": "workspace:*",
+    "@repo/ui": "workspace:*",
     "embla-carousel-auto-scroll": "^8.6.0",
     "embla-carousel-autoplay": "^8.6.0",
     "embla-carousel-react": "^8.6.0",
+    "lucide-react": "^0.545.0",
     "next": "^15.3.0",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "react-hook-form": "^7.64.0"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^15.3.0",
@@ -36,6 +41,7 @@
     "eslint": "^9.31.0",
     "postcss": "^8.5.3",
     "tailwindcss": "^4.1.5",
-    "typescript": "5.8.2"
+    "typescript": "5.8.2",
+    "zod": "^4.1.11"
   }
 }
