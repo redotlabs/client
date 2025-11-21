@@ -3,13 +3,17 @@ import type {
   HandlerContext,
   ResizeDirection,
 } from "./types";
-import { resizeBlock, moveBlock, setBlockResizing } from "@/core/actions";
+import {
+  resizeBlock,
+  moveBlock,
+  setBlockResizing,
+  startResizeInteraction,
+  updateResizeInteraction,
+  endResizeInteraction,
+} from "@/core/actions";
 import { COLUMN_WIDTH } from "@/shared/constants/editorData";
+import { toast } from "@redotlabs/ui";
 
-/**
- * Resize State
- * 리사이징 중 상태를 관리
- */
 interface ResizeState {
   blockId: string;
   direction: ResizeDirection;
@@ -17,6 +21,8 @@ interface ResizeState {
   startY: number;
   startSize: { width: number; height: number };
   startPosition: { x: number; y: number; zIndex: number };
+  currentSize: { width: number; height: number };
+  currentPosition: { x: number; y: number };
   hasStartedResizing: boolean;
 }
 
@@ -41,8 +47,14 @@ const cleanup = () => {
 };
 
 /**
- * Resize Handler
- * 블록 리사이징을 처리하는 핸들러
+ * Resize Handler (Preview Mode)
+ * 블록 리사이징을 미리보기 방식으로 처리하는 핸들러
+ *
+ * Flow:
+ * 1. onResizeStart: 이벤트 리스너 등록 (내부 resizeState만 초기화)
+ * 2. onResizeMove (첫 움직임): Interaction State 초기화 + UI 플래그 설정
+ * 3. onResizeMove (이후): Interaction State만 업데이트 (실제 데이터 변경 없음)
+ * 4. onResizeEnd: 리사이즈가 발생했으면 최종 크기/위치를 데이터에 반영 + Interaction 종료
  */
 export const resizeHandler: ResizeEventHandler = {
   name: "resize",
@@ -73,10 +85,13 @@ export const resizeHandler: ResizeEventHandler = {
       startY: event.clientY,
       startSize: { ...block.size },
       startPosition: { ...block.position },
+      currentSize: { ...block.size },
+      currentPosition: { x: block.position.x, y: block.position.y },
       hasStartedResizing: false,
     };
 
     currentContext = context;
+
     document.addEventListener("mousemove", handleMouseMove);
     document.addEventListener("mouseup", handleMouseUp);
   },
@@ -89,6 +104,22 @@ export const resizeHandler: ResizeEventHandler = {
 
     if (!resizeState.hasStartedResizing) {
       resizeState.hasStartedResizing = true;
+
+      dispatch(
+        startResizeInteraction({
+          blockId: resizeState.blockId,
+          direction: resizeState.direction,
+          startPosition: resizeState.startPosition,
+          startSize: resizeState.startSize,
+          currentSize: resizeState.currentSize,
+          previewSize: resizeState.currentSize,
+          startMousePosition: {
+            x: resizeState.startX,
+            y: resizeState.startY,
+          },
+        })
+      );
+
       dispatch(setBlockResizing(true));
     }
 
@@ -125,45 +156,71 @@ export const resizeHandler: ResizeEventHandler = {
       newY = startPosition.y - heightChange;
     }
 
-    if (newX < 0) {
-      const adjustedWidth = newWidth + newX;
-      newX = 0;
-      newWidth = Math.max(1, adjustedWidth);
-    }
+    if (
+      newWidth !== resizeState.currentSize.width ||
+      newHeight !== resizeState.currentSize.height ||
+      newX !== resizeState.currentPosition.x ||
+      newY !== resizeState.currentPosition.y
+    ) {
+      resizeState.currentSize = { width: newWidth, height: newHeight };
+      resizeState.currentPosition = { x: newX, y: newY };
 
-    if (newY < 0) {
-      const adjustedHeight = newHeight + newY;
-      newY = 0;
-      newHeight = Math.max(1, adjustedHeight);
-    }
-
-    if (gridConfig.columns > 0) {
-      const maxWidth = Math.max(1, gridConfig.columns - newX);
-      newWidth = Math.min(newWidth, maxWidth);
-    }
-
-    dispatch(
-      resizeBlock(resizeState.blockId, {
-        width: newWidth,
-        height: newHeight,
-      })
-    );
-
-    if (newX !== startPosition.x || newY !== startPosition.y) {
       dispatch(
-        moveBlock(resizeState.blockId, {
-          x: newX,
-          y: newY,
-          zIndex: startPosition.zIndex,
+        updateResizeInteraction({
+          currentSize: { width: newWidth, height: newHeight },
+          previewSize: { width: newWidth, height: newHeight },
+          startPosition: {
+            x: newX,
+            y: newY,
+            zIndex: startPosition.zIndex,
+          },
         })
       );
     }
   },
 
   onResizeEnd: () => {
-    if (!resizeState) return;
+    if (!resizeState || !currentContext) return;
 
-    if (currentContext) {
+    if (resizeState.hasStartedResizing) {
+      const { blockId, currentSize, currentPosition, startPosition } =
+        resizeState;
+
+      const resizeAction = resizeBlock(blockId, {
+        width: currentSize.width,
+        height: currentSize.height,
+      });
+
+      const validationResult = currentContext.dispatch(resizeAction);
+
+      if (validationResult.valid) {
+        if (
+          currentPosition.x !== startPosition.x ||
+          currentPosition.y !== startPosition.y
+        ) {
+          const moveAction = moveBlock(blockId, {
+            x: currentPosition.x,
+            y: currentPosition.y,
+            zIndex: startPosition.zIndex,
+          });
+
+          const moveValidationResult = currentContext.dispatch(moveAction);
+
+          if (!moveValidationResult.valid) {
+            const errorMessage =
+              moveValidationResult.violations[0]?.message ||
+              "블록을 이동할 수 없습니다";
+            toast.error(errorMessage);
+          }
+        }
+      } else {
+        const errorMessage =
+          validationResult.violations[0]?.message ||
+          "블록을 리사이즈할 수 없습니다";
+        toast.error(errorMessage);
+      }
+
+      currentContext.dispatch(endResizeInteraction());
       currentContext.dispatch(setBlockResizing(false));
     }
 

@@ -1,5 +1,6 @@
-import type { EditorAction } from '@/core/actions';
-import type { EditorState } from '@/core/state';
+import type { EditorAction } from "@/core/actions";
+import type { EditorState } from "@/core/state";
+import type { RuleValidationResult } from "@/core/rules";
 
 /**
  * Handler Context
@@ -7,7 +8,7 @@ import type { EditorState } from '@/core/state';
  */
 export interface HandlerContext {
   state: EditorState;
-  dispatch: (action: EditorAction) => void;
+  dispatch: (action: EditorAction) => RuleValidationResult;
 }
 
 /**
@@ -25,12 +26,16 @@ export type MouseEventHandler = EventHandler<MouseEvent>;
 
 export interface DragEventHandler {
   name: string;
-  onDragStart: (event: MouseEvent, context: HandlerContext, blockId: string) => void;
+  onDragStart: (
+    event: MouseEvent,
+    context: HandlerContext,
+    blockId: string
+  ) => void;
   onDragMove: (event: MouseEvent, context: HandlerContext) => void;
   onDragEnd: (event: MouseEvent, context: HandlerContext) => void;
 }
 
-export type ResizeDirection = 'n' | 'ne' | 'e' | 'se' | 's' | 'sw' | 'w' | 'nw';
+export type ResizeDirection = "n" | "ne" | "e" | "se" | "s" | "sw" | "w" | "nw";
 
 export interface ResizeEventHandler {
   name: string;

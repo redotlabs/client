@@ -14,18 +14,41 @@ import type {
   BlockCreateAction,
   BlockDeleteAction,
   BlockUpdateAction,
+  InteractionStartDragAction,
+  InteractionUpdateDragAction,
+  InteractionEndDragAction,
+  InteractionStartResizeAction,
+  InteractionUpdateResizeAction,
+  InteractionEndResizeAction,
+  InteractionClearAction,
 } from "./types";
+import type {
+  DragInteractionState,
+  ResizeInteractionState,
+} from "@/core/state/types";
 
 /**
  * Base action creator helper
  */
 function createAction<T extends EditorAction>(
   type: T["type"],
-  payload: T["payload"]
+  payload: T extends { payload: infer P } ? P : never
 ): T {
   return {
     type,
     payload,
+    timestamp: Date.now(),
+  } as T;
+}
+
+/**
+ * Action creator helper without payload
+ */
+function createActionWithoutPayload<T extends EditorAction>(
+  type: T["type"]
+): T {
+  return {
+    type,
     timestamp: Date.now(),
   } as T;
 }
@@ -114,3 +137,36 @@ export const setBlockResizing = (isBlockResizing: boolean) =>
 
 export const setSectionResizing = (isSectionResizing: boolean) =>
   createAction("ui.setSectionResizing", { isSectionResizing });
+
+// ============================================
+// Interaction Action Creators (Preview)
+// ============================================
+
+export const startDragInteraction = (
+  dragState: DragInteractionState
+): InteractionStartDragAction =>
+  createAction("interaction.startDrag", { dragState });
+
+export const updateDragInteraction = (
+  dragState: Partial<DragInteractionState>
+): InteractionUpdateDragAction =>
+  createAction("interaction.updateDrag", { dragState });
+
+export const endDragInteraction = (): InteractionEndDragAction =>
+  createActionWithoutPayload("interaction.endDrag");
+
+export const startResizeInteraction = (
+  resizeState: ResizeInteractionState
+): InteractionStartResizeAction =>
+  createAction("interaction.startResize", { resizeState });
+
+export const updateResizeInteraction = (
+  resizeState: Partial<ResizeInteractionState>
+): InteractionUpdateResizeAction =>
+  createAction("interaction.updateResize", { resizeState });
+
+export const endResizeInteraction = (): InteractionEndResizeAction =>
+  createActionWithoutPayload("interaction.endResize");
+
+export const clearInteraction = (): InteractionClearAction =>
+  createActionWithoutPayload("interaction.clear");

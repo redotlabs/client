@@ -1,4 +1,8 @@
-import type { EditorState } from "./types";
+import type {
+  EditorState,
+  DragInteractionState,
+  ResizeInteractionState,
+} from "./types";
 import type {
   BuilderBlock,
   BlockPosition,
@@ -95,7 +99,6 @@ export const deleteSectionState = (
   state: EditorState,
   sectionId: string
 ): EditorState => {
-  // 배열에서 제거
   const newSections = state.sections.filter((s) => s.id !== sectionId);
 
   const newSelectedSectionId =
@@ -109,7 +112,6 @@ export const deleteSectionState = (
     selection: {
       ...state.selection,
       selectedSectionId: newSelectedSectionId,
-      // 삭제된 섹션에 속한 블록 선택 해제
       selectedBlockIds: new Set(),
       lastSelectedId: null,
     },
@@ -121,7 +123,6 @@ export const reorderSectionState = (
   fromIndex: number,
   toIndex: number
 ): EditorState => {
-  // 인덱스 유효성 검사
   if (
     fromIndex < 0 ||
     fromIndex >= state.sections.length ||
@@ -131,7 +132,6 @@ export const reorderSectionState = (
     return state;
   }
 
-  // 배열 복사 후 요소 swap
   const newSections = [...state.sections];
   [newSections[fromIndex], newSections[toIndex]] = [
     newSections[toIndex],
@@ -262,7 +262,6 @@ export const moveBlockState = (
   blockId: string,
   position: BlockPosition
 ): EditorState => {
-  // 블록이 속한 섹션 찾기
   const targetSection = state.sections.find((section) =>
     section.blocks.some((b) => b.id === blockId)
   );
@@ -409,6 +408,107 @@ export const setSectionResizingState = (
     ui: {
       ...state.ui,
       isSectionResizing,
+    },
+  };
+};
+
+// ============================================
+// Interaction State Updaters (Preview)
+// ============================================
+
+export const startDragInteractionState = (
+  state: EditorState,
+  dragState: DragInteractionState
+): EditorState => {
+  return {
+    ...state,
+    interaction: {
+      type: "drag",
+      drag: dragState,
+      resize: null,
+    },
+  };
+};
+
+export const updateDragInteractionState = (
+  state: EditorState,
+  dragState: Partial<DragInteractionState>
+): EditorState => {
+  if (!state.interaction.drag) return state;
+
+  return {
+    ...state,
+    interaction: {
+      ...state.interaction,
+      drag: {
+        ...state.interaction.drag,
+        ...dragState,
+      },
+    },
+  };
+};
+
+export const endDragInteractionState = (state: EditorState): EditorState => {
+  return {
+    ...state,
+    interaction: {
+      type: null,
+      drag: null,
+      resize: null,
+    },
+  };
+};
+
+export const startResizeInteractionState = (
+  state: EditorState,
+  resizeState: ResizeInteractionState
+): EditorState => {
+  return {
+    ...state,
+    interaction: {
+      type: "resize",
+      drag: null,
+      resize: resizeState,
+    },
+  };
+};
+
+export const updateResizeInteractionState = (
+  state: EditorState,
+  resizeState: Partial<ResizeInteractionState>
+): EditorState => {
+  if (!state.interaction.resize) return state;
+
+  return {
+    ...state,
+    interaction: {
+      ...state.interaction,
+      resize: {
+        ...state.interaction.resize,
+        ...resizeState,
+      },
+    },
+  };
+};
+
+export const endResizeInteractionState = (state: EditorState): EditorState => {
+  return {
+    ...state,
+    interaction: {
+      type: null,
+      drag: null,
+      resize: null,
+    },
+  };
+};
+
+export const clearInteractionState = (state: EditorState): EditorState => {
+  return {
+    ...state,
+    interaction: {
+      type: null,
+      drag: null,
+      resize: null,
     },
   };
 };

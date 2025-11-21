@@ -6,7 +6,7 @@
 
 import type { BuilderBlock, BlockPosition, BlockSize } from "@/shared/types";
 
-export type BlockCategory = "text" | "button" | "input" | "badge";
+export type BlockCategory = "text" | "button" | "input" | "badge" | "image";
 
 export interface BlockTemplate<
   T extends BuilderBlock["component"] = BuilderBlock["component"],
@@ -48,6 +48,11 @@ type ComponentPropsDefaults = {
     color?: "default" | "primary" | "secondary";
     size?: "sm" | "md" | "lg";
   };
+  image: {
+    src: string;
+    alt?: string;
+    objectFit?: "contain" | "cover" | "fill" | "none" | "scale-down";
+  };
 };
 
 /*
@@ -86,7 +91,6 @@ export const BLOCK_REGISTRY: BlockTemplate[] = [
         fontSize: 16,
         color: "#000000",
       },
-      children: "New Text",
       position,
       size: size || { width: 4, height: 1 },
       metadata: createBlockMetadata(),
@@ -114,7 +118,6 @@ export const BLOCK_REGISTRY: BlockTemplate[] = [
         variant: "contained",
         size: "md",
       },
-      children: "Button",
       position,
       size: size || { width: 4, height: 2 },
       metadata: createBlockMetadata(),
@@ -167,9 +170,35 @@ export const BLOCK_REGISTRY: BlockTemplate[] = [
         color: "default",
         size: "md",
       },
-      children: "Badge",
       position,
       size: size || { width: 3, height: 2 },
+      metadata: createBlockMetadata(),
+    }),
+  },
+  {
+    id: "image",
+    type: "image",
+    label: "Image",
+    category: "image",
+    defaultProps: {
+      component: "image",
+      props: {
+        src: "",
+        alt: "",
+        objectFit: "cover",
+      },
+      size: { width: 6, height: 6 },
+    },
+    createBlock: (position, size) => ({
+      id: generateBlockId(),
+      component: "image",
+      props: {
+        src: "",
+        alt: "",
+        objectFit: "cover",
+      },
+      position,
+      size: size || { width: 6, height: 6 },
       metadata: createBlockMetadata(),
     }),
   },
