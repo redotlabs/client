@@ -1,5 +1,4 @@
 import type { PropertyEditorProps } from "./types";
-import type { BuilderBlock } from "@/shared/types";
 import type { InputProps } from "@/shared/types/blocks/attributes";
 import { inputVariantsOptions } from "@/shared/types/blocks/attributes";
 
@@ -22,6 +21,10 @@ export const InputEditor = ({ block, onUpdate }: PropertyEditorProps) => {
     { value: "url", label: "URL" },
   ];
 
+  const updateProps = (newProps: Partial<InputProps>) => {
+    onUpdate({ props: { ...props, ...newProps } });
+  };
+
   return (
     <div className="space-y-3">
       <h4 className="font-semibold text-xs text-gray-500 uppercase">
@@ -36,12 +39,7 @@ export const InputEditor = ({ block, onUpdate }: PropertyEditorProps) => {
         <input
           type="text"
           value={props.placeholder || ""}
-          onChange={(e) =>
-            onUpdate({
-              ...block,
-              props: { ...props, placeholder: e.target.value },
-            } as Partial<BuilderBlock>)
-          }
+          onChange={(e) => updateProps({ placeholder: e.target.value })}
           className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
@@ -54,12 +52,7 @@ export const InputEditor = ({ block, onUpdate }: PropertyEditorProps) => {
         <input
           type="text"
           value={props.value || ""}
-          onChange={(e) =>
-            onUpdate({
-              ...block,
-              props: { ...props, value: e.target.value },
-            } as Partial<BuilderBlock>)
-          }
+          onChange={(e) => updateProps({ value: e.target.value })}
           className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
@@ -71,12 +64,7 @@ export const InputEditor = ({ block, onUpdate }: PropertyEditorProps) => {
         </label>
         <select
           value={props.type || "text"}
-          onChange={(e) =>
-            onUpdate({
-              ...block,
-              props: { ...props, type: e.target.value as typeof props.type },
-            } as Partial<BuilderBlock>)
-          }
+          onChange={(e) => updateProps({ type: e.target.value as InputProps["type"] })}
           className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           {typeOptions.map((option) => (
@@ -94,12 +82,7 @@ export const InputEditor = ({ block, onUpdate }: PropertyEditorProps) => {
         </label>
         <select
           value={props.size || "md"}
-          onChange={(e) =>
-            onUpdate({
-              ...block,
-              props: { ...props, size: e.target.value as typeof props.size },
-            } as Partial<BuilderBlock>)
-          }
+          onChange={(e) => updateProps({ size: e.target.value as InputProps["size"] })}
           className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           {sizeOptions.map((option) => (
@@ -116,12 +99,7 @@ export const InputEditor = ({ block, onUpdate }: PropertyEditorProps) => {
           type="checkbox"
           id="input-disabled"
           checked={props.disabled || false}
-          onChange={(e) =>
-            onUpdate({
-              ...block,
-              props: { ...props, disabled: e.target.checked },
-            } as Partial<BuilderBlock>)
-          }
+          onChange={(e) => updateProps({ disabled: e.target.checked })}
           className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
         />
         <label
@@ -138,12 +116,7 @@ export const InputEditor = ({ block, onUpdate }: PropertyEditorProps) => {
           type="checkbox"
           id="input-error"
           checked={props.error || false}
-          onChange={(e) =>
-            onUpdate({
-              ...block,
-              props: { ...props, error: e.target.checked },
-            } as Partial<BuilderBlock>)
-          }
+          onChange={(e) => updateProps({ error: e.target.checked })}
           className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
         />
         <label

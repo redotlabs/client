@@ -1,5 +1,4 @@
 import type { PropertyEditorProps } from "./types";
-import type { BuilderBlock } from "@/shared/types";
 import type { TextProps } from "@/shared/types/blocks/attributes";
 
 export const TextEditor = ({ block, onUpdate }: PropertyEditorProps) => {
@@ -19,6 +18,10 @@ export const TextEditor = ({ block, onUpdate }: PropertyEditorProps) => {
     { value: "900", label: "900 - Black" },
   ];
 
+  const updateProps = (newProps: Partial<TextProps>) => {
+    onUpdate({ props: { ...props, ...newProps } });
+  };
+
   return (
     <div className="space-y-3">
       <h4 className="font-semibold text-xs text-gray-500 uppercase">
@@ -33,12 +36,7 @@ export const TextEditor = ({ block, onUpdate }: PropertyEditorProps) => {
         <input
           type="text"
           value={props.children || ""}
-          onChange={(e) =>
-            onUpdate({
-              ...block,
-              props: { ...props, children: e.target.value },
-            } as Partial<BuilderBlock>)
-          }
+          onChange={(e) => updateProps({ children: e.target.value })}
           className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
@@ -52,13 +50,9 @@ export const TextEditor = ({ block, onUpdate }: PropertyEditorProps) => {
           type="number"
           value={props.fontSize || ""}
           onChange={(e) =>
-            onUpdate({
-              ...block,
-              props: {
-                ...props,
-                fontSize: e.target.value ? parseInt(e.target.value) : undefined,
-              },
-            } as Partial<BuilderBlock>)
+            updateProps({
+              fontSize: e.target.value ? parseInt(e.target.value) : undefined,
+            })
           }
           placeholder="16"
           min="1"
@@ -75,23 +69,13 @@ export const TextEditor = ({ block, onUpdate }: PropertyEditorProps) => {
           <input
             type="color"
             value={props.color || "#000000"}
-            onChange={(e) =>
-              onUpdate({
-                ...block,
-                props: { ...props, color: e.target.value },
-              } as Partial<BuilderBlock>)
-            }
+            onChange={(e) => updateProps({ color: e.target.value })}
             className="w-12 h-9 border border-gray-300 rounded cursor-pointer"
           />
           <input
             type="text"
             value={props.color || ""}
-            onChange={(e) =>
-              onUpdate({
-                ...block,
-                props: { ...props, color: e.target.value },
-              } as Partial<BuilderBlock>)
-            }
+            onChange={(e) => updateProps({ color: e.target.value })}
             placeholder="#000000"
             className="flex-1 px-2 py-1.5 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
@@ -105,12 +89,7 @@ export const TextEditor = ({ block, onUpdate }: PropertyEditorProps) => {
         </label>
         <select
           value={props.fontWeight || "normal"}
-          onChange={(e) =>
-            onUpdate({
-              ...block,
-              props: { ...props, fontWeight: e.target.value },
-            } as Partial<BuilderBlock>)
-          }
+          onChange={(e) => updateProps({ fontWeight: e.target.value })}
           className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           {fontWeightOptions.map((option) => (
@@ -130,23 +109,13 @@ export const TextEditor = ({ block, onUpdate }: PropertyEditorProps) => {
           <input
             type="color"
             value={props.backgroundColor || "#ffffff"}
-            onChange={(e) =>
-              onUpdate({
-                ...block,
-                props: { ...props, backgroundColor: e.target.value },
-              } as Partial<BuilderBlock>)
-            }
+            onChange={(e) => updateProps({ backgroundColor: e.target.value })}
             className="w-12 h-9 border border-gray-300 rounded cursor-pointer"
           />
           <input
             type="text"
             value={props.backgroundColor || ""}
-            onChange={(e) =>
-              onUpdate({
-                ...block,
-                props: { ...props, backgroundColor: e.target.value },
-              } as Partial<BuilderBlock>)
-            }
+            onChange={(e) => updateProps({ backgroundColor: e.target.value })}
             placeholder="#ffffff"
             className="flex-1 px-2 py-1.5 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
           />

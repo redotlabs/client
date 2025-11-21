@@ -1,5 +1,4 @@
 import type { PropertyEditorProps } from "./types";
-import type { BuilderBlock } from "@/shared/types";
 import type { BadgeProps } from "@/shared/types/blocks/attributes";
 import { badgeVariantsOptions } from "@/shared/types/blocks/attributes";
 
@@ -17,6 +16,10 @@ export const BadgeEditor = ({ block, onUpdate }: PropertyEditorProps) => {
     label: key.toUpperCase(),
   }));
 
+  const updateProps = (newProps: Partial<BadgeProps>) => {
+    onUpdate({ props: { ...props, ...newProps } });
+  };
+
   return (
     <div className="space-y-3">
       <h4 className="font-semibold text-xs text-gray-500 uppercase">
@@ -31,12 +34,7 @@ export const BadgeEditor = ({ block, onUpdate }: PropertyEditorProps) => {
         <input
           type="text"
           value={props.children?.toString() || ""}
-          onChange={(e) =>
-            onUpdate({
-              ...block,
-              props: { ...props, children: e.target.value },
-            } as Partial<BuilderBlock>)
-          }
+          onChange={(e) => updateProps({ children: e.target.value })}
           className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
@@ -48,12 +46,7 @@ export const BadgeEditor = ({ block, onUpdate }: PropertyEditorProps) => {
         </label>
         <select
           value={props.color || "primary"}
-          onChange={(e) =>
-            onUpdate({
-              ...block,
-              props: { ...props, color: e.target.value as typeof props.color },
-            } as Partial<BuilderBlock>)
-          }
+          onChange={(e) => updateProps({ color: e.target.value as BadgeProps["color"] })}
           className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           {colorOptions.map((option) => (
@@ -71,12 +64,7 @@ export const BadgeEditor = ({ block, onUpdate }: PropertyEditorProps) => {
         </label>
         <select
           value={props.size || "md"}
-          onChange={(e) =>
-            onUpdate({
-              ...block,
-              props: { ...props, size: e.target.value as typeof props.size },
-            } as Partial<BuilderBlock>)
-          }
+          onChange={(e) => updateProps({ size: e.target.value as BadgeProps["size"] })}
           className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           {sizeOptions.map((option) => (

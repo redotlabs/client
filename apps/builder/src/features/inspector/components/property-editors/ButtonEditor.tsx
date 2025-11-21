@@ -1,5 +1,4 @@
 import type { PropertyEditorProps } from "./types";
-import type { BuilderBlock } from "@/shared/types";
 import type { ButtonProps } from "@/shared/types/blocks/attributes";
 import { buttonVariantsOptions } from "@/shared/types/blocks/attributes";
 
@@ -17,6 +16,10 @@ export const ButtonEditor = ({ block, onUpdate }: PropertyEditorProps) => {
     label: key.toUpperCase(),
   }));
 
+  const updateProps = (newProps: Partial<ButtonProps>) => {
+    onUpdate({ props: { ...props, ...newProps } });
+  };
+
   return (
     <div className="space-y-3">
       <h4 className="font-semibold text-xs text-gray-500 uppercase">
@@ -31,12 +34,7 @@ export const ButtonEditor = ({ block, onUpdate }: PropertyEditorProps) => {
         <input
           type="text"
           value={props.children?.toString() || ""}
-          onChange={(e) =>
-            onUpdate({
-              ...block,
-              props: { ...props, children: e.target.value },
-            } as Partial<BuilderBlock>)
-          }
+          onChange={(e) => updateProps({ children: e.target.value })}
           className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
@@ -48,12 +46,7 @@ export const ButtonEditor = ({ block, onUpdate }: PropertyEditorProps) => {
         </label>
         <select
           value={props.variant || "default"}
-          onChange={(e) =>
-            onUpdate({
-              ...block,
-              props: { ...props, variant: e.target.value as typeof props.variant },
-            } as Partial<BuilderBlock>)
-          }
+          onChange={(e) => updateProps({ variant: e.target.value as ButtonProps["variant"] })}
           className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           {variantOptions.map((option) => (
@@ -71,12 +64,7 @@ export const ButtonEditor = ({ block, onUpdate }: PropertyEditorProps) => {
         </label>
         <select
           value={props.size || "md"}
-          onChange={(e) =>
-            onUpdate({
-              ...block,
-              props: { ...props, size: e.target.value as typeof props.size },
-            } as Partial<BuilderBlock>)
-          }
+          onChange={(e) => updateProps({ size: e.target.value as ButtonProps["size"] })}
           className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           {sizeOptions.map((option) => (
@@ -93,12 +81,7 @@ export const ButtonEditor = ({ block, onUpdate }: PropertyEditorProps) => {
           type="checkbox"
           id="button-disabled"
           checked={props.disabled || false}
-          onChange={(e) =>
-            onUpdate({
-              ...block,
-              props: { ...props, disabled: e.target.checked },
-            } as Partial<BuilderBlock>)
-          }
+          onChange={(e) => updateProps({ disabled: e.target.checked })}
           className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
         />
         <label
