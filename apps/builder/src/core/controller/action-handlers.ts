@@ -1,4 +1,28 @@
-import type { EditorAction, ActionType } from "@/core/actions";
+import type {
+  ActionType,
+  EditorAction,
+  SectionCreateAction,
+  SectionInsertAction,
+  SectionDeleteAction,
+  SectionReorderAction,
+  SectionUpdateAction,
+  SectionResizeAction,
+  SectionSelectAction,
+  BlockSelectAction,
+  BlockDeselectAction,
+  BlockMoveAction,
+  BlockResizeAction,
+  BlockCreateAction,
+  BlockDeleteAction,
+  BlockUpdateAction,
+  UISetBlockDraggingAction,
+  UISetBlockResizingAction,
+  UISetSectionResizingAction,
+  InteractionStartDragAction,
+  InteractionUpdateDragAction,
+  InteractionStartResizeAction,
+  InteractionUpdateResizeAction,
+} from "@/core/actions";
 import type { EditorState } from "@/core/state";
 import * as stateUpdaters from "@/core/state/updaters";
 
@@ -6,7 +30,10 @@ import * as stateUpdaters from "@/core/state/updaters";
  * Action Handler Type
  * 각 action을 처리하는 함수의 타입
  */
-type ActionHandler = (state: EditorState, action: EditorAction) => EditorState;
+type ActionHandler<T extends EditorAction = EditorAction> = (
+  state: EditorState,
+  action: T
+) => EditorState;
 
 /**
  * Action Handlers Map
@@ -14,140 +41,167 @@ type ActionHandler = (state: EditorState, action: EditorAction) => EditorState;
  */
 export const actionHandlers: Record<ActionType, ActionHandler> = {
   // Section Handlers
-  "section.create": (state, action) => {
-    if (action.type !== "section.create") return state;
+  "section.create": ((state, action: SectionCreateAction) => {
     return stateUpdaters.createSectionState(state, action.payload.section);
-  },
+  }) as ActionHandler,
 
-  "section.insert": (state, action) => {
-    if (action.type !== "section.insert") return state;
+  "section.insert": ((state, action: SectionInsertAction) => {
     return stateUpdaters.insertSectionState(
       state,
       action.payload.targetIndex,
       action.payload.section
     );
-  },
+  }) as ActionHandler,
 
-  "section.delete": (state, action) => {
-    if (action.type !== "section.delete") return state;
+  "section.delete": ((state, action: SectionDeleteAction) => {
     return stateUpdaters.deleteSectionState(state, action.payload.sectionId);
-  },
+  }) as ActionHandler,
 
-  "section.reorder": (state, action) => {
-    if (action.type !== "section.reorder") return state;
+  "section.reorder": ((state, action: SectionReorderAction) => {
     return stateUpdaters.reorderSectionState(
       state,
       action.payload.fromIndex,
       action.payload.toIndex
     );
-  },
+  }) as ActionHandler,
 
-  "section.update": (state, action) => {
-    if (action.type !== "section.update") return state;
+  "section.update": ((state, action: SectionUpdateAction) => {
     return stateUpdaters.updateSectionState(
       state,
       action.payload.sectionId,
       action.payload.updates
     );
-  },
+  }) as ActionHandler,
 
-  "section.resize": (state, action) => {
-    if (action.type !== "section.resize") return state;
+  "section.resize": ((state, action: SectionResizeAction) => {
     return stateUpdaters.resizeSectionState(
       state,
       action.payload.sectionId,
       action.payload.rows
     );
-  },
+  }) as ActionHandler,
 
-  "section.select": (state, action) => {
-    if (action.type !== "section.select") return state;
+  "section.select": ((state, action: SectionSelectAction) => {
     return stateUpdaters.selectSectionState(state, action.payload.sectionId);
-  },
+  }) as ActionHandler,
 
   // Block Handlers
-  "block.select": (state, action) => {
-    if (action.type !== "block.select") return state;
+  "block.select": ((state, action: BlockSelectAction) => {
     return stateUpdaters.selectBlockState(
       state,
       action.payload.blockId,
       action.payload.multiSelect ?? false
     );
-  },
+  }) as ActionHandler,
 
-  "block.deselect": (state, action) => {
-    if (action.type !== "block.deselect") return state;
+  "block.deselect": ((state, action: BlockDeselectAction) => {
     return stateUpdaters.deselectBlockState(state, action.payload.blockId);
-  },
+  }) as ActionHandler,
 
-  "block.move": (state, action) => {
-    if (action.type !== "block.move") return state;
+  "block.move": ((state, action: BlockMoveAction) => {
     return stateUpdaters.moveBlockState(
       state,
       action.payload.blockId,
       action.payload.position
     );
-  },
+  }) as ActionHandler,
 
-  "block.resize": (state, action) => {
-    if (action.type !== "block.resize") return state;
+  "block.resize": ((state, action: BlockResizeAction) => {
     return stateUpdaters.resizeBlockState(
       state,
       action.payload.blockId,
       action.payload.size
     );
-  },
+  }) as ActionHandler,
 
-  "block.create": (state, action) => {
-    if (action.type !== "block.create") return state;
+  "block.create": ((state, action: BlockCreateAction) => {
     return stateUpdaters.createBlockState(
       state,
       action.payload.sectionId,
       action.payload.block
     );
-  },
+  }) as ActionHandler,
 
-  "block.delete": (state, action) => {
-    if (action.type !== "block.delete") return state;
+  "block.delete": ((state, action: BlockDeleteAction) => {
     return stateUpdaters.deleteBlockState(
       state,
       action.payload.sectionId,
       action.payload.blockId
     );
-  },
+  }) as ActionHandler,
 
-  "block.update": (state, action) => {
-    if (action.type !== "block.update") return state;
+  "block.update": ((state, action: BlockUpdateAction) => {
     return stateUpdaters.updateBlockState(
       state,
       action.payload.sectionId,
       action.payload.blockId,
       action.payload.updates
     );
-  },
+  }) as ActionHandler,
 
   // UI Handlers
-  "ui.setBlockDragging": (state, action) => {
-    if (action.type !== "ui.setBlockDragging") return state;
+  "ui.setBlockDragging": ((state, action: UISetBlockDraggingAction) => {
     return stateUpdaters.setBlockDraggingState(
       state,
       action.payload.isBlockDragging
     );
-  },
+  }) as ActionHandler,
 
-  "ui.setBlockResizing": (state, action) => {
-    if (action.type !== "ui.setBlockResizing") return state;
+  "ui.setBlockResizing": ((state, action: UISetBlockResizingAction) => {
     return stateUpdaters.setBlockResizingState(
       state,
       action.payload.isBlockResizing
     );
-  },
+  }) as ActionHandler,
 
-  "ui.setSectionResizing": (state, action) => {
-    if (action.type !== "ui.setSectionResizing") return state;
+  "ui.setSectionResizing": ((state, action: UISetSectionResizingAction) => {
     return stateUpdaters.setSectionResizingState(
       state,
       action.payload.isSectionResizing
     );
-  },
+  }) as ActionHandler,
+
+  // Interaction Handlers (Preview)
+  "interaction.startDrag": ((state, action: InteractionStartDragAction) => {
+    return stateUpdaters.startDragInteractionState(
+      state,
+      action.payload.dragState
+    );
+  }) as ActionHandler,
+
+  "interaction.updateDrag": ((state, action: InteractionUpdateDragAction) => {
+    return stateUpdaters.updateDragInteractionState(
+      state,
+      action.payload.dragState
+    );
+  }) as ActionHandler,
+
+  "interaction.endDrag": ((state) => {
+    return stateUpdaters.endDragInteractionState(state);
+  }) as ActionHandler,
+
+  "interaction.startResize": ((state, action: InteractionStartResizeAction) => {
+    return stateUpdaters.startResizeInteractionState(
+      state,
+      action.payload.resizeState
+    );
+  }) as ActionHandler,
+
+  "interaction.updateResize": ((
+    state,
+    action: InteractionUpdateResizeAction
+  ) => {
+    return stateUpdaters.updateResizeInteractionState(
+      state,
+      action.payload.resizeState
+    );
+  }) as ActionHandler,
+
+  "interaction.endResize": ((state) => {
+    return stateUpdaters.endResizeInteractionState(state);
+  }) as ActionHandler,
+
+  "interaction.clear": ((state) => {
+    return stateUpdaters.clearInteractionState(state);
+  }) as ActionHandler,
 };

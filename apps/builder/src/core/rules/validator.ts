@@ -1,10 +1,12 @@
-import type { EditorAction } from '@/core/actions';
+import type { EditorAction } from "@/core/actions";
 import type {
   Rule,
   RuleValidationResult,
   EditorRuleContext,
   RuleViolation,
-} from './types';
+} from "./types";
+import { blockBoundsRule } from "./block-bounds-rule";
+import { blockResizeBoundsRule } from "./block-resize-bounds-rule";
 
 /**
  * Rule Validator
@@ -68,3 +70,6 @@ export class RuleValidator {
 }
 
 export const globalRuleValidator = new RuleValidator();
+
+globalRuleValidator.registerRule(blockBoundsRule);
+globalRuleValidator.registerRule(blockResizeBoundsRule);

@@ -66,6 +66,38 @@ export const getSelectionCount: StateSelector<number> = (state) =>
 export const getSelectedSectionId: StateSelector<string | null> = (state) =>
   state.selection.selectedSectionId;
 
+export const getSelectedSection: StateSelector<Section | undefined> = (
+  state
+) => {
+  if (!state.selection.selectedSectionId) return undefined;
+  return state.sections.find((s) => s.id === state.selection.selectedSectionId);
+};
+
+export const getFirstSelectedBlock: StateSelector<BuilderBlock | undefined> = (
+  state
+) => {
+  const selectedIds = state.selection.selectedBlockIds;
+  if (selectedIds.size === 0) return undefined;
+
+  const firstId = Array.from(selectedIds)[0];
+  return getBlock(firstId)(state);
+};
+
+export const getSelectionType: StateSelector<
+  "section" | "block" | null
+> = (state) => state.selection.selectionType;
+
+/**
+ * 블록이 속한 섹션 찾기
+ */
+export const getParentSection: (
+  blockId: string
+) => StateSelector<Section | undefined> = (blockId) => (state) => {
+  return state.sections.find((section) =>
+    section.blocks.some((b) => b.id === blockId)
+  );
+};
+
 /**
  * Grid Selectors
  */
