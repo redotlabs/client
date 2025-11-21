@@ -1,4 +1,4 @@
-import { LayoutGrid, Type, Shapes, MousePointer, Plus } from "lucide-react";
+import { LayoutGrid, Type, Shapes, MousePointer, Plus, Image } from "lucide-react";
 import { useEditorContext } from "@/app/context/EditorContext";
 import { createSection } from "@/core/actions";
 import { BLOCK_REGISTRY } from "@/core/blocks";
@@ -36,6 +36,12 @@ const CATEGORIES: CategoryItem[] = [
     label: "Badge",
     icon: <Shapes className="w-5 h-5" />,
     blockTemplateId: "badge",
+  },
+  {
+    id: "image",
+    label: "Image",
+    icon: <Image className="w-5 h-5" />,
+    blockTemplateId: "image",
   },
 ];
 

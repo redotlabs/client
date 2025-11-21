@@ -183,22 +183,22 @@ export const BLOCK_REGISTRY: BlockTemplate[] = [
     defaultProps: {
       component: "image",
       props: {
-        src: "https://via.placeholder.com/150",
-        alt: "Placeholder image",
+        src: "",
+        alt: "",
         objectFit: "cover",
       },
-      size: { width: 4, height: 4 },
+      size: { width: 6, height: 6 },
     },
     createBlock: (position, size) => ({
       id: generateBlockId(),
       component: "image",
       props: {
-        src: "https://via.placeholder.com/150",
-        alt: "Placeholder image",
+        src: "",
+        alt: "",
         objectFit: "cover",
       },
       position,
-      size: size || { width: 4, height: 4 },
+      size: size || { width: 6, height: 6 },
       metadata: createBlockMetadata(),
     }),
   },
