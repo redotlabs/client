@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, type ChangeEvent } from "react";
 import type { PropertyEditorProps } from "./types";
 import type { ImageProps } from "@/shared/types/blocks/attributes";
 
@@ -18,7 +18,7 @@ export const ImageEditor = ({ block, onUpdate }: PropertyEditorProps) => {
     onUpdate({ props: { ...props, ...newProps } });
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -131,7 +131,9 @@ export const ImageEditor = ({ block, onUpdate }: PropertyEditorProps) => {
         <select
           value={props.objectFit || "cover"}
           onChange={(e) =>
-            updateProps({ objectFit: e.target.value as ImageProps["objectFit"] })
+            updateProps({
+              objectFit: e.target.value as ImageProps["objectFit"],
+            })
           }
           className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
