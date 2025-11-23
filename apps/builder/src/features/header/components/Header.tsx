@@ -2,6 +2,7 @@ import { Logo } from "@redotlabs/ui";
 import { useEditorContext } from "@/app/context/EditorContext";
 import { deselectBlock } from "@/core/actions";
 import { PageDropdown } from "./PageDropdown";
+import { SiteSettingsDropdown } from "./SiteSettingsDropdown";
 
 export const Header = () => {
   const { dispatch } = useEditorContext();
@@ -19,6 +20,7 @@ export const Header = () => {
       <div className="flex items-center gap-2">
         <Logo className="h-8" />
         <PageDropdown />
+        <SiteSettingsDropdown />
       </div>
 
       {/* Center Section */}

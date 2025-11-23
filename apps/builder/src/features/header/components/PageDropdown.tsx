@@ -1,4 +1,6 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, type ChangeEvent } from "react";
+import { FileText, ChevronDown, Check, X, Plus, Settings } from "lucide-react";
+import { Button, Input } from "@redotlabs/ui";
 import { useEditorContext } from "@/app/context/EditorContext";
 import { selectPage, createPage, deletePage, updatePage } from "@/core/actions";
 import { getAllPages, getCurrentPageId } from "@/core/state/selectors";
@@ -93,42 +95,22 @@ export const PageDropdown = () => {
   return (
     <div className="relative" ref={dropdownRef}>
       {/* Page Button */}
-      <button
+      <Button
+        variant="text"
+        size="sm"
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-gray-100 hover:bg-gray-200 text-gray-700 transition-colors"
+        className="flex items-center gap-2 px-3! py-1.5!"
       >
-        <svg
-          className="w-4 h-4"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-          />
-        </svg>
+        <FileText className="w-4 h-4" />
         <span className="text-sm font-medium">
           {currentPage?.name || "Page"}
         </span>
-        <svg
+        <ChevronDown
           className={`w-4 h-4 transition-transform ${
             isOpen ? "rotate-180" : ""
           }`}
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M19 9l-7 7-7-7"
-          />
-        </svg>
-      </button>
+        />
+      </Button>
 
       {/* Dropdown Menu */}
       {isOpen && (
@@ -149,49 +131,21 @@ export const PageDropdown = () => {
                 `}
               >
                 <div className="flex items-center gap-2">
-                  <svg
-                    className="w-4 h-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                    />
-                  </svg>
+                  <FileText className="w-4 h-4" />
                   <span className="text-sm font-medium">{page.name}</span>
                   {currentPageId === page.id && (
-                    <svg
-                      className="w-4 h-4 text-blue-600"
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-                    </svg>
+                    <Check className="w-4 h-4 text-blue-600" />
                   )}
                 </div>
                 {pages.length > 1 && (
-                  <button
+                  <Button
+                    variant="text"
+                    size="sm"
                     onClick={(e) => handlePageDelete(e, page.id)}
-                    className="opacity-0 group-hover:opacity-100 p-1 rounded hover:bg-red-100 text-gray-500 hover:text-red-600 transition-all"
+                    className="opacity-0 group-hover:opacity-100 p-1! min-w-0! w-auto! h-auto! rounded hover:bg-red-100 text-gray-500 hover:text-red-600 transition-all"
                   >
-                    <svg
-                      className="w-4 h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M6 18L18 6M6 6l12 12"
-                      />
-                    </svg>
-                  </button>
+                    <X className="w-4 h-4" />
+                  </Button>
                 )}
               </div>
             ))}
@@ -201,72 +155,36 @@ export const PageDropdown = () => {
           <div className="border-t border-gray-200 my-1" />
 
           {/* New Page Button */}
-          <button
+          <Button
+            variant="text"
+            size="sm"
             onClick={handlePageCreate}
-            className="w-full flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+            className="w-full! flex items-center gap-2 px-4! py-2! text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors justify-start!"
           >
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 4v16m8-8H4"
-              />
-            </svg>
+            <Plus className="w-4 h-4" />
             새 페이지 만들기
-          </button>
+          </Button>
 
           {/* Divider */}
           <div className="border-t border-gray-200 my-1" />
 
           {/* Page Settings Toggle */}
-          <button
+          <Button
+            variant="text"
+            size="sm"
             onClick={handleToggleSettings}
-            className="w-full flex items-center justify-between px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+            className="w-full! flex items-center justify-between px-4! py-2! text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
           >
             <div className="flex items-center gap-2">
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-                />
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                />
-              </svg>
+              <Settings className="w-4 h-4" />
               현재 페이지 설정
             </div>
-            <svg
+            <ChevronDown
               className={`w-4 h-4 transition-transform ${
                 showSettings ? "rotate-180" : ""
               }`}
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M19 9l-7 7-7-7"
-              />
-            </svg>
-          </button>
+            />
+          </Button>
 
           {/* Page Settings Form */}
           {showSettings && currentPage && (
@@ -276,12 +194,14 @@ export const PageDropdown = () => {
                 <label className="block text-xs font-medium text-gray-600 mb-1">
                   페이지 이름
                 </label>
-                <input
+                <Input
                   type="text"
                   value={editingName}
-                  onChange={(e) => setEditingName(e.target.value)}
-                  className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                    setEditingName(e.target.value)
+                  }
                   placeholder="페이지 이름"
+                  size="sm"
                 />
               </div>
 
@@ -290,12 +210,14 @@ export const PageDropdown = () => {
                 <label className="block text-xs font-medium text-gray-600 mb-1">
                   URL Path
                 </label>
-                <input
+                <Input
                   type="text"
                   value={editingPath}
-                  onChange={(e) => setEditingPath(e.target.value)}
-                  className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                    setEditingPath(e.target.value)
+                  }
                   placeholder="/path"
+                  size="sm"
                 />
                 <p className="text-xs text-gray-500 mt-1">
                   반드시 /로 시작해야 합니다
@@ -304,18 +226,22 @@ export const PageDropdown = () => {
 
               {/* Action Buttons */}
               <div className="flex gap-2">
-                <button
+                <Button
+                  variant="outlined"
+                  size="sm"
                   onClick={handleCancelSettings}
-                  className="flex-1 px-3 py-1.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded hover:bg-gray-50 transition-colors"
+                  className="flex-1"
                 >
                   취소
-                </button>
-                <button
+                </Button>
+                <Button
+                  variant="contained"
+                  size="sm"
                   onClick={handleSaveSettings}
-                  className="flex-1 px-3 py-1.5 text-sm font-medium text-white bg-blue-600 rounded hover:bg-blue-700 transition-colors"
+                  className="flex-1"
                 >
                   저장
-                </button>
+                </Button>
               </div>
             </div>
           )}

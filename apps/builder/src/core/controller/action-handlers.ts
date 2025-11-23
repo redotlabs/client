@@ -1,6 +1,7 @@
 import type {
   ActionType,
   EditorAction,
+  SiteUpdateAction,
   PageCreateAction,
   PageSelectAction,
   PageDeleteAction,
@@ -44,6 +45,11 @@ type ActionHandler<T extends EditorAction = EditorAction> = (
  * 각 action type에 대응하는 state updater 매핑
  */
 export const actionHandlers: Record<ActionType, ActionHandler> = {
+  // Site Handlers
+  "site.update": ((state, action: SiteUpdateAction) => {
+    return stateUpdaters.updateSiteState(state, action.payload.updates);
+  }) as ActionHandler,
+
   // Page Handlers
   "page.create": ((state, action: PageCreateAction) => {
     return stateUpdaters.createPageState(state, action.payload.page);

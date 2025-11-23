@@ -1,5 +1,11 @@
 import type { EditorState, StateSelector } from "./types";
-import type { BuilderBlock, Section, Page } from "@/shared/types";
+import type { BuilderBlock, Section, Page, SiteMetadata } from "@/shared/types";
+
+/**
+ * Site Selectors
+ */
+export const getSiteMetadata: StateSelector<SiteMetadata> = (state) =>
+  state.site.metadata;
 
 /**
  * Page Selectors

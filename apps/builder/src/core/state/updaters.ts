@@ -15,6 +15,33 @@ import { DEFAULT_SECTION_ROWS } from "@/shared/constants/editorData";
 import { createEmptyPage } from "@/shared/types/site";
 
 // ============================================
+// Site State Updaters
+// ============================================
+
+export const updateSiteState = (
+  state: EditorState,
+  updates: {
+    name?: string;
+    description?: string;
+    favicon?: string;
+  }
+): EditorState => {
+  return {
+    ...state,
+    site: {
+      ...state.site,
+      metadata: {
+        ...state.site.metadata,
+        ...(updates.name !== undefined && { name: updates.name }),
+        ...(updates.description !== undefined && { description: updates.description }),
+        ...(updates.favicon !== undefined && { favicon: updates.favicon }),
+        updatedAt: new Date().toISOString(),
+      },
+    },
+  };
+};
+
+// ============================================
 // Page State Updaters
 // ============================================
 

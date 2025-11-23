@@ -1,5 +1,6 @@
 import type {
   EditorAction,
+  SiteUpdateAction,
   PageCreateAction,
   PageSelectAction,
   PageDeleteAction,
@@ -56,6 +57,14 @@ function createActionWithoutPayload<T extends EditorAction>(
     timestamp: Date.now(),
   } as T;
 }
+
+// ============================================
+// Site Action Creators
+// ============================================
+
+export const updateSite = (
+  updates: SiteUpdateAction["payload"]["updates"]
+): SiteUpdateAction => createAction<SiteUpdateAction>("site.update", { updates });
 
 // ============================================
 // Page Action Creators

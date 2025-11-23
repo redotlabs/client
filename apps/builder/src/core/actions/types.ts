@@ -15,6 +15,8 @@ import type {
  * 에디터에서 발생할 수 있는 모든 액션 유형
  */
 export type ActionType =
+  // Site Actions
+  | "site.update"
   // Page Actions
   | "page.create"
   | "page.select"
@@ -56,6 +58,21 @@ export type ActionType =
 export interface BaseAction {
   type: ActionType;
   timestamp: number;
+}
+
+// ============================================
+// Site Actions
+// ============================================
+
+export interface SiteUpdateAction extends BaseAction {
+  type: "site.update";
+  payload: {
+    updates: {
+      name?: string;
+      description?: string;
+      favicon?: string;
+    };
+  };
 }
 
 // ============================================
@@ -283,6 +300,8 @@ export interface InteractionClearAction extends BaseAction {
 }
 
 export type EditorAction =
+  // Site Actions
+  | SiteUpdateAction
   // Page Actions
   | PageCreateAction
   | PageSelectAction
