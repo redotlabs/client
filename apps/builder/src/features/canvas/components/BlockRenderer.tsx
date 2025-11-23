@@ -5,6 +5,7 @@ import type {
   ButtonProps,
   InputProps,
   ImageProps,
+  LinkProps,
 } from "@/shared/types";
 import { Badge, Button, Input } from "@redotlabs/ui";
 import { cn } from "@redotlabs/utils";
@@ -81,6 +82,31 @@ export const BlockRenderer = ({ block }: BlockRendererProps) => {
       case "image": {
         const props = block.props as unknown as ImageProps;
         return <ImageBlock props={props} className={BLOCK_FILL_CLASSES} />;
+      }
+
+      case "link": {
+        const props = block.props as LinkProps;
+        return (
+          <a
+            href={props.href || "#"}
+            target={props.target || "_self"}
+            className={cn(BLOCK_FILL_CLASSES, props.className)}
+            style={{
+              color: props.color,
+              fontSize: props.fontSize ? `${props.fontSize}px` : undefined,
+              fontWeight: props.fontWeight,
+              textDecoration: props.textDecoration || "underline",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+            onClick={(e) => {
+              e.preventDefault();
+            }}
+          >
+            {props.children || "Link"}
+          </a>
+        );
       }
 
       default:

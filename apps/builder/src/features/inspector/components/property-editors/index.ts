@@ -5,6 +5,7 @@ import { BadgeEditor } from "./BadgeEditor";
 import { ButtonEditor } from "./ButtonEditor";
 import { InputEditor } from "./InputEditor";
 import { ImageEditor } from "./ImageEditor";
+import { LinkEditor } from "./LinkEditor";
 
 /**
  * Property Editor Registry
@@ -18,6 +19,7 @@ const PROPERTY_EDITORS: Partial<
   button: ButtonEditor,
   input: InputEditor,
   image: ImageEditor,
+  link: LinkEditor,
 };
 
 /**
@@ -30,4 +32,4 @@ export const getPropertyEditor = (
 };
 
 export * from "./types";
-export { TextEditor, BadgeEditor, ButtonEditor, InputEditor, ImageEditor };
+export { TextEditor, BadgeEditor, ButtonEditor, InputEditor, ImageEditor, LinkEditor };
