@@ -12,6 +12,123 @@ import type {
 } from "@/shared/types";
 import { getSectionRows } from "@/shared/utils/sectionHeight";
 import { DEFAULT_SECTION_ROWS } from "@/shared/constants/editorData";
+import { createEmptyPage } from "@/shared/types/site";
+
+// ============================================
+// Page State Updaters
+// ============================================
+
+export const createPageState = (
+  state: EditorState,
+  page?: Page
+): EditorState => {
+  const newPage =
+    page ||
+    createEmptyPage(`Page ${state.site.pages.length + 1}`, `/page-${state.site.pages.length + 1}`);
+
+  return {
+    ...state,
+    site: {
+      ...state.site,
+      pages: [...state.site.pages, newPage],
+      metadata: {
+        ...state.site.metadata,
+        updatedAt: new Date().toISOString(),
+      },
+    },
+    currentPageId: newPage.id,
+  };
+};
+
+export const selectPageState = (
+  state: EditorState,
+  pageId: string
+): EditorState => {
+  const pageExists = state.site.pages.some((p) => p.id === pageId);
+  if (!pageExists) return state;
+
+  return {
+    ...state,
+    currentPageId: pageId,
+    // 페이지 전환 시 선택 초기화
+    selection: {
+      ...state.selection,
+      selectionType: null,
+      selectedBlockIds: new Set(),
+      lastSelectedId: null,
+      selectedSectionId: null,
+    },
+  };
+};
+
+export const deletePageState = (
+  state: EditorState,
+  pageId: string
+): EditorState => {
+  // 최소 1개 페이지는 유지
+  if (state.site.pages.length <= 1) return state;
+
+  const updatedPages = state.site.pages.filter((p) => p.id !== pageId);
+
+  // 삭제하는 페이지가 현재 페이지면 첫 번째 페이지로 이동
+  const newCurrentPageId =
+    state.currentPageId === pageId
+      ? updatedPages[0].id
+      : state.currentPageId;
+
+  return {
+    ...state,
+    site: {
+      ...state.site,
+      pages: updatedPages,
+      metadata: {
+        ...state.site.metadata,
+        updatedAt: new Date().toISOString(),
+      },
+    },
+    currentPageId: newCurrentPageId,
+    selection: {
+      ...state.selection,
+      selectionType: null,
+      selectedBlockIds: new Set(),
+      lastSelectedId: null,
+      selectedSectionId: null,
+    },
+  };
+};
+
+export const updatePageState = (
+  state: EditorState,
+  pageId: string,
+  updates: { name?: string; path?: string }
+): EditorState => {
+  const now = new Date().toISOString();
+
+  return {
+    ...state,
+    site: {
+      ...state.site,
+      pages: state.site.pages.map((page) =>
+        page.id === pageId
+          ? {
+              ...page,
+              ...updates,
+              metadata: {
+                title: page.metadata?.title,
+                description: page.metadata?.description,
+                createdAt: page.metadata?.createdAt || now,
+                updatedAt: now,
+              },
+            }
+          : page
+      ),
+      metadata: {
+        ...state.site.metadata,
+        updatedAt: now,
+      },
+    },
+  };
+};
 
 // ============================================
 // Section State Updaters

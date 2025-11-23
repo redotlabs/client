@@ -43,18 +43,31 @@ export interface Site {
 
 /**
  * 빈 페이지 생성 헬퍼
+ * 기본적으로 빈 섹션 1개 포함
  */
 export const createEmptyPage = (
   name: string = "Untitled Page",
   path: string = "/"
 ): Page => {
   const now = new Date().toISOString();
+  const sectionId = crypto.randomUUID();
 
   return {
     id: crypto.randomUUID(),
     name,
     path,
-    sections: [],
+    sections: [
+      {
+        id: sectionId,
+        name: "Section 1",
+        rows: 25,
+        blocks: [],
+        metadata: {
+          createdAt: now,
+          updatedAt: now,
+        },
+      },
+    ],
     metadata: {
       createdAt: now,
       updatedAt: now,

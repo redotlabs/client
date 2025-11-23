@@ -1,6 +1,7 @@
 import { Logo } from "@redotlabs/ui";
 import { useEditorContext } from "@/app/context/EditorContext";
 import { deselectBlock } from "@/core/actions";
+import { PageDropdown } from "./PageDropdown";
 
 export const Header = () => {
   const { dispatch } = useEditorContext();
@@ -15,8 +16,9 @@ export const Header = () => {
       onClick={handleHeaderClick}
     >
       {/* Left Section*/}
-      <div className="flex items-center">
+      <div className="flex items-center gap-2">
         <Logo className="h-8" />
+        <PageDropdown />
       </div>
 
       {/* Center Section */}
