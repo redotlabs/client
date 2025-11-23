@@ -70,8 +70,13 @@ export const resizeHandler: ResizeEventHandler = {
 
     const { state } = context;
 
+    const currentPage = state.site.pages.find(
+      (p) => p.id === state.currentPageId
+    );
+    const sections = currentPage?.sections || [];
+
     let block = null;
-    for (const section of state.sections) {
+    for (const section of sections) {
       block = section.blocks.find((b) => b.id === blockId);
       if (block) break;
     }

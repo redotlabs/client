@@ -50,8 +50,13 @@ export const createDragHandler = (): DragEventHandler => {
       context: HandlerContext,
       blockId: string
     ) => {
+      const currentPage = context.state.site.pages.find(
+        (p) => p.id === context.state.currentPageId
+      );
+      const sections = currentPage?.sections || [];
+
       let block = null;
-      for (const section of context.state.sections) {
+      for (const section of sections) {
         block = section.blocks.find((b) => b.id === blockId);
         if (block) break;
       }

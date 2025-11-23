@@ -35,8 +35,13 @@ export const keyboardHandler: KeyboardEventHandler = {
         event.preventDefault();
         const selectedIds = getSelectedBlockIds(state);
 
+        const currentPage = state.site.pages.find(
+          (p) => p.id === state.currentPageId
+        );
+        const sections = currentPage?.sections || [];
+
         selectedIds.forEach((blockId) => {
-          for (const section of state.sections) {
+          for (const section of sections) {
             if (section.blocks.some((b) => b.id === blockId)) {
               dispatch(deleteBlock(section.id, blockId));
               break;

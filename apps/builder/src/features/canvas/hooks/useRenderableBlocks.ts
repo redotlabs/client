@@ -13,14 +13,19 @@ export const useRenderableBlocks = (sectionId?: string) => {
   return useMemo(() => {
     const converter = new BlockConverter(state.gridConfig);
 
+    const currentPage = state.site.pages.find(
+      (p) => p.id === state.currentPageId
+    );
+    const sections = currentPage?.sections || [];
+
     let blocks;
     if (sectionId) {
-      const section = state.sections.find((s) => s.id === sectionId);
+      const section = sections.find((s) => s.id === sectionId);
       blocks = section?.blocks || [];
     } else {
-      blocks = state.sections.flatMap((section) => section.blocks);
+      blocks = sections.flatMap((section) => section.blocks);
     }
 
     return converter.convertBlocks(blocks);
-  }, [state.sections, state.gridConfig, sectionId]);
+  }, [state.site.pages, state.currentPageId, state.gridConfig, sectionId]);
 };

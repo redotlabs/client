@@ -8,6 +8,7 @@ import type {
   BlockPosition,
   BlockSize,
   Section,
+  Page,
 } from "@/shared/types";
 import { getSectionRows } from "@/shared/utils/sectionHeight";
 import { DEFAULT_SECTION_ROWS } from "@/shared/constants/editorData";
@@ -21,6 +22,33 @@ import { DEFAULT_SECTION_ROWS } from "@/shared/constants/editorData";
  */
 const generateTempId = (): string => {
   return `temp-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+};
+
+/**
+ * Helper to get current page from state
+ */
+const getCurrentPage = (state: EditorState): Page | undefined => {
+  return state.site.pages.find((p) => p.id === state.currentPageId);
+};
+
+/**
+ * Helper to update current page's sections
+ */
+const updateCurrentPageSections = (
+  state: EditorState,
+  updateFn: (sections: Section[]) => Section[]
+): EditorState => {
+  return {
+    ...state,
+    site: {
+      ...state.site,
+      pages: state.site.pages.map((page) =>
+        page.id === state.currentPageId
+          ? { ...page, sections: updateFn(page.sections) }
+          : page
+      ),
+    },
+  };
 };
 
 /**
@@ -42,9 +70,12 @@ export const createSectionState = (
   state: EditorState,
   section?: Section
 ): EditorState => {
+  const currentPage = getCurrentPage(state);
+  const currentSections = currentPage?.sections || [];
+
   const newSection = section || {
     id: generateTempId(),
-    name: `Section ${state.sections.length + 1}`,
+    name: `Section ${currentSections.length + 1}`,
     rows: DEFAULT_SECTION_ROWS,
     blocks: [],
     metadata: {
@@ -53,9 +84,13 @@ export const createSectionState = (
     },
   };
 
+  const updated = updateCurrentPageSections(state, (sections) => [
+    ...sections,
+    newSection,
+  ]);
+
   return {
-    ...state,
-    sections: [...state.sections, newSection],
+    ...updated,
     selection: {
       ...state.selection,
       selectedSectionId: newSection.id,
@@ -68,9 +103,12 @@ export const insertSectionState = (
   targetIndex: number,
   section?: Section
 ): EditorState => {
+  const currentPage = getCurrentPage(state);
+  const currentSections = currentPage?.sections || [];
+
   const newSection = section || {
     id: generateTempId(),
-    name: `Section ${state.sections.length + 1}`,
+    name: `Section ${currentSections.length + 1}`,
     rows: DEFAULT_SECTION_ROWS,
     blocks: [],
     metadata: {
@@ -79,15 +117,14 @@ export const insertSectionState = (
     },
   };
 
-  const newSections = [
-    ...state.sections.slice(0, targetIndex),
+  const updated = updateCurrentPageSections(state, (sections) => [
+    ...sections.slice(0, targetIndex),
     newSection,
-    ...state.sections.slice(targetIndex),
-  ];
+    ...sections.slice(targetIndex),
+  ]);
 
   return {
-    ...state,
-    sections: newSections,
+    ...updated,
     selection: {
       ...state.selection,
       selectedSectionId: newSection.id,
@@ -99,7 +136,9 @@ export const deleteSectionState = (
   state: EditorState,
   sectionId: string
 ): EditorState => {
-  const newSections = state.sections.filter((s) => s.id !== sectionId);
+  const updated = updateCurrentPageSections(state, (sections) =>
+    sections.filter((s) => s.id !== sectionId)
+  );
 
   const newSelectedSectionId =
     state.selection.selectedSectionId === sectionId
@@ -107,8 +146,7 @@ export const deleteSectionState = (
       : state.selection.selectedSectionId;
 
   return {
-    ...state,
-    sections: newSections,
+    ...updated,
     selection: {
       ...state.selection,
       selectedSectionId: newSelectedSectionId,
@@ -123,25 +161,26 @@ export const reorderSectionState = (
   fromIndex: number,
   toIndex: number
 ): EditorState => {
+  const currentPage = getCurrentPage(state);
+  const currentSections = currentPage?.sections || [];
+
   if (
     fromIndex < 0 ||
-    fromIndex >= state.sections.length ||
+    fromIndex >= currentSections.length ||
     toIndex < 0 ||
-    toIndex >= state.sections.length
+    toIndex >= currentSections.length
   ) {
     return state;
   }
 
-  const newSections = [...state.sections];
-  [newSections[fromIndex], newSections[toIndex]] = [
-    newSections[toIndex],
-    newSections[fromIndex],
-  ];
-
-  return {
-    ...state,
-    sections: newSections,
-  };
+  return updateCurrentPageSections(state, (sections) => {
+    const newSections = [...sections];
+    [newSections[fromIndex], newSections[toIndex]] = [
+      newSections[toIndex],
+      newSections[fromIndex],
+    ];
+    return newSections;
+  });
 };
 
 export const updateSectionState = (
@@ -151,23 +190,20 @@ export const updateSectionState = (
 ): EditorState => {
   const now = new Date().toISOString();
 
-  const newSections = state.sections.map((section) =>
-    section.id === sectionId
-      ? {
-          ...section,
-          ...updates,
-          metadata: {
-            createdAt: section.metadata?.createdAt || now,
-            updatedAt: now,
-          },
-        }
-      : section
+  return updateCurrentPageSections(state, (sections) =>
+    sections.map((section) =>
+      section.id === sectionId
+        ? {
+            ...section,
+            ...updates,
+            metadata: {
+              createdAt: section.metadata?.createdAt || now,
+              updatedAt: now,
+            },
+          }
+        : section
+    )
   );
-
-  return {
-    ...state,
-    sections: newSections,
-  };
 };
 
 export const resizeSectionState = (
@@ -175,14 +211,11 @@ export const resizeSectionState = (
   sectionId: string,
   rows: number
 ): EditorState => {
-  const newSections = state.sections.map((section) =>
-    section.id === sectionId ? { ...section, rows } : section
+  return updateCurrentPageSections(state, (sections) =>
+    sections.map((section) =>
+      section.id === sectionId ? { ...section, rows } : section
+    )
   );
-
-  return {
-    ...state,
-    sections: newSections,
-  };
 };
 
 export const selectSectionState = (
@@ -262,7 +295,10 @@ export const moveBlockState = (
   blockId: string,
   position: BlockPosition
 ): EditorState => {
-  const targetSection = state.sections.find((section) =>
+  const currentPage = getCurrentPage(state);
+  const currentSections = currentPage?.sections || [];
+
+  const targetSection = currentSections.find((section) =>
     section.blocks.some((b) => b.id === blockId)
   );
 
@@ -279,14 +315,13 @@ export const moveBlockState = (
     y: Math.max(0, Math.min(position.y, maxY)),
   };
 
-  return {
-    ...state,
-    sections: updateSectionBlocks(state.sections, targetSection.id, (blocks) =>
+  return updateCurrentPageSections(state, (sections) =>
+    updateSectionBlocks(sections, targetSection.id, (blocks) =>
       blocks.map((b) =>
         b.id === blockId ? { ...b, position: clampedPosition } : b
       )
-    ),
-  };
+    )
+  );
 };
 
 export const resizeBlockState = (
@@ -294,7 +329,10 @@ export const resizeBlockState = (
   blockId: string,
   size: BlockSize
 ): EditorState => {
-  const targetSection = state.sections.find((section) =>
+  const currentPage = getCurrentPage(state);
+  const currentSections = currentPage?.sections || [];
+
+  const targetSection = currentSections.find((section) =>
     section.blocks.some((b) => b.id === blockId)
   );
 
@@ -311,12 +349,11 @@ export const resizeBlockState = (
     height: Math.max(1, Math.min(size.height, maxHeight)),
   };
 
-  return {
-    ...state,
-    sections: updateSectionBlocks(state.sections, targetSection.id, (blocks) =>
+  return updateCurrentPageSections(state, (sections) =>
+    updateSectionBlocks(sections, targetSection.id, (blocks) =>
       blocks.map((b) => (b.id === blockId ? { ...b, size: clampedSize } : b))
-    ),
-  };
+    )
+  );
 };
 
 export const createBlockState = (
@@ -324,13 +361,9 @@ export const createBlockState = (
   sectionId: string,
   block: BuilderBlock
 ): EditorState => {
-  return {
-    ...state,
-    sections: updateSectionBlocks(state.sections, sectionId, (blocks) => [
-      ...blocks,
-      block,
-    ]),
-  };
+  return updateCurrentPageSections(state, (sections) =>
+    updateSectionBlocks(sections, sectionId, (blocks) => [...blocks, block])
+  );
 };
 
 export const deleteBlockState = (
@@ -341,11 +374,14 @@ export const deleteBlockState = (
   const selectedBlockIds = new Set(state.selection.selectedBlockIds);
   selectedBlockIds.delete(blockId);
 
-  return {
-    ...state,
-    sections: updateSectionBlocks(state.sections, sectionId, (blocks) =>
+  const updated = updateCurrentPageSections(state, (sections) =>
+    updateSectionBlocks(sections, sectionId, (blocks) =>
       blocks.filter((block) => block.id !== blockId)
-    ),
+    )
+  );
+
+  return {
+    ...updated,
     selection: {
       ...state.selection,
       selectedBlockIds,
@@ -363,14 +399,13 @@ export const updateBlockState = (
   blockId: string,
   updates: Omit<Partial<BuilderBlock>, "id" | "position" | "size">
 ): EditorState => {
-  return {
-    ...state,
-    sections: updateSectionBlocks(state.sections, sectionId, (blocks) =>
+  return updateCurrentPageSections(state, (sections) =>
+    updateSectionBlocks(sections, sectionId, (blocks) =>
       blocks.map((block) =>
         block.id === blockId ? { ...block, ...updates } : block
       )
-    ),
-  };
+    )
+  );
 };
 
 export const setBlockDraggingState = (

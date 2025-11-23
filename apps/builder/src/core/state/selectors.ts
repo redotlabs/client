@@ -1,19 +1,41 @@
 import type { EditorState, StateSelector } from "./types";
-import type { BuilderBlock, Section } from "@/shared/types";
+import type { BuilderBlock, Section, Page } from "@/shared/types";
+
+/**
+ * Page Selectors
+ */
+export const getCurrentPage: StateSelector<Page | undefined> = (state) =>
+  state.site.pages.find((p) => p.id === state.currentPageId);
+
+export const getCurrentPageId: StateSelector<string> = (state) =>
+  state.currentPageId;
+
+export const getAllPages: StateSelector<Page[]> = (state) => state.site.pages;
+
+/**
+ * Section Selectors
+ * 현재 페이지의 sections를 반환
+ */
+const getCurrentSections: StateSelector<Section[]> = (state) => {
+  const currentPage = getCurrentPage(state);
+  return currentPage?.sections || [];
+};
 
 /**
  * Section Selectors
  */
 export const getSection: (
   sectionId: string
-) => StateSelector<Section | undefined> = (sectionId) => (state) =>
-  state.sections.find((s) => s.id === sectionId);
+) => StateSelector<Section | undefined> = (sectionId) => (state) => {
+  const sections = getCurrentSections(state);
+  return sections.find((s) => s.id === sectionId);
+};
 
 export const getAllSections: StateSelector<Section[]> = (state) =>
-  state.sections;
+  getCurrentSections(state);
 
 export const getSectionCount: StateSelector<number> = (state) =>
-  state.sections.length;
+  getCurrentSections(state).length;
 
 /**
  * Block Selectors
@@ -21,26 +43,29 @@ export const getSectionCount: StateSelector<number> = (state) =>
 export const getBlock: (
   blockId: string
 ) => StateSelector<BuilderBlock | undefined> = (blockId) => (state) => {
-  for (const section of state.sections) {
+  const sections = getCurrentSections(state);
+  for (const section of sections) {
     const block = section.blocks.find((b) => b.id === blockId);
     if (block) return block;
   }
   return undefined;
 };
 
-export const getAllBlocks: StateSelector<BuilderBlock[]> = (state) =>
-  state.sections.flatMap((section) => section.blocks);
+export const getAllBlocks: StateSelector<BuilderBlock[]> = (state) => {
+  const sections = getCurrentSections(state);
+  return sections.flatMap((section) => section.blocks);
+};
 
-export const getBlockCount: StateSelector<number> = (state) =>
-  state.sections.reduce(
-    (count, section) => count + section.blocks.length,
-    0
-  );
+export const getBlockCount: StateSelector<number> = (state) => {
+  const sections = getCurrentSections(state);
+  return sections.reduce((count, section) => count + section.blocks.length, 0);
+};
 
 export const getBlocksInSection: (
   sectionId: string
 ) => StateSelector<BuilderBlock[]> = (sectionId) => (state) => {
-  const section = state.sections.find((s) => s.id === sectionId);
+  const sections = getCurrentSections(state);
+  const section = sections.find((s) => s.id === sectionId);
   return section?.blocks || [];
 };
 
@@ -70,7 +95,8 @@ export const getSelectedSection: StateSelector<Section | undefined> = (
   state
 ) => {
   if (!state.selection.selectedSectionId) return undefined;
-  return state.sections.find((s) => s.id === state.selection.selectedSectionId);
+  const sections = getCurrentSections(state);
+  return sections.find((s) => s.id === state.selection.selectedSectionId);
 };
 
 export const getFirstSelectedBlock: StateSelector<BuilderBlock | undefined> = (
@@ -93,7 +119,8 @@ export const getSelectionType: StateSelector<
 export const getParentSection: (
   blockId: string
 ) => StateSelector<Section | undefined> = (blockId) => (state) => {
-  return state.sections.find((section) =>
+  const sections = getCurrentSections(state);
+  return sections.find((section) =>
     section.blocks.some((b) => b.id === blockId)
   );
 };
