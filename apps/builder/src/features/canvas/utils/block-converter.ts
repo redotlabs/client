@@ -7,6 +7,7 @@ import type {
   BadgeProps,
   ButtonProps,
   InputProps,
+  ImageProps,
 } from "@/shared/types";
 import type { CSSProperties, ReactNode } from "react";
 
@@ -53,6 +54,14 @@ const componentPropHandlers: Record<string, ComponentPropHandler> = {
 
   input: (block, baseProps) => {
     const props = block.props as InputProps;
+    return {
+      ...baseProps,
+      ...props,
+    };
+  },
+
+  image: (block, baseProps) => {
+    const props = block.props as ImageProps;
     return {
       ...baseProps,
       ...props,

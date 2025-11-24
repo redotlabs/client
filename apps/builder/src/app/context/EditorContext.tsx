@@ -3,10 +3,11 @@ import { useEditor } from "@/core/hooks/use-editor";
 import type { Section, GridConfig } from "@/shared/types";
 import type { EditorState } from "@/core/state";
 import type { EditorAction } from "@/core/actions";
+import type { RuleValidationResult } from "@/core/rules";
 
 interface EditorContextValue {
   state: EditorState;
-  dispatch: (action: EditorAction) => void;
+  dispatch: (action: EditorAction) => RuleValidationResult;
 }
 
 const EditorContext = createContext<EditorContextValue | null>(null);

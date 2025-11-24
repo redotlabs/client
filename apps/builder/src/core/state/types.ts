@@ -1,10 +1,23 @@
-import type { Section, GridConfig } from "@/shared/types";
+import type {
+  Section,
+  GridConfig,
+  BlockPosition,
+  BlockSize,
+} from "@/shared/types";
+import type { ResizeDirection } from "@/core/events/handlers/types";
+
+/**
+ * Selection Type
+ * Inspector에서 표시할 선택 타입
+ */
+export type SelectionType = "section" | "block" | null;
 
 /**
  * Selection State
  * 선택된 블록들의 상태
  */
 export interface SelectionState {
+  selectionType: SelectionType;
   selectedBlockIds: Set<string>;
   lastSelectedId: string | null;
   selectedSectionId: string | null;
@@ -21,6 +34,51 @@ export interface UIState {
 }
 
 /**
+ * Interaction Type
+ * 사용자가 현재 진행 중인 인터랙션의 종류
+ */
+export type InteractionType = "drag" | "resize" | null;
+
+/**
+ * Drag Interaction State
+ * 드래그 중간 상태 (Preview용)
+ */
+export interface DragInteractionState {
+  blockId: string;
+  startPosition: BlockPosition;
+  currentPosition: BlockPosition;
+  previewPosition: BlockPosition;
+  startMousePosition: { x: number; y: number };
+}
+
+/**
+ * Resize Interaction State
+ * 리사이즈 중간 상태 (Preview용)
+ */
+export interface ResizeInteractionState {
+  blockId: string;
+  direction: ResizeDirection;
+  startPosition: BlockPosition;
+  startSize: BlockSize;
+  currentSize: BlockSize;
+  previewSize: BlockSize;
+  startMousePosition: { x: number; y: number };
+}
+
+/**
+ * Interaction State
+ * Handler 레벨에서 관리하는 중간 상태
+ *
+ * 이 상태는 실제 EditorState에 반영되지 않으며,
+ * 인터랙션이 완료될 때만 Action을 통해 데이터에 반영됨
+ */
+export interface InteractionState {
+  type: InteractionType;
+  drag: DragInteractionState | null;
+  resize: ResizeInteractionState | null;
+}
+
+/**
  * Editor State
  * 에디터의 전체 상태
  */
@@ -30,6 +88,8 @@ export interface EditorState {
 
   selection: SelectionState;
   ui: UIState;
+
+  interaction: InteractionState;
 
   // TODO: 히스토리 구현 (undo/redo)
   history: {
@@ -45,14 +105,20 @@ export const createInitialEditorState = (
   gridConfig,
   sections,
   selection: {
+    selectionType: null,
     selectedBlockIds: new Set(),
     lastSelectedId: null,
-    selectedSectionId: sections.length > 0 ? sections[0].id : null,
+    selectedSectionId: null,
   },
   ui: {
     isBlockDragging: false,
     isBlockResizing: false,
     isSectionResizing: false,
+  },
+  interaction: {
+    type: null,
+    drag: null,
+    resize: null,
   },
   history: {
     past: [],

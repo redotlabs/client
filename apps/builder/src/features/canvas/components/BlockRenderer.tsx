@@ -4,9 +4,11 @@ import type {
   BadgeProps,
   ButtonProps,
   InputProps,
+  ImageProps,
 } from "@/shared/types";
 import { Badge, Button, Input } from "@redotlabs/ui";
 import { cn } from "@redotlabs/utils";
+import { ImageBlock } from "./ImageBlock";
 
 interface BlockRendererProps {
   block: RenderableBlock;
@@ -19,7 +21,19 @@ export const BlockRenderer = ({ block }: BlockRendererProps) => {
     switch (block.type) {
       case "text": {
         const props = block.props as TextProps;
-        return <div>{props.children}</div>;
+        return (
+          <div
+            style={{
+              color: props.color,
+              fontSize: props.fontSize ? `${props.fontSize}px` : undefined,
+              fontWeight: props.fontWeight,
+              textAlign: props.textAlign,
+              backgroundColor: props.backgroundColor,
+            }}
+          >
+            {props.children}
+          </div>
+        );
       }
 
       case "badge": {
@@ -62,6 +76,11 @@ export const BlockRenderer = ({ block }: BlockRendererProps) => {
             className={cn(BLOCK_FILL_CLASSES, props.className)}
           />
         );
+      }
+
+      case "image": {
+        const props = block.props as unknown as ImageProps;
+        return <ImageBlock props={props} className={BLOCK_FILL_CLASSES} />;
       }
 
       default:

@@ -1,6 +1,13 @@
 import type { DragEventHandler, HandlerContext } from "./types";
-import { moveBlock, setBlockDragging } from "../../actions";
+import {
+  moveBlock,
+  setBlockDragging,
+  startDragInteraction,
+  updateDragInteraction,
+  endDragInteraction,
+} from "@/core/actions";
 import { COLUMN_WIDTH } from "@/shared/constants/editorData";
+import { toast } from "@redotlabs/ui";
 
 interface DragState {
   blockId: string;
@@ -12,8 +19,14 @@ interface DragState {
 }
 
 /**
- * Drag Handler
- * 블록 드래그를 처리하는 핸들러
+ * Drag Handler (Preview Mode)
+ * 블록 드래그를 미리보기 방식으로 처리하는 핸들러
+ *
+ * Flow:
+ * 1. onDragStart: 이벤트 리스너 등록 (내부 dragState만 초기화)
+ * 2. onDragMove (첫 움직임): Interaction State 초기화 + UI 플래그 설정
+ * 3. onDragMove (이후): Interaction State만 업데이트 (실제 데이터 변경 없음)
+ * 4. onDragEnd: 드래그가 발생했으면 최종 위치를 데이터에 반영 + Interaction 종료
  */
 export const createDragHandler = (): DragEventHandler => {
   let dragState: DragState | null = null;
@@ -69,6 +82,17 @@ export const createDragHandler = (): DragEventHandler => {
 
       if (!dragState.hasStartedDragging) {
         dragState.hasStartedDragging = true;
+
+        dispatch(
+          startDragInteraction({
+            blockId,
+            startPosition: startPosition,
+            currentPosition: startPosition,
+            previewPosition: startPosition,
+            startMousePosition: { x: startX, y: startY },
+          })
+        );
+
         dispatch(setBlockDragging(true));
       }
 
@@ -81,16 +105,24 @@ export const createDragHandler = (): DragEventHandler => {
       const deltaColumns = Math.round(deltaX / cellWidth);
       const deltaRows = Math.round(deltaY / cellHeight);
 
-      const newX = Math.max(0, startPosition.x + deltaColumns);
-      const newY = Math.max(0, startPosition.y + deltaRows);
+      const newX = startPosition.x + deltaColumns;
+      const newY = startPosition.y + deltaRows;
 
       if (newX !== currentPosition.x || newY !== currentPosition.y) {
         dragState.currentPosition = { x: newX, y: newY };
+
         dispatch(
-          moveBlock(blockId, {
-            x: newX,
-            y: newY,
-            zIndex: startPosition.zIndex,
+          updateDragInteraction({
+            currentPosition: {
+              x: newX,
+              y: newY,
+              zIndex: startPosition.zIndex,
+            },
+            previewPosition: {
+              x: newX,
+              y: newY,
+              zIndex: startPosition.zIndex,
+            },
           })
         );
       }
@@ -100,8 +132,28 @@ export const createDragHandler = (): DragEventHandler => {
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseup", handleMouseUp);
 
-      if (currentContext) {
-        currentContext.dispatch(setBlockDragging(false));
+      if (currentContext && dragState) {
+        if (dragState.hasStartedDragging) {
+          const { blockId, currentPosition, startPosition } = dragState;
+
+          const action = moveBlock(blockId, {
+            x: currentPosition.x,
+            y: currentPosition.y,
+            zIndex: startPosition.zIndex,
+          });
+
+          const validationResult = currentContext.dispatch(action);
+
+          if (!validationResult.valid) {
+            const errorMessage =
+              validationResult.violations[0]?.message ||
+              "블록을 이동할 수 없습니다";
+            toast.error(errorMessage);
+          }
+
+          currentContext.dispatch(endDragInteraction());
+          currentContext.dispatch(setBlockDragging(false));
+        }
       }
 
       dragState = null;
