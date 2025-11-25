@@ -13,11 +13,12 @@ import { ImageBlock } from "./ImageBlock";
 
 interface BlockRendererProps {
   block: RenderableBlock;
+  isPreviewMode?: boolean;
 }
 
 const BLOCK_FILL_CLASSES = "w-full h-full";
 
-export const BlockRenderer = ({ block }: BlockRendererProps) => {
+export const BlockRenderer = ({ block, isPreviewMode = false }: BlockRendererProps) => {
   const renderContent = () => {
     switch (block.type) {
       case "text": {
@@ -86,9 +87,13 @@ export const BlockRenderer = ({ block }: BlockRendererProps) => {
 
       case "link": {
         const props = block.props as LinkProps;
+        const href = props.href || "#";
+        const isInternal = href.startsWith("/");
+        const finalHref = isPreviewMode && isInternal ? `#${href}` : href;
+
         return (
           <a
-            href={props.href || "#"}
+            href={finalHref}
             target={props.target || "_self"}
             className={cn(BLOCK_FILL_CLASSES, props.className)}
             style={{
@@ -101,7 +106,9 @@ export const BlockRenderer = ({ block }: BlockRendererProps) => {
               justifyContent: "center",
             }}
             onClick={(e) => {
-              e.preventDefault();
+              if (!isPreviewMode) {
+                e.preventDefault();
+              }
             }}
           >
             {props.children || "Link"}

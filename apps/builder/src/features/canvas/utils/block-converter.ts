@@ -8,6 +8,7 @@ import type {
   ButtonProps,
   InputProps,
   ImageProps,
+  LinkProps,
 } from "@/shared/types";
 import type { CSSProperties, ReactNode } from "react";
 
@@ -65,6 +66,18 @@ const componentPropHandlers: Record<string, ComponentPropHandler> = {
     return {
       ...baseProps,
       ...props,
+    };
+  },
+
+  link: (block, baseProps) => {
+    const props = block.props as LinkProps;
+    const children =
+      typeof block.children === "string" ? block.children : props.children;
+
+    return {
+      ...baseProps,
+      ...props,
+      children: children as ReactNode,
     };
   },
 };

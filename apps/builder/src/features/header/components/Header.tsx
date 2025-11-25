@@ -1,14 +1,21 @@
-import { Logo } from "@redotlabs/ui";
+import { Logo, Button } from "@redotlabs/ui";
+import { Eye } from "lucide-react";
 import { useEditorContext } from "@/app/context/EditorContext";
 import { deselectBlock } from "@/core/actions";
 import { PageDropdown } from "./PageDropdown";
 import { SiteSettingsDropdown } from "./SiteSettingsDropdown";
 
 export const Header = () => {
-  const { dispatch } = useEditorContext();
+  const { state, dispatch } = useEditorContext();
 
   const handleHeaderClick = () => {
     dispatch(deselectBlock());
+  };
+
+  const handlePreview = () => {
+    localStorage.setItem("preview-site-data", JSON.stringify(state.site));
+
+    window.open("/preview", "_blank");
   };
 
   return (
@@ -27,7 +34,20 @@ export const Header = () => {
       <div className="flex items-center gap-2">{/* TODO: Add items */}</div>
 
       {/* Right Section */}
-      <div className="flex items-center gap-2">{/* TODO: Add items */}</div>
+      <div className="flex items-center gap-2">
+        <Button
+          variant="outlined"
+          size="sm"
+          onClick={(e) => {
+            e.stopPropagation();
+            handlePreview();
+          }}
+          className="flex items-center gap-1.5"
+        >
+          <Eye className="w-4 h-4" />
+          Preview
+        </Button>
+      </div>
     </header>
   );
 };
