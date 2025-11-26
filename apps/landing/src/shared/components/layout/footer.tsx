@@ -16,11 +16,21 @@ const Footer = () => {
         </ul>
         <ul className="text-sm">
           <li className="flex gap-2">
-            <Link href="/terms" className="hover:underline" target="_blank">
+            <Link
+              href="/terms"
+              className="hover:underline"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               이용약관
             </Link>
             <span>|</span>
-            <Link href="/privacy" className="hover:underline" target="_blank">
+            <Link
+              href="/privacy"
+              className="hover:underline"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               개인정보처리방침
             </Link>
           </li>
