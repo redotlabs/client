@@ -1,4 +1,5 @@
 import { Logo } from '@redotlabs/ui';
+import Link from 'next/link';
 import React from 'react';
 
 const Footer = () => {
@@ -14,8 +15,18 @@ const Footer = () => {
           <li>연락처: team@redot.me</li>
         </ul>
         <ul className="text-sm">
-          <li>이용약관 | 개인정보처리방침</li>
-          <li>© {new Date().getFullYear()} Redot. All rights reserved.</li>
+          <li className="flex gap-2">
+            <Link href="/terms" className="hover:underline" target="_blank">
+              이용약관
+            </Link>
+            <span>|</span>
+            <Link href="/privacy" className="hover:underline" target="_blank">
+              개인정보처리방침
+            </Link>
+          </li>
+          <li className="mt-2">
+            © {new Date().getFullYear()} Redot. All rights reserved.
+          </li>
         </ul>
       </div>
     </footer>
