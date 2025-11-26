@@ -4,7 +4,7 @@ import ClientQueryClientProvider from '@/shared/components/wrapper/query-client-
 import ClientToastProvider from '@/shared/components/wrapper/client-toast-provider';
 import AuthGuard from '@/shared/components/wrapper/auth-guard';
 import type { PropsWithChildren } from 'react';
-import { getCustomer } from '@/shared/api/services/customer';
+import { getAppInfo } from '@/shared/api/services/app';
 import { initializeSubdomainHeader } from '@/shared/api/instance';
 import { redirect } from 'next/navigation';
 import { PATH } from '@/shared/constants/routes';
@@ -22,7 +22,7 @@ export default async function CustomerRootLayout({
 }: PropsWithChildren<{ params: Promise<{ subdomain: string }> }>) {
   const { subdomain } = await params;
   initializeSubdomainHeader(subdomain);
-  const customer = await getCustomer().catch((error) => {
+  const appInfo = await getAppInfo().catch((error) => {
     console.error(error);
     return redirect(PATH.notFound);
   });
@@ -32,8 +32,8 @@ export default async function CustomerRootLayout({
       <TenantProvider subdomain={subdomain}>
         <ClientQueryClientProvider>
           <ThemeProvider
-            color={customer.styleInfo?.color}
-            font={customer.styleInfo?.font}
+            color={appInfo.styleInfo?.color}
+            font={appInfo.styleInfo?.font}
           >
             <ClientToastProvider>
               <AuthGuard>
