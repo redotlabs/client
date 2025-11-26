@@ -1,4 +1,5 @@
-import type { NextConfig } from "next";
+import { API_DOMAIN } from '@/shared/constants/env-variables';
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   typescript: {
@@ -6,6 +7,14 @@ const nextConfig: NextConfig = {
   },
   eslint: {
     ignoreDuringBuilds: true,
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/api/v1/:path*',
+        destination: `${API_DOMAIN}/api/v1/:path*`,
+      },
+    ];
   },
 };
 
