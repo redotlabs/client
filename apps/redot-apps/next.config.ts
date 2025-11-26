@@ -1,4 +1,4 @@
-import { API_DOMAIN, CMS_DOMAIN } from '@/shared/constants/env-variables';
+import { API_DOMAIN } from '@/shared/constants/env-variables';
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
