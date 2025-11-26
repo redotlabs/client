@@ -12,7 +12,7 @@ import type {
 } from "@/shared/types";
 import { getSectionRows } from "@/shared/utils/sectionHeight";
 import { DEFAULT_SECTION_ROWS } from "@/shared/constants/editorData";
-import { createEmptyPage } from "@/shared/types/site";
+import { createEmptyPage } from "@/shared/utils/site";
 
 // ============================================
 // Site State Updaters

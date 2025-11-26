@@ -5,7 +5,7 @@ import type {
   BlockSize,
 } from "@/shared/types";
 import type { ResizeDirection } from "@/core/events/handlers/types";
-import { createEmptySite } from "@/shared/types/site";
+import { createEmptySite } from "@/shared/utils/site";
 
 /**
  * Selection Type
