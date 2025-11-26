@@ -1,3 +1,5 @@
+'use client';
+
 import { PATH } from '@/shared/constants/routes';
 import { Button, Logo } from '@redotlabs/ui';
 import Link from 'next/link';
@@ -18,6 +20,11 @@ const Header = () => {
         <Link href="https://brand.redot.me" target="_blank">
           <Button variant="text" className="p-0 text-base">
             Brand
+          </Button>
+        </Link>
+        <Link href={PATH.auth.signIn}>
+          <Button variant="text" className="p-0 text-base">
+            로그인
           </Button>
         </Link>
       </div>
