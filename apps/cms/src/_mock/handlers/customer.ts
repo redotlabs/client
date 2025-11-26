@@ -7,7 +7,7 @@ import { SUBDOMAIN_HEADER } from '@/shared/constants/env-variables';
 
 const customerHandlers = () => [
   http.get(
-    MOCK_API_BASE + API_PATH.customer.root,
+    MOCK_API_BASE + API_PATH.app.root,
     subdomainInterceptor(_getCustomer)
   ),
 ];
