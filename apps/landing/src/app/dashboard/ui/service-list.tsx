@@ -189,7 +189,7 @@ function ServiceCard({
 
       <div className="flex gap-2">
         <a
-          href={`https://redotlabs.vercel.app/s/${service.subdomain}`}
+          href={`${service.subdomain}.redotlabs.me`}
           target="_blank"
           rel="noopener noreferrer"
           className="flex-1"
