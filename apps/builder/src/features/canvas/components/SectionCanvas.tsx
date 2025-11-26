@@ -1,7 +1,7 @@
 import { useRef, useEffect } from "react";
 import { cn } from "@redotlabs/utils";
 import { COLUMN_WIDTH } from "@/shared/constants/editorData";
-import { BlockRenderer } from "@/features/canvas/components/BlockRenderer";
+import { BlockRenderer } from "@/app/renderer/components/BlockRenderer";
 import { SelectableBlock } from "@/features/canvas/components/SelectableBlock";
 import { InteractionPreviewLayer } from "@/features/canvas/components/InteractionPreviewLayer";
 import { useEditorContext } from "@/app/context/EditorContext";

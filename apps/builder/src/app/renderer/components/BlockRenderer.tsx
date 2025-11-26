@@ -9,7 +9,7 @@ import type {
 } from "@/shared/types";
 import { Badge, Button, Input } from "@redotlabs/ui";
 import { cn } from "@redotlabs/utils";
-import { ImageBlock } from "./ImageBlock";
+import { ImageBlock } from "@/features/canvas/components/ImageBlock";
 
 interface BlockRendererProps {
   block: RenderableBlock;
