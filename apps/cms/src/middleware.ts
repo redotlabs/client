@@ -2,10 +2,13 @@ import { NextRequest, NextResponse } from 'next/server';
 import { extractSubdomain, isSubdomain } from '@repo/utils';
 
 export async function middleware(request: NextRequest) {
-  const { pathname, hostname } = request.nextUrl;
-  const subdomain = extractSubdomain(request.url);
+  const { pathname } = request.nextUrl;
+  // request.nextUrl.hostname은 localhost를 반환하므로, 실제 Host 헤더를 읽어야 함
+  const host = request.headers.get('host') || request.nextUrl.hostname;
+  const url = `${request.nextUrl.protocol}//${host}${pathname}`;
+  const subdomain = extractSubdomain(url);
 
-  if (isSubdomain(hostname)) {
+  if (isSubdomain(url)) {
     return NextResponse.rewrite(
       new URL(`/s/${subdomain}${pathname}`, request.url)
     );
