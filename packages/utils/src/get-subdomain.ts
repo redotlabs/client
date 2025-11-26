@@ -2,13 +2,17 @@ const isServer = typeof window === 'undefined';
 
 const isSubdomain = (hostname: string) => {
   const dotCnt = hostname.split('.').length - 1;
+  const subdomain = hostname.split('.')?.[0];
+  if (!subdomain) return false;
+
+  // subdomain.length >= 8
   // ex. subdomain.redotlabs.vercel.app
   if (hostname.includes('vercel.app') && dotCnt > 2) {
-    return true;
+    return subdomain.length >= 8;
   }
   // ex. subdomain.redot.me
   if (dotCnt > 1) {
-    return true;
+    return subdomain.length >= 8;
   }
   return false;
 };
