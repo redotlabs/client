@@ -4,6 +4,8 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { signIn, reIssue, getMe } from '@/shared/api/services/auth/sign-in';
 import { queryKeyFactory } from '@/shared/api/query-key-factory';
 import { signOut } from '@/shared/api/services/auth/sign-in';
+import { useTenantRouter } from '@repo/tenant-router/next';
+import { PATH } from '@/shared/constants/routes';
 
 export const useSignIn = () => {
   return useMutation({
@@ -48,7 +50,11 @@ export const useAuth = (props?: { enabled?: boolean }) => {
 };
 
 export const useSignOut = () => {
+  const { push } = useTenantRouter();
   return useMutation({
     mutationFn: signOut,
+    onSuccess: () => {
+      push(PATH.auth.signIn);
+    },
   });
 };
