@@ -1,7 +1,7 @@
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import BuilderApp from "@/app/App";
-import { RendererApp } from "@/renderer/RendererApp";
+import { RendererApp } from "@/app/renderer/RendererApp";
 
 const isPreviewMode = window.location.pathname === "/preview";
 
