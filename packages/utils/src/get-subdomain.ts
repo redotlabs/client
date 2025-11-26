@@ -2,7 +2,12 @@ const isServer = typeof window === 'undefined';
 
 const isSubdomain = (hostname: string) => {
   const dotCnt = hostname.split('.').length - 1;
-  const subdomain = hostname.split('.')?.[0];
+  const subdomain = hostname
+    .split('.')?.[0]
+    ?.replace('www.', '')
+    ?.replace('http://', '')
+    ?.replace('https://', '');
+
   if (!subdomain) return false;
 
   // subdomain.length >= 8
