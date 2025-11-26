@@ -2,7 +2,10 @@ import { createAxiosInstance } from '@repo/api-instance';
 import { PATH } from '@/shared/constants/routes';
 import { isServer } from '@tanstack/react-query';
 import { AUTH_WHITE_LIST } from '../constants/auth';
-import { SUBDOMAIN_HEADER } from '@/shared/constants/env-variables';
+import {
+  IS_MULTI_ZONE,
+  SUBDOMAIN_HEADER,
+} from '@/shared/constants/env-variables';
 import { extractSubdomain, isSubdomainInPath } from '@repo/utils';
 import { API_DOMAIN } from '../constants/env-variables';
 
@@ -24,15 +27,19 @@ api.interceptors.response.use(
       // 서버 사이드는 middleware에서 처리
       if (!isServer) {
         const pathname = window.location.pathname;
+        const basePath = IS_MULTI_ZONE ? '/cms' : '';
         const subdomain = extractSubdomain();
         const pathPrefix = isSubdomainInPath(pathname) ? `/s/${subdomain}` : '';
-        const redirect = pathname.replace(`/s/${subdomain}`, '');
+        const redirect = pathname
+          .replace(basePath, '')
+          .replace(`/s/${subdomain}`, '');
 
         if (
           !AUTH_WHITE_LIST.some((whiteList) => pathname.includes(whiteList))
         ) {
           alert('로그인이 만료되었습니다.');
-          window.location.href = `${pathPrefix}${PATH.auth.signIn}?redirect=${redirect}`;
+          window.location.href =
+            basePath + pathPrefix + PATH.auth.signIn + `?redirect=${redirect}`;
         }
       }
     }

@@ -1,8 +1,6 @@
 import type { Metadata } from 'next';
 import { ThemeProvider } from '@redotlabs/themes';
-import ClientQueryClientProvider from '@/shared/components/wrapper/query-client-provider';
 import ClientToastProvider from '@/shared/components/wrapper/client-toast-provider';
-import AuthGuard from '@/shared/components/wrapper/auth-guard';
 import type { PropsWithChildren } from 'react';
 import { getAppInfo } from '@/shared/api/services/app';
 import { initializeSubdomainHeader } from '@/shared/api/instance';
@@ -12,11 +10,11 @@ import { TenantProvider } from '@repo/tenant-router/next';
 import SubdomainInitializer from '@/shared/components/wrapper/subdomain-initializer';
 
 export const metadata: Metadata = {
-  title: 'Redot CMS',
-  description: 'Redot CMS',
+  title: 'Redot Apps',
+  description: 'Redot Apps',
 };
 
-export default async function CustomerRootLayout({
+export default async function AppRootLayout({
   children,
   params,
 }: PropsWithChildren<{ params: Promise<{ subdomain: string }> }>) {
@@ -30,18 +28,14 @@ export default async function CustomerRootLayout({
   return (
     <SubdomainInitializer subdomain={subdomain}>
       <TenantProvider subdomain={subdomain}>
-        <ClientQueryClientProvider>
-          <ThemeProvider
-            color={appInfo.styleInfo?.color}
-            font={appInfo.styleInfo?.font}
-          >
-            <ClientToastProvider>
-              <AuthGuard>
-                <main>{children}</main>
-              </AuthGuard>
-            </ClientToastProvider>
-          </ThemeProvider>
-        </ClientQueryClientProvider>
+        <ThemeProvider
+          color={appInfo.styleInfo?.color}
+          font={appInfo.styleInfo?.font}
+        >
+          <ClientToastProvider>
+            <main>{children}</main>
+          </ClientToastProvider>
+        </ThemeProvider>
       </TenantProvider>
     </SubdomainInitializer>
   );

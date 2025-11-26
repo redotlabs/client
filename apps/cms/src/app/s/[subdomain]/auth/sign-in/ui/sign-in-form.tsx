@@ -11,7 +11,6 @@ import { useSearchParams } from 'next/navigation';
 import { useQueryClient } from '@tanstack/react-query';
 import { queryKeyFactory } from '@/shared/api/query-key-factory';
 import { Loader } from '@/shared/components/ui';
-import { MOCK_ACCOUNT } from '@/_mock/utils/constants';
 import { useTenantRouter, TenantLink } from '@repo/tenant-router/next';
 
 const schema = z.object({
@@ -35,9 +34,8 @@ export default function SignInForm() {
   const form = useForm({
     resolver: zodResolver(schema),
     defaultValues: {
-      // ! will remove
-      email: MOCK_ACCOUNT.email,
-      password: MOCK_ACCOUNT.password,
+      email: '',
+      password: '',
     },
     mode: 'onChange',
   });

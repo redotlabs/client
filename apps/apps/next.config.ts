@@ -1,14 +1,10 @@
+import { API_DOMAIN, CMS_DOMAIN } from '@/shared/constants/env-variables';
 import type { NextConfig } from 'next';
-import {
-  API_DOMAIN,
-  IS_MULTI_ZONE,
-} from './src/shared/constants/env-variables';
 
 const nextConfig: NextConfig = {
   /* config options here */
-  // transpilePackages: ['@repo/ui', '@repo/api-instance'],
   allowedDevOrigins: ['*.lvh.me'],
-  basePath: IS_MULTI_ZONE ? '/cms' : '',
+  reactCompiler: true,
   async rewrites() {
     return [
       {

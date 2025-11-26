@@ -1,14 +1,29 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { extractSubdomain, isSubdomain } from '@repo/utils';
+import { CMS_DOMAIN } from './shared/constants/env-variables';
 
-export async function middleware(request: NextRequest) {
+const rewriteCmsUrl = (pathname: string, subdomain: string) => {
+  const isCmsStatic =
+    /\/cms\/(_next|__next|static|images|fonts|robots\.txt|mock|api|\.next)/.test(
+      pathname
+    ) || /\.(svg|png|jpg|jpeg|gif|ico|css|js|woff2?|ttf|json)$/.test(pathname);
+  if (isCmsStatic) {
+    return `${CMS_DOMAIN}${pathname}`;
+  }
+  const onlyPath = pathname.replace('/cms', '');
+  return `${CMS_DOMAIN}/cms/s/${subdomain}${onlyPath}`;
+};
+
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  // request.nextUrl.hostname은 localhost를 반환하므로, 실제 Host 헤더를 읽어야 함
   const host = request.headers.get('host') || request.nextUrl.hostname;
   const url = `${request.nextUrl.protocol}//${host}${pathname}`;
   const subdomain = extractSubdomain(url);
 
-  if (isSubdomain(url)) {
+  if (subdomain && isSubdomain(url)) {
+    if (pathname.startsWith('/cms')) {
+      return NextResponse.rewrite(rewriteCmsUrl(pathname, subdomain));
+    }
     return NextResponse.rewrite(
       new URL(`/s/${subdomain}${pathname}`, request.url)
     );
