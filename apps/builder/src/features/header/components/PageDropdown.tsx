@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, type ChangeEvent } from "react";
 import { FileText, ChevronDown, Check, X, Plus, Settings } from "lucide-react";
-import { Button, Input } from "@redotlabs/ui";
+import { Button, Input, toast } from "@redotlabs/ui";
 import { useEditorContext } from "@/app/context/EditorContext";
 import { selectPage, createPage, deletePage, updatePage } from "@/core/actions";
 import { getAllPages, getCurrentPageId } from "@/core/state/selectors";
@@ -52,11 +52,13 @@ export const PageDropdown = () => {
   const handlePageDelete = (e: React.MouseEvent, pageId: string) => {
     e.stopPropagation();
     if (pages.length <= 1) {
-      alert("최소 1개의 페이지는 필요합니다.");
+      toast.error("최소 1개의 페이지는 필요합니다.");
       return;
     }
+    // TODO: confirm을 Dialog로 변경하거나, 바로 삭제 후 undo 기능 추가
     if (confirm("이 페이지를 삭제하시겠습니까?")) {
       dispatch(deletePage(pageId));
+      toast.success("페이지가 삭제되었습니다.");
     }
   };
 
@@ -69,12 +71,12 @@ export const PageDropdown = () => {
     if (!currentPage) return;
 
     if (editingName.trim() === "") {
-      alert("페이지 이름은 필수입니다.");
+      toast.error("페이지 이름은 필수입니다.");
       return;
     }
 
     if (editingPath.trim() === "" || !editingPath.startsWith("/")) {
-      alert("Path는 /로 시작해야 합니다.");
+      toast.error("Path는 /로 시작해야 합니다.");
       return;
     }
 
@@ -85,6 +87,7 @@ export const PageDropdown = () => {
       })
     );
 
+    toast.success("페이지 설정이 저장되었습니다.");
     setShowSettings(false);
   };
 
