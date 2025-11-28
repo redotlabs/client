@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { ThemeProvider } from "@redotlabs/themes";
 import type { Site } from "@/shared/types";
-import { PageRenderer } from "./components/PageRenderer";
+import { PageRenderer } from "@repo/renderer";
 
 export const RendererApp = () => {
   const [site, setSite] = useState<Site | null>(null);

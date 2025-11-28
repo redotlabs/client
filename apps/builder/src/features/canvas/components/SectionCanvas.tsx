@@ -1,20 +1,20 @@
-import { useRef, useEffect } from "react";
-import { cn } from "@redotlabs/utils";
-import { COLUMN_WIDTH } from "@/shared/constants/editorData";
-import { BlockRenderer } from "@/app/renderer/components/BlockRenderer";
-import { SelectableBlock } from "@/features/canvas/components/SelectableBlock";
-import { InteractionPreviewLayer } from "@/features/canvas/components/InteractionPreviewLayer";
-import { useEditorContext } from "@/app/context/EditorContext";
-import { CanvasListener } from "@/core/events/listeners";
+import { useRef, useEffect } from 'react';
+import { cn } from '@redotlabs/utils';
+import { COLUMN_WIDTH } from '@/shared/constants/editorData';
+import { BlockRenderer } from '@repo/renderer';
+import { SelectableBlock } from '@/features/canvas/components/SelectableBlock';
+import { InteractionPreviewLayer } from '@/features/canvas/components/InteractionPreviewLayer';
+import { useEditorContext } from '@/app/context/EditorContext';
+import { CanvasListener } from '@/core/events/listeners';
 import {
   keyboardHandler,
   selectionHandler,
   createDropHandler,
   createDragHandler,
-} from "@/core/events/handlers";
-import { useRenderableBlocks } from "@/features/canvas/hooks/useRenderableBlocks";
-import { getSectionRows } from "@/shared/utils/sectionHeight";
-import type { Section } from "@/shared/types";
+} from '@/core/events/handlers';
+import { useRenderableBlocks } from '@/features/canvas/hooks/useRenderableBlocks';
+import { getSectionRows } from '@/shared/utils/sectionHeight';
+import type { Section } from '@/shared/types';
 
 interface SectionCanvasProps {
   section: Section;
@@ -39,9 +39,9 @@ export const SectionCanvas = ({ section }: SectionCanvasProps) => {
   const isSelected = state.selection.selectedSectionId === section.id;
 
   const hasInteractionInThisSection =
-    (state.interaction.type === "drag" &&
+    (state.interaction.type === 'drag' &&
       section.blocks.some((b) => b.id === state.interaction.drag?.blockId)) ||
-    (state.interaction.type === "resize" &&
+    (state.interaction.type === 'resize' &&
       section.blocks.some((b) => b.id === state.interaction.resize?.blockId));
 
   const showGrid =
@@ -86,10 +86,10 @@ export const SectionCanvas = ({ section }: SectionCanvasProps) => {
       ref={canvasRef}
       data-section-id={section.id}
       className={cn(
-        "w-full bg-gray-100 overflow-hidden grid gap-0 p-0 transition-[background-image] duration-200 ease-in-out relative select-none",
-        "bg-size-[40px_24px] bg-position-[0_0]",
+        'w-full bg-gray-100 overflow-hidden grid gap-0 p-0 transition-[background-image] duration-200 ease-in-out relative select-none',
+        'bg-size-[40px_24px] bg-position-[0_0]',
         showGrid &&
-          "bg-[linear-gradient(to_right,rgba(0,0,0,0.1)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.1)_1px,transparent_1px)]"
+          'bg-[linear-gradient(to_right,rgba(0,0,0,0.1)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.1)_1px,transparent_1px)]'
       )}
       style={{
         gridTemplateRows: `repeat(${sectionRows}, ${state.gridConfig.rowHeight}px)`,
@@ -115,9 +115,7 @@ export const SectionCanvas = ({ section }: SectionCanvasProps) => {
               />
             </svg>
             <div className="space-y-1">
-              <p className="text-sm font-medium text-gray-400">
-                빈 섹션입니다
-              </p>
+              <p className="text-sm font-medium text-gray-400">빈 섹션입니다</p>
               <p className="text-xs text-gray-300">
                 왼쪽 도구 상자에서 블록을 드래그하여 추가하세요
               </p>
@@ -131,7 +129,7 @@ export const SectionCanvas = ({ section }: SectionCanvasProps) => {
           key={block.id}
           data-block-id={block.id}
           data-block-type={block.type}
-          style={{ ...block.style, overflow: "visible" }}
+          style={{ ...block.style, overflow: 'visible' }}
         >
           <SelectableBlock blockId={block.id}>
             <BlockRenderer block={block} />
