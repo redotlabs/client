@@ -1,6 +1,6 @@
 import type { Section, RenderableBlock } from "@/shared/types";
 import { BlockRenderer } from "./BlockRenderer";
-import { BlockConverter } from "@/features/canvas/utils/block-converter";
+import { BlockConverter } from "@repo/renderer";
 import {
   COLUMN_WIDTH,
   DEFAULT_GRID_CONFIG,
