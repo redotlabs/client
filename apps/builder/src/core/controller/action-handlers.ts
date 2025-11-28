@@ -1,6 +1,11 @@
 import type {
   ActionType,
   EditorAction,
+  SiteUpdateAction,
+  PageCreateAction,
+  PageSelectAction,
+  PageDeleteAction,
+  PageUpdateAction,
   SectionCreateAction,
   SectionInsertAction,
   SectionDeleteAction,
@@ -40,6 +45,32 @@ type ActionHandler<T extends EditorAction = EditorAction> = (
  * 각 action type에 대응하는 state updater 매핑
  */
 export const actionHandlers: Record<ActionType, ActionHandler> = {
+  // Site Handlers
+  "site.update": ((state, action: SiteUpdateAction) => {
+    return stateUpdaters.updateSiteState(state, action.payload.updates);
+  }) as ActionHandler,
+
+  // Page Handlers
+  "page.create": ((state, action: PageCreateAction) => {
+    return stateUpdaters.createPageState(state, action.payload.page);
+  }) as ActionHandler,
+
+  "page.select": ((state, action: PageSelectAction) => {
+    return stateUpdaters.selectPageState(state, action.payload.pageId);
+  }) as ActionHandler,
+
+  "page.delete": ((state, action: PageDeleteAction) => {
+    return stateUpdaters.deletePageState(state, action.payload.pageId);
+  }) as ActionHandler,
+
+  "page.update": ((state, action: PageUpdateAction) => {
+    return stateUpdaters.updatePageState(
+      state,
+      action.payload.pageId,
+      action.payload.updates
+    );
+  }) as ActionHandler,
+
   // Section Handlers
   "section.create": ((state, action: SectionCreateAction) => {
     return stateUpdaters.createSectionState(state, action.payload.section);

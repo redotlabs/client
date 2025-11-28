@@ -5,6 +5,7 @@ import type {
   InputProps,
   TextProps,
   ImageProps,
+  LinkProps,
 } from "./attributes";
 import type { BlockPosition, BlockSize } from "@/shared/types/blocks/position";
 
@@ -14,6 +15,7 @@ export type ComponentType =
   | "button"
   | "input"
   | "image"
+  | "link"
   | HTMLElementType;
 
 /**
@@ -25,6 +27,7 @@ export type ComponentPropsMap = {
   button: ButtonProps;
   input: InputProps;
   image: ImageProps;
+  link: LinkProps;
 };
 
 export interface ContentBlock<T extends ComponentType = ComponentType> {

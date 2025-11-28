@@ -3,6 +3,7 @@ import type {
   BlockPosition,
   BlockSize,
   Section,
+  Page,
 } from "@/shared/types";
 import type {
   DragInteractionState,
@@ -14,6 +15,13 @@ import type {
  * 에디터에서 발생할 수 있는 모든 액션 유형
  */
 export type ActionType =
+  // Site Actions
+  | "site.update"
+  // Page Actions
+  | "page.create"
+  | "page.select"
+  | "page.delete"
+  | "page.update"
   // Section Actions
   | "section.create"
   | "section.insert"
@@ -50,6 +58,57 @@ export type ActionType =
 export interface BaseAction {
   type: ActionType;
   timestamp: number;
+}
+
+// ============================================
+// Site Actions
+// ============================================
+
+export interface SiteUpdateAction extends BaseAction {
+  type: "site.update";
+  payload: {
+    updates: {
+      name?: string;
+      description?: string;
+      favicon?: string;
+    };
+  };
+}
+
+// ============================================
+// Page Actions
+// ============================================
+
+export interface PageCreateAction extends BaseAction {
+  type: "page.create";
+  payload: {
+    page?: Page;
+  };
+}
+
+export interface PageSelectAction extends BaseAction {
+  type: "page.select";
+  payload: {
+    pageId: string;
+  };
+}
+
+export interface PageDeleteAction extends BaseAction {
+  type: "page.delete";
+  payload: {
+    pageId: string;
+  };
+}
+
+export interface PageUpdateAction extends BaseAction {
+  type: "page.update";
+  payload: {
+    pageId: string;
+    updates: {
+      name?: string;
+      path?: string;
+    };
+  };
 }
 
 // ============================================
@@ -241,6 +300,13 @@ export interface InteractionClearAction extends BaseAction {
 }
 
 export type EditorAction =
+  // Site Actions
+  | SiteUpdateAction
+  // Page Actions
+  | PageCreateAction
+  | PageSelectAction
+  | PageDeleteAction
+  | PageUpdateAction
   // Section Actions
   | SectionCreateAction
   | SectionInsertAction

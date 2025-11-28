@@ -1,5 +1,10 @@
 import type {
   EditorAction,
+  SiteUpdateAction,
+  PageCreateAction,
+  PageSelectAction,
+  PageDeleteAction,
+  PageUpdateAction,
   SectionCreateAction,
   SectionInsertAction,
   SectionDeleteAction,
@@ -52,6 +57,34 @@ function createActionWithoutPayload<T extends EditorAction>(
     timestamp: Date.now(),
   } as T;
 }
+
+// ============================================
+// Site Action Creators
+// ============================================
+
+export const updateSite = (
+  updates: SiteUpdateAction["payload"]["updates"]
+): SiteUpdateAction => createAction<SiteUpdateAction>("site.update", { updates });
+
+// ============================================
+// Page Action Creators
+// ============================================
+
+export const createPage = (
+  payload: PageCreateAction["payload"]
+): PageCreateAction => createAction<PageCreateAction>("page.create", payload);
+
+export const selectPage = (pageId: string): PageSelectAction =>
+  createAction<PageSelectAction>("page.select", { pageId });
+
+export const deletePage = (pageId: string): PageDeleteAction =>
+  createAction<PageDeleteAction>("page.delete", { pageId });
+
+export const updatePage = (
+  pageId: string,
+  updates: PageUpdateAction["payload"]["updates"]
+): PageUpdateAction =>
+  createAction<PageUpdateAction>("page.update", { pageId, updates });
 
 // ============================================
 // Section Action Creators

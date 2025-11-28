@@ -1,10 +1,11 @@
 import type {
-  Section,
+  Site,
   GridConfig,
   BlockPosition,
   BlockSize,
 } from "@/shared/types";
 import type { ResizeDirection } from "@/core/events/handlers/types";
+import { createEmptySite } from "@/shared/utils/site";
 
 /**
  * Selection Type
@@ -83,8 +84,9 @@ export interface InteractionState {
  * 에디터의 전체 상태
  */
 export interface EditorState {
+  site: Site;
+  currentPageId: string; // 현재 편집 중인 페이지 ID
   gridConfig: GridConfig;
-  sections: Section[];
 
   selection: SelectionState;
   ui: UIState;
@@ -100,31 +102,37 @@ export interface EditorState {
 
 export const createInitialEditorState = (
   gridConfig: GridConfig,
-  sections: Section[] = []
-): EditorState => ({
-  gridConfig,
-  sections,
-  selection: {
-    selectionType: null,
-    selectedBlockIds: new Set(),
-    lastSelectedId: null,
-    selectedSectionId: null,
-  },
-  ui: {
-    isBlockDragging: false,
-    isBlockResizing: false,
-    isSectionResizing: false,
-  },
-  interaction: {
-    type: null,
-    drag: null,
-    resize: null,
-  },
-  history: {
-    past: [],
-    future: [],
-  },
-});
+  site?: Site
+): EditorState => {
+  const initialSite = site || createEmptySite();
+  const firstPageId = initialSite.pages[0]?.id || "";
+
+  return {
+    site: initialSite,
+    currentPageId: firstPageId,
+    gridConfig,
+    selection: {
+      selectionType: null,
+      selectedBlockIds: new Set(),
+      lastSelectedId: null,
+      selectedSectionId: null,
+    },
+    ui: {
+      isBlockDragging: false,
+      isBlockResizing: false,
+      isSectionResizing: false,
+    },
+    interaction: {
+      type: null,
+      drag: null,
+      resize: null,
+    },
+    history: {
+      past: [],
+      future: [],
+    },
+  };
+};
 
 export type StateUpdater = (state: EditorState) => EditorState;
 

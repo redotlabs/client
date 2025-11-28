@@ -1,4 +1,4 @@
-import type { EditorData } from "@/shared/types";
+import type { Site } from "@/shared/types";
 
 export const DEFAULT_GRID_CONFIG = {
   columns: 48,
@@ -22,9 +22,26 @@ export const DEFAULT_SECTION_ROWS = 25;
  */
 export const ABSOLUTE_MIN_SECTION_ROWS = 5;
 
-export const initialEditorData: EditorData = {
-  gridConfig: DEFAULT_GRID_CONFIG,
-  sections: [
+export const initialSite: Site = {
+  metadata: {
+    id: "site-1",
+    name: "Sample Site",
+    description: "Example site with various block types",
+    createdAt: "2024-01-01T00:00:00.000Z",
+    updatedAt: "2024-01-01T00:00:00.000Z",
+  },
+  pages: [
+    {
+      id: "page-1",
+      name: "Home",
+      path: "/",
+      metadata: {
+        title: "Sample Editor Page",
+        description: "Example page with various block types",
+        createdAt: "2024-01-01T00:00:00.000Z",
+        updatedAt: "2024-01-01T00:00:00.000Z",
+      },
+      sections: [
     {
       id: "section-1",
       name: "Main Section",
@@ -187,10 +204,6 @@ export const initialEditorData: EditorData = {
       },
     },
   ],
-  metadata: {
-    version: "1.0.0",
-    lastModified: "2024-01-01T00:00:00.000Z",
-    title: "Sample Editor Page",
-    description: "Example page with various block types",
-  },
+    },
+  ],
 };

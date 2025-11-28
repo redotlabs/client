@@ -43,7 +43,18 @@ export interface ImageProps {
   className?: string;
 }
 
-export type ComponentProps = TextProps | BadgeProps | ButtonProps | InputProps | ImageProps;
+export interface LinkProps {
+  href?: string;
+  target?: "_blank" | "_self" | "_parent" | "_top";
+  children?: string;
+  className?: string;
+  color?: string;
+  fontSize?: number;
+  fontWeight?: string;
+  textDecoration?: "none" | "underline" | "line-through";
+}
+
+export type ComponentProps = TextProps | BadgeProps | ButtonProps | InputProps | ImageProps | LinkProps;
 
 export type TextBlockAttributes = TextProps;
 export type BadgeBlockAttributes = BadgeProps;

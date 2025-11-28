@@ -16,10 +16,15 @@ interface SectionToolbarProps {
 export const SectionToolbar = ({ sectionId }: SectionToolbarProps) => {
   const { state, dispatch } = useEditorContext();
 
-  const currentIndex = state.sections.findIndex((s) => s.id === sectionId);
+  const currentPage = state.site.pages.find(
+    (p) => p.id === state.currentPageId
+  );
+  const sections = currentPage?.sections || [];
+
+  const currentIndex = sections.findIndex((s) => s.id === sectionId);
 
   const canMoveUp = currentIndex > 0;
-  const canMoveDown = currentIndex < state.sections.length - 1;
+  const canMoveDown = currentIndex < sections.length - 1;
 
   const handleMoveUp = () => {
     if (!canMoveUp) return;

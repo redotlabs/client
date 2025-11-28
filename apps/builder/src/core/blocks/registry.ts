@@ -6,7 +6,7 @@
 
 import type { BuilderBlock, BlockPosition, BlockSize } from "@/shared/types";
 
-export type BlockCategory = "text" | "button" | "input" | "badge" | "image";
+export type BlockCategory = "text" | "button" | "input" | "badge" | "image" | "link";
 
 export interface BlockTemplate<
   T extends BuilderBlock["component"] = BuilderBlock["component"],
@@ -52,6 +52,15 @@ type ComponentPropsDefaults = {
     src: string;
     alt?: string;
     objectFit?: "contain" | "cover" | "fill" | "none" | "scale-down";
+  };
+  link: {
+    href?: string;
+    target?: "_blank" | "_self" | "_parent" | "_top";
+    children?: string;
+    color?: string;
+    fontSize?: number;
+    fontWeight?: string;
+    textDecoration?: "none" | "underline" | "line-through";
   };
 };
 
@@ -199,6 +208,39 @@ export const BLOCK_REGISTRY: BlockTemplate[] = [
       },
       position,
       size: size || { width: 6, height: 6 },
+      metadata: createBlockMetadata(),
+    }),
+  },
+  {
+    id: "link",
+    type: "link",
+    label: "Link",
+    category: "link",
+    defaultProps: {
+      component: "link",
+      props: {
+        href: "#",
+        target: "_self",
+        children: "Link",
+        color: "#0000EE",
+        fontSize: 16,
+        textDecoration: "underline",
+      },
+      size: { width: 3, height: 1 },
+    },
+    createBlock: (position, size) => ({
+      id: generateBlockId(),
+      component: "link",
+      props: {
+        href: "#",
+        target: "_self",
+        children: "Link",
+        color: "#0000EE",
+        fontSize: 16,
+        textDecoration: "underline",
+      },
+      position,
+      size: size || { width: 3, height: 1 },
       metadata: createBlockMetadata(),
     }),
   },

@@ -1,7 +1,7 @@
 import { useRef, useEffect } from "react";
 import { cn } from "@redotlabs/utils";
 import { COLUMN_WIDTH } from "@/shared/constants/editorData";
-import { BlockRenderer } from "@/features/canvas/components/BlockRenderer";
+import { BlockRenderer } from "@/app/renderer/components/BlockRenderer";
 import { SelectableBlock } from "@/features/canvas/components/SelectableBlock";
 import { InteractionPreviewLayer } from "@/features/canvas/components/InteractionPreviewLayer";
 import { useEditorContext } from "@/app/context/EditorContext";
@@ -79,6 +79,8 @@ export const SectionCanvas = ({ section }: SectionCanvasProps) => {
     };
   }, []);
 
+  const isEmpty = section.blocks.length === 0;
+
   return (
     <div
       ref={canvasRef}
@@ -95,6 +97,35 @@ export const SectionCanvas = ({ section }: SectionCanvasProps) => {
         minHeight: `${sectionRows * state.gridConfig.rowHeight}px`,
       }}
     >
+      {/* Empty State Placeholder */}
+      {isEmpty && (
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <div className="text-center space-y-3">
+            <svg
+              className="w-16 h-16 mx-auto text-gray-300"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1.5}
+                d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
+              />
+            </svg>
+            <div className="space-y-1">
+              <p className="text-sm font-medium text-gray-400">
+                빈 섹션입니다
+              </p>
+              <p className="text-xs text-gray-300">
+                왼쪽 도구 상자에서 블록을 드래그하여 추가하세요
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {renderableBlocks.map((block) => (
         <div
           key={block.id}

@@ -4,7 +4,7 @@ import {
   type EditorRuleContext,
   globalRuleValidator,
 } from "@/core/rules";
-import type { Section, GridConfig } from "@/shared/types";
+import type { Site, GridConfig } from "@/shared/types";
 import type { EditorAction } from "@/core/actions";
 import { actionHandlers } from "./action-handlers";
 
@@ -16,8 +16,8 @@ export class EditorController {
   private state: EditorState;
   private listeners: ((state: EditorState) => void)[] = [];
 
-  constructor(gridConfig: GridConfig, sections: Section[]) {
-    this.state = createInitialEditorState(gridConfig, sections);
+  constructor(gridConfig: GridConfig, site?: Site) {
+    this.state = createInitialEditorState(gridConfig, site);
   }
 
   /**
@@ -43,17 +43,20 @@ export class EditorController {
   };
 
   private validateAction(action: EditorAction): RuleValidationResult {
+    const currentPage = this.state.site.pages.find(
+      (p) => p.id === this.state.currentPageId
+    );
+    const sections = currentPage?.sections || [];
+
     const selectedSection = this.state.selection.selectedSectionId
-      ? this.state.sections.find(
-          (s) => s.id === this.state.selection.selectedSectionId
-        )
-      : this.state.sections[0];
+      ? sections.find((s) => s.id === this.state.selection.selectedSectionId)
+      : sections[0];
 
     const context: EditorRuleContext = {
       blocks: selectedSection?.blocks || [],
       selectedBlockIds: Array.from(this.state.selection.selectedBlockIds),
       gridConfig: this.state.gridConfig,
-      sections: this.state.sections,
+      sections: sections,
     };
 
     return globalRuleValidator.validate(action, context);

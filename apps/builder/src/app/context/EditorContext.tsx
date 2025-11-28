@@ -1,6 +1,6 @@
 import { createContext, useContext, type ReactNode } from "react";
 import { useEditor } from "@/core/hooks/use-editor";
-import type { Section, GridConfig } from "@/shared/types";
+import type { Site, GridConfig } from "@/shared/types";
 import type { EditorState } from "@/core/state";
 import type { EditorAction } from "@/core/actions";
 import type { RuleValidationResult } from "@/core/rules";
@@ -15,7 +15,7 @@ const EditorContext = createContext<EditorContextValue | null>(null);
 interface EditorProviderProps {
   children: ReactNode;
   gridConfig: GridConfig;
-  sections: Section[];
+  site?: Site;
 }
 
 /**
@@ -25,9 +25,9 @@ interface EditorProviderProps {
 export function EditorProvider({
   children,
   gridConfig,
-  sections,
+  site,
 }: EditorProviderProps) {
-  const { state, dispatch } = useEditor(gridConfig, sections);
+  const { state, dispatch } = useEditor(gridConfig, site);
 
   return (
     <EditorContext.Provider value={{ state, dispatch }}>
