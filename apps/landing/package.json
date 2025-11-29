@@ -20,6 +20,7 @@
     "@repo/api-instance": "workspace:*",
     "@repo/hooks": "workspace:*",
     "@repo/ui": "workspace:*",
+    "@repo/utils": "workspace:*",
     "@tanstack/react-query": "^5.90.10",
     "embla-carousel-auto-scroll": "^8.6.0",
     "embla-carousel-autoplay": "^8.6.0",
