@@ -1,6 +1,6 @@
 import type { PropertyEditorProps } from "./types";
-import type { BadgeProps } from "@/shared/types/blocks/attributes";
-import { badgeVariantsOptions } from "@/shared/types/blocks/attributes";
+import type { BadgeProps } from "@repo/renderer";
+import { badgeVariantsOptions } from "@repo/renderer";
 
 export const BadgeEditor = ({ block, onUpdate }: PropertyEditorProps) => {
   const props = (block.props as BadgeProps) || {};

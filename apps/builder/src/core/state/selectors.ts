@@ -1,5 +1,5 @@
-import type { EditorState, StateSelector } from "./types";
-import type { BuilderBlock, Section, Page, SiteMetadata } from "@/shared/types";
+import type { EditorState, StateSelector } from './types';
+import type { BuilderBlock, Section, Page, SiteMetadata } from '@repo/renderer';
 
 /**
  * Site Selectors
@@ -115,9 +115,9 @@ export const getFirstSelectedBlock: StateSelector<BuilderBlock | undefined> = (
   return getBlock(firstId)(state);
 };
 
-export const getSelectionType: StateSelector<
-  "section" | "block" | null
-> = (state) => state.selection.selectionType;
+export const getSelectionType: StateSelector<'section' | 'block' | null> = (
+  state
+) => state.selection.selectionType;
 
 /**
  * 블록이 속한 섹션 찾기
@@ -134,6 +134,6 @@ export const getParentSection: (
 /**
  * Grid Selectors
  */
-export const getGridConfig: StateSelector<EditorState["gridConfig"]> = (
+export const getGridConfig: StateSelector<EditorState['gridConfig']> = (
   state
 ) => state.gridConfig;

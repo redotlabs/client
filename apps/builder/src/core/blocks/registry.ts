@@ -4,12 +4,18 @@
  * - 블록 생성 로직 포함
  */
 
-import type { BuilderBlock, BlockPosition, BlockSize } from "@/shared/types";
+import type { BuilderBlock, BlockPosition, BlockSize } from '@repo/renderer';
 
-export type BlockCategory = "text" | "button" | "input" | "badge" | "image" | "link";
+export type BlockCategory =
+  | 'text'
+  | 'button'
+  | 'input'
+  | 'badge'
+  | 'image'
+  | 'link';
 
 export interface BlockTemplate<
-  T extends BuilderBlock["component"] = BuilderBlock["component"],
+  T extends BuilderBlock['component'] = BuilderBlock['component'],
 > {
   id: string;
   type: T;
@@ -36,31 +42,31 @@ type ComponentPropsDefaults = {
   };
   button: {
     children: string;
-    variant?: "text" | "contained" | "outlined";
-    size?: "sm" | "md" | "lg";
+    variant?: 'text' | 'contained' | 'outlined';
+    size?: 'sm' | 'md' | 'lg';
   };
   input: {
     placeholder?: string;
-    size?: "sm" | "md" | "lg";
+    size?: 'sm' | 'md' | 'lg';
   };
   badge: {
     children: string;
-    color?: "default" | "primary" | "secondary";
-    size?: "sm" | "md" | "lg";
+    color?: 'default' | 'primary' | 'secondary';
+    size?: 'sm' | 'md' | 'lg';
   };
   image: {
     src: string;
     alt?: string;
-    objectFit?: "contain" | "cover" | "fill" | "none" | "scale-down";
+    objectFit?: 'contain' | 'cover' | 'fill' | 'none' | 'scale-down';
   };
   link: {
     href?: string;
-    target?: "_blank" | "_self" | "_parent" | "_top";
+    target?: '_blank' | '_self' | '_parent' | '_top';
     children?: string;
     color?: string;
     fontSize?: number;
     fontWeight?: string;
-    textDecoration?: "none" | "underline" | "line-through";
+    textDecoration?: 'none' | 'underline' | 'line-through';
   };
 };
 
@@ -79,26 +85,26 @@ const createBlockMetadata = () => ({
 
 export const BLOCK_REGISTRY: BlockTemplate[] = [
   {
-    id: "text",
-    type: "text",
-    label: "Text",
-    category: "text",
+    id: 'text',
+    type: 'text',
+    label: 'Text',
+    category: 'text',
     defaultProps: {
-      component: "text",
+      component: 'text',
       props: {
-        children: "New Text",
+        children: 'New Text',
         fontSize: 16,
-        color: "#000000",
+        color: '#000000',
       },
       size: { width: 4, height: 1 },
     },
     createBlock: (position, size) => ({
       id: generateBlockId(),
-      component: "text",
+      component: 'text',
       props: {
-        children: "New Text",
+        children: 'New Text',
         fontSize: 16,
-        color: "#000000",
+        color: '#000000',
       },
       position,
       size: size || { width: 4, height: 1 },
@@ -106,26 +112,26 @@ export const BLOCK_REGISTRY: BlockTemplate[] = [
     }),
   },
   {
-    id: "button",
-    type: "button",
-    label: "Button",
-    category: "button",
+    id: 'button',
+    type: 'button',
+    label: 'Button',
+    category: 'button',
     defaultProps: {
-      component: "button",
+      component: 'button',
       props: {
-        children: "Button",
-        variant: "contained",
-        size: "md",
+        children: 'Button',
+        variant: 'contained',
+        size: 'md',
       },
       size: { width: 4, height: 2 },
     },
     createBlock: (position, size) => ({
       id: generateBlockId(),
-      component: "button",
+      component: 'button',
       props: {
-        children: "Button",
-        variant: "contained",
-        size: "md",
+        children: 'Button',
+        variant: 'contained',
+        size: 'md',
       },
       position,
       size: size || { width: 4, height: 2 },
@@ -133,24 +139,24 @@ export const BLOCK_REGISTRY: BlockTemplate[] = [
     }),
   },
   {
-    id: "input",
-    type: "input",
-    label: "Input",
-    category: "input",
+    id: 'input',
+    type: 'input',
+    label: 'Input',
+    category: 'input',
     defaultProps: {
-      component: "input",
+      component: 'input',
       props: {
-        placeholder: "Enter text...",
-        size: "md",
+        placeholder: 'Enter text...',
+        size: 'md',
       },
       size: { width: 4, height: 1 },
     },
     createBlock: (position, size) => ({
       id: generateBlockId(),
-      component: "input",
+      component: 'input',
       props: {
-        placeholder: "Enter text...",
-        size: "md",
+        placeholder: 'Enter text...',
+        size: 'md',
       },
       position,
       size: size || { width: 4, height: 1 },
@@ -158,26 +164,26 @@ export const BLOCK_REGISTRY: BlockTemplate[] = [
     }),
   },
   {
-    id: "badge",
-    type: "badge",
-    label: "Badge",
-    category: "badge",
+    id: 'badge',
+    type: 'badge',
+    label: 'Badge',
+    category: 'badge',
     defaultProps: {
-      component: "badge",
+      component: 'badge',
       props: {
-        children: "Badge",
-        color: "default",
-        size: "md",
+        children: 'Badge',
+        color: 'default',
+        size: 'md',
       },
       size: { width: 3, height: 2 },
     },
     createBlock: (position, size) => ({
       id: generateBlockId(),
-      component: "badge",
+      component: 'badge',
       props: {
-        children: "Badge",
-        color: "default",
-        size: "md",
+        children: 'Badge',
+        color: 'default',
+        size: 'md',
       },
       position,
       size: size || { width: 3, height: 2 },
@@ -185,26 +191,26 @@ export const BLOCK_REGISTRY: BlockTemplate[] = [
     }),
   },
   {
-    id: "image",
-    type: "image",
-    label: "Image",
-    category: "image",
+    id: 'image',
+    type: 'image',
+    label: 'Image',
+    category: 'image',
     defaultProps: {
-      component: "image",
+      component: 'image',
       props: {
-        src: "",
-        alt: "",
-        objectFit: "cover",
+        src: '',
+        alt: '',
+        objectFit: 'cover',
       },
       size: { width: 6, height: 6 },
     },
     createBlock: (position, size) => ({
       id: generateBlockId(),
-      component: "image",
+      component: 'image',
       props: {
-        src: "",
-        alt: "",
-        objectFit: "cover",
+        src: '',
+        alt: '',
+        objectFit: 'cover',
       },
       position,
       size: size || { width: 6, height: 6 },
@@ -212,32 +218,32 @@ export const BLOCK_REGISTRY: BlockTemplate[] = [
     }),
   },
   {
-    id: "link",
-    type: "link",
-    label: "Link",
-    category: "link",
+    id: 'link',
+    type: 'link',
+    label: 'Link',
+    category: 'link',
     defaultProps: {
-      component: "link",
+      component: 'link',
       props: {
-        href: "#",
-        target: "_self",
-        children: "Link",
-        color: "#0000EE",
+        href: '#',
+        target: '_self',
+        children: 'Link',
+        color: '#0000EE',
         fontSize: 16,
-        textDecoration: "underline",
+        textDecoration: 'underline',
       },
       size: { width: 3, height: 1 },
     },
     createBlock: (position, size) => ({
       id: generateBlockId(),
-      component: "link",
+      component: 'link',
       props: {
-        href: "#",
-        target: "_self",
-        children: "Link",
-        color: "#0000EE",
+        href: '#',
+        target: '_self',
+        children: 'Link',
+        color: '#0000EE',
         fontSize: 16,
-        textDecoration: "underline",
+        textDecoration: 'underline',
       },
       position,
       size: size || { width: 3, height: 1 },

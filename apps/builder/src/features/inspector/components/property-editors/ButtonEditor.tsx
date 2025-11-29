@@ -1,20 +1,24 @@
-import type { PropertyEditorProps } from "./types";
-import type { ButtonProps } from "@/shared/types/blocks/attributes";
-import { buttonVariantsOptions } from "@/shared/types/blocks/attributes";
+import type { PropertyEditorProps } from './types';
+import type { ButtonProps } from '@repo/renderer';
+import { buttonVariantsOptions } from '@repo/renderer';
 
 export const ButtonEditor = ({ block, onUpdate }: PropertyEditorProps) => {
   const props = (block.props as ButtonProps) || {};
 
   // @redotlabs/ui에서 자동으로 옵션 추출
-  const variantOptions = Object.keys(buttonVariantsOptions.variants.variant).map((key) => ({
+  const variantOptions = Object.keys(
+    buttonVariantsOptions.variants.variant
+  ).map((key) => ({
     value: key,
     label: key.charAt(0).toUpperCase() + key.slice(1),
   }));
 
-  const sizeOptions = Object.keys(buttonVariantsOptions.variants.size).map((key) => ({
-    value: key,
-    label: key.toUpperCase(),
-  }));
+  const sizeOptions = Object.keys(buttonVariantsOptions.variants.size).map(
+    (key) => ({
+      value: key,
+      label: key.toUpperCase(),
+    })
+  );
 
   const updateProps = (newProps: Partial<ButtonProps>) => {
     onUpdate({ props: { ...props, ...newProps } });
@@ -33,7 +37,7 @@ export const ButtonEditor = ({ block, onUpdate }: PropertyEditorProps) => {
         </label>
         <input
           type="text"
-          value={props.children?.toString() || ""}
+          value={props.children?.toString() || ''}
           onChange={(e) => updateProps({ children: e.target.value })}
           className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
@@ -45,8 +49,10 @@ export const ButtonEditor = ({ block, onUpdate }: PropertyEditorProps) => {
           Variant
         </label>
         <select
-          value={props.variant || "default"}
-          onChange={(e) => updateProps({ variant: e.target.value as ButtonProps["variant"] })}
+          value={props.variant || 'default'}
+          onChange={(e) =>
+            updateProps({ variant: e.target.value as ButtonProps['variant'] })
+          }
           className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           {variantOptions.map((option) => (
@@ -63,8 +69,10 @@ export const ButtonEditor = ({ block, onUpdate }: PropertyEditorProps) => {
           Size
         </label>
         <select
-          value={props.size || "md"}
-          onChange={(e) => updateProps({ size: e.target.value as ButtonProps["size"] })}
+          value={props.size || 'md'}
+          onChange={(e) =>
+            updateProps({ size: e.target.value as ButtonProps['size'] })
+          }
           className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           {sizeOptions.map((option) => (

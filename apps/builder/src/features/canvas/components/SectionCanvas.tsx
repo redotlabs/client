@@ -14,7 +14,7 @@ import {
 } from '@/core/events/handlers';
 import { useRenderableBlocks } from '@/features/canvas/hooks/useRenderableBlocks';
 import { getSectionRows } from '@/shared/utils/sectionHeight';
-import type { Section } from '@/shared/types';
+import type { Section } from '@repo/renderer';
 
 interface SectionCanvasProps {
   section: Section;

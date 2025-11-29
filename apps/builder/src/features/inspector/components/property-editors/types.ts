@@ -1,5 +1,5 @@
-import type { BuilderBlock } from "@/shared/types";
-import type { ReactElement } from "react";
+import type { BuilderBlock } from '@repo/renderer';
+import type { ReactElement } from 'react';
 
 /**
  * Property Editor Props

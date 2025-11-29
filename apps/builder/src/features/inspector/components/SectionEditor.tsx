@@ -1,4 +1,4 @@
-import type { Section } from "@/shared/types";
+import type { Section } from '@repo/renderer';
 
 interface SectionEditorProps {
   section: Section;
@@ -32,8 +32,10 @@ export const SectionEditor = ({ section, onUpdate }: SectionEditorProps) => {
         </label>
         <input
           type="number"
-          value={section.rows || ""}
-          onChange={(e) => onUpdate({ rows: parseInt(e.target.value) || undefined })}
+          value={section.rows || ''}
+          onChange={(e) =>
+            onUpdate({ rows: parseInt(e.target.value) || undefined })
+          }
           placeholder="Auto"
           className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
@@ -46,7 +48,9 @@ export const SectionEditor = ({ section, onUpdate }: SectionEditorProps) => {
       <div className="pt-3 border-t border-gray-200">
         <div className="flex justify-between text-xs">
           <span className="text-gray-600">Blocks</span>
-          <span className="font-mono text-gray-900">{section.blocks.length}</span>
+          <span className="font-mono text-gray-900">
+            {section.blocks.length}
+          </span>
         </div>
       </div>
     </div>

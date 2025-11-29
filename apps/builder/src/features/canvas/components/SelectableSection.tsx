@@ -1,10 +1,10 @@
-import { useEditorContext } from "@/app/context/EditorContext";
-import { selectSection } from "@/core/actions";
-import { SectionToolbar } from "./SectionToolbar";
-import { SectionResizeHandle } from "./SectionResizeHandle";
-import { calculateMinSectionRows } from "@/shared/utils/sectionHeight";
-import type { ReactNode } from "react";
-import type { Section } from "@/shared/types";
+import { useEditorContext } from '@/app/context/EditorContext';
+import { selectSection } from '@/core/actions';
+import { SectionToolbar } from './SectionToolbar';
+import { SectionResizeHandle } from './SectionResizeHandle';
+import { calculateMinSectionRows } from '@/shared/utils/sectionHeight';
+import type { ReactNode } from 'react';
+import type { Section } from '@repo/renderer';
 
 interface SelectableSectionProps {
   section: Section;
@@ -25,7 +25,7 @@ export const SelectableSection = ({
 
   const handleClick = (event: React.MouseEvent) => {
     const target = event.target as HTMLElement;
-    if (target.closest("[data-block-id]")) {
+    if (target.closest('[data-block-id]')) {
       return;
     }
 
@@ -38,8 +38,8 @@ export const SelectableSection = ({
     <div
       className={`cursor-pointer relative transition-all ${
         isSelected
-          ? "border-2 border-blue-500 shadow-lg"
-          : "border border-gray-300"
+          ? 'border-2 border-blue-500 shadow-lg'
+          : 'border border-gray-300'
       }`}
       onClick={handleClick}
     >

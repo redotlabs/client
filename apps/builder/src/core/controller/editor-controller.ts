@@ -1,12 +1,12 @@
-import { createInitialEditorState, type EditorState } from "@/core/state";
+import { createInitialEditorState, type EditorState } from '@/core/state';
 import {
   type RuleValidationResult,
   type EditorRuleContext,
   globalRuleValidator,
-} from "@/core/rules";
-import type { Site, GridConfig } from "@/shared/types";
-import type { EditorAction } from "@/core/actions";
-import { actionHandlers } from "./action-handlers";
+} from '@/core/rules';
+import type { Site, GridConfig } from '@repo/renderer';
+import type { EditorAction } from '@/core/actions';
+import { actionHandlers } from './action-handlers';
 
 /**
  * Editor Controller

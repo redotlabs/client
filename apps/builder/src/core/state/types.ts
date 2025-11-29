@@ -3,15 +3,15 @@ import type {
   GridConfig,
   BlockPosition,
   BlockSize,
-} from "@/shared/types";
-import type { ResizeDirection } from "@/core/events/handlers/types";
-import { createEmptySite } from "@/shared/utils/site";
+} from '@repo/renderer';
+import type { ResizeDirection } from '@/core/events/handlers/types';
+import { createEmptySite } from '@/shared/utils/site';
 
 /**
  * Selection Type
  * Inspector에서 표시할 선택 타입
  */
-export type SelectionType = "section" | "block" | null;
+export type SelectionType = 'section' | 'block' | null;
 
 /**
  * Selection State
@@ -38,7 +38,7 @@ export interface UIState {
  * Interaction Type
  * 사용자가 현재 진행 중인 인터랙션의 종류
  */
-export type InteractionType = "drag" | "resize" | null;
+export type InteractionType = 'drag' | 'resize' | null;
 
 /**
  * Drag Interaction State
@@ -105,7 +105,7 @@ export const createInitialEditorState = (
   site?: Site
 ): EditorState => {
   const initialSite = site || createEmptySite();
-  const firstPageId = initialSite.pages[0]?.id || "";
+  const firstPageId = initialSite.pages[0]?.id || '';
 
   return {
     site: initialSite,

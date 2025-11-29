@@ -1,17 +1,17 @@
-import { useRef, type ChangeEvent } from "react";
-import type { PropertyEditorProps } from "./types";
-import type { ImageProps } from "@/shared/types/blocks/attributes";
+import { useRef, type ChangeEvent } from 'react';
+import type { PropertyEditorProps } from './types';
+import type { ImageProps } from '@repo/renderer';
 
 export const ImageEditor = ({ block, onUpdate }: PropertyEditorProps) => {
   const props = (block.props as ImageProps) || {};
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const objectFitOptions = [
-    { value: "contain", label: "Contain" },
-    { value: "cover", label: "Cover" },
-    { value: "fill", label: "Fill" },
-    { value: "none", label: "None" },
-    { value: "scale-down", label: "Scale Down" },
+    { value: 'contain', label: 'Contain' },
+    { value: 'cover', label: 'Cover' },
+    { value: 'fill', label: 'Fill' },
+    { value: 'none', label: 'None' },
+    { value: 'scale-down', label: 'Scale Down' },
   ];
 
   const updateProps = (newProps: Partial<ImageProps>) => {
@@ -31,7 +31,7 @@ export const ImageEditor = ({ block, onUpdate }: PropertyEditorProps) => {
   };
 
   const handleRemoveImage = () => {
-    updateProps({ src: "" });
+    updateProps({ src: '' });
   };
 
   const hasImage = props.src && props.src.length > 0;
@@ -60,7 +60,7 @@ export const ImageEditor = ({ block, onUpdate }: PropertyEditorProps) => {
             <div className="relative w-full h-24 bg-gray-100 rounded border border-gray-200 overflow-hidden">
               <img
                 src={props.src}
-                alt={props.alt || ""}
+                alt={props.alt || ''}
                 className="w-full h-full object-contain"
               />
             </div>
@@ -102,7 +102,7 @@ export const ImageEditor = ({ block, onUpdate }: PropertyEditorProps) => {
         </label>
         <input
           type="text"
-          value={props.src || ""}
+          value={props.src || ''}
           onChange={(e) => updateProps({ src: e.target.value })}
           placeholder="https://example.com/image.png"
           className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -116,7 +116,7 @@ export const ImageEditor = ({ block, onUpdate }: PropertyEditorProps) => {
         </label>
         <input
           type="text"
-          value={props.alt || ""}
+          value={props.alt || ''}
           onChange={(e) => updateProps({ alt: e.target.value })}
           placeholder="Image description"
           className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -129,10 +129,10 @@ export const ImageEditor = ({ block, onUpdate }: PropertyEditorProps) => {
           Object Fit
         </label>
         <select
-          value={props.objectFit || "cover"}
+          value={props.objectFit || 'cover'}
           onChange={(e) =>
             updateProps({
-              objectFit: e.target.value as ImageProps["objectFit"],
+              objectFit: e.target.value as ImageProps['objectFit'],
             })
           }
           className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"

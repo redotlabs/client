@@ -1,6 +1,6 @@
-import { useEditorContext } from "@/app/context/EditorContext";
-import { COLUMN_WIDTH } from "@/shared/constants/editorData";
-import type { Section } from "@/shared/types";
+import { useEditorContext } from '@/app/context/EditorContext';
+import { COLUMN_WIDTH } from '@/shared/constants/editorData';
+import type { Section } from '@repo/renderer';
 
 interface InteractionPreviewLayerProps {
   section: Section;
@@ -18,12 +18,12 @@ export const InteractionPreviewLayer = ({
   const { interaction, gridConfig } = state;
 
   const shouldRenderDragPreview =
-    interaction.type === "drag" &&
+    interaction.type === 'drag' &&
     interaction.drag &&
     section.blocks.some((block) => block.id === interaction.drag?.blockId);
 
   const shouldRenderResizePreview =
-    interaction.type === "resize" &&
+    interaction.type === 'resize' &&
     interaction.resize &&
     section.blocks.some((block) => block.id === interaction.resize?.blockId);
 

@@ -1,40 +1,40 @@
-import { useState, useEffect } from "react";
-import { ThemeProvider } from "@redotlabs/themes";
-import type { Site } from "@/shared/types";
-import { PageRenderer } from "@repo/renderer";
+import { useState, useEffect } from 'react';
+import { ThemeProvider } from '@redotlabs/themes';
+import type { Site } from '@repo/renderer';
+import { PageRenderer } from '@repo/renderer';
 
 export const RendererApp = () => {
   const [site, setSite] = useState<Site | null>(null);
-  const [currentPath, setCurrentPath] = useState("/");
+  const [currentPath, setCurrentPath] = useState('/');
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     try {
-      const siteDataStr = localStorage.getItem("preview-site-data");
+      const siteDataStr = localStorage.getItem('preview-site-data');
       if (!siteDataStr) {
-        setError("No site data found. Please open preview from the builder.");
+        setError('No site data found. Please open preview from the builder.');
         return;
       }
 
       const siteData = JSON.parse(siteDataStr) as Site;
       setSite(siteData);
 
-      const hash = window.location.hash.slice(1) || "/";
+      const hash = window.location.hash.slice(1) || '/';
       setCurrentPath(hash);
     } catch (err) {
-      setError("Failed to load site data: " + String(err));
+      setError('Failed to load site data: ' + String(err));
       console.error(err);
     }
   }, []);
 
   useEffect(() => {
     const handleHashChange = () => {
-      const hash = window.location.hash.slice(1) || "/";
+      const hash = window.location.hash.slice(1) || '/';
       setCurrentPath(hash);
     };
 
-    window.addEventListener("hashchange", handleHashChange);
-    return () => window.removeEventListener("hashchange", handleHashChange);
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
   if (error) {

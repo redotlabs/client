@@ -1,11 +1,11 @@
-import type { ComponentType } from "@/shared/types/blocks/base";
-import type { PropertyEditorComponent } from "./types";
-import { TextEditor } from "./TextEditor";
-import { BadgeEditor } from "./BadgeEditor";
-import { ButtonEditor } from "./ButtonEditor";
-import { InputEditor } from "./InputEditor";
-import { ImageEditor } from "./ImageEditor";
-import { LinkEditor } from "./LinkEditor";
+import type { ComponentType } from '@repo/renderer';
+import type { PropertyEditorComponent } from './types';
+import { TextEditor } from './TextEditor';
+import { BadgeEditor } from './BadgeEditor';
+import { ButtonEditor } from './ButtonEditor';
+import { InputEditor } from './InputEditor';
+import { ImageEditor } from './ImageEditor';
+import { LinkEditor } from './LinkEditor';
 
 /**
  * Property Editor Registry
@@ -31,5 +31,12 @@ export const getPropertyEditor = (
   return PROPERTY_EDITORS[type] || null;
 };
 
-export * from "./types";
-export { TextEditor, BadgeEditor, ButtonEditor, InputEditor, ImageEditor, LinkEditor };
+export * from './types';
+export {
+  TextEditor,
+  BadgeEditor,
+  ButtonEditor,
+  InputEditor,
+  ImageEditor,
+  LinkEditor,
+};

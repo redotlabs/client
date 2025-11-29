@@ -1,8 +1,8 @@
-import type { Section, BuilderBlock } from "@/shared/types";
+import type { Section, BuilderBlock } from '@repo/renderer';
 import {
   DEFAULT_SECTION_ROWS,
   ABSOLUTE_MIN_SECTION_ROWS,
-} from "@/shared/constants/editorData";
+} from '@/shared/constants/editorData';
 
 /**
  * 섹션 내 블록들을 기반으로 필요한 최소 행 수를 계산

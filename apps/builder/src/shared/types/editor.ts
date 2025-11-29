@@ -1,5 +1,4 @@
-import type { Section } from "@/shared/types/section";
-import type { GridConfig } from "@/shared/types/blocks";
+import type { Section, GridConfig } from '@repo/renderer';
 
 export interface EditorData {
   gridConfig: GridConfig;

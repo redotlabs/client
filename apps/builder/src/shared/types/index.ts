@@ -1,4 +1,2 @@
-export * from './blocks';
+// Editor-specific types only
 export * from './editor';
-export * from './section';
-export * from './site';

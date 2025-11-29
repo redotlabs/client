@@ -1,21 +1,21 @@
-import type { PropertyEditorProps } from "./types";
-import type { TextProps } from "@/shared/types/blocks/attributes";
+import type { PropertyEditorProps } from './types';
+import type { TextProps } from '@repo/renderer';
 
 export const TextEditor = ({ block, onUpdate }: PropertyEditorProps) => {
   const props = (block.props as TextProps) || {};
 
   const fontWeightOptions = [
-    { value: "normal", label: "Normal" },
-    { value: "bold", label: "Bold" },
-    { value: "100", label: "100 - Thin" },
-    { value: "200", label: "200 - Extra Light" },
-    { value: "300", label: "300 - Light" },
-    { value: "400", label: "400 - Normal" },
-    { value: "500", label: "500 - Medium" },
-    { value: "600", label: "600 - Semi Bold" },
-    { value: "700", label: "700 - Bold" },
-    { value: "800", label: "800 - Extra Bold" },
-    { value: "900", label: "900 - Black" },
+    { value: 'normal', label: 'Normal' },
+    { value: 'bold', label: 'Bold' },
+    { value: '100', label: '100 - Thin' },
+    { value: '200', label: '200 - Extra Light' },
+    { value: '300', label: '300 - Light' },
+    { value: '400', label: '400 - Normal' },
+    { value: '500', label: '500 - Medium' },
+    { value: '600', label: '600 - Semi Bold' },
+    { value: '700', label: '700 - Bold' },
+    { value: '800', label: '800 - Extra Bold' },
+    { value: '900', label: '900 - Black' },
   ];
 
   const updateProps = (newProps: Partial<TextProps>) => {
@@ -35,7 +35,7 @@ export const TextEditor = ({ block, onUpdate }: PropertyEditorProps) => {
         </label>
         <input
           type="text"
-          value={props.children || ""}
+          value={props.children || ''}
           onChange={(e) => updateProps({ children: e.target.value })}
           className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
@@ -48,7 +48,7 @@ export const TextEditor = ({ block, onUpdate }: PropertyEditorProps) => {
         </label>
         <input
           type="number"
-          value={props.fontSize || ""}
+          value={props.fontSize || ''}
           onChange={(e) =>
             updateProps({
               fontSize: e.target.value ? parseInt(e.target.value) : undefined,
@@ -68,13 +68,13 @@ export const TextEditor = ({ block, onUpdate }: PropertyEditorProps) => {
         <div className="flex gap-2">
           <input
             type="color"
-            value={props.color || "#000000"}
+            value={props.color || '#000000'}
             onChange={(e) => updateProps({ color: e.target.value })}
             className="w-12 h-9 border border-gray-300 rounded cursor-pointer"
           />
           <input
             type="text"
-            value={props.color || ""}
+            value={props.color || ''}
             onChange={(e) => updateProps({ color: e.target.value })}
             placeholder="#000000"
             className="flex-1 px-2 py-1.5 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -88,7 +88,7 @@ export const TextEditor = ({ block, onUpdate }: PropertyEditorProps) => {
           Font Weight
         </label>
         <select
-          value={props.fontWeight || "normal"}
+          value={props.fontWeight || 'normal'}
           onChange={(e) => updateProps({ fontWeight: e.target.value })}
           className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
@@ -108,13 +108,13 @@ export const TextEditor = ({ block, onUpdate }: PropertyEditorProps) => {
         <div className="flex gap-2">
           <input
             type="color"
-            value={props.backgroundColor || "#ffffff"}
+            value={props.backgroundColor || '#ffffff'}
             onChange={(e) => updateProps({ backgroundColor: e.target.value })}
             className="w-12 h-9 border border-gray-300 rounded cursor-pointer"
           />
           <input
             type="text"
-            value={props.backgroundColor || ""}
+            value={props.backgroundColor || ''}
             onChange={(e) => updateProps({ backgroundColor: e.target.value })}
             placeholder="#ffffff"
             className="flex-1 px-2 py-1.5 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"

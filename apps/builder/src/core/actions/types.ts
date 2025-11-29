@@ -4,11 +4,11 @@ import type {
   BlockSize,
   Section,
   Page,
-} from "@/shared/types";
+} from '@repo/renderer';
 import type {
   DragInteractionState,
   ResizeInteractionState,
-} from "@/core/state/types";
+} from '@/core/state/types';
 
 /**
  * Action Type
@@ -16,40 +16,40 @@ import type {
  */
 export type ActionType =
   // Site Actions
-  | "site.update"
+  | 'site.update'
   // Page Actions
-  | "page.create"
-  | "page.select"
-  | "page.delete"
-  | "page.update"
+  | 'page.create'
+  | 'page.select'
+  | 'page.delete'
+  | 'page.update'
   // Section Actions
-  | "section.create"
-  | "section.insert"
-  | "section.delete"
-  | "section.reorder"
-  | "section.update"
-  | "section.resize"
-  | "section.select"
+  | 'section.create'
+  | 'section.insert'
+  | 'section.delete'
+  | 'section.reorder'
+  | 'section.update'
+  | 'section.resize'
+  | 'section.select'
   // Block Actions
-  | "block.select"
-  | "block.deselect"
-  | "block.move"
-  | "block.resize"
-  | "block.create"
-  | "block.delete"
-  | "block.update"
+  | 'block.select'
+  | 'block.deselect'
+  | 'block.move'
+  | 'block.resize'
+  | 'block.create'
+  | 'block.delete'
+  | 'block.update'
   // UI Actions
-  | "ui.setBlockDragging"
-  | "ui.setBlockResizing"
-  | "ui.setSectionResizing"
+  | 'ui.setBlockDragging'
+  | 'ui.setBlockResizing'
+  | 'ui.setSectionResizing'
   // Interaction Actions (Preview)
-  | "interaction.startDrag"
-  | "interaction.updateDrag"
-  | "interaction.endDrag"
-  | "interaction.startResize"
-  | "interaction.updateResize"
-  | "interaction.endResize"
-  | "interaction.clear";
+  | 'interaction.startDrag'
+  | 'interaction.updateDrag'
+  | 'interaction.endDrag'
+  | 'interaction.startResize'
+  | 'interaction.updateResize'
+  | 'interaction.endResize'
+  | 'interaction.clear';
 
 /**
  * Base Action
@@ -65,7 +65,7 @@ export interface BaseAction {
 // ============================================
 
 export interface SiteUpdateAction extends BaseAction {
-  type: "site.update";
+  type: 'site.update';
   payload: {
     updates: {
       name?: string;
@@ -80,28 +80,28 @@ export interface SiteUpdateAction extends BaseAction {
 // ============================================
 
 export interface PageCreateAction extends BaseAction {
-  type: "page.create";
+  type: 'page.create';
   payload: {
     page?: Page;
   };
 }
 
 export interface PageSelectAction extends BaseAction {
-  type: "page.select";
+  type: 'page.select';
   payload: {
     pageId: string;
   };
 }
 
 export interface PageDeleteAction extends BaseAction {
-  type: "page.delete";
+  type: 'page.delete';
   payload: {
     pageId: string;
   };
 }
 
 export interface PageUpdateAction extends BaseAction {
-  type: "page.update";
+  type: 'page.update';
   payload: {
     pageId: string;
     updates: {
@@ -116,14 +116,14 @@ export interface PageUpdateAction extends BaseAction {
 // ============================================
 
 export interface SectionCreateAction extends BaseAction {
-  type: "section.create";
+  type: 'section.create';
   payload: {
     section?: Section;
   };
 }
 
 export interface SectionInsertAction extends BaseAction {
-  type: "section.insert";
+  type: 'section.insert';
   payload: {
     section?: Section;
     targetIndex: number;
@@ -131,14 +131,14 @@ export interface SectionInsertAction extends BaseAction {
 }
 
 export interface SectionDeleteAction extends BaseAction {
-  type: "section.delete";
+  type: 'section.delete';
   payload: {
     sectionId: string;
   };
 }
 
 export interface SectionReorderAction extends BaseAction {
-  type: "section.reorder";
+  type: 'section.reorder';
   payload: {
     fromIndex: number;
     toIndex: number;
@@ -146,7 +146,7 @@ export interface SectionReorderAction extends BaseAction {
 }
 
 export interface SectionUpdateAction extends BaseAction {
-  type: "section.update";
+  type: 'section.update';
   payload: {
     sectionId: string;
     updates: {
@@ -156,7 +156,7 @@ export interface SectionUpdateAction extends BaseAction {
 }
 
 export interface SectionResizeAction extends BaseAction {
-  type: "section.resize";
+  type: 'section.resize';
   payload: {
     sectionId: string;
     rows: number;
@@ -164,7 +164,7 @@ export interface SectionResizeAction extends BaseAction {
 }
 
 export interface SectionSelectAction extends BaseAction {
-  type: "section.select";
+  type: 'section.select';
   payload: {
     sectionId: string;
   };
@@ -175,7 +175,7 @@ export interface SectionSelectAction extends BaseAction {
 // ============================================
 
 export interface BlockSelectAction extends BaseAction {
-  type: "block.select";
+  type: 'block.select';
   payload: {
     blockId: string;
     multiSelect?: boolean;
@@ -183,14 +183,14 @@ export interface BlockSelectAction extends BaseAction {
 }
 
 export interface BlockDeselectAction extends BaseAction {
-  type: "block.deselect";
+  type: 'block.deselect';
   payload: {
     blockId?: string;
   };
 }
 
 export interface BlockMoveAction extends BaseAction {
-  type: "block.move";
+  type: 'block.move';
   payload: {
     blockId: string;
     position: BlockPosition;
@@ -198,7 +198,7 @@ export interface BlockMoveAction extends BaseAction {
 }
 
 export interface BlockResizeAction extends BaseAction {
-  type: "block.resize";
+  type: 'block.resize';
   payload: {
     blockId: string;
     size: BlockSize;
@@ -206,7 +206,7 @@ export interface BlockResizeAction extends BaseAction {
 }
 
 export interface BlockCreateAction extends BaseAction {
-  type: "block.create";
+  type: 'block.create';
   payload: {
     sectionId: string;
     block: BuilderBlock;
@@ -214,7 +214,7 @@ export interface BlockCreateAction extends BaseAction {
 }
 
 export interface BlockDeleteAction extends BaseAction {
-  type: "block.delete";
+  type: 'block.delete';
   payload: {
     sectionId: string;
     blockId: string;
@@ -222,11 +222,11 @@ export interface BlockDeleteAction extends BaseAction {
 }
 
 export interface BlockUpdateAction extends BaseAction {
-  type: "block.update";
+  type: 'block.update';
   payload: {
     sectionId: string;
     blockId: string;
-    updates: Omit<Partial<BuilderBlock>, "id" | "position" | "size">;
+    updates: Omit<Partial<BuilderBlock>, 'id' | 'position' | 'size'>;
   };
 }
 
@@ -235,21 +235,21 @@ export interface BlockUpdateAction extends BaseAction {
 // ============================================
 
 export interface UISetBlockDraggingAction extends BaseAction {
-  type: "ui.setBlockDragging";
+  type: 'ui.setBlockDragging';
   payload: {
     isBlockDragging: boolean;
   };
 }
 
 export interface UISetBlockResizingAction extends BaseAction {
-  type: "ui.setBlockResizing";
+  type: 'ui.setBlockResizing';
   payload: {
     isBlockResizing: boolean;
   };
 }
 
 export interface UISetSectionResizingAction extends BaseAction {
-  type: "ui.setSectionResizing";
+  type: 'ui.setSectionResizing';
   payload: {
     isSectionResizing: boolean;
   };
@@ -260,43 +260,43 @@ export interface UISetSectionResizingAction extends BaseAction {
 // ============================================
 
 export interface InteractionStartDragAction extends BaseAction {
-  type: "interaction.startDrag";
+  type: 'interaction.startDrag';
   payload: {
     dragState: DragInteractionState;
   };
 }
 
 export interface InteractionUpdateDragAction extends BaseAction {
-  type: "interaction.updateDrag";
+  type: 'interaction.updateDrag';
   payload: {
     dragState: Partial<DragInteractionState>;
   };
 }
 
 export interface InteractionEndDragAction extends BaseAction {
-  type: "interaction.endDrag";
+  type: 'interaction.endDrag';
 }
 
 export interface InteractionStartResizeAction extends BaseAction {
-  type: "interaction.startResize";
+  type: 'interaction.startResize';
   payload: {
     resizeState: ResizeInteractionState;
   };
 }
 
 export interface InteractionUpdateResizeAction extends BaseAction {
-  type: "interaction.updateResize";
+  type: 'interaction.updateResize';
   payload: {
     resizeState: Partial<ResizeInteractionState>;
   };
 }
 
 export interface InteractionEndResizeAction extends BaseAction {
-  type: "interaction.endResize";
+  type: 'interaction.endResize';
 }
 
 export interface InteractionClearAction extends BaseAction {
-  type: "interaction.clear";
+  type: 'interaction.clear';
 }
 
 export type EditorAction =

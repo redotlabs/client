@@ -2,17 +2,17 @@ import type {
   EditorState,
   DragInteractionState,
   ResizeInteractionState,
-} from "./types";
+} from './types';
 import type {
   BuilderBlock,
   BlockPosition,
   BlockSize,
   Section,
   Page,
-} from "@/shared/types";
-import { getSectionRows } from "@/shared/utils/sectionHeight";
-import { DEFAULT_SECTION_ROWS } from "@/shared/constants/editorData";
-import { createEmptyPage } from "@/shared/utils/site";
+} from '@repo/renderer';
+import { getSectionRows } from '@/shared/utils/sectionHeight';
+import { DEFAULT_SECTION_ROWS } from '@/shared/constants/editorData';
+import { createEmptyPage } from '@/shared/utils/site';
 
 // ============================================
 // Site State Updaters
@@ -33,7 +33,9 @@ export const updateSiteState = (
       metadata: {
         ...state.site.metadata,
         ...(updates.name !== undefined && { name: updates.name }),
-        ...(updates.description !== undefined && { description: updates.description }),
+        ...(updates.description !== undefined && {
+          description: updates.description,
+        }),
         ...(updates.favicon !== undefined && { favicon: updates.favicon }),
         updatedAt: new Date().toISOString(),
       },
@@ -51,7 +53,10 @@ export const createPageState = (
 ): EditorState => {
   const newPage =
     page ||
-    createEmptyPage(`Page ${state.site.pages.length + 1}`, `/page-${state.site.pages.length + 1}`);
+    createEmptyPage(
+      `Page ${state.site.pages.length + 1}`,
+      `/page-${state.site.pages.length + 1}`
+    );
 
   return {
     ...state,
@@ -99,9 +104,7 @@ export const deletePageState = (
 
   // 삭제하는 페이지가 현재 페이지면 첫 번째 페이지로 이동
   const newCurrentPageId =
-    state.currentPageId === pageId
-      ? updatedPages[0].id
-      : state.currentPageId;
+    state.currentPageId === pageId ? updatedPages[0].id : state.currentPageId;
 
   return {
     ...state,
@@ -370,7 +373,7 @@ export const selectSectionState = (
     ...state,
     selection: {
       ...state.selection,
-      selectionType: "section",
+      selectionType: 'section',
       selectedSectionId: sectionId,
     },
   };
@@ -393,7 +396,7 @@ export const selectBlockState = (
     ...state,
     selection: {
       ...state.selection,
-      selectionType: "block",
+      selectionType: 'block',
       selectedBlockIds,
       lastSelectedId: blockId,
     },
@@ -541,7 +544,7 @@ export const updateBlockState = (
   state: EditorState,
   sectionId: string,
   blockId: string,
-  updates: Omit<Partial<BuilderBlock>, "id" | "position" | "size">
+  updates: Omit<Partial<BuilderBlock>, 'id' | 'position' | 'size'>
 ): EditorState => {
   return updateCurrentPageSections(state, (sections) =>
     updateSectionBlocks(sections, sectionId, (blocks) =>
@@ -602,7 +605,7 @@ export const startDragInteractionState = (
   return {
     ...state,
     interaction: {
-      type: "drag",
+      type: 'drag',
       drag: dragState,
       resize: null,
     },
@@ -645,7 +648,7 @@ export const startResizeInteractionState = (
   return {
     ...state,
     interaction: {
-      type: "resize",
+      type: 'resize',
       drag: null,
       resize: resizeState,
     },

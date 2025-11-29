@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { EditorController } from '@/core/controller';
 import type { EditorState } from '@/core/state';
-import type { Site, GridConfig } from '@/shared/types';
+import type { Site, GridConfig } from '@repo/renderer';
 
 /**
  * useEditor Hook

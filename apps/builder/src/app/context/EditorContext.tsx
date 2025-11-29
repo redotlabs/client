@@ -1,6 +1,6 @@
 import { createContext, useContext, type ReactNode } from "react";
 import { useEditor } from "@/core/hooks/use-editor";
-import type { Site, GridConfig } from "@/shared/types";
+import type { Site, GridConfig } from "@repo/renderer";
 import type { EditorState } from "@/core/state";
 import type { EditorAction } from "@/core/actions";
 import type { RuleValidationResult } from "@/core/rules";

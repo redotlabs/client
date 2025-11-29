@@ -1,5 +1,5 @@
-import type { EditorAction } from "@/core/actions";
-import type { BuilderBlock, GridConfig, Section } from "@/shared/types";
+import type { EditorAction } from '@/core/actions';
+import type { BuilderBlock, GridConfig, Section } from '@repo/renderer';
 
 /**
  * Rule Violation
@@ -9,7 +9,7 @@ export interface RuleViolation {
   rule: string;
   message: string;
   blockId?: string;
-  severity: "error" | "warning";
+  severity: 'error' | 'warning';
 }
 
 export interface RuleValidationResult {
@@ -42,9 +42,9 @@ export interface Rule {
 }
 
 export type RuleCategory =
-  | "editor"
-  | "block.movement"
-  | "block.resize"
-  | "block.selection"
-  | "block.overlap"
-  | "block.bounds";
+  | 'editor'
+  | 'block.movement'
+  | 'block.resize'
+  | 'block.selection'
+  | 'block.overlap'
+  | 'block.bounds';

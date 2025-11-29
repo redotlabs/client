@@ -1,24 +1,26 @@
-import type { PropertyEditorProps } from "./types";
-import type { InputProps } from "@/shared/types/blocks/attributes";
-import { inputVariantsOptions } from "@/shared/types/blocks/attributes";
+import type { PropertyEditorProps } from './types';
+import type { InputProps } from '@repo/renderer';
+import { inputVariantsOptions } from '@repo/renderer';
 
 export const InputEditor = ({ block, onUpdate }: PropertyEditorProps) => {
   const props = (block.props as InputProps) || {};
 
   // @redotlabs/ui에서 자동으로 size 옵션 추출
-  const sizeOptions = Object.keys(inputVariantsOptions.variants.size).map((key) => ({
-    value: key,
-    label: key.toUpperCase(),
-  }));
+  const sizeOptions = Object.keys(inputVariantsOptions.variants.size).map(
+    (key) => ({
+      value: key,
+      label: key.toUpperCase(),
+    })
+  );
 
   // input type은 HTML 표준이므로 여기서는 수동 정의
   const typeOptions = [
-    { value: "text", label: "Text" },
-    { value: "email", label: "Email" },
-    { value: "password", label: "Password" },
-    { value: "number", label: "Number" },
-    { value: "tel", label: "Tel" },
-    { value: "url", label: "URL" },
+    { value: 'text', label: 'Text' },
+    { value: 'email', label: 'Email' },
+    { value: 'password', label: 'Password' },
+    { value: 'number', label: 'Number' },
+    { value: 'tel', label: 'Tel' },
+    { value: 'url', label: 'URL' },
   ];
 
   const updateProps = (newProps: Partial<InputProps>) => {
@@ -38,7 +40,7 @@ export const InputEditor = ({ block, onUpdate }: PropertyEditorProps) => {
         </label>
         <input
           type="text"
-          value={props.placeholder || ""}
+          value={props.placeholder || ''}
           onChange={(e) => updateProps({ placeholder: e.target.value })}
           className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
@@ -51,7 +53,7 @@ export const InputEditor = ({ block, onUpdate }: PropertyEditorProps) => {
         </label>
         <input
           type="text"
-          value={props.value || ""}
+          value={props.value || ''}
           onChange={(e) => updateProps({ value: e.target.value })}
           className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
@@ -63,8 +65,10 @@ export const InputEditor = ({ block, onUpdate }: PropertyEditorProps) => {
           Type
         </label>
         <select
-          value={props.type || "text"}
-          onChange={(e) => updateProps({ type: e.target.value as InputProps["type"] })}
+          value={props.type || 'text'}
+          onChange={(e) =>
+            updateProps({ type: e.target.value as InputProps['type'] })
+          }
           className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           {typeOptions.map((option) => (
@@ -81,8 +85,10 @@ export const InputEditor = ({ block, onUpdate }: PropertyEditorProps) => {
           Size
         </label>
         <select
-          value={props.size || "md"}
-          onChange={(e) => updateProps({ size: e.target.value as InputProps["size"] })}
+          value={props.size || 'md'}
+          onChange={(e) =>
+            updateProps({ size: e.target.value as InputProps['size'] })
+          }
           className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           {sizeOptions.map((option) => (
