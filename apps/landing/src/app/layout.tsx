@@ -4,6 +4,9 @@ import type { Metadata } from 'next';
 import { ThemeProvider } from '@redotlabs/themes';
 import Header from '@/shared/components/layout/header';
 import Footer from '@/shared/components/layout/footer';
+import ClientQueryClientProvider from '@/shared/components/wrapper/query-client-provider';
+import ClientToastProvider from '@/shared/components/wrapper/client-toast-provider';
+import AuthGuard from '@/shared/components/wrapper/auth-guard';
 
 export const metadata: Metadata = {
   title: 'Redot',
@@ -35,11 +38,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={cn('antialiased min-h-svh flex flex-col')}>
-        <ThemeProvider color="blue" font="pretendard">
-          <Header />
-          {children}
-          <Footer />
-        </ThemeProvider>
+        <ClientQueryClientProvider>
+          <ClientToastProvider>
+            <ThemeProvider color="blue" font="pretendard">
+              <AuthGuard>
+                <Header />
+                {children}
+                <Footer />
+              </AuthGuard>
+            </ThemeProvider>
+          </ClientToastProvider>
+        </ClientQueryClientProvider>
       </body>
     </html>
   );
