@@ -1,5 +1,7 @@
 import { ArrowUpIcon } from '@/shared/components/ui/icons';
+import { PATH } from '@/shared/constants/routes';
 import { Button } from '@redotlabs/ui';
+import Link from 'next/link';
 import React from 'react';
 
 const BusinessSection = () => {
@@ -17,10 +19,12 @@ const BusinessSection = () => {
         무료 상담만으로도 비즈니스의 새로운 가능성을 발견할 수 있습니다.
       </p>
 
-      <Button className="mt-8 mb-40 flex items-center gap-6 px-8">
-        <ArrowUpIcon />
-        무료 상담하기
-      </Button>
+      <Link href={PATH.renewal}>
+        <Button className="mt-8 mb-40 flex items-center gap-6 px-8">
+          <ArrowUpIcon />
+          무료 상담하기
+        </Button>
+      </Link>
     </section>
   );
 };

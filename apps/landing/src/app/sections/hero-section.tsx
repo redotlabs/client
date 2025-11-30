@@ -33,10 +33,12 @@ const HeroSection = () => {
         </h2>
 
         <div className="mt-10 flex flex-col md:flex-row gap-4 md:gap-6 w-fit">
-          <Button className="flex items-center gap-6 px-8">
-            <ArrowUpIcon />
-            홈페이지 신규 제작
-          </Button>
+          <Link href={PATH.dashboard.create}>
+            <Button className="flex items-center gap-6 px-8">
+              <ArrowUpIcon />
+              홈페이지 신규 제작
+            </Button>
+          </Link>
           <Link href={PATH.renewal}>
             <Button className="flex items-center gap-6 px-8">
               <ArrowUpIcon />
