@@ -1,12 +1,29 @@
-import CreateServiceForm from './ui/create-service-form';
-import DashboardHeader from '../ui/dashboard-header';
+'use client';
+
+import CreateAppForm from './ui/create-app-form';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
+import { useAppList } from '@/shared/api/queries/app';
+import { Card, Loader } from '@repo/ui';
 
-export default function CreateServicePage() {
+export default function CreateAppPage() {
+  const { data: appListResponse, isLoading } = useAppList();
+
+  const currentAppCount = appListResponse?.totalElements || 0;
+  const isFirstApp = currentAppCount === 0;
+
+  if (isLoading) {
+    return (
+      <main className="min-h-svh">
+        <div className="container mx-auto px-6 py-10 flex items-center justify-center min-h-[400px]">
+          <Loader />
+        </div>
+      </main>
+    );
+  }
+
   return (
-    <main className="min-h-screen bg-gray-50">
-      <DashboardHeader />
+    <main className="min-h-svh">
       <div className="container mx-auto px-6 py-10">
         <Link
           href="/dashboard"
@@ -16,20 +33,21 @@ export default function CreateServicePage() {
           돌아가기
         </Link>
 
-        <div className="max-w-2xl mx-auto">
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
+        <div className="max-w-4xl mx-auto">
+          <Card>
             <h1 className="text-3xl font-bold text-gray-900 mb-2">
-              새 서비스 만들기
+              새 앱 만들기
             </h1>
             <p className="text-gray-600 mb-8">
-              서비스 정보를 입력하고 플랜을 선택하세요
+              {isFirstApp
+                ? '첫 번째 앱을 무료로 만들어보세요'
+                : '앱 정보를 입력하고 생성하세요'}
             </p>
 
-            <CreateServiceForm />
-          </div>
+            <CreateAppForm isFirstApp={isFirstApp} />
+          </Card>
         </div>
       </div>
     </main>
   );
 }
-
