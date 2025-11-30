@@ -7,6 +7,10 @@ export const PATH = {
   dashboard: {
     root: '/dashboard',
     create: '/dashboard/create',
+    payment: '/dashboard/payment',
+    setupManager: (appId: string | number) =>
+      `/dashboard/${appId}/setup-manager`,
   },
+  pricing: '/pricing',
   renewal: '/renewal',
 };
