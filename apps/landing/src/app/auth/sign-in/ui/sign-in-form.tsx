@@ -1,12 +1,15 @@
 'use client';
 
-import { Button } from '@redotlabs/ui';
-import { RHFInput } from '@repo/ui';
-import { Loader2 } from 'lucide-react';
+import { Button, toast } from '@redotlabs/ui';
+import { Loader, RHFInput } from '@repo/ui';
 import { FormProvider, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useSignIn } from '@/shared/api/queries/auth';
+import { PATH } from '@/shared/constants/routes';
+import { useQueryClient } from '@tanstack/react-query';
+import { queryKeyFactory } from '@/shared/api/query-key-factory';
 
 const schema = z.object({
   email: z
@@ -23,6 +26,9 @@ const schema = z.object({
 
 export default function SignInForm() {
   const router = useRouter();
+  const queryClient = useQueryClient();
+  const searchParams = useSearchParams();
+  const signInMutation = useSignIn();
 
   const form = useForm({
     resolver: zodResolver(schema),
@@ -33,41 +39,52 @@ export default function SignInForm() {
     mode: 'onChange',
   });
 
-  const onSubmit = async (data: z.infer<typeof schema>) => {
-    console.log('로그인:', data);
-    // TODO: API 호출
-    // 성공 시 대시보드로 이동
-    router.push('/dashboard');
+  const onSubmit = (data: z.infer<typeof schema>) => {
+    return signInMutation.mutate(data, {
+      onSuccess: async () => {
+        await queryClient.invalidateQueries({
+          queryKey: queryKeyFactory.auth.me,
+        });
+        const redirectPath = searchParams.get('redirect');
+        router.push(redirectPath || PATH.root);
+      },
+      onError: (error) => {
+        toast.error(error?.message);
+      },
+    });
   };
 
   const disabled = !form.formState.isValid || form.formState.isSubmitting;
 
   return (
-    <FormProvider {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="mt-15 flex flex-col gap-3 w-full"
-      >
-        <RHFInput
-          name="email"
-          label="Email"
-          placeholder="example@example.com"
-        />
-        <RHFInput
-          name="password"
-          label="Password"
-          type="password"
-          placeholder="password"
-        />
+    <div className="mt-15 flex flex-col gap-6 w-full">
+      {/* 일반 로그인 */}
+      <FormProvider {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex flex-col gap-3 w-full"
+        >
+          <RHFInput
+            name="email"
+            label="Email"
+            placeholder="example@example.com"
+          />
+          <RHFInput
+            name="password"
+            label="Password"
+            type="password"
+            placeholder="password"
+          />
 
-        <Button type="submit" className="mt-10" disabled={disabled}>
-          {form.formState.isSubmitting ? (
-            <Loader2 className="size-6 text-white animate-spin" />
-          ) : (
-            '로그인'
-          )}
-        </Button>
-      </form>
-    </FormProvider>
+          <Button type="submit" className="mt-10" disabled={disabled}>
+            {signInMutation.isPending ? (
+              <Loader className="size-6 text-white" />
+            ) : (
+              '로그인'
+            )}
+          </Button>
+        </form>
+      </FormProvider>
+    </div>
   );
 }

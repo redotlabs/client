@@ -14,7 +14,7 @@ api.interceptors.response.use(
     if (error?.status === 401) {
       if (!isServer) {
         const pathname = window.location.pathname;
-        if (!AUTH_WHITE_LIST.includes(pathname)) {
+        if (!AUTH_WHITE_LIST.some((whiteList) => pathname === whiteList)) {
           alert('로그인이 만료되었습니다.');
           window.location.href = `${PATH.auth.signIn}?redirect=${pathname}`;
         }

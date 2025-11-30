@@ -19,7 +19,9 @@
     "@redotlabs/utils": "^1.0.0",
     "@repo/api-instance": "workspace:*",
     "@repo/hooks": "workspace:*",
+    "@repo/types": "workspace:*",
     "@repo/ui": "workspace:*",
+    "@repo/utils": "workspace:*",
     "@tanstack/react-query": "^5.90.10",
     "embla-carousel-auto-scroll": "^8.6.0",
     "embla-carousel-autoplay": "^8.6.0",
@@ -28,7 +30,8 @@
     "next": "^15.3.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-hook-form": "^7.64.0"
+    "react-hook-form": "^7.64.0",
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^15.3.0",

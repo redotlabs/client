@@ -1,3 +1,4 @@
+import GoogleSignInButton from './ui/google-sign-in-button';
 import SignInForm from './ui/sign-in-form';
 import Link from 'next/link';
 
@@ -19,6 +20,21 @@ export default function SignInPage() {
               회원가입
             </Link>
           </p>
+        </div>
+
+        {/* 구분선 */}
+        <div className="my-6 relative w-full">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-gray-300" />
+          </div>
+          <div className="relative flex justify-center text-sm">
+            <span className="px-2 bg-white text-gray-500">또는</span>
+          </div>
+        </div>
+
+        {/* 소셜 로그인 */}
+        <div className="flex flex-col gap-3 w-full">
+          <GoogleSignInButton />
         </div>
       </div>
     </main>

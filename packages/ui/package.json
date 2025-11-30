@@ -34,6 +34,7 @@
   },
   "peerDependencies": {
     "@redotlabs/ui": "^1.7.0",
+    "@redotlabs/utils": "^1.0.0",
     "lucide-react": "^0.479.0",
     "react": "^19.0.0",
     "react-hook-form": "^7.64.0"
