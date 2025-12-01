@@ -1,11 +1,12 @@
 'use client';
 
 import { Button, Callout, Logo } from '@redotlabs/ui';
-import { Plus, Globe, Loader2, Sparkles } from 'lucide-react';
+import { Plus, Globe, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import { useAppList } from '@/shared/api/queries/app';
 import AppCard from './app-card';
 import { PATH } from '@/shared/constants/routes';
+import { Loader } from '@repo/ui';
 
 const MAX_SERVICES = 10;
 
@@ -21,7 +22,7 @@ export default function AppList() {
   if (isLoading) {
     return (
       <div className="container mx-auto px-6 py-10 flex items-center justify-center min-h-[400px]">
-        <Loader2 className="size-8 text-primary-500 animate-spin" />
+        <Loader />
       </div>
     );
   }
