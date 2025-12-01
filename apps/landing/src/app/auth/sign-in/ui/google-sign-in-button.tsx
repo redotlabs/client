@@ -2,8 +2,8 @@
 
 import { Button } from '@redotlabs/ui';
 import { useSocialLoginUrl } from '@/shared/api/queries/auth';
-import { Loader2 } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
+import { Loader } from '@repo/ui';
 
 export default function GoogleSignInButton() {
   const searchParams = useSearchParams();
@@ -29,7 +29,7 @@ export default function GoogleSignInButton() {
       className="w-full flex items-center justify-center gap-2 bg-white hover:bg-gray-50"
     >
       {isPending ? (
-        <Loader2 className="size-5 animate-spin" />
+        <Loader />
       ) : (
         <>
           <svg className="size-5" viewBox="0 0 24 24">
