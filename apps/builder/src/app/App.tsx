@@ -18,10 +18,6 @@ export default function BuilderApp() {
           localStorage.setItem('preview-site-data', JSON.stringify(site));
           window.open('/preview', '_blank');
         }}
-        onChange={(site) => {
-          // TODO: Implement auto-save
-          console.log('Site changed:', site.metadata.name);
-        }}
       />
     </ThemeProvider>
   );

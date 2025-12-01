@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
-import { ThemeProvider } from '@redotlabs/themes';
 import type { Site } from '@repo/renderer';
-import { PageRenderer } from '@repo/renderer';
+import { SiteRenderer } from '@repo/renderer';
 
 export const RendererApp = () => {
   const [site, setSite] = useState<Site | null>(null);
@@ -59,27 +58,20 @@ export const RendererApp = () => {
     );
   }
 
-  const currentPage = site.pages.find((page) => page.path === currentPath);
-
-  if (!currentPage) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+  return (
+    <SiteRenderer
+      site={site}
+      currentPath={currentPath}
+      themeConfig={{ color: 'blue', font: 'pretendard' }}
+      renderNotFound={(path) => (
         <div className="text-center">
           <h1 className="text-4xl font-bold text-gray-800 mb-2">404</h1>
-          <p className="text-gray-600 mb-4">Page not found: {currentPath}</p>
+          <p className="text-gray-600 mb-4">Page not found: {path}</p>
           <a href="#/" className="text-blue-600 hover:underline">
             Go to home
           </a>
         </div>
-      </div>
-    );
-  }
-
-  return (
-    <ThemeProvider color="blue" font="pretendard">
-      <div className="min-h-screen bg-white">
-        <PageRenderer page={currentPage} />
-      </div>
-    </ThemeProvider>
+      )}
+    />
   );
 };
