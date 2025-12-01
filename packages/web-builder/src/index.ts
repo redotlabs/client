@@ -3,3 +3,6 @@
 
 // Core - Editor logic
 export * from './core';
+
+// Context - React integration
+export * from './context';
