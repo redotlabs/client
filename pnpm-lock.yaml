@@ -342,8 +342,8 @@ importers:
         specifier: ^1.0.0
         version: 1.0.1
       '@redotlabs/ui':
-        specifier: ^1.7.0
-        version: 1.7.0(@redotlabs/themes@1.1.0(@redotlabs/fonts@1.0.1)(@redotlabs/tokens@1.0.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(@redotlabs/tokens@1.0.1)(@redotlabs/utils@1.0.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(@tailwindcss/vite@4.1.17(vite@7.2.2(@types/node@20.19.25)(jiti@2.6.1)(lightningcss@1.30.2)(sass@1.94.1)))(@types/react-dom@19.2.3(@types/react@19.2.6))(@types/react@19.2.6)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(tailwindcss@4.1.17)(tw-animate-css@1.4.0)
+        specifier: ^1.8.0
+        version: 1.8.0(@redotlabs/themes@1.1.0(@redotlabs/fonts@1.0.1)(@redotlabs/tokens@1.0.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(@redotlabs/tokens@1.0.1)(@redotlabs/utils@1.0.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(@tailwindcss/vite@4.1.17(vite@7.2.2(@types/node@20.19.25)(jiti@2.6.1)(lightningcss@1.30.2)(sass@1.94.1)))(@types/react-dom@19.2.3(@types/react@19.2.6))(@types/react@19.2.6)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(tailwindcss@4.1.17)(tw-animate-css@1.4.0)
       '@redotlabs/utils':
         specifier: ^1.0.0
         version: 1.0.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
@@ -356,6 +356,9 @@ importers:
       '@repo/tenant-router/next':
         specifier: workspace:*
         version: link:../../packages/tenant-router/next
+      '@repo/types':
+        specifier: workspace:*
+        version: link:../../packages/types
       '@repo/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -445,8 +448,8 @@ importers:
         specifier: ^1.0.0
         version: 1.0.1
       '@redotlabs/ui':
-        specifier: ^1.4.1
-        version: 1.7.0(@redotlabs/themes@1.1.0(@redotlabs/fonts@1.0.1)(@redotlabs/tokens@1.0.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(@redotlabs/tokens@1.0.1)(@redotlabs/utils@1.0.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(@tailwindcss/vite@4.1.17(vite@7.2.2(@types/node@22.19.1)(jiti@2.6.1)(lightningcss@1.30.2)(sass@1.94.1)))(@types/react-dom@19.2.3(@types/react@19.2.6))(@types/react@19.2.6)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(tailwindcss@4.1.17)(tw-animate-css@1.4.0)
+        specifier: ^1.8.0
+        version: 1.8.0(@redotlabs/themes@1.1.0(@redotlabs/fonts@1.0.1)(@redotlabs/tokens@1.0.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(@redotlabs/tokens@1.0.1)(@redotlabs/utils@1.0.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(@tailwindcss/vite@4.1.17(vite@7.2.2(@types/node@22.19.1)(jiti@2.6.1)(lightningcss@1.30.2)(sass@1.94.1)))(@types/react-dom@19.2.3(@types/react@19.2.6))(@types/react@19.2.6)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(tailwindcss@4.1.17)(tw-animate-css@1.4.0)
       '@redotlabs/utils':
         specifier: ^1.0.0
         version: 1.0.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
@@ -456,9 +459,15 @@ importers:
       '@repo/hooks':
         specifier: workspace:*
         version: link:../../packages/hooks
+      '@repo/types':
+        specifier: workspace:*
+        version: link:../../packages/types
       '@repo/ui':
         specifier: workspace:*
         version: link:../../packages/ui
+      '@repo/utils':
+        specifier: workspace:*
+        version: link:../../packages/utils
       '@tanstack/react-query':
         specifier: ^5.90.10
         version: 5.90.10(react@19.2.0)
@@ -486,6 +495,9 @@ importers:
       react-hook-form:
         specifier: ^7.64.0
         version: 7.66.1(react@19.2.0)
+      tailwindcss-animate:
+        specifier: ^1.0.7
+        version: 1.0.7(tailwindcss@4.1.17)
     devDependencies:
       '@next/eslint-plugin-next':
         specifier: ^15.3.0
@@ -561,7 +573,7 @@ importers:
         version: link:../../packages/utils
       next:
         specifier: 16.0.4
-        version: 16.0.4(@babel/core@7.28.5)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(sass@1.94.1)
+        version: 16.0.4(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(sass@1.94.1)
       react:
         specifier: 19.2.0
         version: 19.2.0
@@ -803,6 +815,18 @@ importers:
         specifier: ^5.0.0
         version: 5.9.3
 
+  packages/types:
+    devDependencies:
+      '@repo/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
   packages/typescript-config: {}
 
   packages/ui:
@@ -813,6 +837,9 @@ importers:
       '@redotlabs/ui':
         specifier: ^1.7.0
         version: 1.7.0(@redotlabs/themes@1.1.0(@redotlabs/fonts@1.0.1)(@redotlabs/tokens@1.0.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(@redotlabs/tokens@1.0.1)(@redotlabs/utils@1.0.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(@tailwindcss/vite@4.1.17(vite@7.2.2(@types/node@24.10.1)(jiti@2.6.1)(lightningcss@1.30.2)(sass@1.94.1)))(@types/react-dom@19.2.3(@types/react@19.2.6))(@types/react@19.2.6)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(tailwindcss@4.1.17)(tw-animate-css@1.4.0)
+      '@redotlabs/utils':
+        specifier: ^1.0.0
+        version: 1.0.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       lucide-react:
         specifier: ^0.479.0
         version: 0.479.0(react@19.2.0)
@@ -2120,6 +2147,18 @@ packages:
 
   '@redotlabs/ui@1.7.0':
     resolution: {integrity: sha512-JzOBZ1/Vj2AEB1GLBFAKRPQr1v1yPZzb7Zoow4oCfrtaNIZBZiCZWIAbdYSRRD3QVfQBfVIvNHk1ndKoOReuiw==, tarball: https://npm.pkg.github.com/download/@redotlabs/ui/1.7.0/cd799860ac3f4bae7d39e0a45d8ef0b64f9ac934}
+    peerDependencies:
+      '@redotlabs/themes': '>=1.1.0'
+      '@redotlabs/tokens': '>=1.0.1'
+      '@redotlabs/utils': '>=1.0.0'
+      '@tailwindcss/vite': ^4.1.11
+      react: ^19.0.0
+      react-dom: ^19.0.0
+      tailwindcss: ^4.1.11
+      tw-animate-css: ^1.3.6
+
+  '@redotlabs/ui@1.8.0':
+    resolution: {integrity: sha512-Uqlb1FVdnh6d4Je2ow1lSgRkH2epzUq/acycZ+NXKci+RhTOOaLdriDQWXhsAxUgw0MfTl/CAoTyprYC6jDkoA==, tarball: https://npm.pkg.github.com/download/@redotlabs/ui/1.8.0/54a04867ccfb2b22e3de70a628540a0e04e5050a}
     peerDependencies:
       '@redotlabs/themes': '>=1.1.0'
       '@redotlabs/tokens': '>=1.0.1'
@@ -6377,6 +6416,46 @@ snapshots:
       - '@types/react'
       - '@types/react-dom'
 
+  '@redotlabs/ui@1.8.0(@redotlabs/themes@1.1.0(@redotlabs/fonts@1.0.1)(@redotlabs/tokens@1.0.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(@redotlabs/tokens@1.0.1)(@redotlabs/utils@1.0.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(@tailwindcss/vite@4.1.17(vite@7.2.2(@types/node@20.19.25)(jiti@2.6.1)(lightningcss@1.30.2)(sass@1.94.1)))(@types/react-dom@19.2.3(@types/react@19.2.6))(@types/react@19.2.6)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(tailwindcss@4.1.17)(tw-animate-css@1.4.0)':
+    dependencies:
+      '@radix-ui/react-popover': 1.1.15(@types/react-dom@19.2.3(@types/react@19.2.6))(@types/react@19.2.6)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      '@redotlabs/themes': 1.1.0(@redotlabs/fonts@1.0.1)(@redotlabs/tokens@1.0.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      '@redotlabs/tokens': 1.0.1
+      '@redotlabs/utils': 1.0.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      '@tailwindcss/vite': 4.1.17(vite@7.2.2(@types/node@20.19.25)(jiti@2.6.1)(lightningcss@1.30.2)(sass@1.94.1))
+      class-variance-authority: 0.7.1
+      framer-motion: 12.23.24(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      react: 19.2.0
+      react-day-picker: 9.11.1(react@19.2.0)
+      react-dom: 19.2.0(react@19.2.0)
+      sonner: 2.0.7(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      tailwindcss: 4.1.17
+      tw-animate-css: 1.4.0
+    transitivePeerDependencies:
+      - '@emotion/is-prop-valid'
+      - '@types/react'
+      - '@types/react-dom'
+
+  '@redotlabs/ui@1.8.0(@redotlabs/themes@1.1.0(@redotlabs/fonts@1.0.1)(@redotlabs/tokens@1.0.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(@redotlabs/tokens@1.0.1)(@redotlabs/utils@1.0.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(@tailwindcss/vite@4.1.17(vite@7.2.2(@types/node@22.19.1)(jiti@2.6.1)(lightningcss@1.30.2)(sass@1.94.1)))(@types/react-dom@19.2.3(@types/react@19.2.6))(@types/react@19.2.6)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(tailwindcss@4.1.17)(tw-animate-css@1.4.0)':
+    dependencies:
+      '@radix-ui/react-popover': 1.1.15(@types/react-dom@19.2.3(@types/react@19.2.6))(@types/react@19.2.6)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      '@redotlabs/themes': 1.1.0(@redotlabs/fonts@1.0.1)(@redotlabs/tokens@1.0.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      '@redotlabs/tokens': 1.0.1
+      '@redotlabs/utils': 1.0.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      '@tailwindcss/vite': 4.1.17(vite@7.2.2(@types/node@22.19.1)(jiti@2.6.1)(lightningcss@1.30.2)(sass@1.94.1))
+      class-variance-authority: 0.7.1
+      framer-motion: 12.23.24(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      react: 19.2.0
+      react-day-picker: 9.11.1(react@19.2.0)
+      react-dom: 19.2.0(react@19.2.0)
+      sonner: 2.0.7(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      tailwindcss: 4.1.17
+      tw-animate-css: 1.4.0
+    transitivePeerDependencies:
+      - '@emotion/is-prop-valid'
+      - '@types/react'
+      - '@types/react-dom'
+
   '@redotlabs/utils@1.0.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
     dependencies:
       clsx: 2.1.1
@@ -7726,8 +7805,8 @@ snapshots:
       '@typescript-eslint/parser': 8.47.0(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3)
       eslint: 9.39.1(jiti@2.6.1)
       eslint-import-resolver-node: 0.3.9
-      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.47.0(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.1(jiti@2.6.1)))(eslint@9.39.1(jiti@2.6.1))
-      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@8.47.0(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.47.0(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.1(jiti@2.6.1)))(eslint@9.39.1(jiti@2.6.1)))(eslint@9.39.1(jiti@2.6.1))
+      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.32.0)(eslint@9.39.1(jiti@2.6.1))
+      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@8.47.0(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1)(eslint@9.39.1(jiti@2.6.1))
       eslint-plugin-jsx-a11y: 6.10.2(eslint@9.39.1(jiti@2.6.1))
       eslint-plugin-react: 7.37.5(eslint@9.39.1(jiti@2.6.1))
       eslint-plugin-react-hooks: 5.2.0(eslint@9.39.1(jiti@2.6.1))
@@ -7770,21 +7849,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.47.0(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.1(jiti@2.6.1)))(eslint@9.39.1(jiti@2.6.1)):
-    dependencies:
-      '@nolyfill/is-core-module': 1.0.39
-      debug: 4.4.3
-      eslint: 9.39.1(jiti@2.6.1)
-      get-tsconfig: 4.13.0
-      is-bun-module: 2.0.0
-      stable-hash: 0.0.5
-      tinyglobby: 0.2.15
-      unrs-resolver: 1.11.1
-    optionalDependencies:
-      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@8.47.0(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.47.0(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.1(jiti@2.6.1)))(eslint@9.39.1(jiti@2.6.1)))(eslint@9.39.1(jiti@2.6.1))
-    transitivePeerDependencies:
-      - supports-color
-
   eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(eslint@9.39.1(jiti@2.6.1)))(eslint@9.39.1(jiti@2.6.1)):
     dependencies:
       '@nolyfill/is-core-module': 1.0.39
@@ -7800,14 +7864,29 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-module-utils@2.12.1(@typescript-eslint/parser@8.47.0(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.47.0(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.1(jiti@2.6.1)))(eslint@9.39.1(jiti@2.6.1)))(eslint@9.39.1(jiti@2.6.1)):
+  eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0)(eslint@9.39.1(jiti@2.6.1)):
+    dependencies:
+      '@nolyfill/is-core-module': 1.0.39
+      debug: 4.4.3
+      eslint: 9.39.1(jiti@2.6.1)
+      get-tsconfig: 4.13.0
+      is-bun-module: 2.0.0
+      stable-hash: 0.0.5
+      tinyglobby: 0.2.15
+      unrs-resolver: 1.11.1
+    optionalDependencies:
+      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@8.47.0(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1)(eslint@9.39.1(jiti@2.6.1))
+    transitivePeerDependencies:
+      - supports-color
+
+  eslint-module-utils@2.12.1(@typescript-eslint/parser@8.47.0(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.1)(eslint@9.39.1(jiti@2.6.1)):
     dependencies:
       debug: 3.2.7
     optionalDependencies:
       '@typescript-eslint/parser': 8.47.0(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3)
       eslint: 9.39.1(jiti@2.6.1)
       eslint-import-resolver-node: 0.3.9
-      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.47.0(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.1(jiti@2.6.1)))(eslint@9.39.1(jiti@2.6.1))
+      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.32.0)(eslint@9.39.1(jiti@2.6.1))
     transitivePeerDependencies:
       - supports-color
 
@@ -7821,7 +7900,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.47.0(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.47.0(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.1(jiti@2.6.1)))(eslint@9.39.1(jiti@2.6.1)))(eslint@9.39.1(jiti@2.6.1)):
+  eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.47.0(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1)(eslint@9.39.1(jiti@2.6.1)):
     dependencies:
       '@rtsao/scc': 1.1.0
       array-includes: 3.1.9
@@ -7832,7 +7911,7 @@ snapshots:
       doctrine: 2.1.0
       eslint: 9.39.1(jiti@2.6.1)
       eslint-import-resolver-node: 0.3.9
-      eslint-module-utils: 2.12.1(@typescript-eslint/parser@8.47.0(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.47.0(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.1(jiti@2.6.1)))(eslint@9.39.1(jiti@2.6.1)))(eslint@9.39.1(jiti@2.6.1))
+      eslint-module-utils: 2.12.1(@typescript-eslint/parser@8.47.0(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.1)(eslint@9.39.1(jiti@2.6.1))
       hasown: 2.0.2
       is-core-module: 2.16.1
       is-glob: 4.0.3
@@ -8702,7 +8781,7 @@ snapshots:
       postcss: 8.4.31
       react: 19.2.0
       react-dom: 19.2.0(react@19.2.0)
-      styled-jsx: 5.1.6(@babel/core@7.28.5)(react@19.2.0)
+      styled-jsx: 5.1.6(react@19.2.0)
     optionalDependencies:
       '@next/swc-darwin-arm64': 15.5.4
       '@next/swc-darwin-x64': 15.5.4
@@ -8719,7 +8798,7 @@ snapshots:
       - '@babel/core'
       - babel-plugin-macros
 
-  next@16.0.4(@babel/core@7.28.5)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(sass@1.94.1):
+  next@16.0.4(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(sass@1.94.1):
     dependencies:
       '@next/env': 16.0.4
       '@swc/helpers': 0.5.15
@@ -8727,7 +8806,7 @@ snapshots:
       postcss: 8.4.31
       react: 19.2.0
       react-dom: 19.2.0(react@19.2.0)
-      styled-jsx: 5.1.6(@babel/core@7.28.5)(react@19.2.0)
+      styled-jsx: 5.1.6(react@19.2.0)
     optionalDependencies:
       '@next/swc-darwin-arm64': 16.0.4
       '@next/swc-darwin-x64': 16.0.4
@@ -9413,12 +9492,10 @@ snapshots:
     dependencies:
       js-tokens: 9.0.1
 
-  styled-jsx@5.1.6(@babel/core@7.28.5)(react@19.2.0):
+  styled-jsx@5.1.6(react@19.2.0):
     dependencies:
       client-only: 0.0.1
       react: 19.2.0
-    optionalDependencies:
-      '@babel/core': 7.28.5
 
   sucrase@3.35.0:
     dependencies:
