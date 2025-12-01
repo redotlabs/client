@@ -1,13 +1,13 @@
-import type { DragEventHandler, HandlerContext } from "./types";
+import type { DragEventHandler, HandlerContext } from './types';
 import {
   moveBlock,
   setBlockDragging,
   startDragInteraction,
   updateDragInteraction,
   endDragInteraction,
-} from "@/core/actions";
-import { COLUMN_WIDTH } from "@/shared/constants/editorData";
-import { toast } from "@redotlabs/ui";
+} from '@/core/actions';
+import { COLUMN_WIDTH } from '@/shared/constants/editorData';
+import { toast } from '@redotlabs/ui';
 
 interface DragState {
   blockId: string;
@@ -43,7 +43,7 @@ export const createDragHandler = (): DragEventHandler => {
   };
 
   const handler: DragEventHandler = {
-    name: "drag",
+    name: 'drag',
 
     onDragStart: (
       event: MouseEvent,
@@ -73,8 +73,8 @@ export const createDragHandler = (): DragEventHandler => {
       };
       currentContext = context;
 
-      document.addEventListener("mousemove", handleMouseMove);
-      document.addEventListener("mouseup", handleMouseUp);
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
     },
 
     onDragMove: (event: MouseEvent, context: HandlerContext) => {
@@ -134,8 +134,8 @@ export const createDragHandler = (): DragEventHandler => {
     },
 
     onDragEnd: () => {
-      document.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseup", handleMouseUp);
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
 
       if (currentContext && dragState) {
         if (dragState.hasStartedDragging) {
@@ -152,7 +152,7 @@ export const createDragHandler = (): DragEventHandler => {
           if (!validationResult.valid) {
             const errorMessage =
               validationResult.violations[0]?.message ||
-              "블록을 이동할 수 없습니다";
+              '블록을 이동할 수 없습니다';
             toast.error(errorMessage);
           }
 

@@ -27,9 +27,9 @@ import type {
   InteractionUpdateDragAction,
   InteractionStartResizeAction,
   InteractionUpdateResizeAction,
-} from "@/core/actions";
-import type { EditorState } from "@/core/state";
-import * as stateUpdaters from "@/core/state/updaters";
+} from '@/core/actions';
+import type { EditorState } from '@/core/state';
+import * as stateUpdaters from '@/core/state/updaters';
 
 /**
  * Action Handler Type
@@ -46,24 +46,24 @@ type ActionHandler<T extends EditorAction = EditorAction> = (
  */
 export const actionHandlers: Record<ActionType, ActionHandler> = {
   // Site Handlers
-  "site.update": ((state, action: SiteUpdateAction) => {
+  'site.update': ((state, action: SiteUpdateAction) => {
     return stateUpdaters.updateSiteState(state, action.payload.updates);
   }) as ActionHandler,
 
   // Page Handlers
-  "page.create": ((state, action: PageCreateAction) => {
+  'page.create': ((state, action: PageCreateAction) => {
     return stateUpdaters.createPageState(state, action.payload.page);
   }) as ActionHandler,
 
-  "page.select": ((state, action: PageSelectAction) => {
+  'page.select': ((state, action: PageSelectAction) => {
     return stateUpdaters.selectPageState(state, action.payload.pageId);
   }) as ActionHandler,
 
-  "page.delete": ((state, action: PageDeleteAction) => {
+  'page.delete': ((state, action: PageDeleteAction) => {
     return stateUpdaters.deletePageState(state, action.payload.pageId);
   }) as ActionHandler,
 
-  "page.update": ((state, action: PageUpdateAction) => {
+  'page.update': ((state, action: PageUpdateAction) => {
     return stateUpdaters.updatePageState(
       state,
       action.payload.pageId,
@@ -72,11 +72,11 @@ export const actionHandlers: Record<ActionType, ActionHandler> = {
   }) as ActionHandler,
 
   // Section Handlers
-  "section.create": ((state, action: SectionCreateAction) => {
+  'section.create': ((state, action: SectionCreateAction) => {
     return stateUpdaters.createSectionState(state, action.payload.section);
   }) as ActionHandler,
 
-  "section.insert": ((state, action: SectionInsertAction) => {
+  'section.insert': ((state, action: SectionInsertAction) => {
     return stateUpdaters.insertSectionState(
       state,
       action.payload.targetIndex,
@@ -84,11 +84,11 @@ export const actionHandlers: Record<ActionType, ActionHandler> = {
     );
   }) as ActionHandler,
 
-  "section.delete": ((state, action: SectionDeleteAction) => {
+  'section.delete': ((state, action: SectionDeleteAction) => {
     return stateUpdaters.deleteSectionState(state, action.payload.sectionId);
   }) as ActionHandler,
 
-  "section.reorder": ((state, action: SectionReorderAction) => {
+  'section.reorder': ((state, action: SectionReorderAction) => {
     return stateUpdaters.reorderSectionState(
       state,
       action.payload.fromIndex,
@@ -96,7 +96,7 @@ export const actionHandlers: Record<ActionType, ActionHandler> = {
     );
   }) as ActionHandler,
 
-  "section.update": ((state, action: SectionUpdateAction) => {
+  'section.update': ((state, action: SectionUpdateAction) => {
     return stateUpdaters.updateSectionState(
       state,
       action.payload.sectionId,
@@ -104,7 +104,7 @@ export const actionHandlers: Record<ActionType, ActionHandler> = {
     );
   }) as ActionHandler,
 
-  "section.resize": ((state, action: SectionResizeAction) => {
+  'section.resize': ((state, action: SectionResizeAction) => {
     return stateUpdaters.resizeSectionState(
       state,
       action.payload.sectionId,
@@ -112,12 +112,12 @@ export const actionHandlers: Record<ActionType, ActionHandler> = {
     );
   }) as ActionHandler,
 
-  "section.select": ((state, action: SectionSelectAction) => {
+  'section.select': ((state, action: SectionSelectAction) => {
     return stateUpdaters.selectSectionState(state, action.payload.sectionId);
   }) as ActionHandler,
 
   // Block Handlers
-  "block.select": ((state, action: BlockSelectAction) => {
+  'block.select': ((state, action: BlockSelectAction) => {
     return stateUpdaters.selectBlockState(
       state,
       action.payload.blockId,
@@ -125,11 +125,11 @@ export const actionHandlers: Record<ActionType, ActionHandler> = {
     );
   }) as ActionHandler,
 
-  "block.deselect": ((state, action: BlockDeselectAction) => {
+  'block.deselect': ((state, action: BlockDeselectAction) => {
     return stateUpdaters.deselectBlockState(state, action.payload.blockId);
   }) as ActionHandler,
 
-  "block.move": ((state, action: BlockMoveAction) => {
+  'block.move': ((state, action: BlockMoveAction) => {
     return stateUpdaters.moveBlockState(
       state,
       action.payload.blockId,
@@ -137,7 +137,7 @@ export const actionHandlers: Record<ActionType, ActionHandler> = {
     );
   }) as ActionHandler,
 
-  "block.resize": ((state, action: BlockResizeAction) => {
+  'block.resize': ((state, action: BlockResizeAction) => {
     return stateUpdaters.resizeBlockState(
       state,
       action.payload.blockId,
@@ -145,7 +145,7 @@ export const actionHandlers: Record<ActionType, ActionHandler> = {
     );
   }) as ActionHandler,
 
-  "block.create": ((state, action: BlockCreateAction) => {
+  'block.create': ((state, action: BlockCreateAction) => {
     return stateUpdaters.createBlockState(
       state,
       action.payload.sectionId,
@@ -153,7 +153,7 @@ export const actionHandlers: Record<ActionType, ActionHandler> = {
     );
   }) as ActionHandler,
 
-  "block.delete": ((state, action: BlockDeleteAction) => {
+  'block.delete': ((state, action: BlockDeleteAction) => {
     return stateUpdaters.deleteBlockState(
       state,
       action.payload.sectionId,
@@ -161,7 +161,7 @@ export const actionHandlers: Record<ActionType, ActionHandler> = {
     );
   }) as ActionHandler,
 
-  "block.update": ((state, action: BlockUpdateAction) => {
+  'block.update': ((state, action: BlockUpdateAction) => {
     return stateUpdaters.updateBlockState(
       state,
       action.payload.sectionId,
@@ -171,21 +171,21 @@ export const actionHandlers: Record<ActionType, ActionHandler> = {
   }) as ActionHandler,
 
   // UI Handlers
-  "ui.setBlockDragging": ((state, action: UISetBlockDraggingAction) => {
+  'ui.setBlockDragging': ((state, action: UISetBlockDraggingAction) => {
     return stateUpdaters.setBlockDraggingState(
       state,
       action.payload.isBlockDragging
     );
   }) as ActionHandler,
 
-  "ui.setBlockResizing": ((state, action: UISetBlockResizingAction) => {
+  'ui.setBlockResizing': ((state, action: UISetBlockResizingAction) => {
     return stateUpdaters.setBlockResizingState(
       state,
       action.payload.isBlockResizing
     );
   }) as ActionHandler,
 
-  "ui.setSectionResizing": ((state, action: UISetSectionResizingAction) => {
+  'ui.setSectionResizing': ((state, action: UISetSectionResizingAction) => {
     return stateUpdaters.setSectionResizingState(
       state,
       action.payload.isSectionResizing
@@ -193,32 +193,32 @@ export const actionHandlers: Record<ActionType, ActionHandler> = {
   }) as ActionHandler,
 
   // Interaction Handlers (Preview)
-  "interaction.startDrag": ((state, action: InteractionStartDragAction) => {
+  'interaction.startDrag': ((state, action: InteractionStartDragAction) => {
     return stateUpdaters.startDragInteractionState(
       state,
       action.payload.dragState
     );
   }) as ActionHandler,
 
-  "interaction.updateDrag": ((state, action: InteractionUpdateDragAction) => {
+  'interaction.updateDrag': ((state, action: InteractionUpdateDragAction) => {
     return stateUpdaters.updateDragInteractionState(
       state,
       action.payload.dragState
     );
   }) as ActionHandler,
 
-  "interaction.endDrag": ((state) => {
+  'interaction.endDrag': ((state) => {
     return stateUpdaters.endDragInteractionState(state);
   }) as ActionHandler,
 
-  "interaction.startResize": ((state, action: InteractionStartResizeAction) => {
+  'interaction.startResize': ((state, action: InteractionStartResizeAction) => {
     return stateUpdaters.startResizeInteractionState(
       state,
       action.payload.resizeState
     );
   }) as ActionHandler,
 
-  "interaction.updateResize": ((
+  'interaction.updateResize': ((
     state,
     action: InteractionUpdateResizeAction
   ) => {
@@ -228,11 +228,11 @@ export const actionHandlers: Record<ActionType, ActionHandler> = {
     );
   }) as ActionHandler,
 
-  "interaction.endResize": ((state) => {
+  'interaction.endResize': ((state) => {
     return stateUpdaters.endResizeInteractionState(state);
   }) as ActionHandler,
 
-  "interaction.clear": ((state) => {
+  'interaction.clear': ((state) => {
     return stateUpdaters.clearInteractionState(state);
   }) as ActionHandler,
 };

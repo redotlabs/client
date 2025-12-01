@@ -1,6 +1,6 @@
-import type { DropEventHandler, HandlerContext } from "./types";
-import { createBlock, setBlockDragging } from "@/core/actions";
-import type { BlockTemplate } from "@/core/blocks";
+import type { DropEventHandler, HandlerContext } from './types';
+import { createBlock, setBlockDragging } from '@/core/actions';
+import type { BlockTemplate } from '@/core/blocks';
 
 const COLUMN_WIDTH = 40;
 
@@ -29,11 +29,11 @@ const convertToGridCoordinates = (
  * 3. Canvas에서 drop → 그리드 좌표 계산 후 createBlock 액션 dispatch
  */
 export const createDropHandler = (): DropEventHandler => ({
-  name: "drop",
+  name: 'drop',
 
   onDragOver: (event: DragEvent, context: HandlerContext) => {
     event.preventDefault();
-    event.dataTransfer!.dropEffect = "copy";
+    event.dataTransfer!.dropEffect = 'copy';
 
     if (!context.state.ui.isBlockDragging) {
       context.dispatch(setBlockDragging(true));
@@ -55,13 +55,13 @@ export const createDropHandler = (): DropEventHandler => ({
       return;
     }
 
-    const sectionElement = target.closest("[data-section-id]") as HTMLElement;
+    const sectionElement = target.closest('[data-section-id]') as HTMLElement;
     const sectionId =
       sectionElement?.dataset.sectionId ||
       context.state.selection.selectedSectionId;
 
     if (!sectionId) {
-      console.warn("No section found for drop");
+      console.warn('No section found for drop');
       context.dispatch(setBlockDragging(false));
       return;
     }
