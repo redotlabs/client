@@ -9,3 +9,9 @@ export * from './context';
 
 // Components - UI components
 export * from './components';
+
+// Shared - Constants and utilities
+export * from './shared/constants/editorData';
+export * from './shared/utils/site';
+export * from './shared/utils/sectionHeight';
+export * from './shared/types/editor';
