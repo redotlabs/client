@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import GoogleSignInButton from './ui/google-sign-in-button';
 import SignInForm from './ui/sign-in-form';
 import Link from 'next/link';
@@ -8,7 +9,9 @@ export default function SignInPage() {
       <div className="lg:min-h-[672px] max-w-md w-full px-8 py-10 flex flex-col items-center">
         <h1 className="mt-9 text-3xl font-bold text-primary-800">로그인</h1>
 
-        <SignInForm />
+        <Suspense>
+          <SignInForm />
+        </Suspense>
 
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-600">
@@ -34,7 +37,9 @@ export default function SignInPage() {
 
         {/* 소셜 로그인 */}
         <div className="flex flex-col gap-3 w-full">
-          <GoogleSignInButton />
+          <Suspense>
+            <GoogleSignInButton />
+          </Suspense>
         </div>
       </div>
     </main>
