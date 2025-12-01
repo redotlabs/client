@@ -104,7 +104,9 @@ export const deletePageState = (
 
   // 삭제하는 페이지가 현재 페이지면 첫 번째 페이지로 이동
   const newCurrentPageId =
-    state.currentPageId === pageId ? updatedPages[0].id : state.currentPageId;
+    state.currentPageId === pageId
+      ? (updatedPages[0]?.id ?? state.currentPageId)
+      : state.currentPageId;
 
   return {
     ...state,
@@ -322,10 +324,11 @@ export const reorderSectionState = (
 
   return updateCurrentPageSections(state, (sections) => {
     const newSections = [...sections];
-    [newSections[fromIndex], newSections[toIndex]] = [
-      newSections[toIndex],
-      newSections[fromIndex],
-    ];
+    const temp = newSections[fromIndex];
+    if (temp && newSections[toIndex]) {
+      newSections[fromIndex] = newSections[toIndex];
+      newSections[toIndex] = temp;
+    }
     return newSections;
   });
 };

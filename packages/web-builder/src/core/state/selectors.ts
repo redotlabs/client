@@ -112,6 +112,7 @@ export const getFirstSelectedBlock: StateSelector<BuilderBlock | undefined> = (
   if (selectedIds.size === 0) return undefined;
 
   const firstId = Array.from(selectedIds)[0];
+  if (!firstId) return undefined;
   return getBlock(firstId)(state);
 };
 
