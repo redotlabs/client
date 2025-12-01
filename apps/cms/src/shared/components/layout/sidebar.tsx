@@ -13,6 +13,7 @@ import {
 import type { ReactNode } from 'react';
 import { cn } from '@redotlabs/utils';
 import { TenantLink, useTenantPathname } from '@repo/tenant-router/next';
+import { useMenus } from '@/shared/api/queries/auth/menus';
 
 interface SidebarItemProps {
   icon: ReactNode;
@@ -78,14 +79,6 @@ const SIDEBAR_ITEMS = [
         label: '플랜 및 결제',
         path: PATH.setting.plan,
       },
-      // {
-      //   label: '보안',
-      //   path: PATH.setting.security,
-      // },
-      // {
-      //   label: '팀 관리',
-      //   path: PATH.setting.team,
-      // },
     ],
   },
 ];
@@ -139,11 +132,37 @@ const SidebarItem = ({
 };
 
 const Sidebar = () => {
+  const { data, isLoading } = useMenus();
+
   const pathname = useTenantPathname();
 
   const isActive = (path: string) => {
     return pathname.includes(path);
   };
+
+  const isSamePath = (path: string) => {
+    return data?.some((menu) => menu.path === path);
+  };
+
+  const menus = (() => {
+    if (isLoading) return [];
+    if (!data) return [];
+    // 기존 메뉴들에서 data에 있는 메뉴들을 찾아서 반환(children까지 포함)
+    return (
+      SIDEBAR_ITEMS
+        // 1차로 items(children)에서 필터링
+        .map((item) => {
+          return {
+            ...item,
+            items: item.items?.filter((item) => isSamePath(item.path)),
+          };
+        })
+        .filter((item) => {
+          if (item.items?.length && item.items.length > 0) return true;
+          return isSamePath(item.path);
+        })
+    );
+  })();
 
   return (
     <aside className="flex-1 max-w-60 bg-white border-r border-gray-200 p-4">
@@ -154,7 +173,7 @@ const Sidebar = () => {
 
       <div className="mt-10">
         <ul className="flex flex-col gap-1">
-          {SIDEBAR_ITEMS.map((item) => (
+          {menus.map((item) => (
             <SidebarItem
               key={item.label}
               icon={item.icon}
