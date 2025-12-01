@@ -6,5 +6,6 @@ export const queryKeyFactory = {
   },
   app: {
     list: [API_PATH.app.root],
+    plans: [API_PATH.app.plans],
   },
 };

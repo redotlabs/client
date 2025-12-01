@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, toast } from '@redotlabs/ui';
+import { Button, Callout, toast } from '@redotlabs/ui';
 import {
   Dialog,
   DialogContent,
@@ -43,7 +43,7 @@ interface SetupManagerModalProps {
   isOpen: boolean;
   onClose: () => void;
   appId: number;
-  appName: string;
+  name: string;
   subdomain: string;
 }
 
@@ -51,7 +51,7 @@ export default function SetupManagerModal({
   isOpen,
   onClose,
   appId,
-  appName,
+  name,
   subdomain,
 }: SetupManagerModalProps) {
   const createMutation = useCreateAppManager();
@@ -103,33 +103,37 @@ export default function SetupManagerModal({
             초기 관리자 설정
           </DialogTitle>
           <DialogDescription className="text-center">
-            <strong>{appName}</strong> CMS를 사용하기 위한 관리자 계정을
-            생성하세요
+            <strong>{name}</strong> CMS를 사용하기 위한 관리자 계정을 생성하세요
           </DialogDescription>
         </DialogHeader>
 
         {/* 안내 카드 */}
-        <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-4">
-          <h3 className="text-sm font-bold text-blue-900 mb-2">
-            ℹ️ 초기 관리자 계정이란?
-          </h3>
-          <ul className="space-y-1.5 text-xs text-blue-700">
-            <li className="flex items-start gap-2">
-              <ArrowRight size={14} className="mt-0.5 flex-shrink-0" />
-              <span>CMS에 접속하여 콘텐츠를 관리할 수 있는 최고 권한 계정</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <ArrowRight size={14} className="mt-0.5 flex-shrink-0" />
-              <span>
-                이 계정으로 로그인하여 추가 관리자를 초대할 수 있습니다
-              </span>
-            </li>
-            <li className="flex items-start gap-2">
-              <ArrowRight size={14} className="mt-0.5 flex-shrink-0" />
-              <span>생성 후 변경할 수 없으니 신중하게 입력해주세요</span>
-            </li>
-          </ul>
-        </div>
+        <Callout
+          color="info"
+          className="mb-4"
+          icon="ℹ️"
+          title="초기 관리자 계정이란?"
+          content={
+            <ul className="space-y-1.5 text-xs text-blue-700">
+              <li className="flex items-start gap-2">
+                <ArrowRight size={14} className="mt-0.5 flex-shrink-0" />
+                <span>
+                  CMS에 접속하여 콘텐츠를 관리할 수 있는 최고 권한 계정
+                </span>
+              </li>
+              <li className="flex items-start gap-2">
+                <ArrowRight size={14} className="mt-0.5 flex-shrink-0" />
+                <span>
+                  이 계정으로 로그인하여 추가 관리자를 초대할 수 있습니다
+                </span>
+              </li>
+              <li className="flex items-start gap-2">
+                <ArrowRight size={14} className="mt-0.5 flex-shrink-0" />
+                <span>생성 후 변경할 수 없으니 신중하게 입력해주세요</span>
+              </li>
+            </ul>
+          }
+        />
 
         {/* 폼 */}
         <FormProvider {...form}>
@@ -178,15 +182,17 @@ export default function SetupManagerModal({
             />
 
             {/* 주의사항 */}
-            <div className="bg-amber-50 border border-amber-200 rounded-lg p-3">
-              <p className="text-xs text-amber-900 font-medium mb-1">
-                ⚠️ 주의사항
-              </p>
-              <p className="text-xs text-amber-700">
-                관리자 계정은 한 번만 생성할 수 있으며, 이메일은 변경할 수
-                없습니다. 비밀번호는 CMS에서 변경 가능합니다.
-              </p>
-            </div>
+            <Callout
+              color="warning"
+              icon="⚠️"
+              title="주의사항"
+              content={
+                <p className="text-xs text-amber-700">
+                  관리자 계정은 한 번만 생성할 수 있으며, 이메일은 변경할 수
+                  없습니다. 비밀번호는 CMS에서 변경 가능합니다.
+                </p>
+              }
+            />
 
             {/* 버튼 */}
             <div className="flex justify-end gap-3 pt-4">

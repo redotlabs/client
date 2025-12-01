@@ -1,7 +1,7 @@
 'use client';
 
 import { Card } from '@repo/ui';
-import { Badge } from '@redotlabs/ui';
+import { Badge, Callout } from '@redotlabs/ui';
 import { ROOT_DOMAIN } from '@/shared/constants/env-variables';
 import type { AppItem } from '@/shared/api/services/app';
 import Link from 'next/link';
@@ -9,6 +9,7 @@ import { useState } from 'react';
 import SetupManagerModal from './setup-manager-modal';
 import AppStatusBadge from './app-status-badge';
 import { getCmsUrl } from '@/shared/utils/get-cms-url';
+import { AlertTriangle } from 'lucide-react';
 
 const PLAN_COLORS = {
   FREE: 'default' as const,
@@ -44,7 +45,7 @@ export default function AppCard({ app }: { app: AppItem }) {
           <div className="flex items-start justify-between mb-4">
             <div className="flex-1">
               <h3 className="text-xl font-bold text-gray-900 mb-1">
-                {app.redotApp.appName}
+                {app.redotApp.name}
               </h3>
               <p className="text-sm text-gray-500">
                 {app.siteSetting.subdomain}.{ROOT_DOMAIN.split('.')[0]}.me
@@ -55,11 +56,16 @@ export default function AppCard({ app }: { app: AppItem }) {
 
           {/* 관리자 미생성 알림 */}
           {!isCreatedManager && (
-            <div className="mb-4 px-3 py-2 bg-amber-50 border border-amber-200 rounded-lg">
-              <p className="text-xs font-medium text-amber-900">
-                ⚠️ 초기 관리자 설정 필요
-              </p>
-            </div>
+            <Callout
+              color="warning"
+              className="mb-4 py-2"
+              icon="⚠️"
+              title={
+                <p className="text-sm font-medium text-amber-900">
+                  초기 관리자 설정 필요
+                </p>
+              }
+            />
           )}
 
           {app.redotApp.createdAt && (
@@ -94,7 +100,7 @@ export default function AppCard({ app }: { app: AppItem }) {
           isOpen={showSetupModal}
           onClose={() => setShowSetupModal(false)}
           appId={app.redotApp.id}
-          appName={app.redotApp.appName}
+          name={app.redotApp.name}
           subdomain={app.siteSetting.subdomain}
         />
       )}

@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Badge, toast } from '@redotlabs/ui';
+import { Button, Badge, toast, Callout } from '@redotlabs/ui';
 import { Loader, RHFInput } from '@repo/ui';
 import { Check, Sparkles } from 'lucide-react';
 import { FormProvider, useForm, Controller } from 'react-hook-form';
@@ -8,7 +8,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { cn } from '@redotlabs/utils';
-import { useCreateApp } from '@/shared/api/queries/app';
+import { useAppPlans, useCreateApp } from '@/shared/api/queries/app';
 import { colors } from '@redotlabs/tokens';
 import { PATH } from '@/shared/constants/routes';
 
@@ -52,7 +52,7 @@ const FONTS = [
 ];
 
 const schema = z.object({
-  appName: z.string().min(1, '앱 이름을 입력해주세요.'),
+  name: z.string().min(1, '앱 이름을 입력해주세요.'),
   theme: z.enum(['DEFAULT', 'MODERN']),
   color: z.string().min(1, '색상을 선택해주세요.'),
   font: z.literal('pretendard'),
@@ -63,11 +63,12 @@ export default function CreateAppForm({
 }: CreateAppFormProps) {
   const router = useRouter();
   const createMutation = useCreateApp();
+  const { data: plans } = useAppPlans();
 
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: {
-      appName: '',
+      name: '',
       theme: 'DEFAULT',
       color: 'blue',
       font: 'pretendard',
@@ -78,18 +79,35 @@ export default function CreateAppForm({
   const onSubmit = async (data: z.infer<typeof schema>) => {
     // 첫 앱이면 바로 생성
     if (isFirstApp) {
-      createMutation.mutate(data, {
-        onSuccess: () => {
-          router.push(PATH.dashboard.root + '?created=success');
+      const freePlanId = plans?.find((plan) => plan.planType === 'FREE')?.id;
+      if (!freePlanId) {
+        toast.error(
+          '기본 플랜을 찾을 수 없습니다. 새로고침 후 다시 시도해주세요.'
+        );
+        return;
+      }
+      createMutation.mutate(
+        {
+          ...data,
+          planId: freePlanId,
         },
-        onError: (error) => {
-          toast.error(error?.message || '앱 생성에 실패했습니다.');
-        },
-      });
+        {
+          onSuccess: (response) => {
+            const params = new URLSearchParams({
+              sd: response?.siteSetting?.subdomain || '',
+              n: data.name,
+            });
+            router.push(PATH.dashboard.createSuccess + '?' + params.toString());
+          },
+          onError: (error) => {
+            toast.error(error?.message || '앱 생성에 실패했습니다.');
+          },
+        }
+      );
     } else {
       // 추가 앱은 결제 페이지로 이동
       const params = new URLSearchParams({
-        serviceName: data.appName,
+        name: data.name,
         theme: data.theme,
         color: data.color,
         font: data.font,
@@ -105,53 +123,55 @@ export default function CreateAppForm({
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         {/* 무료 앱 생성 안내 */}
         {isFirstApp && (
-          <div className="bg-gradient-to-r from-primary-50 to-primary-100 border border-primary-200 rounded-xl p-6">
-            <div className="flex items-start gap-4">
-              <div className="size-12 bg-primary-500 rounded-full flex items-center justify-center flex-shrink-0">
+          <Callout
+            color="info"
+            className="mb-8"
+            icon={
+              <div className="p-2 bg-primary-500 rounded-full flex items-center justify-center flex-shrink-0">
                 <Sparkles size={24} className="text-white" />
               </div>
-              <div className="flex-1">
-                <h3 className="text-lg font-bold text-primary-900 mb-2">
-                  🎉 첫 앱은 무료로 만들 수 있어요!
-                </h3>
-                <p className="text-primary-700">
-                  첫 번째 앱은 생성 비용 없이 바로 시작할 수 있습니다. 앱을 만든
-                  후 필요에 따라 플랜을 업그레이드하세요.
-                </p>
-              </div>
-            </div>
-          </div>
+            }
+            title="첫 앱은 무료로 만들 수 있어요!"
+            content={
+              <p className="text-primary-700">
+                첫 번째 앱은 생성 비용 없이 바로 시작할 수 있습니다. 앱을 만든
+                후 필요에 따라 플랜을 업그레이드하세요.
+              </p>
+            }
+          />
         )}
 
         {!isFirstApp && (
-          <div className="bg-blue-50 border border-blue-200 rounded-xl p-6">
-            <div className="flex items-start gap-4">
-              <div className="size-12 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
+          <Callout
+            color="info"
+            className="mb-8"
+            icon={
+              <div className="p-2 bg-primary-500 rounded-full flex items-center justify-center flex-shrink-0">
                 <Check size={24} className="text-white" />
               </div>
-              <div className="flex-1">
-                <h3 className="text-lg font-bold text-blue-900 mb-2">
-                  추가 앱 생성
-                </h3>
-                <p className="text-blue-700 mb-3">
+            }
+            title="추가 앱 생성하기"
+            content={
+              <>
+                <p className="text-primary-700 mb-3">
                   추가 앱을 생성하려면 생성 비용이 필요합니다. 생성 후 각 앱마다
                   무료 플랜으로 시작하거나 유료 플랜을 구독할 수 있습니다.
                 </p>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-2xl font-bold text-blue-900">
+                  <span className="text-2xl font-bold text-primary-900">
                     ₩{APP_CREATION_PRICE.toLocaleString()}
                   </span>
-                  <span className="text-sm text-blue-600">일회성 결제</span>
+                  <span className="text-sm text-primary-600">일회성 결제</span>
                 </div>
-              </div>
-            </div>
-          </div>
+              </>
+            }
+          />
         )}
 
         {/* 앱 정보 */}
         <div className="space-y-4">
           <h2 className="text-lg font-semibold text-gray-900">앱 정보</h2>
-          <RHFInput name="appName" label="앱 이름" placeholder="내 블로그" />
+          <RHFInput name="name" label="앱 이름" placeholder="내 블로그" />
         </div>
 
         {/* 테마 선택 */}
@@ -273,44 +293,53 @@ export default function CreateAppForm({
         </div>
 
         {/* 요약 */}
-        <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-6 border border-gray-200">
-          <h3 className="font-bold text-gray-900 mb-4">생성 요약</h3>
-          <div className="space-y-3">
-            <div className="flex justify-between items-center">
-              <span className="text-gray-600">앱 개수</span>
-              <span className="font-semibold text-gray-900">1개</span>
-            </div>
-            <div className="flex justify-between items-center">
-              <span className="text-gray-600">초기 플랜</span>
-              <span className="font-semibold text-gray-900">Free (무료)</span>
-            </div>
-            <div className="border-t border-gray-300 my-2" />
-            <div className="flex justify-between items-center text-lg">
-              <span className="font-semibold text-gray-900">생성 비용</span>
-              <span className="font-bold text-primary-600">
-                {isFirstApp
-                  ? '무료'
-                  : `₩${APP_CREATION_PRICE.toLocaleString()}`}
-              </span>
-            </div>
-            {!isFirstApp && (
-              <div className="bg-white rounded-lg p-3 mt-3">
-                <p className="text-xs text-gray-600">
-                  <strong>결제 안내:</strong> 앱 생성 비용은 일회성 결제입니다.
-                  생성 후 각 앱마다 별도로 플랜을 구독할 수 있습니다.
-                </p>
+        <Callout
+          color="secondary"
+          className="mb-8 *:w-full"
+          title={<h3 className="font-bold text-gray-900 mb-4">생성 요약</h3>}
+          content={
+            <div className="w-full">
+              <div className="space-y-3">
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-600">앱 개수</span>
+                  <span className="font-semibold text-gray-900">1개</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-600">초기 플랜</span>
+                  <span className="font-semibold text-gray-900">
+                    Free (무료)
+                  </span>
+                </div>
+                <div className="border-t border-gray-300 my-2" />
+                <div className="flex justify-between items-center text-lg">
+                  <span className="font-semibold text-gray-900">생성 비용</span>
+                  <span className="font-bold text-primary-600">
+                    {isFirstApp
+                      ? '무료'
+                      : `₩${APP_CREATION_PRICE.toLocaleString()}`}
+                  </span>
+                </div>
+                {!isFirstApp && (
+                  <div className="bg-white rounded-lg p-3 mt-3">
+                    <p className="text-xs text-gray-600">
+                      <strong>결제 안내:</strong> 앱 생성 비용은 일회성
+                      결제입니다. 생성 후 각 앱마다 별도로 플랜을 구독할 수
+                      있습니다.
+                    </p>
+                  </div>
+                )}
+                {isFirstApp && (
+                  <div className="bg-green-50 rounded-lg p-3 mt-3 border border-green-200">
+                    <p className="text-xs text-green-700">
+                      <strong>🎉 축하합니다!</strong> 첫 앱을 무료로 생성할 수
+                      있습니다. 앱 생성 후 대시보드에서 플랜을 관리하세요.
+                    </p>
+                  </div>
+                )}
               </div>
-            )}
-            {isFirstApp && (
-              <div className="bg-green-50 rounded-lg p-3 mt-3 border border-green-200">
-                <p className="text-xs text-green-700">
-                  <strong>🎉 축하합니다!</strong> 첫 앱을 무료로 생성할 수
-                  있습니다. 앱 생성 후 대시보드에서 플랜을 관리하세요.
-                </p>
-              </div>
-            )}
-          </div>
-        </div>
+            </div>
+          }
+        />
 
         {/* 버튼 */}
         <div className="flex justify-end gap-3">

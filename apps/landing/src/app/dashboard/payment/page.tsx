@@ -1,43 +1,45 @@
 'use client';
 
-import { Button } from '@redotlabs/ui';
+import { Button, Callout, toast } from '@redotlabs/ui';
 import { ArrowLeft, CreditCard, Check, Shield } from 'lucide-react';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useCreateApp } from '@/shared/api/queries/app';
+import { useAppPlans, useCreateApp } from '@/shared/api/queries/app';
 import { Card } from '@repo/ui';
+import { PATH } from '@/shared/constants/routes';
 
 // 앱 생성 비용
 const APP_CREATION_PRICE = 99000;
 
 const PAYMENT_METHODS = [
   { id: 'card', name: '신용/체크카드', icon: CreditCard },
-  { id: 'kakaopay', name: '카카오페이', icon: '💛' },
-  { id: 'tosspay', name: '토스페이', icon: '💙' },
+  // { id: 'kakaopay', name: '카카오페이', icon: '💛' },
+  // { id: 'tosspay', name: '토스페이', icon: '💙' },
 ];
 
 export default function PaymentPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const createMutation = useCreateApp();
+  const { data: plans } = useAppPlans();
+
   const [selectedMethod, setSelectedMethod] = useState('card');
-  const { mutateAsync: createAppMutation } = useCreateApp();
-  const [isProcessing, setIsProcessing] = useState(false);
   const [appConfig, setAppConfig] = useState({
-    serviceName: '',
+    name: '',
     theme: 'DEFAULT' as 'DEFAULT' | 'MODERN',
     color: 'blue',
     font: 'pretendard' as const,
   });
 
   useEffect(() => {
-    const name = searchParams.get('serviceName');
+    const name = searchParams.get('name');
     const theme = searchParams.get('theme');
     const color = searchParams.get('color');
 
     if (name) {
       setAppConfig({
-        serviceName: decodeURIComponent(name),
+        name: decodeURIComponent(name),
         theme: (theme as 'DEFAULT' | 'MODERN') || 'DEFAULT',
         color: color || 'blue',
         font: 'pretendard',
@@ -46,25 +48,34 @@ export default function PaymentPage() {
   }, [searchParams]);
 
   const handlePayment = async () => {
-    setIsProcessing(true);
-    try {
-      // 실제 결제 API 호출 (TODO: 실제 결제 로직 추가)
-      // 결제 성공 후 앱 생성
-      await createAppMutation({
-        appName: appConfig.serviceName,
+    const freePlanId = plans?.find((plan) => plan.planType === 'FREE')?.id;
+    if (!freePlanId) {
+      toast.error(
+        '기본 플랜을 찾을 수 없습니다. 새로고침 후 다시 시도해주세요.'
+      );
+      return;
+    }
+    createMutation.mutate(
+      {
+        name: appConfig.name,
         theme: appConfig.theme,
         color: appConfig.color,
         font: appConfig.font,
-      });
-
-      router.push('/dashboard?payment=success');
-    } catch (error) {
-      console.error('결제/앱 생성 실패:', error);
-      // TODO: 에러 처리 UI
-      alert('결제 중 오류가 발생했습니다.');
-    } finally {
-      setIsProcessing(false);
-    }
+        planId: freePlanId,
+      },
+      {
+        onSuccess: (response) => {
+          const params = new URLSearchParams({
+            sd: response?.siteSetting?.subdomain || '',
+            n: appConfig.name,
+          });
+          router.push(PATH.dashboard.createSuccess + '?' + params.toString());
+        },
+        onError: (error) => {
+          toast.error(error?.message || '앱 생성에 실패했습니다.');
+        },
+      }
+    );
   };
 
   return (
@@ -133,21 +144,14 @@ export default function PaymentPage() {
               </Card>
 
               {/* 보안 안내 */}
-              <div className="bg-green-50 border border-green-200 rounded-xl p-6">
-                <div className="flex items-start gap-4">
+              <Callout
+                color="success"
+                icon={
                   <Shield size={24} className="text-green-600 flex-shrink-0" />
-                  <div className="flex-1">
-                    <h3 className="font-bold text-green-900 mb-2">
-                      안전한 결제
-                    </h3>
-                    <p className="text-sm text-green-700">
-                      모든 결제는 256bit SSL 보안 프로토콜로 암호화되어
-                      처리됩니다. PCI DSS 인증을 받은 시스템으로 안전하게
-                      결제하세요.
-                    </p>
-                  </div>
-                </div>
-              </div>
+                }
+                title="안전한 결제"
+                content="모든 결제는 256bit SSL 보안 프로토콜로 암호화되어 처리됩니다. PCI DSS 인증을 받은 시스템으로 안전하게 결제하세요."
+              />
             </div>
 
             {/* 주문 요약 */}
@@ -161,7 +165,7 @@ export default function PaymentPage() {
                   <div>
                     <p className="text-sm text-gray-500 mb-1">앱 이름</p>
                     <p className="font-semibold text-gray-900">
-                      {appConfig.serviceName || '새 앱'}
+                      {appConfig.name || '새 앱'}
                     </p>
                   </div>
 
@@ -248,9 +252,11 @@ export default function PaymentPage() {
                 <Button
                   className="w-full mt-6"
                   onClick={handlePayment}
-                  disabled={isProcessing}
+                  disabled={createMutation.isPending}
                 >
-                  {isProcessing ? '처리 중...' : '결제하고 앱 생성하기'}
+                  {createMutation.isPending
+                    ? '처리 중...'
+                    : '결제하고 앱 생성하기'}
                 </Button>
 
                 <p className="text-xs text-center text-gray-500 mt-4">

@@ -5,16 +5,14 @@ import {
   getAppList,
   createApp,
   createAppManager,
+  getAppPlans,
 } from '@/shared/api/services/app';
 import { minutes } from '@repo/utils';
-
-export const APP_QUERY_KEYS = {
-  list: ['app', 'list'] as const,
-};
+import { queryKeyFactory } from '../query-key-factory';
 
 export const useAppList = () => {
   return useQuery({
-    queryKey: APP_QUERY_KEYS.list,
+    queryKey: queryKeyFactory.app.list,
     queryFn: getAppList,
     gcTime: minutes(10),
     staleTime: minutes(10),
@@ -28,7 +26,7 @@ export const useCreateApp = () => {
     mutationFn: createApp,
     onSuccess: () => {
       // 앱 목록 다시 가져오기
-      queryClient.invalidateQueries({ queryKey: APP_QUERY_KEYS.list });
+      queryClient.invalidateQueries({ queryKey: queryKeyFactory.app.list });
     },
   });
 };
@@ -40,7 +38,16 @@ export const useCreateAppManager = () => {
     mutationFn: createAppManager,
     onSuccess: () => {
       // 앱 목록 다시 가져오기 (isCreatedManager 상태 업데이트)
-      queryClient.invalidateQueries({ queryKey: APP_QUERY_KEYS.list });
+      queryClient.invalidateQueries({ queryKey: queryKeyFactory.app.list });
     },
+  });
+};
+
+export const useAppPlans = () => {
+  return useQuery({
+    queryKey: queryKeyFactory.app.plans,
+    queryFn: getAppPlans,
+    gcTime: Infinity,
+    staleTime: Infinity,
   });
 };

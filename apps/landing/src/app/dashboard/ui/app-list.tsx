@@ -1,7 +1,7 @@
 'use client';
 
-import { Button } from '@redotlabs/ui';
-import { Plus, Globe, Loader2 } from 'lucide-react';
+import { Button, Callout, Logo } from '@redotlabs/ui';
+import { Plus, Globe, Loader2, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import { useAppList } from '@/shared/api/queries/app';
 import AppCard from './app-card';
@@ -49,46 +49,23 @@ export default function AppList() {
 
       {/* 안내 메시지 */}
       {canCreateFree && (
-        <div className="bg-gradient-to-r from-primary-50 to-primary-100 border border-primary-200 rounded-xl p-6 mb-8">
-          <div className="flex gap-4">
-            <div className="size-12 bg-primary-500 rounded-full flex items-center justify-center flex-shrink-0">
-              <svg
-                className="w-6 h-6 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M5 13l4 4L19 7"
-                />
-              </svg>
-            </div>
-            <div className="flex-1">
-              <p className="font-bold text-primary-900 mb-2 text-lg">
-                🎉 첫 앱을 무료로 시작하세요!
-              </p>
-              <p className="text-primary-700">
-                첫 번째 앱은 무료로 생성할 수 있습니다. 앱을 만든 후 CMS에서
-                콘텐츠를 관리하고 플랜을 선택하세요.
-              </p>
-            </div>
-          </div>
-        </div>
+        <Callout
+          color="info"
+          className="mb-8"
+          icon={<Sparkles size={24} className="text-white" />}
+          title="🎉 첫 앱을 무료로 시작하세요!"
+          content="첫 번째 앱은 무료로 생성할 수 있습니다. 앱을 만든 후 CMS에서 콘텐츠를 관리하고 플랜을 선택하세요."
+        />
       )}
 
       {!canCreateFree && canCreateMore && (
-        <div className="bg-blue-50 border border-blue-200 rounded-xl p-6 mb-8">
-          <div className="flex gap-4">
-            <div className="size-12 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
-              <Plus size={24} className="text-white" />
-            </div>
-            <div className="flex-1">
-              <p className="font-bold text-blue-900 mb-2 text-lg">
-                추가 앱 생성하기
-              </p>
+        <Callout
+          color="info"
+          className="mb-8"
+          icon={<Logo.Symbol className="size-6" />}
+          title="추가 앱 생성하기"
+          content={
+            <>
               <p className="text-blue-700 mb-3">
                 추가 앱을 생성하려면 생성 비용(₩99,000)이 필요합니다. 생성 후 각
                 앱의 CMS에서 플랜을 관리할 수 있습니다.
@@ -101,9 +78,9 @@ export default function AppList() {
                   </span>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
+            </>
+          }
+        />
       )}
 
       {!canCreateMore && (

@@ -14,5 +14,6 @@ export const API_PATH = {
   app: {
     root: '/app',
     createManager: (appId: number) => `/app/${appId}/create-manager`,
+    plans: '/app/plans',
   },
 };

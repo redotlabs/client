@@ -1,6 +1,7 @@
 import { api } from '@/shared/api/instance';
 import { API_PATH } from '@/shared/api/path';
 import type {
+  AppPlan,
   CMSUser,
   Pagination,
   RedotApp,
@@ -9,8 +10,8 @@ import type {
   StyleInfo,
 } from '@repo/types';
 
-export type CreateAppRequest = Pick<RedotApp, 'appName'> &
-  Pick<StyleInfo, 'theme' | 'color' | 'font'>;
+export type CreateAppRequest = Pick<RedotApp, 'name'> &
+  Pick<StyleInfo, 'theme' | 'color' | 'font'> & { planId: AppPlan['id'] };
 
 export interface AppItem {
   redotApp: RedotApp;
@@ -30,7 +31,7 @@ export const getAppList = async () => {
 };
 
 export const createApp = async (payload: CreateAppRequest) => {
-  const { data } = await api.post(API_PATH.app.root, payload);
+  const { data } = await api.post<AppItem>(API_PATH.app.root, payload);
   return data;
 };
 
@@ -39,5 +40,10 @@ export const createAppManager = async ({
   ...payload
 }: CreateAppManagerRequest) => {
   const { data } = await api.post(API_PATH.app.createManager(appId), payload);
+  return data;
+};
+
+export const getAppPlans = async () => {
+  const { data } = await api.get<AppPlan[]>(API_PATH.app.plans);
   return data;
 };
