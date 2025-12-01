@@ -6,3 +6,6 @@ export * from './core';
 
 // Context - React integration
 export * from './context';
+
+// Components - UI components
+export * from './components';
