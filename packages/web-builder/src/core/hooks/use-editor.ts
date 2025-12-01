@@ -9,7 +9,11 @@ import type { Site, GridConfig } from '@repo/renderer';
  *
  * TODO: 전역 상태 관리로 전환 필요
  */
-export function useEditor(gridConfig: GridConfig, site?: Site) {
+export function useEditor(
+  gridConfig: GridConfig,
+  site?: Site,
+  onChange?: (site: Site) => void
+) {
   const controllerRef = useRef<EditorController | null>(null);
 
   if (!controllerRef.current) {
@@ -23,10 +27,14 @@ export function useEditor(gridConfig: GridConfig, site?: Site) {
   useEffect(() => {
     const unsubscribe = controller.subscribe((newState) => {
       setState(newState);
+      // Call onChange callback when state changes
+      if (onChange) {
+        onChange(newState.site);
+      }
     });
 
     return unsubscribe;
-  }, [controller]);
+  }, [controller, onChange]);
 
   const dispatch = useMemo(() => controller.dispatch, [controller]);
 

@@ -16,6 +16,7 @@ interface EditorProviderProps {
   children: ReactNode;
   gridConfig: GridConfig;
   site?: Site;
+  onChange?: (site: Site) => void;
 }
 
 /**
@@ -26,8 +27,9 @@ export function EditorProvider({
   children,
   gridConfig,
   site,
+  onChange,
 }: EditorProviderProps) {
-  const { state, dispatch } = useEditor(gridConfig, site);
+  const { state, dispatch } = useEditor(gridConfig, site, onChange);
 
   return (
     <EditorContext.Provider value={{ state, dispatch }}>

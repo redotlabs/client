@@ -1,3 +1,6 @@
+// Main Component
+export * from './WebBuilder';
+
 // Canvas
 export * from './canvas/components/Canvas';
 export * from './canvas/hooks/useBlockActions';
