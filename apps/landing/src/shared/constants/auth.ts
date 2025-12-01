@@ -4,6 +4,8 @@ export const AUTH_WHITE_LIST = [
   PATH.root,
   PATH.terms,
   PATH.privacy,
+  PATH.pricing,
+  PATH.renewal,
   PATH.auth.signIn,
   PATH.auth.signUp,
 ];
