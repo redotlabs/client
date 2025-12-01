@@ -1,15 +1,15 @@
-import { useState } from "react";
-import { X, Minimize2, Maximize2 } from "lucide-react";
-import { useEditorContext } from "@/app/context/EditorContext";
+import { useState } from 'react';
+import { X, Minimize2, Maximize2 } from 'lucide-react';
+import { useEditorContext } from '@/context';
 import {
   getSelectionType,
   getFirstSelectedBlock,
   getSelectedSection,
   getParentSection,
-} from "@/core/state/selectors";
-import { getPropertyEditor } from "./property-editors";
-import { SectionEditor } from "./SectionEditor";
-import { updateBlock, updateSection } from "@/core/actions";
+} from '@/core/state/selectors';
+import { getPropertyEditor } from './property-editors';
+import { SectionEditor } from './SectionEditor';
+import { updateBlock, updateSection } from '@/core/actions';
 
 interface InspectorPanelProps {
   onClose?: () => void;
@@ -24,7 +24,7 @@ export const InspectorPanel = ({ onClose }: InspectorPanelProps) => {
     const selectedBlock = getFirstSelectedBlock(state);
     const selectedSection = getSelectedSection(state);
 
-    if (selectionType === "block" && selectedBlock) {
+    if (selectionType === 'block' && selectedBlock) {
       const parentSection = getParentSection(selectedBlock.id)(state);
 
       if (!parentSection) return <EmptyState />;
@@ -65,7 +65,7 @@ export const InspectorPanel = ({ onClose }: InspectorPanelProps) => {
       );
     }
 
-    if (selectionType === "section" && selectedSection) {
+    if (selectionType === 'section' && selectedSection) {
       const handleSectionUpdate = (
         updates: Partial<typeof selectedSection>
       ) => {
@@ -86,7 +86,7 @@ export const InspectorPanel = ({ onClose }: InspectorPanelProps) => {
   return (
     <div
       className={`fixed right-4 top-[72px] w-[280px] bg-white shadow-lg rounded-lg border border-gray-200 z-50 ${
-        isMinimized ? "max-h-12" : "max-h-[calc(100vh-88px)]"
+        isMinimized ? 'max-h-12' : 'max-h-[calc(100vh-88px)]'
       }`}
     >
       {/* Header */}
@@ -96,7 +96,7 @@ export const InspectorPanel = ({ onClose }: InspectorPanelProps) => {
           <button
             onClick={() => setIsMinimized(!isMinimized)}
             className="p-1 hover:bg-gray-200 rounded transition-colors"
-            aria-label={isMinimized ? "Maximize" : "Minimize"}
+            aria-label={isMinimized ? 'Maximize' : 'Minimize'}
           >
             {isMinimized ? (
               <Maximize2 className="w-4 h-4 text-gray-600" />

@@ -1,6 +1,6 @@
-import { useEditorContext } from "@/app/context/EditorContext";
-import { reorderSection, insertSection, deleteSection } from "@/core/actions";
-import { ChevronDown, ChevronUp, Plus, Trash2 } from "lucide-react";
+import { useEditorContext } from '@/context';
+import { reorderSection, insertSection, deleteSection } from '@/core/actions';
+import { ChevronDown, ChevronUp, Plus, Trash2 } from 'lucide-react';
 
 interface SectionToolbarProps {
   sectionId: string;
@@ -70,8 +70,8 @@ export const SectionToolbar = ({ sectionId }: SectionToolbarProps) => {
         disabled={!canMoveUp}
         className={`p-2 rounded transition-colors cursor-pointer ${
           canMoveUp
-            ? "hover:bg-gray-100 text-gray-700"
-            : "text-gray-300 cursor-not-allowed"
+            ? 'hover:bg-gray-100 text-gray-700'
+            : 'text-gray-300 cursor-not-allowed'
         }`}
         title="Move Section Up"
       >
@@ -89,8 +89,8 @@ export const SectionToolbar = ({ sectionId }: SectionToolbarProps) => {
         disabled={!canMoveDown}
         className={`p-2 rounded transition-colors cursor-pointer ${
           canMoveDown
-            ? "hover:bg-gray-100 text-gray-700"
-            : "text-gray-300 cursor-not-allowed"
+            ? 'hover:bg-gray-100 text-gray-700'
+            : 'text-gray-300 cursor-not-allowed'
         }`}
         title="Move Section Down"
       >

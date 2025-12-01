@@ -1,4 +1,4 @@
-import { useEditorContext } from '@/app/context/EditorContext';
+import { useEditorContext } from '@/context';
 import { SectionCanvas } from './SectionCanvas';
 import { SelectableSection } from './SelectableSection';
 

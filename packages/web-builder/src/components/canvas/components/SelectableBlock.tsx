@@ -1,8 +1,8 @@
-import { useEditorContext } from "@/app/context/EditorContext";
-import { selectBlock } from "@/core/actions";
-import { resizeHandler, type ResizeDirection } from "@/core/events/handlers";
-import { cn } from "@redotlabs/utils";
-import type { ReactNode } from "react";
+import { useEditorContext } from '@/context';
+import { selectBlock } from '@/core/actions';
+import { resizeHandler, type ResizeDirection } from '@/core/events/handlers';
+import { cn } from '@redotlabs/utils';
+import type { ReactNode } from 'react';
 
 interface SelectableBlockProps {
   blockId: string;
@@ -21,16 +21,16 @@ export const SelectableBlock = ({
   const isSelected = state.selection.selectedBlockIds.has(blockId);
 
   const isDragging =
-    state.interaction.type === "drag" &&
+    state.interaction.type === 'drag' &&
     state.interaction.drag?.blockId === blockId;
 
   const isResizing =
-    state.interaction.type === "resize" &&
+    state.interaction.type === 'resize' &&
     state.interaction.resize?.blockId === blockId;
 
   const handleMouseDown = (event: React.MouseEvent) => {
     const target = event.target as HTMLElement;
-    if (target.closest("[data-resize-handle]")) return;
+    if (target.closest('[data-resize-handle]')) return;
 
     const multiSelect = event.metaKey || event.ctrlKey;
     if (!isSelected || multiSelect) {
@@ -49,8 +49,8 @@ export const SelectableBlock = ({
   return (
     <div
       className={cn(
-        "relative w-full h-full transition-opacity duration-75",
-        (isDragging || isResizing) && "opacity-30"
+        'relative w-full h-full transition-opacity duration-75',
+        (isDragging || isResizing) && 'opacity-30'
       )}
       data-block-id={blockId}
       id={blockId}
@@ -130,14 +130,14 @@ interface ResizeHandleProps {
 }
 
 const CURSOR_CLASSES: Record<string, string> = {
-  nw: "cursor-nw-resize",
-  ne: "cursor-ne-resize",
-  sw: "cursor-sw-resize",
-  se: "cursor-se-resize",
-  n: "cursor-n-resize",
-  s: "cursor-s-resize",
-  w: "cursor-w-resize",
-  e: "cursor-e-resize",
+  nw: 'cursor-nw-resize',
+  ne: 'cursor-ne-resize',
+  sw: 'cursor-sw-resize',
+  se: 'cursor-se-resize',
+  n: 'cursor-n-resize',
+  s: 'cursor-s-resize',
+  w: 'cursor-w-resize',
+  e: 'cursor-e-resize',
 };
 
 const ResizeHandle = ({
@@ -148,7 +148,7 @@ const ResizeHandle = ({
 }: ResizeHandleProps) => (
   <div
     className={cn(
-      "absolute w-2 h-2 bg-white border-2 border-blue-500 rounded-full z-10",
+      'absolute w-2 h-2 bg-white border-2 border-blue-500 rounded-full z-10',
       position,
       CURSOR_CLASSES[cursor]
     )}

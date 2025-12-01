@@ -1,6 +1,6 @@
 import type { PropertyEditorProps } from './types';
 import type { LinkProps } from '@repo/renderer';
-import { useEditorContext } from '@/app/context/EditorContext';
+import { useEditorContext } from '@/context';
 import { getAllPages } from '@/core/state/selectors';
 
 export const LinkEditor = ({ block, onUpdate }: PropertyEditorProps) => {

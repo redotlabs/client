@@ -1,6 +1,6 @@
-import { useMemo } from "react";
-import { useEditorContext } from "@/app/context/EditorContext";
-import { BlockConverter } from "@repo/renderer";
+import { useMemo } from 'react';
+import { useEditorContext } from '@/context';
+import { BlockConverter } from '@repo/renderer';
 
 /**
  * BuilderBlock을 RenderableBlock으로 변환

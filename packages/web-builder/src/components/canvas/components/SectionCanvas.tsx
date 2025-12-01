@@ -2,9 +2,9 @@ import { useRef, useEffect } from 'react';
 import { cn } from '@redotlabs/utils';
 import { COLUMN_WIDTH } from '@/shared/constants/editorData';
 import { BlockRenderer } from '@repo/renderer';
-import { SelectableBlock } from '@/features/canvas/components/SelectableBlock';
-import { InteractionPreviewLayer } from '@/features/canvas/components/InteractionPreviewLayer';
-import { useEditorContext } from '@/app/context/EditorContext';
+import { SelectableBlock } from '@/components/canvas/components/SelectableBlock';
+import { InteractionPreviewLayer } from '@/components/canvas/components/InteractionPreviewLayer';
+import { useEditorContext } from '@/context';
 import { CanvasListener } from '@/core/events/listeners';
 import {
   keyboardHandler,
@@ -12,7 +12,7 @@ import {
   createDropHandler,
   createDragHandler,
 } from '@/core/events/handlers';
-import { useRenderableBlocks } from '@/features/canvas/hooks/useRenderableBlocks';
+import { useRenderableBlocks } from '@/components/canvas/hooks/useRenderableBlocks';
 import { getSectionRows } from '@/shared/utils/sectionHeight';
 import type { Section } from '@repo/renderer';
 

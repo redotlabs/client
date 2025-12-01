@@ -1,8 +1,16 @@
-import { LayoutGrid, Type, Shapes, MousePointer, Plus, Image, Link } from "lucide-react";
-import { useEditorContext } from "@/app/context/EditorContext";
-import { createSection } from "@/core/actions";
-import { BLOCK_REGISTRY } from "@/core/blocks";
-import { useBlockActions } from "@/features/canvas/hooks/useBlockActions";
+import {
+  LayoutGrid,
+  Type,
+  Shapes,
+  MousePointer,
+  Plus,
+  Image,
+  Link,
+} from 'lucide-react';
+import { useEditorContext } from '@/context';
+import { createSection } from '@/core/actions';
+import { BLOCK_REGISTRY } from '@/core/blocks';
+import { useBlockActions } from '@/components/canvas/hooks/useBlockActions';
 
 interface CategoryItem {
   id: string;
@@ -12,42 +20,42 @@ interface CategoryItem {
 }
 
 const CATEGORIES: CategoryItem[] = [
-  { id: "section", label: "Section", icon: <LayoutGrid className="w-5 h-5" /> },
+  { id: 'section', label: 'Section', icon: <LayoutGrid className="w-5 h-5" /> },
   {
-    id: "text",
-    label: "Text",
+    id: 'text',
+    label: 'Text',
     icon: <Type className="w-5 h-5" />,
-    blockTemplateId: "text",
+    blockTemplateId: 'text',
   },
   {
-    id: "button",
-    label: "Button",
+    id: 'button',
+    label: 'Button',
     icon: <MousePointer className="w-5 h-5" />,
-    blockTemplateId: "button",
+    blockTemplateId: 'button',
   },
   {
-    id: "input",
-    label: "Input",
+    id: 'input',
+    label: 'Input',
     icon: <Type className="w-5 h-5" />,
-    blockTemplateId: "input",
+    blockTemplateId: 'input',
   },
   {
-    id: "badge",
-    label: "Badge",
+    id: 'badge',
+    label: 'Badge',
     icon: <Shapes className="w-5 h-5" />,
-    blockTemplateId: "badge",
+    blockTemplateId: 'badge',
   },
   {
-    id: "image",
-    label: "Image",
+    id: 'image',
+    label: 'Image',
     icon: <Image className="w-5 h-5" />,
-    blockTemplateId: "image",
+    blockTemplateId: 'image',
   },
   {
-    id: "link",
-    label: "Link",
+    id: 'link',
+    label: 'Link',
     icon: <Link className="w-5 h-5" />,
-    blockTemplateId: "link",
+    blockTemplateId: 'link',
   },
 ];
 
@@ -56,7 +64,7 @@ export const LeftPanel = () => {
   const { handleAddBlock, handleDragStart } = useBlockActions();
 
   const handleCategoryClick = (categoryId: string) => {
-    if (categoryId === "section") {
+    if (categoryId === 'section') {
       dispatch(createSection());
     }
   };
@@ -87,7 +95,7 @@ export const LeftPanel = () => {
     <div className="fixed left-4 top-[72px] max-h-[calc(100vh-88px)] z-40">
       <div className="w-16 flex flex-col items-center py-2 overflow-y-auto max-h-[calc(100vh-88px)]">
         {CATEGORIES.map((category) => {
-          const isSection = category.id === "section";
+          const isSection = category.id === 'section';
           const isDraggable = !!category.blockTemplateId;
 
           return (
@@ -97,7 +105,7 @@ export const LeftPanel = () => {
                 w-14 h-14 rounded-lg mb-1.5 flex flex-col items-center justify-center gap-0.5
                 transition-colors duration-200 relative
                 bg-gray-100 text-gray-700 hover:bg-gray-200 border border-gray-300
-                ${isDraggable ? "cursor-grab active:cursor-grabbing" : "cursor-pointer"}
+                ${isDraggable ? 'cursor-grab active:cursor-grabbing' : 'cursor-pointer'}
               `}
               onClick={() => handleCategoryClick(category.id)}
               onDoubleClick={() => handleCategoryDoubleClick(category)}

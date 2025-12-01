@@ -1,9 +1,9 @@
-import { Logo, Button } from "@redotlabs/ui";
-import { Eye } from "lucide-react";
-import { useEditorContext } from "@/app/context/EditorContext";
-import { deselectBlock } from "@/core/actions";
-import { PageDropdown } from "./PageDropdown";
-import { SiteSettingsDropdown } from "./SiteSettingsDropdown";
+import { Logo, Button } from '@redotlabs/ui';
+import { Eye } from 'lucide-react';
+import { useEditorContext } from '@/context';
+import { deselectBlock } from '@/core/actions';
+import { PageDropdown } from './PageDropdown';
+import { SiteSettingsDropdown } from './SiteSettingsDropdown';
 
 export const Header = () => {
   const { state, dispatch } = useEditorContext();
@@ -13,9 +13,9 @@ export const Header = () => {
   };
 
   const handlePreview = () => {
-    localStorage.setItem("preview-site-data", JSON.stringify(state.site));
+    localStorage.setItem('preview-site-data', JSON.stringify(state.site));
 
-    window.open("/preview", "_blank");
+    window.open('/preview', '_blank');
   };
 
   return (

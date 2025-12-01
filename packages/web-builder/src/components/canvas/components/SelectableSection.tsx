@@ -1,4 +1,4 @@
-import { useEditorContext } from '@/app/context/EditorContext';
+import { useEditorContext } from '@/context';
 import { selectSection } from '@/core/actions';
 import { SectionToolbar } from './SectionToolbar';
 import { SectionResizeHandle } from './SectionResizeHandle';

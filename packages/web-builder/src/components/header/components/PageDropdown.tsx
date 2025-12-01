@@ -1,16 +1,16 @@
-import { useState, useRef, useEffect, type ChangeEvent } from "react";
-import { FileText, ChevronDown, Check, X, Plus, Settings } from "lucide-react";
-import { Button, Input, toast } from "@redotlabs/ui";
-import { useEditorContext } from "@/app/context/EditorContext";
-import { selectPage, createPage, deletePage, updatePage } from "@/core/actions";
-import { getAllPages, getCurrentPageId } from "@/core/state/selectors";
+import { useState, useRef, useEffect, type ChangeEvent } from 'react';
+import { FileText, ChevronDown, Check, X, Plus, Settings } from 'lucide-react';
+import { Button, Input, toast } from '@redotlabs/ui';
+import { useEditorContext } from '@/context';
+import { selectPage, createPage, deletePage, updatePage } from '@/core/actions';
+import { getAllPages, getCurrentPageId } from '@/core/state/selectors';
 
 export const PageDropdown = () => {
   const { state, dispatch } = useEditorContext();
   const [isOpen, setIsOpen] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
-  const [editingName, setEditingName] = useState("");
-  const [editingPath, setEditingPath] = useState("");
+  const [editingName, setEditingName] = useState('');
+  const [editingPath, setEditingPath] = useState('');
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const pages = getAllPages(state);
@@ -35,8 +35,8 @@ export const PageDropdown = () => {
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   const handlePageSelect = (pageId: string) => {
@@ -52,13 +52,13 @@ export const PageDropdown = () => {
   const handlePageDelete = (e: React.MouseEvent, pageId: string) => {
     e.stopPropagation();
     if (pages.length <= 1) {
-      toast.error("최소 1개의 페이지는 필요합니다.");
+      toast.error('최소 1개의 페이지는 필요합니다.');
       return;
     }
     // TODO: confirm을 Dialog로 변경하거나, 바로 삭제 후 undo 기능 추가
-    if (confirm("이 페이지를 삭제하시겠습니까?")) {
+    if (confirm('이 페이지를 삭제하시겠습니까?')) {
       dispatch(deletePage(pageId));
-      toast.success("페이지가 삭제되었습니다.");
+      toast.success('페이지가 삭제되었습니다.');
     }
   };
 
@@ -70,13 +70,13 @@ export const PageDropdown = () => {
   const handleSaveSettings = () => {
     if (!currentPage) return;
 
-    if (editingName.trim() === "") {
-      toast.error("페이지 이름은 필수입니다.");
+    if (editingName.trim() === '') {
+      toast.error('페이지 이름은 필수입니다.');
       return;
     }
 
-    if (editingPath.trim() === "" || !editingPath.startsWith("/")) {
-      toast.error("Path는 /로 시작해야 합니다.");
+    if (editingPath.trim() === '' || !editingPath.startsWith('/')) {
+      toast.error('Path는 /로 시작해야 합니다.');
       return;
     }
 
@@ -87,7 +87,7 @@ export const PageDropdown = () => {
       })
     );
 
-    toast.success("페이지 설정이 저장되었습니다.");
+    toast.success('페이지 설정이 저장되었습니다.');
     setShowSettings(false);
   };
 
@@ -106,11 +106,11 @@ export const PageDropdown = () => {
       >
         <FileText className="w-4 h-4" />
         <span className="text-sm font-medium">
-          {currentPage?.name || "Page"}
+          {currentPage?.name || 'Page'}
         </span>
         <ChevronDown
           className={`w-4 h-4 transition-transform ${
-            isOpen ? "rotate-180" : ""
+            isOpen ? 'rotate-180' : ''
           }`}
         />
       </Button>
@@ -128,8 +128,8 @@ export const PageDropdown = () => {
                   group flex items-center justify-between px-4 py-2 cursor-pointer transition-colors
                   ${
                     currentPageId === page.id
-                      ? "bg-blue-50 text-blue-700"
-                      : "hover:bg-gray-50 text-gray-700"
+                      ? 'bg-blue-50 text-blue-700'
+                      : 'hover:bg-gray-50 text-gray-700'
                   }
                 `}
               >
@@ -164,8 +164,7 @@ export const PageDropdown = () => {
             onClick={handlePageCreate}
             className="w-full! flex items-center gap-2 px-4! py-2! text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors justify-start!"
           >
-            <Plus className="w-4 h-4" />
-            새 페이지 만들기
+            <Plus className="w-4 h-4" />새 페이지 만들기
           </Button>
 
           {/* Divider */}
@@ -184,7 +183,7 @@ export const PageDropdown = () => {
             </div>
             <ChevronDown
               className={`w-4 h-4 transition-transform ${
-                showSettings ? "rotate-180" : ""
+                showSettings ? 'rotate-180' : ''
               }`}
             />
           </Button>

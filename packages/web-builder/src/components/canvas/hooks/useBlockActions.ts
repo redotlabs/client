@@ -1,7 +1,7 @@
-import { useCallback } from "react";
-import { useEditorContext } from "@/app/context/EditorContext";
-import { createBlock } from "@/core/actions";
-import type { BlockTemplate } from "@/core/blocks";
+import { useCallback } from 'react';
+import { useEditorContext } from '@/context';
+import { createBlock } from '@/core/actions';
+import type { BlockTemplate } from '@/core/blocks';
 
 interface BlockPosition {
   x: number;
@@ -32,7 +32,7 @@ export const useBlockActions = (): UseBlockActionsReturn => {
 
       const selectedSectionId = state.selection.selectedSectionId;
       if (!selectedSectionId) {
-        console.warn("No selected section found");
+        console.warn('No selected section found');
         return;
       }
 

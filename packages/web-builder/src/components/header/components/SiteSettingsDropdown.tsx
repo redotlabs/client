@@ -1,16 +1,16 @@
-import { useState, useRef, useEffect, type ChangeEvent } from "react";
-import { Settings } from "lucide-react";
-import { Button, Input } from "@redotlabs/ui";
-import { useEditorContext } from "@/app/context/EditorContext";
-import { updateSite } from "@/core/actions";
-import { getSiteMetadata } from "@/core/state/selectors";
+import { useState, useRef, useEffect, type ChangeEvent } from 'react';
+import { Settings } from 'lucide-react';
+import { Button, Input } from '@redotlabs/ui';
+import { useEditorContext } from '@/context';
+import { updateSite } from '@/core/actions';
+import { getSiteMetadata } from '@/core/state/selectors';
 
 export const SiteSettingsDropdown = () => {
   const { state, dispatch } = useEditorContext();
   const [isOpen, setIsOpen] = useState(false);
-  const [editingName, setEditingName] = useState("");
-  const [editingDescription, setEditingDescription] = useState("");
-  const [editingFavicon, setEditingFavicon] = useState("");
+  const [editingName, setEditingName] = useState('');
+  const [editingDescription, setEditingDescription] = useState('');
+  const [editingFavicon, setEditingFavicon] = useState('');
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const siteMetadata = getSiteMetadata(state);
@@ -18,8 +18,8 @@ export const SiteSettingsDropdown = () => {
   useEffect(() => {
     if (isOpen) {
       setEditingName(siteMetadata.name);
-      setEditingDescription(siteMetadata.description || "");
-      setEditingFavicon(siteMetadata.favicon || "");
+      setEditingDescription(siteMetadata.description || '');
+      setEditingFavicon(siteMetadata.favicon || '');
     }
   }, [isOpen, siteMetadata]);
 
@@ -33,13 +33,13 @@ export const SiteSettingsDropdown = () => {
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   const handleSave = () => {
-    if (editingName.trim() === "") {
-      alert("사이트 이름은 필수입니다.");
+    if (editingName.trim() === '') {
+      alert('사이트 이름은 필수입니다.');
       return;
     }
 

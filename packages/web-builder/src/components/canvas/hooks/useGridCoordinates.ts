@@ -1,6 +1,6 @@
-import { useCallback } from "react";
-import { useEditorContext } from "@/app/context/EditorContext";
-import { COLUMN_WIDTH } from "@/shared/constants/editorData";
+import { useCallback } from 'react';
+import { useEditorContext } from '@/context';
+import { COLUMN_WIDTH } from '@/shared/constants/editorData';
 
 interface GridCoordinates {
   x: number;

@@ -1,4 +1,4 @@
-import { useEditorContext } from '@/app/context/EditorContext';
+import { useEditorContext } from '@/context';
 import { COLUMN_WIDTH } from '@/shared/constants/editorData';
 import type { Section } from '@repo/renderer';
 

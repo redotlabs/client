@@ -24,15 +24,21 @@
   },
   "sideEffects": false,
   "devDependencies": {
+    "@redotlabs/ui": "^1.5.0",
+    "@redotlabs/utils": "^1.0.0",
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@repo/renderer": "workspace:*",
     "@types/react": "^19.0.0",
+    "lucide-react": "^0.545.0",
     "tsup": "^8.5.0",
     "typescript": "^5.0.0"
   },
   "peerDependencies": {
+    "@redotlabs/ui": "^1.5.0",
+    "@redotlabs/utils": "^1.0.0",
     "@repo/renderer": "workspace:*",
+    "lucide-react": "^0.545.0",
     "react": "^19.0.0"
   }
 }
