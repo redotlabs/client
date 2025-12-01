@@ -261,11 +261,15 @@ export default function PaymentPage() {
 
                 <p className="text-xs text-center text-gray-500 mt-4">
                   결제 진행 시{' '}
-                  <Link href="/terms" className="underline">
+                  <Link href={PATH.terms} className="underline" target="_blank">
                     이용약관
                   </Link>{' '}
                   및{' '}
-                  <Link href="/privacy" className="underline">
+                  <Link
+                    href={PATH.privacy}
+                    className="underline"
+                    target="_blank"
+                  >
                     개인정보처리방침
                   </Link>
                   에 동의하는 것으로 간주됩니다.

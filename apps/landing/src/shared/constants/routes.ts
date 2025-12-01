@@ -1,5 +1,7 @@
 export const PATH = {
   root: '/',
+  terms: '/terms',
+  privacy: '/privacy',
   auth: {
     signIn: '/auth/sign-in',
     signUp: '/auth/sign-up',
