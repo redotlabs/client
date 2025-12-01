@@ -1,7 +1,4 @@
-import { Canvas } from "@/features/canvas/components/Canvas";
-import { Header } from "@/features/header/components";
-import { LeftPanel } from "@/features/toolbox/components";
-import { InspectorPanel } from "@/features/inspector/components";
+import { Canvas, Header, LeftPanel, InspectorPanel } from '@repo/web-builder';
 
 export const EditorLayout = () => {
   return (

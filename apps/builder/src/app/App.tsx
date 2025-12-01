@@ -1,7 +1,10 @@
-import { ThemeProvider } from "@redotlabs/themes";
-import { DEFAULT_GRID_CONFIG, initialSite } from "@/shared/constants/editorData";
-import { EditorProvider } from "./context/EditorContext";
-import { EditorLayout } from "./components/EditorLayout";
+import { ThemeProvider } from '@redotlabs/themes';
+import { EditorProvider } from '@repo/web-builder';
+import {
+  DEFAULT_GRID_CONFIG,
+  initialSite,
+} from '@/shared/constants/editorData';
+import { EditorLayout } from './components/EditorLayout';
 
 export default function BuilderApp() {
   return (
