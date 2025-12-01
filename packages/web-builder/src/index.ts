@@ -1,3 +1,5 @@
 // Web Builder Package
-// This package will contain the full editor functionality
-export {};
+// This package contains the full editor functionality
+
+// Core - Editor logic
+export * from './core';
