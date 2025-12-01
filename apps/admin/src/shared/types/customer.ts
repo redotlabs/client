@@ -7,5 +7,15 @@ export interface Customer {
   status: 'active' | 'inactive';
   createdAt: string;
   lastLoginAt?: string;
+  appCount: number;
+}
+
+export interface App {
+  id: number;
+  name: string;
+  domain: string;
+  status: 'active' | 'inactive';
+  createdAt: string;
+  lastDeployedAt?: string;
 }
 

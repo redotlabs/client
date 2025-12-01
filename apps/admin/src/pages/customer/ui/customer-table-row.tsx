@@ -2,7 +2,8 @@ import type { Customer } from '@/shared/types';
 import { Badge, Button, TableCell, TableRow } from '@redotlabs/ui';
 import { cn } from '@redotlabs/utils';
 import { format } from 'date-fns';
-import CustomerSheetButton from './customer-sheet-button';
+import { useNavigate } from 'react-router-dom';
+import { PATH } from '@/shared/routes/routes';
 
 interface CustomerTableRowProps {
   customer: Customer;
@@ -10,6 +11,8 @@ interface CustomerTableRowProps {
 }
 
 const CustomerTableRow = ({ customer, order }: CustomerTableRowProps) => {
+  const navigate = useNavigate();
+
   return (
     <TableRow
       className={cn(
@@ -19,16 +22,24 @@ const CustomerTableRow = ({ customer, order }: CustomerTableRowProps) => {
     >
       <TableCell align="center">{order}</TableCell>
       <TableCell align="center">
-        <CustomerSheetButton customer={customer}>
-          <Button variant="text" size="sm" className="p-0 underline">
-            {customer.id}
-          </Button>
-        </CustomerSheetButton>
+        <Button
+          variant="text"
+          size="sm"
+          className="p-0 underline text-primary-600 font-semibold"
+          onClick={() => navigate(PATH.customer.detail(customer.id))}
+        >
+          {customer.id}
+        </Button>
       </TableCell>
       <TableCell align="center">{customer.name}</TableCell>
       <TableCell align="center">{customer.email}</TableCell>
       <TableCell align="center">{customer.phone}</TableCell>
       <TableCell align="center">{customer.company || '-'}</TableCell>
+      <TableCell align="center">
+        <span className="font-semibold text-primary-600">
+          {customer.appCount}
+        </span>
+      </TableCell>
       <TableCell align="center">
         <Badge
           size="sm"
@@ -46,4 +57,3 @@ const CustomerTableRow = ({ customer, order }: CustomerTableRowProps) => {
 };
 
 export default CustomerTableRow;
-
