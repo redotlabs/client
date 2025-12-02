@@ -58,6 +58,15 @@ const SignUpStep = () => {
       <div className="mt-8 grow flex flex-col gap-9">
         <RHFInput
           autoFocus
+          type="text"
+          name="name"
+          label="이름"
+          placeholder="이름을 입력해주세요"
+          autoComplete="name"
+          onKeyUp={onKeyUp}
+        />
+        <RHFInput
+          autoFocus
           type="password"
           name="password"
           label="비밀번호"
