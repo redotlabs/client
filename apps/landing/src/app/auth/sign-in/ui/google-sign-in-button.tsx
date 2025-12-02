@@ -11,8 +11,9 @@ export default function GoogleSignInButton() {
 
   const handleGoogleSignIn = () => {
     const redirectPath = searchParams.get('redirect') ?? '';
-    const redirectUri = window.location.origin + redirectPath;
-    const failureUri = window.location.origin;
+    const currentDomain = window.location.origin.replace('www.', '');
+    const redirectUri = currentDomain + redirectPath;
+    const failureUri = currentDomain;
     mutate({
       provider: 'google',
       redirectUri,
