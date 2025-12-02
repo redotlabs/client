@@ -66,7 +66,6 @@ const SignUpStep = () => {
           onKeyUp={onKeyUp}
         />
         <RHFInput
-          autoFocus
           type="password"
           name="password"
           label="비밀번호"
