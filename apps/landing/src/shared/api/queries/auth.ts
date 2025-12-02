@@ -12,7 +12,6 @@ import {
 import { queryKeyFactory } from '@/shared/api/query-key-factory';
 import { PATH } from '@/shared/constants/routes';
 import { useRouter } from 'next/navigation';
-import { API_DOMAIN } from '@/shared/constants/env-variables';
 
 export const useSignIn = () => {
   return useMutation({
@@ -70,12 +69,8 @@ export const useSocialLoginUrl = () => {
   return useMutation({
     mutationFn: getSocialLoginUrl,
     onSuccess: (data) => {
-      /** ! Will fix
-       * 현재 url의 도메인이 서버 도메인이 아니라 요청주소로 되고 있음.
-       * 서버 도메인으로 리다이렉트 하기 위해서는 서버 도메인으로 리다이렉트 해야 함.
-       */
       if (data.url) {
-        push(new URL(data.url, API_DOMAIN).href);
+        push(data.url);
       }
     },
   });
