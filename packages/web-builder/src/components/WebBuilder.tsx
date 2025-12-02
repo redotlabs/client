@@ -1,4 +1,5 @@
 import type { Site, Page, GridConfig } from '@repo/renderer';
+import { ThemeProvider } from '@redotlabs/themes';
 import { EditorProvider, useEditorContext } from '@/context';
 import { getCurrentPage } from '@/core/state/selectors';
 import { Canvas } from './canvas/components/Canvas';
@@ -16,6 +17,14 @@ export interface WebBuilderProps {
    * Grid configuration for the canvas
    */
   gridConfig: GridConfig;
+
+  /**
+   * Theme configuration for the editor UI
+   */
+  themeConfig?: {
+    color?: 'blue' | 'green' | 'red' | 'purple' | 'orange';
+    font?: 'pretendard';
+  };
 
   /**
    * Callback when user clicks publish button
@@ -104,6 +113,7 @@ function WebBuilderInner({
  * <WebBuilder
  *   initialSite={mySite}
  *   gridConfig={DEFAULT_GRID_CONFIG}
+ *   themeConfig={{ color: 'blue', font: 'pretendard' }}
  *   onPublish={async (site) => {
  *     await api.publishSite(site);
  *   }}
@@ -116,22 +126,25 @@ function WebBuilderInner({
 export function WebBuilder({
   initialSite,
   gridConfig,
+  themeConfig = { color: 'blue', font: 'pretendard' },
   onPublish,
   onPreview,
   onChange,
   renderHeader,
 }: WebBuilderProps) {
   return (
-    <EditorProvider
-      gridConfig={gridConfig}
-      site={initialSite}
-      onChange={onChange}
-    >
-      <WebBuilderInner
-        onPublish={onPublish}
-        onPreview={onPreview}
-        renderHeader={renderHeader}
-      />
-    </EditorProvider>
+    <ThemeProvider color={themeConfig.color} font={themeConfig.font}>
+      <EditorProvider
+        gridConfig={gridConfig}
+        site={initialSite}
+        onChange={onChange}
+      >
+        <WebBuilderInner
+          onPublish={onPublish}
+          onPreview={onPreview}
+          renderHeader={renderHeader}
+        />
+      </EditorProvider>
+    </ThemeProvider>
   );
 }
