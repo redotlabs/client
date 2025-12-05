@@ -1,14 +1,22 @@
-import { ThemeProvider } from "@redotlabs/themes";
-import { DEFAULT_GRID_CONFIG, initialSite } from "@/shared/constants/editorData";
-import { EditorProvider } from "./context/EditorContext";
-import { EditorLayout } from "./components/EditorLayout";
+import { WebBuilder, DEFAULT_GRID_CONFIG } from '@repo/web-builder';
+import { initialSite } from '@/shared/constants/editorData';
 
 export default function BuilderApp() {
   return (
-    <ThemeProvider color="blue" font="pretendard">
-      <EditorProvider gridConfig={DEFAULT_GRID_CONFIG} site={initialSite}>
-        <EditorLayout />
-      </EditorProvider>
-    </ThemeProvider>
+    <WebBuilder
+      initialSite={initialSite}
+      gridConfig={DEFAULT_GRID_CONFIG}
+      themeConfig={{ color: 'blue', font: 'pretendard' }}
+      onPublish={async (site) => {
+        console.log('Publishing site:', site);
+        // TODO: Implement publish API call
+        alert('Publish feature coming soon!');
+      }}
+      onPreview={(site) => {
+        // Store preview data and open preview window
+        localStorage.setItem('preview-site-data', JSON.stringify(site));
+        window.open('/preview', '_blank');
+      }}
+    />
   );
 }

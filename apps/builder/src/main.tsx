@@ -1,9 +1,9 @@
-import { createRoot } from "react-dom/client";
-import "./index.css";
-import BuilderApp from "@/app/App";
-import { RendererApp } from "@/app/renderer/RendererApp";
+import { createRoot } from 'react-dom/client';
+import './index.css';
+import BuilderApp from '@/app/App';
+import { RendererApp } from '@/app/renderer/RendererApp';
 
-const isPreviewMode = window.location.pathname === "/preview";
+const isPreviewMode = window.location.pathname === '/preview';
 
 function App() {
   if (isPreviewMode) {
@@ -17,4 +17,4 @@ function App() {
   );
 }
 
-createRoot(document.getElementById("root")!).render(<App />);
+createRoot(document.getElementById('root')!).render(<App />);

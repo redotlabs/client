@@ -280,6 +280,12 @@ importers:
       '@redotlabs/utils':
         specifier: ^1.0.0
         version: 1.0.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      '@repo/renderer':
+        specifier: workspace:*
+        version: link:../../packages/renderer
+      '@repo/web-builder':
+        specifier: workspace:*
+        version: link:../../packages/web-builder
       '@tailwindcss/vite':
         specifier: ^4.1.11
         version: 4.1.17(vite@7.2.2(@types/node@24.10.1)(jiti@2.6.1)(lightningcss@1.30.2)(sass@1.94.1))
@@ -759,6 +765,37 @@ importers:
         specifier: ^5.0.0
         version: 5.9.3
 
+  packages/renderer:
+    dependencies:
+      react:
+        specifier: ^19.0.0
+        version: 19.2.0
+    devDependencies:
+      '@redotlabs/ui':
+        specifier: ^1.5.0
+        version: 1.7.0(@redotlabs/themes@1.1.0(@redotlabs/fonts@1.0.1)(@redotlabs/tokens@1.0.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(@redotlabs/tokens@1.0.1)(@redotlabs/utils@1.0.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(@tailwindcss/vite@4.1.17(vite@7.2.2(@types/node@24.10.1)(jiti@2.6.1)(lightningcss@1.30.2)(sass@1.94.1)))(@types/react-dom@19.2.3(@types/react@19.2.6))(@types/react@19.2.6)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(tailwindcss@4.1.17)(tw-animate-css@1.4.0)
+      '@redotlabs/utils':
+        specifier: ^1.0.0
+        version: 1.0.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      '@repo/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      '@types/react':
+        specifier: ^19.0.0
+        version: 19.2.6
+      lucide-react:
+        specifier: ^0.545.0
+        version: 0.545.0(react@19.2.0)
+      tsup:
+        specifier: ^8.5.0
+        version: 8.5.1(jiti@2.6.1)(postcss@8.5.6)(typescript@5.9.3)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
   packages/tenant-router/next:
     dependencies:
       '@repo/utils':
@@ -883,6 +920,43 @@ importers:
       '@types/node':
         specifier: ^24.7.0
         version: 24.10.1
+      tsup:
+        specifier: ^8.5.0
+        version: 8.5.1(jiti@2.6.1)(postcss@8.5.6)(typescript@5.9.3)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
+  packages/web-builder:
+    dependencies:
+      react:
+        specifier: ^19.0.0
+        version: 19.2.0
+    devDependencies:
+      '@redotlabs/themes':
+        specifier: ^1.1.0
+        version: 1.1.0(@redotlabs/fonts@1.0.1)(@redotlabs/tokens@1.0.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      '@redotlabs/ui':
+        specifier: ^1.5.0
+        version: 1.7.0(@redotlabs/themes@1.1.0(@redotlabs/fonts@1.0.1)(@redotlabs/tokens@1.0.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(@redotlabs/tokens@1.0.1)(@redotlabs/utils@1.0.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(@tailwindcss/vite@4.1.17(vite@7.2.2(@types/node@24.10.1)(jiti@2.6.1)(lightningcss@1.30.2)(sass@1.94.1)))(@types/react-dom@19.2.3(@types/react@19.2.6))(@types/react@19.2.6)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(tailwindcss@4.1.17)(tw-animate-css@1.4.0)
+      '@redotlabs/utils':
+        specifier: ^1.0.0
+        version: 1.0.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      '@repo/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
+      '@repo/renderer':
+        specifier: workspace:*
+        version: link:../renderer
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      '@types/react':
+        specifier: ^19.0.0
+        version: 19.2.6
+      lucide-react:
+        specifier: ^0.545.0
+        version: 0.545.0(react@19.2.0)
       tsup:
         specifier: ^8.5.0
         version: 8.5.1(jiti@2.6.1)(postcss@8.5.6)(typescript@5.9.3)
@@ -7823,7 +7897,7 @@ snapshots:
       eslint: 9.39.1(jiti@2.6.1)
       eslint-import-resolver-node: 0.3.9
       eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.32.0(eslint@9.39.1(jiti@2.6.1)))(eslint@9.39.1(jiti@2.6.1))
-      eslint-plugin-import: 2.32.0(eslint-import-resolver-typescript@3.10.1)(eslint@9.39.1(jiti@2.6.1))
+      eslint-plugin-import: 2.32.0(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(eslint@9.39.1(jiti@2.6.1)))(eslint@9.39.1(jiti@2.6.1)))(eslint@9.39.1(jiti@2.6.1))
       eslint-plugin-jsx-a11y: 6.10.2(eslint@9.39.1(jiti@2.6.1))
       eslint-plugin-react: 7.37.5(eslint@9.39.1(jiti@2.6.1))
       eslint-plugin-react-hooks: 7.0.1(eslint@9.39.1(jiti@2.6.1))
@@ -7860,7 +7934,7 @@ snapshots:
       tinyglobby: 0.2.15
       unrs-resolver: 1.11.1
     optionalDependencies:
-      eslint-plugin-import: 2.32.0(eslint-import-resolver-typescript@3.10.1)(eslint@9.39.1(jiti@2.6.1))
+      eslint-plugin-import: 2.32.0(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(eslint@9.39.1(jiti@2.6.1)))(eslint@9.39.1(jiti@2.6.1)))(eslint@9.39.1(jiti@2.6.1))
     transitivePeerDependencies:
       - supports-color
 
@@ -7929,7 +8003,7 @@ snapshots:
       - eslint-import-resolver-webpack
       - supports-color
 
-  eslint-plugin-import@2.32.0(eslint-import-resolver-typescript@3.10.1)(eslint@9.39.1(jiti@2.6.1)):
+  eslint-plugin-import@2.32.0(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(eslint@9.39.1(jiti@2.6.1)))(eslint@9.39.1(jiti@2.6.1)))(eslint@9.39.1(jiti@2.6.1)):
     dependencies:
       '@rtsao/scc': 1.1.0
       array-includes: 3.1.9
