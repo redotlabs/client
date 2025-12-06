@@ -10,14 +10,14 @@ import AuthGuard from '@/shared/components/wrapper/auth-guard';
 
 export const metadata: Metadata = {
   title: 'Redot',
-  description: 'Redot landing page',
+  description: '낡은 홈페이지부터 신규 제작까지 미래의 모습으로.',
   icons: {
     icon: '/logo.svg',
   },
   openGraph: {
     images: '/logo.svg',
     title: 'Redot',
-    description: 'Redot landing page',
+    description: '낡은 홈페이지부터 신규 제작까지 미래의 모습으로.',
     url: 'https://redot.me',
     siteName: 'Redot',
     type: 'website',
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Redot',
-    description: 'Redot landing page',
+    description: '낡은 홈페이지부터 신규 제작까지 미래의 모습으로.',
     images: '/logo.svg',
   },
 };
@@ -36,7 +36,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="ko">
       <body className={cn('antialiased min-h-svh flex flex-col')}>
         <ClientQueryClientProvider>
           <ClientToastProvider>
