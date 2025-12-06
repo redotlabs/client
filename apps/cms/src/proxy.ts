@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { extractSubdomain, isSubdomain } from '@repo/utils';
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   // request.nextUrl.hostname은 localhost를 반환하므로, 실제 Host 헤더를 읽어야 함
   const host = request.headers.get('host') || request.nextUrl.hostname;
