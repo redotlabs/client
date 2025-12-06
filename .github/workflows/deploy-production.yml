@@ -1,9 +1,9 @@
-name: Deploy-develop
+name: Deploy-production
 
 on:
   push:
     branches:
-      - develop
+      - main
 
 env:
   CI: true
@@ -19,10 +19,10 @@ jobs:
       - name: Checkout code repository
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.REDOT_PRIVATE_TEST_PAT }}
+          token: ${{ secrets.REDOT_PRIVATE_PAT }}
           fetch-depth: 0 
 
       - name: Push to deploy repository
         run: |
-          git remote add deploy https://redot-dev:${{ secrets.REDOT_PRIVATE_TEST_PAT }}@github.com/redot-test/client-deploy.git
-          git push --force deploy develop
+          git remote add deploy https://redot-dev:${{ secrets.REDOT_PRIVATE_PAT }}@github.com/redot-dev/client-deploy.git
+          git push --force deploy main
