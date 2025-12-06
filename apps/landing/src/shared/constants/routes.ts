@@ -15,5 +15,8 @@ export const PATH = {
       `/dashboard/${appId}/setup-manager`,
   },
   pricing: '/pricing',
-  renewal: '/renewal',
+  consultation: {
+    new: '/consultation/new',
+    renewal: '/consultation/renewal',
+  },
 };
