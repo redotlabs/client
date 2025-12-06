@@ -3,7 +3,7 @@ import { RHFInput } from '@repo/ui';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { Button, toast } from '@redotlabs/ui';
 import { useSignUp } from '@/shared/api/queries/auth';
-import { useSignUpStep } from '../hooks/sign-up-step.hook';
+import { useSignUpStep } from '../_hooks/sign-up-step.hook';
 import { PATH } from '@/shared/constants/routes';
 import Link from 'next/link';
 

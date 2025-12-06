@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
-import GoogleSignInButton from './ui/google-sign-in-button';
-import SignInForm from './ui/sign-in-form';
+import GoogleSignInButton from './_ui/google-sign-in-button';
+import SignInForm from './_ui/sign-in-form';
 import Link from 'next/link';
 
 export default function SignInPage() {

@@ -1,11 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@redotlabs/ui';
 
 interface RenewalPreviewProps {
   websiteUrl: string;
-  onNext: () => void;
+  onNext: (pageJson: string) => void;
   onBack: () => void;
 }
 
@@ -17,7 +17,25 @@ export default function RenewalPreview({
   const [isLoading, setIsLoading] = useState(true);
 
   // 실제로는 AI 기반 미리보기를 로드하는 로직이 들어갈 수 있습니다
-  setTimeout(() => setIsLoading(false), 1500);
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 1500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // 여기서는 예시로 JSON 데이터를 생성합니다
+  const handleNext = () => {
+    // AI가 생성한 페이지 JSON 예시
+    const mockPageJson = JSON.stringify({
+      sections: [
+        {
+          type: 'hero',
+          title: '리뉴얼된 홈페이지',
+          subtitle: '현대적이고 깔끔한 디자인',
+        },
+      ],
+    });
+    onNext(mockPageJson);
+  };
 
   return (
     <div className="space-y-6">
@@ -142,7 +160,7 @@ export default function RenewalPreview({
         </Button>
         <Button
           type="button"
-          onClick={onNext}
+          onClick={handleNext}
           disabled={isLoading}
           className="flex-1"
         >
@@ -152,3 +170,4 @@ export default function RenewalPreview({
     </div>
   );
 }
+

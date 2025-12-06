@@ -19,7 +19,7 @@ const BusinessSection = () => {
         무료 상담만으로도 비즈니스의 새로운 가능성을 발견할 수 있습니다.
       </p>
 
-      <Link href={PATH.renewal}>
+      <Link href={PATH.consultation.new}>
         <Button className="mt-8 mb-40 flex items-center gap-6 px-8">
           <ArrowUpIcon />
           무료 상담하기

@@ -1,6 +1,6 @@
 'use client';
 
-import AppList from './ui/app-list';
+import AppList from './_ui/app-list';
 
 export default function DashboardPage() {
   return (

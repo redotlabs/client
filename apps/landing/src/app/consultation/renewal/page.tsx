@@ -1,20 +1,22 @@
 'use client';
 
 import { useState } from 'react';
-import WebsiteInput from './ui/website-input';
-import RenewalPreview from './ui/renewal-preview';
-import ConsultationForm from './ui/consultation-form';
+import WebsiteInput from './_ui/website-input';
+import RenewalPreview from './_ui/renewal-preview';
+import ConsultationForm from './_ui/consultation-form';
 
-export default function RenewalPage() {
+export default function RenewalConsultationPage() {
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [websiteUrl, setWebsiteUrl] = useState('');
+  const [pageJson, setPageJson] = useState<string>('');
 
   const handleWebsiteSubmit = (url: string) => {
     setWebsiteUrl(url);
     setStep(2);
   };
 
-  const handlePreviewNext = () => {
+  const handlePreviewNext = (generatedPageJson: string) => {
+    setPageJson(generatedPageJson);
     setStep(3);
   };
 
@@ -109,10 +111,15 @@ export default function RenewalPage() {
             />
           )}
           {step === 3 && (
-            <ConsultationForm websiteUrl={websiteUrl} onBack={handleBack} />
+            <ConsultationForm
+              websiteUrl={websiteUrl}
+              pageJson={pageJson}
+              onBack={handleBack}
+            />
           )}
         </div>
       </div>
     </main>
   );
 }
+

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
-import { useVerifyEmailCode } from '../hooks/verify-email-code.hook';
-import { useSignUpStep } from '../hooks/sign-up-step.hook';
+import { useVerifyEmailCode } from '../_hooks/verify-email-code.hook';
+import { useSignUpStep } from '../_hooks/sign-up-step.hook';
 import { useSendEmailVerificationCode } from '@/shared/api/queries/auth';
 import { RHFInput } from '@repo/ui';
 import { Button, toast } from '@redotlabs/ui';

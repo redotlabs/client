@@ -6,55 +6,78 @@ import { z } from 'zod';
 import { useState } from 'react';
 import { RHFInput, RHFTextarea } from '@repo/ui';
 import { Button } from '@redotlabs/ui';
+import { useCreateConsultation } from '@/shared/api/queries/consultation';
+import { ConsultationType } from '@repo/types';
 
 const consultationSchema = z.object({
-  websiteUrl: z.string().min(1),
-  contact: z
+  email: z
     .string()
-    .min(1, '연락처를 입력해주세요')
+    .min(1, '이메일을 입력해주세요')
+    .email('올바른 이메일 형식을 입력해주세요'),
+  phone: z
+    .string()
     .regex(
       /^01[0-9]-?[0-9]{3,4}-?[0-9]{4}$/,
       '올바른 전화번호 형식을 입력해주세요 (예: 010-1234-5678)'
-    ),
-  message: z
+    )
+    .optional()
+    .or(z.literal('')),
+  content: z
     .string()
     .min(10, '상담 내용을 최소 10자 이상 입력해주세요')
     .max(1000, '상담 내용은 1000자를 초과할 수 없습니다'),
+  currentWebsiteUrl: z.string().min(1),
+  page: z.string().min(1),
 });
 
 type ConsultationFormData = z.infer<typeof consultationSchema>;
 
 interface ConsultationFormProps {
   websiteUrl: string;
+  pageJson: string;
   onBack: () => void;
 }
 
 export default function ConsultationForm({
   websiteUrl,
+  pageJson,
   onBack,
 }: ConsultationFormProps) {
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { mutate: createConsultation, isPending } = useCreateConsultation();
 
   const form = useForm<ConsultationFormData>({
     resolver: zodResolver(consultationSchema),
     defaultValues: {
-      websiteUrl,
-      contact: '',
-      message: '',
+      email: '',
+      phone: '',
+      content: '',
+      currentWebsiteUrl: websiteUrl,
+      page: pageJson,
     },
     mode: 'onChange',
   });
 
   const onSubmit = async (data: ConsultationFormData) => {
-    setIsSubmitting(true);
-
-    // 실제로는 API 호출을 통해 상담 요청을 제출합니다
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-
-    console.log('상담 요청 데이터:', data);
-    setIsSubmitting(false);
-    setIsSubmitted(true);
+    createConsultation(
+      {
+        email: data.email,
+        phone: data.phone || undefined,
+        content: data.content,
+        type: 'RENEWAL' as ConsultationType,
+        currentWebsiteUrl: data.currentWebsiteUrl,
+        page: data.page,
+      },
+      {
+        onSuccess: () => {
+          setIsSubmitted(true);
+        },
+        onError: (error) => {
+          console.error('상담 요청 실패:', error);
+          alert('상담 요청에 실패했습니다. 다시 시도해주세요.');
+        },
+      }
+    );
   };
 
   if (isSubmitted) {
@@ -118,26 +141,41 @@ export default function ConsultationForm({
 
       <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          {/* 숨겨진 필드: AI가 생성한 페이지 JSON */}
+          <input type="hidden" {...form.register('page')} />
+
           {/* 기존 홈페이지 주소 (읽기 전용) */}
           <div>
-            <RHFInput name="websiteUrl" label="기존 홈페이지 주소" disabled />
+            <RHFInput
+              name="currentWebsiteUrl"
+              label="기존 홈페이지 주소"
+              disabled
+            />
             <p className="mt-1 text-xs text-gray-500">
               이전 단계에서 입력한 홈페이지 주소입니다
             </p>
           </div>
 
+          {/* 이메일 */}
+          <RHFInput
+            name="email"
+            label="이메일 *"
+            type="email"
+            placeholder="example@email.com"
+          />
+
           {/* 연락처 */}
           <RHFInput
-            name="contact"
-            label="연락처 *"
+            name="phone"
+            label="연락처"
             type="tel"
-            placeholder="010-1234-5678"
+            placeholder="010-1234-5678 (선택사항)"
           />
 
           {/* 상담 내용 */}
           <div>
             <RHFTextarea
-              name="message"
+              name="content"
               label="상담 내용 *"
               placeholder="리뉴얼하고 싶은 부분, 원하시는 기능, 예산, 일정 등을 자유롭게 작성해주세요."
               className="min-h-[160px]"
@@ -163,13 +201,13 @@ export default function ConsultationForm({
               type="button"
               variant="outlined"
               onClick={onBack}
-              disabled={isSubmitting}
+              disabled={isPending}
               className="flex-1"
             >
               이전 단계
             </Button>
-            <Button type="submit" disabled={isSubmitting} className="flex-1">
-              {isSubmitting ? (
+            <Button type="submit" disabled={isPending} className="flex-1">
+              {isPending ? (
                 <>
                   <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
                   제출 중...
@@ -184,3 +222,4 @@ export default function ConsultationForm({
     </div>
   );
 }
+

@@ -2,7 +2,7 @@ import SuccessStep from './success-step';
 import SendCodeStep from './send-code-step';
 import VerifyCodeStep from './verify-code-step';
 import SignUpStep from './sign-up-step';
-import { useSignUpStep } from '../hooks/sign-up-step.hook';
+import { useSignUpStep } from '../_hooks/sign-up-step.hook';
 
 const StepRenderer = () => {
   const { step } = useSignUpStep();

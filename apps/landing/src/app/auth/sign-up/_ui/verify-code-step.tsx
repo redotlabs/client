@@ -1,8 +1,8 @@
 import { RHFInput } from '@repo/ui';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useTimer } from '@repo/hooks';
-import { useSignUpStep } from '../hooks/sign-up-step.hook';
-import { useVerifyEmailCode } from '../hooks/verify-email-code.hook';
+import { useSignUpStep } from '../_hooks/sign-up-step.hook';
+import { useVerifyEmailCode } from '../_hooks/verify-email-code.hook';
 import {
   useSendEmailVerificationCode,
   useVerifyEmailVerificationCode,

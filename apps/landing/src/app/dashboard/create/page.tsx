@@ -1,6 +1,6 @@
 'use client';
 
-import CreateAppForm from './ui/create-app-form';
+import CreateAppForm from './_ui/create-app-form';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { useAppList } from '@/shared/api/queries/app';

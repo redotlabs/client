@@ -3,9 +3,9 @@
 import z from 'zod';
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { VerifyEmailCodeProvider } from './hooks/verify-email-code.hook';
-import { SignUpStepProvider } from './hooks/sign-up-step.hook';
-import StepRenderer from './ui/step-renderer';
+import { VerifyEmailCodeProvider } from './_hooks/verify-email-code.hook';
+import { SignUpStepProvider } from './_hooks/sign-up-step.hook';
+import StepRenderer from './_ui/step-renderer';
 
 const schema = z
   .object({
