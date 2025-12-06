@@ -1,6 +1,14 @@
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Button, Table, TableBody, Badge } from '@redotlabs/ui';
-import { ArrowLeft, User, Mail, Phone, Building2, Calendar, Clock } from 'lucide-react';
+import {
+  ArrowLeft,
+  User,
+  Mail,
+  Phone,
+  Building2,
+  Calendar,
+  Clock,
+} from 'lucide-react';
 import { format } from 'date-fns';
 import { Card } from '@repo/ui';
 import type { App } from '@/shared/types';
@@ -64,7 +72,7 @@ const MOCK_APPS: App[] = [
 ];
 
 const CustomerDetailPage = () => {
-  const { id } = useParams<{ id: string }>();
+  // const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
   // 실제로는 useQuery 등을 사용하여 API에서 데이터를 가져옴
@@ -128,8 +136,7 @@ const CustomerDetailPage = () => {
           </div>
           <div className="space-y-1">
             <div className="flex items-center gap-2 text-sm font-medium text-gray-500">
-              <User size={16} />
-              앱 개수
+              <User size={16} />앱 개수
             </div>
             <p className="text-sm font-semibold text-primary-600">
               {customer.appCount}개
@@ -182,4 +189,3 @@ const CustomerDetailPage = () => {
 };
 
 export default CustomerDetailPage;
-
