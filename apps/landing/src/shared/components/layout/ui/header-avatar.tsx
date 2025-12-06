@@ -6,9 +6,11 @@ import { LayoutDashboard } from 'lucide-react';
 import React from 'react';
 import SignOutButton from './sign-out-button';
 import Link from 'next/link';
+import { useDialog } from '@repo/hooks';
 
 const HeaderAvatar = ({ user }: { user: RedotUser }) => {
   const { name, profileImageUrl, email } = user;
+  const popover = useDialog();
 
   const getInitial = (name?: string) => {
     if (!name) return 'U';
@@ -16,7 +18,7 @@ const HeaderAvatar = ({ user }: { user: RedotUser }) => {
   };
 
   return (
-    <Popover>
+    <Popover open={popover.isOpen} onOpenChange={popover.onOpenChange}>
       <PopoverTrigger asChild>
         <Button variant="text" className="p-0 rounded-full h-fit">
           {profileImageUrl ? (
@@ -60,7 +62,7 @@ const HeaderAvatar = ({ user }: { user: RedotUser }) => {
 
         {/* 메뉴 아이템 */}
         <div className="p-1">
-          <Link href={PATH.dashboard.root}>
+          <Link href={PATH.dashboard.root} onClick={popover.onClose}>
             <Button
               variant="text"
               className="w-full p-0 h-fit flex justify-start items-center gap-3 px-4 py-2 text-sm text-gray-700"
