@@ -1,1 +1,1 @@
-# Redot Landing page
+# Landing page
