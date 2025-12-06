@@ -16,4 +16,7 @@ export const API_PATH = {
     createManager: (appId: number) => `/app/${appId}/create-manager`,
     plans: '/app/plans',
   },
+  consultation: {
+    root: '/redot/consultations',
+  },
 };
