@@ -1,0 +1,28 @@
+name: Deploy-production
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  CI: true
+
+jobs:
+  deploy:
+    if: github.repository == 'redotlabs/client'
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.REDOT_PRIVATE_PAT }}
+          fetch-depth: 0 
+
+      - name: Push to deploy repository
+        run: |
+          git remote add deploy https://redot-dev:${{ secrets.REDOT_PRIVATE_PAT }}@github.com/redot-dev/client-deploy.git
+          git push --force deploy main

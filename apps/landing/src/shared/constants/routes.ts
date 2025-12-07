@@ -1,5 +1,7 @@
 export const PATH = {
   root: '/',
+  terms: '/terms',
+  privacy: '/privacy',
   auth: {
     signIn: '/auth/sign-in',
     signUp: '/auth/sign-up',
@@ -7,6 +9,14 @@ export const PATH = {
   dashboard: {
     root: '/dashboard',
     create: '/dashboard/create',
+    createSuccess: '/dashboard/create/success',
+    payment: '/dashboard/payment',
+    setupManager: (appId: string | number) =>
+      `/dashboard/${appId}/setup-manager`,
   },
-  renewal: '/renewal',
+  pricing: '/pricing',
+  consultation: {
+    new: '/consultation/new',
+    renewal: '/consultation/renewal',
+  },
 };

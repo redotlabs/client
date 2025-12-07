@@ -1,6 +1,7 @@
 import { Logo } from '@redotlabs/ui';
 import Link from 'next/link';
 import React from 'react';
+import { PATH } from '@/shared/constants/routes';
 
 const Footer = () => {
   return (
@@ -17,7 +18,7 @@ const Footer = () => {
         <ul className="text-sm">
           <li className="flex gap-2">
             <Link
-              href="/terms"
+              href={PATH.terms}
               className="hover:underline"
               target="_blank"
               rel="noopener noreferrer"
@@ -26,7 +27,7 @@ const Footer = () => {
             </Link>
             <span>|</span>
             <Link
-              href="/privacy"
+              href={PATH.privacy}
               className="hover:underline"
               target="_blank"
               rel="noopener noreferrer"

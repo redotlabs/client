@@ -12,6 +12,7 @@ const MOCK_CUSTOMERS = [
     status: 'active' as const,
     createdAt: '2024-01-15T09:00:00.000Z',
     lastLoginAt: '2025-11-15T14:30:00.000Z',
+    appCount: 5,
   },
   {
     id: 2,
@@ -22,6 +23,7 @@ const MOCK_CUSTOMERS = [
     status: 'active' as const,
     createdAt: '2024-03-20T10:30:00.000Z',
     lastLoginAt: '2025-11-14T09:15:00.000Z',
+    appCount: 3,
   },
   {
     id: 3,
@@ -32,6 +34,7 @@ const MOCK_CUSTOMERS = [
     status: 'inactive' as const,
     createdAt: '2024-06-10T15:20:00.000Z',
     lastLoginAt: '2025-10-30T16:45:00.000Z',
+    appCount: 0,
   },
   {
     id: 4,
@@ -41,6 +44,7 @@ const MOCK_CUSTOMERS = [
     status: 'active' as const,
     createdAt: '2024-08-05T11:00:00.000Z',
     lastLoginAt: '2025-11-15T11:20:00.000Z',
+    appCount: 8,
   },
   {
     id: 5,
@@ -51,6 +55,7 @@ const MOCK_CUSTOMERS = [
     status: 'active' as const,
     createdAt: '2024-09-18T14:45:00.000Z',
     lastLoginAt: '2025-11-13T15:40:00.000Z',
+    appCount: 12,
   },
 ];
 
@@ -83,4 +88,3 @@ const CustomerPage = () => {
 };
 
 export default CustomerPage;
-

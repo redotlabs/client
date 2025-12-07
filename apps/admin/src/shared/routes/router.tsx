@@ -7,7 +7,9 @@ import AdminLayout from '../components/layouts/admin-layout';
 import AdminPage from '@/pages/admin';
 import DashboardPage from '@/pages/dashboard';
 import CustomerPage from '@/pages/customer';
+import CustomerDetailPage from '@/pages/customer/[id]';
 import ConsultantPage from '@/pages/consultant';
+import TransactionPage from '@/pages/transaction';
 
 // ----------------------------------------------------------------------
 
@@ -30,7 +32,9 @@ export default function Router() {
         { path: '', element: <DashboardPage /> },
         { path: 'admin', element: <AdminPage /> },
         { path: 'customer', element: <CustomerPage /> },
+        { path: 'customer/:id', element: <CustomerDetailPage /> },
         { path: 'consultant', element: <ConsultantPage /> },
+        { path: 'transaction', element: <TransactionPage /> },
       ],
     },
     // error
