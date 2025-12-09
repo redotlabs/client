@@ -30,10 +30,10 @@
     "@redotlabs/themes": "^1.1.0",
     "@redotlabs/ui": "^1.5.0",
     "@redotlabs/utils": "^1.0.0",
-    "@repo/eslint-config": "workspace:*",
-    "@repo/typescript-config": "workspace:*",
     "@repo/builder/renderer": "workspace:*",
+    "@repo/eslint-config": "workspace:*",
     "@repo/types": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
     "@types/react": "^19.0.0",
     "lucide-react": "^0.545.0",
     "tsup": "^8.5.0",
@@ -46,5 +46,8 @@
     "@repo/builder/renderer": "workspace:*",
     "lucide-react": "^0.545.0",
     "react": "^19.0.0"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.90.12"
   }
 }
