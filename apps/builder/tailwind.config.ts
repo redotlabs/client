@@ -1,14 +1,22 @@
 import { colors, typography } from '@redotlabs/tokens';
 import type { Config } from 'tailwindcss';
+import path from 'path';
+import tailwindcssAnimate from 'tailwindcss-animate';
 
 export default {
-  content: ['./src/**/*.{js,ts,jsx,tsx}', './node_modules/@redotlabs/ui/**/*.{js,ts,jsx,tsx}'],
+  content: [
+    './src/**/*.{js,ts,jsx,tsx}',
+    './node_modules/@repo/ui',
+    './node_modules/@repo/builder/renderer',
+    './node_modules/@repo/builder/editor',
+    path.join(path.dirname(require.resolve('@redotlabs/ui')), '**/*.js'),
+  ],
   theme: {
     extend: {
       colors: {
         ...colors,
         primary: {
-          DEFAULT: 'var(--color-primary-600)',
+          DEFAULT: 'var(--color-primary-500)',
           100: 'var(--color-primary-100)',
           200: 'var(--color-primary-200)',
           300: 'var(--color-primary-300)',
@@ -24,5 +32,5 @@ export default {
       fontWeight: typography.weight,
     },
   },
-  plugins: [],
+  plugins: [tailwindcssAnimate],
 } satisfies Config;
