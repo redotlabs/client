@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { extractSubdomain, isSubdomain } from '@repo/utils';
-import { CMS_DOMAIN } from './shared/constants/env-variables';
+import { BUILDER_DOMAIN, CMS_DOMAIN } from './shared/constants/env-variables';
 
 const rewriteCmsUrl = (pathname: string, subdomain: string) => {
   const isCmsStatic =
@@ -14,6 +14,20 @@ const rewriteCmsUrl = (pathname: string, subdomain: string) => {
   return `${CMS_DOMAIN}/cms/s/${subdomain}${onlyPath}`;
 };
 
+const rewriteBuilderUrl = (pathname: string, subdomain: string) => {
+  const onlyPath = pathname.replace('/builder', '');
+
+  const isPageRequest = onlyPath === '/' || onlyPath === '/preview';
+
+  if (isPageRequest) {
+    const normalizedPath = onlyPath.endsWith('/') ? onlyPath : onlyPath + '/';
+    return `${BUILDER_DOMAIN}/builder/s/${subdomain}${normalizedPath}`;
+  }
+
+  const normalizedPath = pathname.endsWith('/') ? pathname : pathname + '/';
+  return `${BUILDER_DOMAIN}${normalizedPath}`;
+};
+
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const host = request.headers.get('host') || request.nextUrl.hostname;
@@ -23,6 +37,9 @@ export async function proxy(request: NextRequest) {
   if (subdomain && isSubdomain(url)) {
     if (pathname.startsWith('/cms')) {
       return NextResponse.rewrite(rewriteCmsUrl(pathname, subdomain));
+    }
+    if (pathname.startsWith('/builder')) {
+      return NextResponse.rewrite(rewriteBuilderUrl(pathname, subdomain));
     }
     return NextResponse.rewrite(
       new URL(`/s/${subdomain}${pathname}`, request.url)

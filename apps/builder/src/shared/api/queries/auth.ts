@@ -1,0 +1,39 @@
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { queryKeyFactory } from '@/shared/api/query-key-factory';
+import { getMe, reIssue } from '@/shared/api/services/auth';
+
+export const useReIssue = () => {
+  return useMutation({
+    mutationFn: reIssue,
+  });
+};
+
+export const useMe = (props?: { enabled?: boolean }) => {
+  return useQuery({
+    queryKey: queryKeyFactory.auth.me,
+    queryFn: getMe,
+    gcTime: Infinity,
+    staleTime: Infinity,
+    enabled: props?.enabled ?? true,
+  });
+};
+
+/**
+ * 맨 처음 진입시 refresh + me
+ */
+export const useAuth = (props?: { enabled?: boolean }) => {
+  const queryClient = useQueryClient();
+
+  return useQuery({
+    queryKey: ['ONE_TIME_QUERY_FOR_INITIALIZE_SESSION'],
+    queryFn: async () => {
+      await reIssue();
+      const data = await getMe();
+      queryClient.setQueryData(queryKeyFactory.auth.me, data);
+      return data;
+    },
+    gcTime: Infinity,
+    staleTime: Infinity,
+    enabled: props?.enabled ?? true,
+  });
+};

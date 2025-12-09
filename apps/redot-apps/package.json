@@ -19,6 +19,7 @@
     "@repo/tenant-router/next": "workspace:*",
     "@repo/ui": "workspace:*",
     "@repo/utils": "workspace:*",
+    "@repo/builder/renderer": "workspace:*",
     "next": "16.0.7",
     "react": "19.2.0",
     "react-dom": "19.2.0",
