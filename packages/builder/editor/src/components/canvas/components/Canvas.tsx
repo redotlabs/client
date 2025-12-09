@@ -5,8 +5,7 @@ import { SelectableSection } from './SelectableSection';
 export const Canvas = () => {
   const { state } = useEditorContext();
 
-  const currentPage = state.page;
-  const sections = currentPage?.content?.sections || [];
+  const sections = state.content.sections || [];
 
   return (
     <div className="w-full h-screen overflow-y-auto overflow-x-hidden bg-gray-50">

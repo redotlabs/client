@@ -1,5 +1,9 @@
 import type { EditorState, StateSelector } from './types';
-import type { BuilderBlock, Section, Page } from '@repo/builder/renderer';
+import type {
+  BuilderBlock,
+  Section,
+  PageContent,
+} from '@repo/builder/renderer';
 
 /**
  * Site Selectors
@@ -8,10 +12,11 @@ import type { BuilderBlock, Section, Page } from '@repo/builder/renderer';
 //   state.page.metadata;
 
 /**
- * Page Selectors
+ * Content Selectors
  */
-export const getCurrentPage: StateSelector<Page | undefined> = (state) =>
-  state.page;
+export const getCurrentContent: StateSelector<PageContent | undefined> = (
+  state
+) => state.content;
 
 // export const getCurrentPageId: StateSelector<string> = (state) =>
 //   state.currentPageId;
@@ -23,8 +28,8 @@ export const getCurrentPage: StateSelector<Page | undefined> = (state) =>
  * 현재 페이지의 sections를 반환
  */
 const getCurrentSections: StateSelector<Section[]> = (state) => {
-  const currentPage = getCurrentPage(state);
-  return currentPage?.content?.sections || [];
+  const currentContent = getCurrentContent(state);
+  return currentContent?.sections || [];
 };
 
 /**

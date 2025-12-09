@@ -10,12 +10,14 @@ import {
 import { getPropertyEditor } from './property-editors';
 import { SectionEditor } from './SectionEditor';
 import { updateBlock, updateSection } from '@/core/actions';
+import { cn } from '@redotlabs/utils';
 
 interface InspectorPanelProps {
   onClose?: () => void;
+  className?: string;
 }
 
-export const InspectorPanel = ({ onClose }: InspectorPanelProps) => {
+export const InspectorPanel = ({ onClose, className }: InspectorPanelProps) => {
   const [isMinimized, setIsMinimized] = useState(false);
   const { state, dispatch } = useEditorContext();
 
@@ -85,9 +87,11 @@ export const InspectorPanel = ({ onClose }: InspectorPanelProps) => {
 
   return (
     <div
-      className={`fixed right-4 top-[72px] w-[280px] bg-white shadow-lg rounded-lg border border-gray-200 z-50 ${
-        isMinimized ? 'max-h-12' : 'max-h-[calc(100vh-88px)]'
-      }`}
+      className={cn(
+        'fixed right-4 top-[72px] w-[280px] bg-white shadow-lg rounded-lg border border-gray-200 z-50',
+        isMinimized ? 'max-h-12' : 'max-h-[calc(100vh-88px)]',
+        className
+      )}
     >
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200 bg-gray-50 rounded-t-lg">

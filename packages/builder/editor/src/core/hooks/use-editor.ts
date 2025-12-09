@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { EditorController } from '@/core/controller';
 import type { EditorState } from '@/core/state';
-import type { GridConfig, Page } from '@repo/builder/renderer';
+import type { GridConfig, PageContent } from '@repo/builder/renderer';
 
 /**
  * useEditor Hook
@@ -11,25 +11,27 @@ import type { GridConfig, Page } from '@repo/builder/renderer';
  */
 export function useEditor(
   gridConfig: GridConfig,
-  page: Page,
-  onChange?: (page: Page) => void
+  content: PageContent,
+  onChange?: (content: PageContent) => void
 ) {
   const controllerRef = useRef<EditorController | null>(null);
 
   if (!controllerRef.current) {
-    controllerRef.current = new EditorController(gridConfig, page);
+    controllerRef.current = new EditorController(gridConfig, content);
   }
 
   const controller = controllerRef.current;
 
   const [state, setState] = useState<EditorState>(controller.getState());
+  const [isDirty, setIsDirty] = useState(controller.getIsDirty());
 
   useEffect(() => {
     const unsubscribe = controller.subscribe((newState) => {
       setState(newState);
+      setIsDirty(controller.getIsDirty());
       // Call onChange callback when state changes
       if (onChange) {
-        onChange(newState.page);
+        onChange(newState.content);
       }
     });
 
@@ -40,6 +42,7 @@ export function useEditor(
 
   return {
     state,
+    isDirty,
     dispatch,
     controller,
   };

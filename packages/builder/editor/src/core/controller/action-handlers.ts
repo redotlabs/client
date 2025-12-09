@@ -63,9 +63,9 @@ export const actionHandlers: Record<ActionType, ActionHandler> = {
   //   return stateUpdaters.deletePageState(state, action.payload.pageId);
   // }) as ActionHandler,
 
-  'page.update': ((state) => {
-    return stateUpdaters.updatePageState(state);
-  }) as ActionHandler,
+  // 'page.update': ((state) => {
+  //   return stateUpdaters.updatePageState(state);
+  // }) as ActionHandler,
 
   // Section Handlers
   'section.create': ((state, action: SectionCreateAction) => {

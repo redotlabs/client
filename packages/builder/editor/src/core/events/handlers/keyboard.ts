@@ -35,7 +35,7 @@ export const keyboardHandler: KeyboardEventHandler = {
         event.preventDefault();
         const selectedIds = getSelectedBlockIds(state);
 
-        const sections = state.page.content.sections || [];
+        const sections = state.content.sections || [];
 
         selectedIds.forEach((blockId) => {
           for (const section of sections) {

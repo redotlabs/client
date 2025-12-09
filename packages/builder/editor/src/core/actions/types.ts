@@ -3,7 +3,6 @@ import type {
   BlockPosition,
   BlockSize,
   Section,
-  Page,
 } from '@repo/builder/renderer';
 import type {
   DragInteractionState,
@@ -21,7 +20,7 @@ export type ActionType =
   // | 'page.create'
   // | 'page.select'
   // | 'page.delete'
-  | 'page.update'
+  // | 'page.update'
   // Section Actions
   | 'section.create'
   | 'section.insert'
@@ -99,17 +98,6 @@ export interface BaseAction {
 //     pageId: string;
 //   };
 // }
-
-export interface PageUpdateAction extends BaseAction {
-  type: 'page.update';
-  payload: {
-    pageId: string;
-    updates: {
-      name?: string;
-      path?: string;
-    };
-  };
-}
 
 // ============================================
 // Section Actions
@@ -306,7 +294,6 @@ export type EditorAction =
   // | PageCreateAction
   // | PageSelectAction
   // | PageDeleteAction
-  | PageUpdateAction
   // Section Actions
   | SectionCreateAction
   | SectionInsertAction

@@ -13,7 +13,7 @@ export const useRenderableBlocks = (sectionId?: string) => {
   return useMemo(() => {
     const converter = new BlockConverter(state.gridConfig);
 
-    const sections = state?.page?.content?.sections || [];
+    const sections = state?.content?.sections || [];
 
     let blocks;
     if (sectionId) {
@@ -24,5 +24,5 @@ export const useRenderableBlocks = (sectionId?: string) => {
     }
 
     return converter.convertBlocks(blocks);
-  }, [state.page, state.gridConfig, sectionId]);
+  }, [state.content, state.gridConfig, sectionId]);
 };

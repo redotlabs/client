@@ -4,7 +4,7 @@ import type {
   // PageCreateAction,
   // PageSelectAction,
   // PageDeleteAction,
-  PageUpdateAction,
+  // ContentUpdateAction,
   SectionCreateAction,
   SectionInsertAction,
   SectionDeleteAction,
@@ -81,11 +81,11 @@ function createActionWithoutPayload<T extends EditorAction>(
 // export const deletePage = (pageId: string): PageDeleteAction =>
 //   createAction<PageDeleteAction>('page.delete', { pageId });
 
-export const updatePage = (
-  pageId: string,
-  updates: PageUpdateAction['payload']['updates']
-): PageUpdateAction =>
-  createAction<PageUpdateAction>('page.update', { pageId, updates });
+// export const updatePage = (
+//   pageId: string,
+//   updates: ContentUpdateAction['payload']['updates']
+// ): ContentUpdateAction =>
+//   createAction<ContentUpdateAction>('content.update', { pageId, updates });
 
 // ============================================
 // Section Action Creators

@@ -1,14 +1,14 @@
-import type { Page } from '../types';
+import type { PageContent } from '../types';
 import { SectionRenderer } from './SectionRenderer';
 
 interface PageRendererProps {
-  page: Page;
+  content: PageContent;
 }
 
-export const PageRenderer = ({ page }: PageRendererProps) => {
+export const PageRenderer = ({ content }: PageRendererProps) => {
   return (
     <div className="w-full">
-      {page.content.sections.map((section) => (
+      {content.sections.map((section) => (
         <SectionRenderer key={section.id} section={section} />
       ))}
     </div>

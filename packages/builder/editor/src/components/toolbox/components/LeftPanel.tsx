@@ -11,6 +11,7 @@ import { useEditorContext } from '@/context';
 import { createSection } from '@/core/actions';
 import { BLOCK_REGISTRY } from '@/core/blocks';
 import { useBlockActions } from '@/components/canvas/hooks/useBlockActions';
+import { cn } from '@redotlabs/utils';
 
 interface CategoryItem {
   id: string;
@@ -59,7 +60,7 @@ const CATEGORIES: CategoryItem[] = [
   },
 ];
 
-export const LeftPanel = () => {
+export const LeftPanel = ({ className }: { className?: string }) => {
   const { dispatch } = useEditorContext();
   const { handleAddBlock, handleDragStart } = useBlockActions();
 
@@ -92,7 +93,12 @@ export const LeftPanel = () => {
   };
 
   return (
-    <div className="fixed left-4 top-[72px] max-h-[calc(100vh-88px)] z-40">
+    <div
+      className={cn(
+        'fixed left-4 top-[72px] max-h-[calc(100vh-88px)] z-40',
+        className
+      )}
+    >
       <div className="w-16 flex flex-col items-center py-2 overflow-y-auto max-h-[calc(100vh-88px)]">
         {CATEGORIES.map((category) => {
           const isSection = category.id === 'section';

@@ -50,7 +50,7 @@ export const createDragHandler = (): DragEventHandler => {
       context: HandlerContext,
       blockId: string
     ) => {
-      const sections = context.state.page.content.sections || [];
+      const sections = context.state.content.sections || [];
 
       let block = null;
       for (const section of sections) {

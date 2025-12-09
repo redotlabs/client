@@ -1,17 +1,19 @@
 import { createContext, useContext, type ReactNode } from 'react';
 import { useEditor } from '@/core/hooks/use-editor';
-import type { GridConfig, Page } from '@repo/builder/renderer';
+import type { GridConfig, PageContent } from '@repo/builder/renderer';
 import type { EditorState } from '@/core/state';
 import type { EditorAction } from '@/core/actions';
 import type { RuleValidationResult } from '@/core/rules';
 import { DEFAULT_GRID_CONFIG } from '@/shared/constants/editorData';
+import type { AppPage } from '@repo/types';
 
-type Pages = Pick<Page, 'id' | 'title' | 'path'>[];
+type Pages = Pick<AppPage, 'title' | 'path'>[];
 
 interface EditorContextValue {
   state: EditorState;
   pages: Pages;
   dispatch: (action: EditorAction) => RuleValidationResult;
+  isDirty: boolean;
 }
 
 const EditorContext = createContext<EditorContextValue | null>(null);
@@ -19,9 +21,9 @@ const EditorContext = createContext<EditorContextValue | null>(null);
 interface EditorProviderProps {
   children: ReactNode;
   gridConfig?: GridConfig;
-  currentPage: Page;
+  content: PageContent;
   pages: Pages;
-  onChange?: (page: Page) => void;
+  onChange?: (content: PageContent) => void;
 }
 
 /**
@@ -31,14 +33,16 @@ interface EditorProviderProps {
 export function EditorProvider({
   children,
   gridConfig = DEFAULT_GRID_CONFIG,
-  currentPage,
+  content,
   pages,
   onChange,
 }: EditorProviderProps) {
-  const { state, dispatch } = useEditor(gridConfig, currentPage, onChange);
+  const { state, dispatch, isDirty } = useEditor(gridConfig, content, onChange);
 
   return (
-    <EditorContext value={{ state, pages, dispatch }}>{children}</EditorContext>
+    <EditorContext value={{ state, pages, dispatch, isDirty }}>
+      {children}
+    </EditorContext>
   );
 }
 

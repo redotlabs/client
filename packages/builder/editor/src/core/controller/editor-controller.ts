@@ -4,7 +4,7 @@ import {
   type EditorRuleContext,
   globalRuleValidator,
 } from '@/core/rules';
-import type { GridConfig, Page } from '@repo/builder/renderer';
+import type { GridConfig, PageContent } from '@repo/builder/renderer';
 import type { EditorAction } from '@/core/actions';
 import { actionHandlers } from './action-handlers';
 
@@ -14,10 +14,12 @@ import { actionHandlers } from './action-handlers';
  */
 export class EditorController {
   private state: EditorState;
+  private isDirty: boolean = false;
   private listeners: ((state: EditorState) => void)[] = [];
 
-  constructor(gridConfig: GridConfig, page: Page) {
-    this.state = createInitialEditorState(gridConfig, page);
+  constructor(gridConfig: GridConfig, content: PageContent) {
+    this.state = createInitialEditorState(gridConfig, content);
+    this.isDirty = false;
   }
 
   /**
@@ -34,7 +36,7 @@ export class EditorController {
 
     // 2. 상태 업데이트
     this.state = this.applyAction(action, this.state);
-
+    this.isDirty = true;
     // 3. 리스너에게 상태 변경 알림
     this.notifyListeners();
 
@@ -43,7 +45,7 @@ export class EditorController {
   };
 
   private validateAction(action: EditorAction): RuleValidationResult {
-    const sections = this.state.page.content.sections || [];
+    const sections = this.state.content.sections || [];
 
     const selectedSection = this.state.selection.selectedSectionId
       ? sections.find((s) => s.id === this.state.selection.selectedSectionId)
@@ -66,6 +68,10 @@ export class EditorController {
 
   getState(): Readonly<EditorState> {
     return this.state;
+  }
+
+  getIsDirty(): boolean {
+    return this.isDirty;
   }
 
   subscribe(listener: (state: EditorState) => void): () => void {

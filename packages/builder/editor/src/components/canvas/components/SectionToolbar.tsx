@@ -16,7 +16,7 @@ interface SectionToolbarProps {
 export const SectionToolbar = ({ sectionId }: SectionToolbarProps) => {
   const { state, dispatch } = useEditorContext();
 
-  const sections = state?.page?.content?.sections || [];
+  const sections = state?.content?.sections || [];
 
   const currentIndex = sections.findIndex((s) => s.id === sectionId);
 

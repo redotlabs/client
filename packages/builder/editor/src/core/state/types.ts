@@ -2,7 +2,7 @@ import type {
   GridConfig,
   BlockPosition,
   BlockSize,
-  Page,
+  PageContent,
 } from '@repo/builder/renderer';
 import type { ResizeDirection } from '@/core/events/handlers/types';
 
@@ -83,7 +83,7 @@ export interface InteractionState {
  * 에디터의 전체 상태
  */
 export interface EditorState {
-  page: Page;
+  content: PageContent;
   gridConfig: GridConfig;
 
   selection: SelectionState;
@@ -100,10 +100,10 @@ export interface EditorState {
 
 export const createInitialEditorState = (
   gridConfig: GridConfig,
-  page: Page
+  content: PageContent
 ): EditorState => {
   return {
-    page,
+    content,
     gridConfig,
     selection: {
       selectionType: null,

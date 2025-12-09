@@ -100,7 +100,7 @@ export const LinkEditor = ({ block, onUpdate }: PropertyEditorProps) => {
             className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             {pages.map((page) => (
-              <option key={page.id} value={page.path}>
+              <option key={page.path} value={page.path}>
                 {page.title} ({page.path})
               </option>
             ))}
