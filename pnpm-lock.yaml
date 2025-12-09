@@ -598,6 +598,9 @@ importers:
       '@repo/api-instance':
         specifier: workspace:*
         version: link:../../packages/api-instance
+      '@repo/builder/renderer':
+        specifier: workspace:*
+        version: link:../../packages/builder/renderer
       '@repo/hooks':
         specifier: workspace:*
         version: link:../../packages/hooks
