@@ -2,7 +2,7 @@ import { PageRenderer, type PageContent } from '@repo/builder/renderer';
 import type { AppPage } from '@repo/types';
 import { safeParseJson } from '@repo/utils';
 
-export const RendererApp = () => {
+export const PreviewPage = () => {
   const storedPage = localStorage.getItem('preview-page-data');
 
   const isError = !storedPage;

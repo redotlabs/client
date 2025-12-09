@@ -13,6 +13,7 @@ export default defineConfig(({ mode }) => {
   const API_DOMAIN = env.VITE_API_DOMAIN || 'http://localhost:8000';
 
   return {
+    base: '/builder/',
     plugins: [react(), tailwindcss(), tsconfigPaths()] as PluginOption[],
     resolve: {
       preserveSymlinks: true,
@@ -25,14 +26,18 @@ export default defineConfig(({ mode }) => {
           __dirname,
           '../../packages/builder/renderer/src/index.ts'
         ),
+        '@repo/hooks': path.resolve(
+          __dirname,
+          '../../packages/hooks/src/index.ts'
+        ),
       },
     },
     server: {
-      allowedHosts: ['localhost', '127.0.0.1', 'f25zae64.lvh.me'],
-      port: 3000,
+      allowedHosts: ['localhost', '127.0.0.1'],
+      port: 3002,
       host: '0.0.0.0', // 모든 네트워크 인터페이스에서 요청 수신
       hmr: {
-        clientPort: 3000,
+        clientPort: 3002,
       },
       proxy: {
         '/api': {

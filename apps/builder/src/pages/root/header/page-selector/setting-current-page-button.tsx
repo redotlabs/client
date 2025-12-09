@@ -1,4 +1,10 @@
-import { Button, Popover, PopoverContent, PopoverTrigger } from '@redotlabs/ui';
+import {
+  Button,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  toast,
+} from '@redotlabs/ui';
 import { Settings } from 'lucide-react';
 import { useDialog } from '@repo/hooks';
 import { z } from 'zod';
@@ -7,6 +13,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { RHFCheckbox, RHFInput } from '@repo/ui';
 import { useEffect } from 'react';
 import { usePageStore } from '@/features/page/store';
+import { MULTI_ZONE_PATHS } from '@/shared/constants/multi-zone-paths';
 
 const schema = z.object({
   title: z.string().min(1, '페이지 이름을 입력해주세요.'),
@@ -24,18 +31,34 @@ const SettingCurrentPageButton = () => {
 
   const pages = Object.values(storedPagesMap);
   const currentPage = currentPageKey ? storedPagesMap[currentPageKey] : null;
+  const otherPaths = pages
+    .map((page) => page.path)
+    .filter((path) => path !== currentPage?.path);
 
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: {
       title: '',
-      path: '',
+      path: '/',
       isProtected: false,
     },
   });
 
   const onSubmit = (data: z.infer<typeof schema>) => {
     if (!currentPageKey) return;
+    if (otherPaths.includes(data.path)) {
+      toast.error('이미 존재하는 URL Path입니다.');
+      return;
+    }
+    if (
+      MULTI_ZONE_PATHS.some(
+        (preventPath) =>
+          preventPath === data.path || data.path.startsWith(preventPath + '/')
+      )
+    ) {
+      toast.error('기본 사용 경로는 사용할 수 없습니다.');
+      return;
+    }
     setStoredPagesMap(currentPageKey, {
       ...currentPage!,
       ...data,

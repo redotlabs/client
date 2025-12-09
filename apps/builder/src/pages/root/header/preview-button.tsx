@@ -16,7 +16,7 @@ export const PreviewButton = () => {
       content: state.content,
     };
     localStorage.setItem('preview-page-data', JSON.stringify(payload));
-    window.open('/preview', '_blank');
+    window.open('/builder/preview', '_blank');
   };
 
   return (

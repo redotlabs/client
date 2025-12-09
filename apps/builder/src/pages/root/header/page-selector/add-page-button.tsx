@@ -13,6 +13,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { RHFCheckbox, RHFInput } from '@repo/ui';
 import { usePageStore } from '@/features/page/store';
 import { uuidv4 } from '@repo/utils';
+import { MULTI_ZONE_PATHS } from '@/shared/constants/multi-zone-paths';
 
 const schema = z.object({
   title: z.string().min(1, '페이지 이름을 입력해주세요.'),
@@ -38,7 +39,7 @@ const AddPageButton = () => {
     resolver: zodResolver(schema),
     defaultValues: {
       title: '',
-      path: '',
+      path: '/',
       isProtected: false,
     },
   });
@@ -46,6 +47,15 @@ const AddPageButton = () => {
   const onSubmit = (data: z.infer<typeof schema>) => {
     if (paths.includes(data.path)) {
       toast.error('이미 존재하는 URL Path입니다.');
+      return;
+    }
+    if (
+      MULTI_ZONE_PATHS.some(
+        (preventPath) =>
+          preventPath === data.path || data.path.startsWith(preventPath + '/')
+      )
+    ) {
+      toast.error('기본 사용 경로는 사용할 수 없습니다.');
       return;
     }
     const key = uuidv4();

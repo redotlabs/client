@@ -1,7 +1,7 @@
 import { createRoot } from 'react-dom/client';
 import './index.css';
-import BuilderApp from '@/pages/app/App';
-import { RendererApp } from '@/pages/renderer/RendererApp';
+import BuilderApp from '@/pages/root';
+import { PreviewPage } from '@/pages/preview';
 import RedotQueryClientProvider from './shared/components/wrapper/query-client-provider';
 import SubdomainInitializer from './shared/components/wrapper/subdomain-initializer';
 import { Toaster } from '@redotlabs/ui';
@@ -10,7 +10,7 @@ import AuthGuard from './shared/components/wrapper/auth-guard';
 import NotFound from './pages/not-found';
 import AppThemeProvider from './shared/components/wrapper/app-theme-provider';
 
-const isPreviewMode = window.location.pathname === '/preview';
+const isPreviewMode = window.location.pathname === '/builder/preview';
 
 function App() {
   const subdomain = extractSubdomain(window.location.href);
@@ -22,7 +22,7 @@ function App() {
           <Toaster />
           {(() => {
             if (!subdomain) return <NotFound />;
-            if (isPreviewMode) return <RendererApp />;
+            if (isPreviewMode) return <PreviewPage />;
             return (
               <AuthGuard>
                 <BuilderApp />

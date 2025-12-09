@@ -11,18 +11,18 @@ export const usePage = (pageKey?: string | null) => {
   const page = pageKey ? getPage(pageKey) : undefined;
   const { firstPage, isFetched: isFetchedVersions } = usePageVersions();
 
-  const query = useGetPage(page?.id ?? firstPage?.id);
+  const { data, ...otherQuery } = useGetPage(page?.id ?? firstPage?.id);
 
   useEffect(() => {
-    if (!query?.data || !isFetchedVersions) return;
-    const key = getPageKey(query.data.id);
+    if (!data || !isFetchedVersions) return;
+    const key = getPageKey(data.id);
     if (!key) return;
 
-    initializeContentsMap({ key, content: query.data.content });
-  }, [query?.data, pageKey, isFetchedVersions]);
+    initializeContentsMap({ key, content: data.content });
+  }, [data, pageKey, isFetchedVersions]);
 
   // client state가 있으면 적용
-  return { ...query, data: page };
+  return { ...otherQuery, data: page };
 };
 
 // client state initializer
