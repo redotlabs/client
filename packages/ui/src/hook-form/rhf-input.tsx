@@ -16,6 +16,7 @@ const RHFInput = ({
   label,
   labelPlacement = 'top',
   type = 'text',
+  size = 'md',
   ...props
 }: RHFInputProps) => {
   const { control } = useFormContext();
@@ -33,7 +34,14 @@ const RHFInput = ({
               )}
             >
               {label && (
-                <label htmlFor={name} className="text-base font-bold">
+                <label
+                  htmlFor={name}
+                  className={cn(
+                    size === 'sm' && 'text-sm font-medium',
+                    size === 'md' && 'text-base font-bold',
+                    size === 'lg' && 'text-lg font-bold'
+                  )}
+                >
                   {label}
                 </label>
               )}
@@ -42,6 +50,7 @@ const RHFInput = ({
                   <PasswordInput
                     id={name}
                     error={!!fieldState.error}
+                    size={size}
                     {...field}
                     {...props}
                   />
@@ -50,6 +59,7 @@ const RHFInput = ({
                     id={name}
                     error={!!fieldState.error}
                     type={type}
+                    size={size}
                     {...field}
                     {...props}
                   />

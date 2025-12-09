@@ -1,8 +1,8 @@
 export const API_PATH = {
   auth: {
-    me: '/auth/admin/me',
-    signIn: '/auth/admin/sign-in',
-    reIssue: '/auth/admin/reissue',
+    me: '/auth/redot/admin/me',
+    signIn: '/auth/redot/admin/sign-in',
+    reIssue: '/auth/redot/admin/reissue',
   },
   article: {
     root: '/article',

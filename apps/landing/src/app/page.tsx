@@ -1,8 +1,8 @@
-import HeroSection from './sections/hero-section';
-import ProcessSection from './sections/process-section';
-import WebsiteExamplesSection from './sections/website-examples-section';
-import OptionsSection from './sections/options-section';
-import BusinessSection from './sections/business-section';
+import HeroSection from './_sections/hero-section';
+import ProcessSection from './_sections/process-section';
+import WebsiteExamplesSection from './_sections/website-examples-section';
+import OptionsSection from './_sections/options-section';
+import BusinessSection from './_sections/business-section';
 
 export default function Home() {
   return (

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { ThemeProvider } from '@redotlabs/themes';
 import ClientToastProvider from '@/shared/components/wrapper/client-toast-provider';
-import type { PropsWithChildren } from 'react';
+import { type PropsWithChildren } from 'react';
 import { getAppInfo } from '@/shared/api/services/app';
 import { initializeSubdomainHeader } from '@/shared/api/instance';
 import { redirect } from 'next/navigation';
@@ -17,7 +17,9 @@ export const metadata: Metadata = {
 export default async function AppRootLayout({
   children,
   params,
-}: PropsWithChildren<{ params: Promise<{ subdomain: string }> }>) {
+}: PropsWithChildren<{
+  params: Promise<{ subdomain: string }>;
+}>) {
   const { subdomain } = await params;
   initializeSubdomainHeader(subdomain);
   const appInfo = await getAppInfo().catch((error) => {

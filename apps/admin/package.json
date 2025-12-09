@@ -13,7 +13,7 @@
     "@redotlabs/fonts": "^1.0.1",
     "@redotlabs/themes": "^1.1.0",
     "@redotlabs/tokens": "^1.0.1",
-    "@redotlabs/ui": "^1.7.0",
+    "@redotlabs/ui": "^1.8.0",
     "@redotlabs/utils": "^1.0.0",
     "@repo/api-instance": "workspace:*",
     "@repo/ui": "workspace:*",

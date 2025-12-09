@@ -18,4 +18,7 @@ export const PATH = {
     root: '/admin',
     detail: (adminId: number) => `/admin/${adminId}`,
   },
+  transaction: {
+    root: '/transaction',
+  },
 };

@@ -1,13 +1,14 @@
 export const API_PATH = {
   auth: {
-    me: '/auth/admin/me',
-    signIn: '/auth/admin/sign-in',
-    reIssue: '/auth/admin/reissue',
-    signOut: '/auth/admin/sign-out',
+    me: '/auth/redot/admin/me',
+    signIn: '/auth/redot/admin/sign-in',
+    reIssue: '/auth/redot/admin/reissue',
+    signOut: '/auth/redot/admin/sign-out',
   },
   admin: {
-    root: '/admin',
-    detail: (adminId: number) => `/admin/${adminId}`,
-    resetPassword: (adminId: number) => `/admin/${adminId}/reset-password`,
+    root: '/redot/admin',
+    detail: (adminId: number) => `/redot/admin/${adminId}`,
+    resetPassword: (adminId: number) =>
+      `/redot/admin/${adminId}/reset-password`,
   },
 };

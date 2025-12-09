@@ -1,8 +1,20 @@
 import { colors, typography } from '@redotlabs/tokens';
 import type { Config } from 'tailwindcss';
+import path from 'path';
 
 export default {
-  content: ['./src/**/*.{js,ts,jsx,tsx}', './node_modules/@repo/ui'],
+  content: [
+    './src/**/*.{js,ts,jsx,tsx}',
+
+    path.join(
+      path.dirname(require.resolve('@redotlabs/ui')),
+      '**/*.{js,jsx,ts,tsx}'
+    ),
+    path.join(
+      path.dirname(require.resolve('@repo/ui')),
+      '**/*.{js,jsx,ts,tsx}'
+    ),
+  ],
   theme: {
     extend: {
       colors: {

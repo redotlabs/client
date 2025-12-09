@@ -19,7 +19,8 @@
     "@repo/tenant-router/next": "workspace:*",
     "@repo/ui": "workspace:*",
     "@repo/utils": "workspace:*",
-    "next": "16.0.4",
+    "@repo/builder/renderer": "workspace:*",
+    "next": "16.0.7",
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "tailwindcss-animate": "^1.0.7"

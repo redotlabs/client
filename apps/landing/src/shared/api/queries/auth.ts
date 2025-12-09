@@ -1,0 +1,95 @@
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  signIn,
+  reIssue,
+  getMe,
+  signOut,
+  getSocialLoginUrl,
+  verifyEmailVerificationCode,
+  sendEmailVerificationCode,
+  signUp,
+} from '@/shared/api/services/auth';
+import { queryKeyFactory } from '@/shared/api/query-key-factory';
+import { PATH } from '@/shared/constants/routes';
+import { useRouter } from 'next/navigation';
+
+export const useSignIn = () => {
+  return useMutation({
+    mutationFn: signIn,
+  });
+};
+
+export const useReIssue = () => {
+  return useMutation({
+    mutationFn: reIssue,
+  });
+};
+
+export const useMe = (props?: { enabled?: boolean }) => {
+  return useQuery({
+    queryKey: queryKeyFactory.auth.me,
+    queryFn: getMe,
+    gcTime: Infinity,
+    staleTime: Infinity,
+    enabled: props?.enabled ?? true,
+  });
+};
+
+/**
+ * 맨 처음 진입시 refresh + me
+ */
+export const useAuth = (props?: { enabled?: boolean }) => {
+  const queryClient = useQueryClient();
+
+  return useQuery({
+    queryKey: ['ONE_TIME_QUERY_FOR_INITIALIZE_SESSION'],
+    queryFn: async () => {
+      await reIssue();
+      const data = await getMe();
+      queryClient.setQueryData(queryKeyFactory.auth.me, data);
+      return data;
+    },
+    gcTime: Infinity,
+    staleTime: Infinity,
+    enabled: props?.enabled ?? true,
+  });
+};
+
+export const useSignOut = () => {
+  return useMutation({
+    mutationFn: signOut,
+    onSuccess: () => {
+      window.location.href = PATH.auth.signIn;
+    },
+  });
+};
+
+export const useSocialLoginUrl = () => {
+  const { push } = useRouter();
+  return useMutation({
+    mutationFn: getSocialLoginUrl,
+    onSuccess: (data) => {
+      if (data.url) {
+        push(data.url);
+      }
+    },
+  });
+};
+
+export const useVerifyEmailVerificationCode = () => {
+  return useMutation({
+    mutationFn: verifyEmailVerificationCode,
+  });
+};
+
+export const useSendEmailVerificationCode = () => {
+  return useMutation({
+    mutationFn: sendEmailVerificationCode,
+  });
+};
+
+export const useSignUp = () => {
+  return useMutation({
+    mutationFn: signUp,
+  });
+};
