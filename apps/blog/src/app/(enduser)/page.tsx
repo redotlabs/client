@@ -5,7 +5,10 @@ import EnduserHeader from '@/shared/components/layout/enduser/header';
 import { ArticleCard, Loader } from '@/shared/components/ui';
 import { PATH } from '@/shared/constants/routes';
 import Link from 'next/link';
-import React, { Fragment } from 'react';
+import { Fragment } from 'react';
+import Loading from '../loading';
+import NoContent from './_ui/no-content';
+import Footer from '@/shared/components/layout/footer';
 
 const MainPage = () => {
   const {
@@ -17,15 +20,15 @@ const MainPage = () => {
     fetchNextPage,
   } = useArticles();
 
-  if (isLoading) return <Loader />;
+  if (isLoading) return <Loading />;
 
-  const noData = !isLoading && !isFetched && data?.pages[0]?.data?.length === 0;
+  const noData = !isLoading && isFetched && data?.pages[0]?.data?.length === 0;
 
   return (
     <>
       <EnduserHeader />
-      <main className="p-8 container mx-auto">
-        <section className="mt-8">
+      <main className="flex-1 p-8 container mx-auto flex flex-col">
+        <section className="mt-8 flex-1 flex flex-col">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {isLoading && <Loader />}
             {isFetched &&
@@ -43,13 +46,10 @@ const MainPage = () => {
               ))}
           </div>
 
-          {noData && (
-            <div className="text-center text-gray-500">
-              작성된 아티클이 없습니다.
-            </div>
-          )}
+          {noData && <NoContent />}
         </section>
       </main>
+      <Footer />
     </>
   );
 };

@@ -1,6 +1,6 @@
 import { createAxiosInstance } from '@repo/api-instance';
-import { isServer } from '@tanstack/react-query';
 import { SUBDOMAIN_HEADER } from '../constants/env-variables';
+import { toast } from '@redotlabs/ui';
 
 export const api = createAxiosInstance({
   baseURL: '/api/v1',
@@ -25,10 +25,7 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error?.status === 401) {
-      if (!isServer) {
-        alert('페이지 이용 권한이 없습니다.');
-        window.location.href = 'https://redot.me';
-      }
+      toast.error('페이지 이용 권한이 없습니다.');
     }
     return Promise.reject(error);
   }

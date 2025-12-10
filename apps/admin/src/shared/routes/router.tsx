@@ -10,6 +10,7 @@ import CustomerPage from '@/pages/customer';
 import CustomerDetailPage from '@/pages/customer/[id]';
 import ConsultantPage from '@/pages/consultant';
 import TransactionPage from '@/pages/transaction';
+import NotFound from '@/pages/not-found';
 
 // ----------------------------------------------------------------------
 
@@ -37,14 +38,11 @@ export default function Router() {
         { path: 'transaction', element: <TransactionPage /> },
       ],
     },
-    // error
-    // {
-    //   path: '404',
-    //   element: <Page404 />,
-    // },
-    { path: '*', element: <Navigate to="/auth/sign-in" replace /> },
+    {
+      path: '404',
+      element: <NotFound />,
+    },
     { path: '*', element: <Navigate to="/404" replace /> },
-    { path: '*', element: <Navigate to="/" replace /> },
   ]);
 
   return routes;

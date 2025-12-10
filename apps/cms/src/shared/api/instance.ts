@@ -8,6 +8,7 @@ import {
 } from '@/shared/constants/env-variables';
 import { extractSubdomain, isSubdomainInPath } from '@repo/utils';
 import { API_DOMAIN } from '../constants/env-variables';
+import { toast } from '@redotlabs/ui';
 
 export const api = createAxiosInstance({
   baseURL: isServer ? `${API_DOMAIN}/api/v1` : '/api/v1',
@@ -57,7 +58,7 @@ api.interceptors.response.use(
         if (
           !AUTH_WHITE_LIST.some((whiteList) => pathname.includes(whiteList))
         ) {
-          alert('로그인이 만료되었습니다.');
+          toast.error('로그인이 만료되었습니다.');
           window.location.href =
             basePath + pathPrefix + PATH.auth.signIn + `?redirect=${redirect}`;
         }

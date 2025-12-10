@@ -22,12 +22,12 @@ function convertPascalCase(str) {
 }
 
 function generateExports() {
-  const assetsPath = path.join(__dirname, '../src/assets');
+  const assetsPath = path.join(__dirname, '../src/graphics');
   const assets = fs.readdirSync(assetsPath);
 
   const paths = assets.map((asset) => {
     const svgName = convertPascalCase(asset.replace('.svg', ''));
-    return `export { default as ${svgName} } from './assets/${asset}?react';`;
+    return `export { default as ${svgName} } from './graphics/${asset}?react';`;
   });
 
   const result = paths.join('\n') + '\n'; // add EOL

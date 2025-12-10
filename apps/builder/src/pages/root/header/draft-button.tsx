@@ -15,26 +15,21 @@ import {
 } from '@repo/ui';
 import { useDialog } from '@repo/hooks';
 import { useState } from 'react';
+import { usePageStateManager } from '@/features/page/manager';
 
 export const DraftButton = () => {
-  const {
-    currentPageKey,
-    storedContentsMap,
-    storedPagesMap,
-    addedKeys,
-    appendAddedKeys,
-  } = usePageStore();
+  const { currentPageKey, storedContentsMap, addedKeys, appendAddedKeys } =
+    usePageStore();
   const [remark, setRemark] = useState('');
   const { state, isDirty } = useEditorContext();
   const dialog = useDialog();
   const publishMutation = useCreatePageVersion();
+  const { pages: savedPages } = usePageStateManager();
+
+  const shouldUpdate = (key: PageKey) => key === currentPageKey && isDirty;
 
   const getContent = (key: PageKey) => {
-    // 현재 페이지가 에디터 수정 사항 있으면 반영
-    if (currentPageKey === key && isDirty) {
-      return state.content;
-    }
-    return storedContentsMap[key];
+    return shouldUpdate(key) ? state.content : storedContentsMap[key];
   };
 
   // 현재 페이지 동기화 시키자
@@ -42,9 +37,9 @@ export const DraftButton = () => {
     if (isDirty) {
       appendAddedKeys(currentPageKey!);
     }
-    const pages = Object.entries(storedPagesMap).map(([key, page]) => ({
+    const pages = savedPages.map((page) => ({
       ...page,
-      content: getContent(key),
+      content: getContent(page.key),
     }));
 
     const added = pages

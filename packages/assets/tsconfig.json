@@ -2,14 +2,15 @@
   "extends": "@repo/typescript-config/base.json",
   "compilerOptions": {
     "outDir": "dist",
+    "jsx": "react-jsx",
     "declaration": true,
     "declarationMap": true,
     "incremental": true,
     "tsBuildInfoFile": "./dist/.tsbuildinfo",
     "skipLibCheck": true,
-    "types": []
+    "types": ["vite-plugin-svgr/client", "./src/vite-env.d.ts"]
   },
   // "typeRoots": ["./types", "./node_modules/@types", "vitest/globals"],
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "./src/vite-env.d.ts", "vite.config.ts"],
   "exclude": ["dist", "node_modules"]
 }

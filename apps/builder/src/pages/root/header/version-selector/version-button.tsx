@@ -11,6 +11,7 @@ import {
 import { useDialog } from '@repo/hooks';
 import { usePageStore } from '@/features/page/store';
 import { Check } from 'lucide-react';
+import { usePageStateManager } from '@/features/page/manager';
 
 interface VersionButtonProps {
   version: PageVersion;
@@ -19,18 +20,11 @@ interface VersionButtonProps {
 
 const VersionButton = ({ version, index }: VersionButtonProps) => {
   const dialog = useDialog();
-  const {
-    selectedVersion,
-    setSelectedVersion,
-    clearStoredPagesMap,
-    clearStoredContentsMap,
-    clearAddedKeys,
-  } = usePageStore();
+  const { selectedVersion, setSelectedVersion } = usePageStore();
+  const { clearAllStates } = usePageStateManager();
 
   const onSelect = () => {
-    clearStoredPagesMap();
-    clearStoredContentsMap();
-    clearAddedKeys();
+    clearAllStates();
     setSelectedVersion(index);
     dialog.onClose();
   };

@@ -4,7 +4,7 @@ import svgr from 'esbuild-plugin-svgr';
 export default defineConfig({
   entry: ['src', '!src/**/*.svg', '!src/vite-env.d.ts'],
   format: ['esm', 'cjs'],
-  dts: true,
+  dts: false,
   splitting: false,
   clean: true,
   outDir: 'dist',
