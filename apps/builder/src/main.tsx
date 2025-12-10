@@ -9,6 +9,8 @@ import { extractSubdomain } from '@repo/utils';
 import AuthGuard from './shared/components/wrapper/auth-guard';
 import NotFound from './pages/not-found';
 import AppThemeProvider from './shared/components/wrapper/app-theme-provider';
+import Error from './pages/error';
+import { ErrorBoundary } from 'react-error-boundary';
 
 const isPreviewMode = window.location.pathname === '/builder/preview';
 
@@ -16,22 +18,24 @@ function App() {
   const subdomain = extractSubdomain(window.location.href);
 
   return (
-    <RedotQueryClientProvider>
-      <SubdomainInitializer subdomain={subdomain ?? ''}>
-        <AppThemeProvider subdomain={subdomain ?? ''}>
-          <Toaster />
-          {(() => {
-            if (!subdomain) return <NotFound />;
-            if (isPreviewMode) return <PreviewPage />;
-            return (
-              <AuthGuard>
-                <BuilderApp />
-              </AuthGuard>
-            );
-          })()}
-        </AppThemeProvider>
-      </SubdomainInitializer>
-    </RedotQueryClientProvider>
+    <ErrorBoundary fallback={<Error />}>
+      <RedotQueryClientProvider>
+        <SubdomainInitializer subdomain={subdomain ?? ''}>
+          <AppThemeProvider subdomain={subdomain ?? ''}>
+            <Toaster />
+            {(() => {
+              if (!subdomain) return <NotFound />;
+              if (isPreviewMode) return <PreviewPage />;
+              return (
+                <AuthGuard>
+                  <BuilderApp />
+                </AuthGuard>
+              );
+            })()}
+          </AppThemeProvider>
+        </SubdomainInitializer>
+      </RedotQueryClientProvider>
+    </ErrorBoundary>
   );
 }
 

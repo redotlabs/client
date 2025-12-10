@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, type ChangeEvent } from 'react';
 import { Settings } from 'lucide-react';
 import { Button, Input } from '@redotlabs/ui';
-import { usePageStore } from '@/features/page/store';
+import { usePageStateManager } from '@/features/page/manager';
 
 export const SiteSettingButton = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -9,8 +9,7 @@ export const SiteSettingButton = () => {
   const [editingDescription, setEditingDescription] = useState('');
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const { currentPageKey, storedPagesMap } = usePageStore();
-  const currentPage = currentPageKey ? storedPagesMap[currentPageKey] : null;
+  const { currentPage } = usePageStateManager();
 
   useEffect(() => {
     if (isOpen) {

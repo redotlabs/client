@@ -13,7 +13,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { RHFCheckbox, RHFInput } from '@repo/ui';
 import { usePageStore } from '@/features/page/store';
 import { uuidv4 } from '@repo/utils';
-import { MULTI_ZONE_PATHS } from '@/shared/constants/multi-zone-paths';
+import { usePageStateManager } from '@/features/page/manager';
+import { isMultiZonePath } from '@/features/page/utils';
 
 const schema = z.object({
   title: z.string().min(1, '페이지 이름을 입력해주세요.'),
@@ -26,14 +27,10 @@ const schema = z.object({
 
 const AddPageButton = () => {
   const popover = useDialog();
-  const {
-    storedPagesMap,
-    setStoredPagesMap,
-    setStoredContentsMap,
-    appendAddedKeys,
-  } = usePageStore();
+  const { setStoredPagesMap, setStoredContentsMap, appendAddedKeys } =
+    usePageStore();
 
-  const paths = Object.values(storedPagesMap).map((page) => page.path);
+  const { paths } = usePageStateManager();
 
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
@@ -49,12 +46,7 @@ const AddPageButton = () => {
       toast.error('이미 존재하는 URL Path입니다.');
       return;
     }
-    if (
-      MULTI_ZONE_PATHS.some(
-        (preventPath) =>
-          preventPath === data.path || data.path.startsWith(preventPath + '/')
-      )
-    ) {
+    if (isMultiZonePath(data.path)) {
       toast.error('기본 사용 경로는 사용할 수 없습니다.');
       return;
     }
