@@ -5,7 +5,7 @@ import { AUTH_WHITE_LIST } from '@/shared/constants/auth';
 import { PATH } from '@/shared/constants/routes';
 import type { PropsWithChildren } from 'react';
 import { redirect, usePathname } from 'next/navigation';
-import { Loader } from '@repo/ui';
+import Loading from '@/app/loading';
 
 const AuthGuard = ({ children }: PropsWithChildren) => {
   const pathname = usePathname();
@@ -21,7 +21,7 @@ const AuthGuard = ({ children }: PropsWithChildren) => {
     return <>{children}</>;
   }
 
-  if (isLoading) return <Loader />;
+  if (isLoading) return <Loading />;
 
   const unAuthorized = isError || (isFetched && !data);
 

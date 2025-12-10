@@ -1,0 +1,40 @@
+{
+  "name": "@repo/assets",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "prebuild": "node scripts/generate-exports.js",
+    "build": "tsup --no-dts --minify",
+    "lint": "eslint ."
+  },
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      },
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    }
+  },
+  "sideEffects": false,
+  "devDependencies": {
+    "@repo/eslint-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@types/react": "^19.0.0",
+    "@vitejs/plugin-react": "^5.1.1",
+    "esbuild-plugin-svgr": "^3.1.1",
+    "tsup": "^8.5.0",
+    "typescript": "^5.0.0",
+    "vite-plugin-svgr": "^4.5.0"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0"
+  }
+}

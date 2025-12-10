@@ -5,7 +5,7 @@ import { AUTH_WHITE_LIST } from '@/shared/constants/auth';
 import { PATH } from '@/shared/constants/routes';
 import { useTenantRedirect, useTenantPathname } from '@repo/tenant-router/next';
 import type { PropsWithChildren } from 'react';
-import { Loader } from '../ui';
+import Loading from '@/app/loading';
 
 const AuthGuard = ({ children }: PropsWithChildren) => {
   const pathname = useTenantPathname();
@@ -18,7 +18,7 @@ const AuthGuard = ({ children }: PropsWithChildren) => {
     enabled: !passingFetch,
   });
 
-  if (isLoading) return <Loader />;
+  if (isLoading) return <Loading />;
 
   const unAuthorized = isError || (isFetched && !data);
 

@@ -3,13 +3,14 @@ import { ThemeProvider } from '@redotlabs/themes';
 import ClientQueryClientProvider from '@/shared/components/wrapper/query-client-provider';
 import ClientToastProvider from '@/shared/components/wrapper/client-toast-provider';
 import AuthGuard from '@/shared/components/wrapper/auth-guard';
-import type { PropsWithChildren } from 'react';
+import { Suspense, type PropsWithChildren } from 'react';
 import { getAppInfo } from '@/shared/api/services/app';
 import { initializeSubdomainHeader } from '@/shared/api/instance';
 import { redirect } from 'next/navigation';
 import { PATH } from '@/shared/constants/routes';
 import { TenantProvider } from '@repo/tenant-router/next';
 import SubdomainInitializer from '@/shared/components/wrapper/subdomain-initializer';
+import Loading from '@/app/loading';
 
 export const metadata: Metadata = {
   title: 'Redot CMS',
@@ -28,21 +29,23 @@ export default async function CustomerRootLayout({
   });
 
   return (
-    <SubdomainInitializer subdomain={subdomain}>
-      <TenantProvider subdomain={subdomain}>
-        <ClientQueryClientProvider>
-          <ThemeProvider
-            color={appInfo.styleInfo?.color}
-            font={appInfo.styleInfo?.font}
-          >
-            <ClientToastProvider>
-              <AuthGuard>
-                <main>{children}</main>
-              </AuthGuard>
-            </ClientToastProvider>
-          </ThemeProvider>
-        </ClientQueryClientProvider>
-      </TenantProvider>
-    </SubdomainInitializer>
+    <Suspense fallback={<Loading />}>
+      <SubdomainInitializer subdomain={subdomain}>
+        <TenantProvider subdomain={subdomain}>
+          <ClientQueryClientProvider>
+            <ThemeProvider
+              color={appInfo.styleInfo?.color}
+              font={appInfo.styleInfo?.font}
+            >
+              <ClientToastProvider>
+                <AuthGuard>
+                  <main>{children}</main>
+                </AuthGuard>
+              </ClientToastProvider>
+            </ThemeProvider>
+          </ClientQueryClientProvider>
+        </TenantProvider>
+      </SubdomainInitializer>
+    </Suspense>
   );
 }
