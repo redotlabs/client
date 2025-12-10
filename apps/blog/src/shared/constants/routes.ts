@@ -17,4 +17,6 @@ export const PATH = {
     },
   },
   notFound: '/404',
+  terms: 'https://redot.me/terms',
+  privacy: 'https://redot.me/privacy',
 } as const;

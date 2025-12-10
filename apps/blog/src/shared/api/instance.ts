@@ -1,6 +1,7 @@
 import { createAxiosInstance } from '@repo/api-instance';
 import { PATH } from '@/shared/constants/routes';
 import { isServer } from '@tanstack/react-query';
+import { toast } from '@redotlabs/ui';
 
 export const api = createAxiosInstance({
   baseURL: '/api/v1',
@@ -14,7 +15,7 @@ api.interceptors.response.use(
       if (!isServer) {
         const redirect = window.location.href;
 
-        alert('로그인이 만료되었습니다.');
+        toast.error('로그인이 만료되었습니다.');
         window.location.href = `${PATH.auth.signIn}?redirect=${redirect}`;
       }
     }
