@@ -7,6 +7,8 @@ import Footer from '@/shared/components/layout/footer';
 import ClientQueryClientProvider from '@/shared/components/wrapper/query-client-provider';
 import ClientToastProvider from '@/shared/components/wrapper/client-toast-provider';
 import AuthGuard from '@/shared/components/wrapper/auth-guard';
+import { Suspense } from 'react';
+import Loading from './loading';
 
 export const metadata: Metadata = {
   title: 'Redot',
@@ -38,17 +40,19 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={cn('antialiased min-h-svh flex flex-col')}>
-        <ClientQueryClientProvider>
-          <ClientToastProvider>
-            <ThemeProvider color="blue" font="pretendard">
-              <AuthGuard>
-                <Header />
-                {children}
-                <Footer />
-              </AuthGuard>
-            </ThemeProvider>
-          </ClientToastProvider>
-        </ClientQueryClientProvider>
+        <Suspense fallback={<Loading />}>
+          <ClientQueryClientProvider>
+            <ClientToastProvider>
+              <ThemeProvider color="blue" font="pretendard">
+                <AuthGuard>
+                  <Header />
+                  {children}
+                  <Footer />
+                </AuthGuard>
+              </ThemeProvider>
+            </ClientToastProvider>
+          </ClientQueryClientProvider>
+        </Suspense>
       </body>
     </html>
   );
