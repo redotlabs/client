@@ -2,18 +2,13 @@ import { useAuth } from '@/shared/api/queries/auth';
 import { PATH } from '@/shared/routes';
 import type { PropsWithChildren } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-import { Loader } from '@repo/ui';
+import Loading from '@/pages/loading';
 
 const AuthGuard = ({ children }: PropsWithChildren) => {
   const { data, isLoading, isError, isFetched } = useAuth();
   const { pathname } = useLocation();
 
-  if (isLoading)
-    return (
-      <div className="size-full flex min-h-svh items-center justify-center">
-        <Loader />
-      </div>
-    );
+  if (isLoading) return <Loading />;
 
   const unAuthorized = isError || (isFetched && !data);
 
