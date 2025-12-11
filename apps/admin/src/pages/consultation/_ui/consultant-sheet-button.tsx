@@ -57,9 +57,9 @@ const ConsultantSheetButton = ({
           >
             <SheetHeader className="p-0">
               <SheetTitle className="flex items-center gap-2">
-                <h2 className="text-2xl font-bold text-primary-500">
+                <span className="text-2xl font-bold text-primary-500">
                   상담 요청 #{id}
-                </h2>
+                </span>
                 <ConsultationTypeBadge type={type} />
                 <ConsultationStatusBadge status={status!} />
               </SheetTitle>
