@@ -13,7 +13,6 @@ import {
   Layers,
   Wand2,
 } from 'lucide-react';
-import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { getBuilderUrl } from '@/shared/utils/get-services-url';
 
@@ -68,8 +67,12 @@ const FEATURES = [
   },
 ];
 
-const SiteContentPage = () => {
-  const { subdomain } = useParams<{ subdomain: string }>();
+interface Props {
+  params: Promise<{ subdomain: string }>;
+}
+
+const SiteContentPage = async ({ params }: Props) => {
+  const { subdomain } = await params;
 
   return (
     <main className="p-10 container mx-auto flex-1">
