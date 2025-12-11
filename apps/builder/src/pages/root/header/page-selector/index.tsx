@@ -33,11 +33,11 @@ export const PageSelector = () => {
   const currentPage = currentPageKey ? storedPagesMap[currentPageKey] : null;
 
   const handlePageSelect = (pageKey: PageKey) => {
-    setCurrentPageKey(pageKey);
     // 현재 에디터 state 반영
     if (currentPageKey) {
       setStoredContentsMap(currentPageKey, state.content);
     }
+    setCurrentPageKey(pageKey);
     setIsOpen(false);
   };
 
