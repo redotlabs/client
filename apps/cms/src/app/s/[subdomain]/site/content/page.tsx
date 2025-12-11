@@ -13,8 +13,8 @@ import {
   Layers,
   Wand2,
 } from 'lucide-react';
-import { useParams } from 'next/navigation';
-import { extractSubdomain } from '@repo/utils';
+import Link from 'next/link';
+import { getBuilderUrl } from '@/shared/utils/get-services-url';
 
 const FEATURES = [
   {
@@ -67,24 +67,12 @@ const FEATURES = [
   },
 ];
 
-const SiteContentPage = () => {
-  const { subdomain } = useParams<{ subdomain: string }>();
+interface Props {
+  params: Promise<{ subdomain: string }>;
+}
 
-  const getBuilderUrl = () => {
-    if (typeof window === 'undefined') return '';
-    const { origin } = window.location;
-
-    // path 기반 subdomain인 경우
-    return `https://${subdomain}.redotlabs.me/builder`;
-    // return `${origin}/builder`;
-  };
-
-  const handleOpenBuilder = () => {
-    const builderUrl = getBuilderUrl();
-    if (builderUrl) {
-      window.open(builderUrl, '_blank', 'noopener,noreferrer');
-    }
-  };
+const SiteContentPage = async ({ params }: Props) => {
+  const { subdomain } = await params;
 
   return (
     <main className="p-10 container mx-auto flex-1">
@@ -100,15 +88,20 @@ const SiteContentPage = () => {
           직관적인 드래그 앤 드롭 인터페이스로 원하는 대로 사이트를 디자인하고
           커스터마이징하세요
         </p>
-        <Button
-          variant="contained"
-          size="lg"
-          onClick={handleOpenBuilder}
-          className="flex items-center gap-2 mx-auto text-lg px-8 py-6"
+        <Link
+          href={getBuilderUrl(subdomain)}
+          target="_blank"
+          rel="noopener noreferrer"
         >
-          <ExternalLink className="w-5 h-5" />
-          빌더 열기 (새 창)
-        </Button>
+          <Button
+            variant="contained"
+            size="lg"
+            className="flex items-center gap-2 mx-auto text-lg px-8 py-6"
+          >
+            <ExternalLink className="w-5 h-5" />
+            빌더 열기 (새 창)
+          </Button>
+        </Link>
       </div>
 
       {/* Features Grid */}
