@@ -6,9 +6,9 @@ import Header from './header';
 const AdminLayout = () => {
   return (
     <AuthGuard>
-      <div className="size-full flex min-h-svh">
+      <div className="size-full flex min-h-svh h-svh">
         <Sidebar />
-        <div className="flex-1 flex flex-col">
+        <div className="flex-1 flex flex-col min-h-0">
           <Header />
           <Outlet />
         </div>
