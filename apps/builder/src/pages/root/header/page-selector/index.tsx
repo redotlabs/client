@@ -18,12 +18,13 @@ import { useEditorContext } from '@repo/builder/editor';
 import { useDialog } from '@repo/hooks';
 
 export const PageSelector = () => {
-  const { state } = useEditorContext();
+  const { state, isDirty } = useEditorContext();
   const popover = useDialog();
 
   const {
     currentPageKey,
     storedPagesMap,
+    appendAddedKeys,
     setStoredContentsMap,
     setCurrentPageKey,
     removeAddedKeys,
@@ -36,6 +37,10 @@ export const PageSelector = () => {
   const handlePageSelect = (pageKey: PageKey) => {
     // 현재 에디터 state 반영
     if (currentPageKey) {
+      // 변경된 경우 addedKeys에 추가
+      if (isDirty) {
+        appendAddedKeys(currentPageKey);
+      }
       setStoredContentsMap(currentPageKey, state.content);
     }
     setCurrentPageKey(pageKey);
