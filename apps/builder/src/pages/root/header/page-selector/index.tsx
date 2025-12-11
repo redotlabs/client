@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { FileText, ChevronDown, Check, X } from 'lucide-react';
 import {
   Button,
@@ -7,6 +6,7 @@ import {
   PopoverTrigger,
   toast,
 } from '@redotlabs/ui';
+import { cn } from '@redotlabs/utils';
 import {
   usePageStore,
   type PageKey,
@@ -15,10 +15,11 @@ import {
 import SettingCurrentPageButton from './setting-current-page-button';
 import AddPageButton from './add-page-button';
 import { useEditorContext } from '@repo/builder/editor';
+import { useDialog } from '@repo/hooks';
 
 export const PageSelector = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const { state } = useEditorContext();
+  const popover = useDialog();
 
   const {
     currentPageKey,
@@ -38,7 +39,7 @@ export const PageSelector = () => {
       setStoredContentsMap(currentPageKey, state.content);
     }
     setCurrentPageKey(pageKey);
-    setIsOpen(false);
+    popover.onClose();
   };
 
   const handlePageDelete = (page: TempPage) => (e: React.MouseEvent) => {
@@ -65,7 +66,7 @@ export const PageSelector = () => {
   };
 
   return (
-    <Popover>
+    <Popover open={popover.isOpen} onOpenChange={popover.onOpenChange}>
       <PopoverTrigger asChild>
         <Button
           variant="text"
@@ -77,9 +78,9 @@ export const PageSelector = () => {
             {currentPage?.title || 'Page'}
           </span>
           <ChevronDown
-            className={`w-4 h-4 transition-transform ${
-              isOpen ? 'rotate-180' : ''
-            }`}
+            className={cn('w-4 h-4 transition-transform', {
+              'rotate-180': popover.isOpen,
+            })}
           />
         </Button>
       </PopoverTrigger>
@@ -93,14 +94,13 @@ export const PageSelector = () => {
             <div
               key={page.key}
               onClick={() => handlePageSelect(page.key)}
-              className={`
-                  group flex items-center justify-between px-4 py-2 cursor-pointer transition-colors
-                  ${
-                    currentPageKey === page.key
-                      ? 'bg-blue-50 text-blue-700'
-                      : 'hover:bg-gray-50 text-gray-700'
-                  }
-                `}
+              className={cn(
+                'group flex items-center justify-between px-4 py-2 cursor-pointer transition-colors',
+                {
+                  'bg-blue-50 text-blue-700': currentPageKey === page.key,
+                  'hover:bg-gray-50 text-gray-700': currentPageKey !== page.key,
+                }
+              )}
             >
               <div className="flex items-center gap-2">
                 <FileText className="w-4 h-4" />
