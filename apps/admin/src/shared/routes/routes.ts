@@ -10,9 +10,9 @@ export const PATH = {
     root: '/customer',
     detail: (customerId: number) => `/customer/${customerId}`,
   },
-  consultant: {
-    root: '/consultant',
-    detail: (consultantId: number) => `/consultant/${consultantId}`,
+  consultation: {
+    root: '/consultation',
+    detail: (consultationId: number) => `/consultation/${consultationId}`,
   },
   admin: {
     root: '/admin',
