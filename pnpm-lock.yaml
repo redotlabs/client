@@ -616,6 +616,9 @@ importers:
       '@repo/api-instance':
         specifier: workspace:*
         version: link:../../packages/api-instance
+      '@repo/assets':
+        specifier: workspace:*
+        version: link:../../packages/assets
       '@repo/builder/renderer':
         specifier: workspace:*
         version: link:../../packages/builder/renderer

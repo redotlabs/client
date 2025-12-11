@@ -4,8 +4,7 @@ import ClientToastProvider from '@/shared/components/wrapper/client-toast-provid
 import { type PropsWithChildren } from 'react';
 import { getAppInfo } from '@/shared/api/services/app';
 import { initializeSubdomainHeader } from '@/shared/api/instance';
-import { redirect } from 'next/navigation';
-import { PATH } from '@/shared/constants/routes';
+import { notFound } from 'next/navigation';
 import { TenantProvider } from '@repo/tenant-router/next';
 import SubdomainInitializer from '@/shared/components/wrapper/subdomain-initializer';
 
@@ -24,7 +23,7 @@ export default async function AppRootLayout({
   initializeSubdomainHeader(subdomain);
   const appInfo = await getAppInfo().catch((error) => {
     console.error(error);
-    return redirect(PATH.notFound);
+    return notFound();
   });
 
   return (
