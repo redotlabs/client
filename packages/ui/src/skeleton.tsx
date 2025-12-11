@@ -4,7 +4,7 @@ import { cn } from '@redotlabs/utils';
 const Skeleton = ({ className = '', ...props }: ComponentProps<'div'>) => {
   return (
     <div
-      className={cn('bg-gray-200 animate-pulse rounded-md', className)}
+      className={cn('bg-gray-100 animate-pulse rounded-md', className)}
       {...props}
     />
   );
