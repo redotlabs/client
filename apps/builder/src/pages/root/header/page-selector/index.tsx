@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
 import { FileText, ChevronDown, Check, X } from 'lucide-react';
 import {
   Button,
@@ -14,14 +14,16 @@ import {
 } from '@/features/page/store';
 import SettingCurrentPageButton from './setting-current-page-button';
 import AddPageButton from './add-page-button';
+import { useEditorContext } from '@repo/builder/editor';
 
 export const PageSelector = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const { state } = useEditorContext();
 
   const {
     currentPageKey,
     storedPagesMap,
+    setStoredContentsMap,
     setCurrentPageKey,
     removeAddedKeys,
     removeStoredPagesMap,
@@ -30,22 +32,12 @@ export const PageSelector = () => {
   const pages = Object.values(storedPagesMap);
   const currentPage = currentPageKey ? storedPagesMap[currentPageKey] : null;
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setIsOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
   const handlePageSelect = (pageKey: PageKey) => {
     setCurrentPageKey(pageKey);
+    // 현재 에디터 state 반영
+    if (currentPageKey) {
+      setStoredContentsMap(currentPageKey, state.content);
+    }
     setIsOpen(false);
   };
 
