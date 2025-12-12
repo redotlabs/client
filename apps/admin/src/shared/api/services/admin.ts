@@ -45,11 +45,15 @@ export const resetPassword = async ({
 
 export const uploadAdminProfileImage = async (file: File) => {
   const formData = new FormData();
-  formData.append('file', file);
-  const { data } = await api.post(API_PATH.admin.uploadProfileImage, formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  });
+  formData.append('image', file);
+  const { data } = await api.post<{ imageUrl: string }>(
+    API_PATH.admin.uploadProfileImage,
+    formData,
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    }
+  );
   return data;
 };
