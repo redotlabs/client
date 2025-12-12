@@ -14,6 +14,8 @@ const ConsultationStatusBadge = ({ status }: ConsultationStatusBadgeProps) => {
         return 'info';
       case 'COMPLETED':
         return 'success';
+      case 'CANCELLED':
+        return 'danger';
       default:
         return 'secondary';
     }
@@ -27,6 +29,8 @@ const ConsultationStatusBadge = ({ status }: ConsultationStatusBadgeProps) => {
         return '진행중';
       case 'COMPLETED':
         return '완료';
+      case 'CANCELLED':
+        return '취소';
       default:
         return '알수없음';
     }
