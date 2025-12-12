@@ -26,7 +26,7 @@ const ConsultationCompleteCancelButton = ({
 
   const updateMutation = useUpdateConsultation();
 
-  const onComplete = () => {
+  const onCompleteCancel = () => {
     const payload = {
       ...consultation,
       status: 'IN_PROGRESS',
@@ -73,7 +73,7 @@ const ConsultationCompleteCancelButton = ({
           <Button
             variant="contained"
             size="sm"
-            onClick={onComplete}
+            onClick={onCompleteCancel}
             disabled={updateMutation.isPending}
           >
             {updateMutation.isPending ? (
