@@ -1,5 +1,5 @@
 import { useUpdateConsultation } from '@/shared/api/queries/consultation';
-import { Button } from '@redotlabs/ui';
+import { Button, toast } from '@redotlabs/ui';
 import type { Consultation } from '@repo/types';
 import {
   Loader,
@@ -15,27 +15,34 @@ import {
 import { Trash2 } from 'lucide-react';
 import { useDialog } from '@repo/hooks';
 
-interface ConsultationDeleteButtonProps {
+interface ConsultationCancelButtonProps {
   consultation: Consultation;
 }
 
-const ConsultationDeleteButton = ({
+const ConsultationCancelButton = ({
   consultation,
-}: ConsultationDeleteButtonProps) => {
+}: ConsultationCancelButtonProps) => {
   const dialog = useDialog();
 
   const updateMutation = useUpdateConsultation();
 
-  const onDelete = () => {
-    console.log('상담 요청 삭제:', consultation.id);
-    alert('삭제 기능 구현 필요');
+  const onCancel = () => {
+    const payload = {
+      ...consultation,
+      status: 'CANCELLED',
+    } as const;
+    updateMutation.mutate(payload, {
+      onSuccess: () => {
+        toast.success('상담 요청 취소 처리되었습니다.');
+        dialog.onClose();
+      },
+      onError: (error) => {
+        toast.error(error?.message || '상담 요청 취소 처리에 실패했습니다.');
+      },
+    });
   };
-
-  // 처리중일 때는 모달 닫기 막음
-  const isOpen = updateMutation.isPending || dialog.isOpen;
-
   return (
-    <Dialog open={isOpen} onOpenChange={dialog.onOpenChange}>
+    <Dialog open={dialog.isOpen} onOpenChange={dialog.onOpenChange}>
       <DialogTrigger asChild>
         <Button
           variant="outlined"
@@ -43,30 +50,30 @@ const ConsultationDeleteButton = ({
           className="flex items-center gap-2"
         >
           <Trash2 size={16} />
-          삭제하기
+          요청 취소하기
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>상담 요청 삭제</DialogTitle>
-          <DialogDescription>상담 요청을 삭제하시겠습니까?</DialogDescription>
+          <DialogTitle>상담 요청 취소</DialogTitle>
+          <DialogDescription>상담 요청을 취소하시겠습니까?</DialogDescription>
         </DialogHeader>
         <DialogFooter>
           <DialogClose asChild>
             <Button variant="outlined" size="sm">
-              취소
+              닫기
             </Button>
           </DialogClose>
           <Button
             variant="contained"
             size="sm"
-            onClick={onDelete}
+            onClick={onCancel}
             disabled={updateMutation.isPending}
           >
             {updateMutation.isPending ? (
               <Loader className="size-5 text-white" />
             ) : (
-              '네, 삭제할게요'
+              '네, 취소할게요'
             )}
           </Button>
         </DialogFooter>
@@ -75,4 +82,4 @@ const ConsultationDeleteButton = ({
   );
 };
 
-export default ConsultationDeleteButton;
+export default ConsultationCancelButton;
