@@ -1,8 +1,13 @@
-import React from 'react';
+import {
+  useState,
+  useEffect,
+  type ComponentProps,
+  type ReactNode,
+} from 'react';
 import { cn } from '@redotlabs/utils';
 
-interface Props extends React.ComponentProps<'img'> {
-  fallback?: React.ReactNode;
+interface Props extends ComponentProps<'img'> {
+  fallback?: ReactNode;
   isFallback?: boolean;
   fallbackClassName?: string;
   containerClassName?: string;
@@ -18,13 +23,18 @@ function Image({
   fallbackClassName = '',
   ...props
 }: Props) {
-  const [loaded, setLoaded] = React.useState(false);
-  const [isError, setIsError] = React.useState(false);
+  const [loaded, setLoaded] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   const onError = () => {
     setIsError(true);
     setLoaded(true);
   };
+
+  useEffect(() => {
+    setLoaded(false);
+    setIsError(false);
+  }, [src]);
 
   return (
     <div
@@ -43,7 +53,7 @@ function Image({
           )}
         </div>
       )}
-      {isError && (
+      {!src || isError ? (
         <div className="absolute inset-0 z-10">
           {fallback ?? (
             <div
@@ -51,22 +61,23 @@ function Image({
             />
           )}
         </div>
+      ) : (
+        <img
+          src={src}
+          alt={alt}
+          width={width}
+          height={height}
+          onLoad={() => setLoaded(true)}
+          onError={onError}
+          className={cn(
+            'w-full h-full object-cover transition-opacity duration-300',
+            loaded ? 'opacity-100' : 'opacity-0',
+            className
+          )}
+          loading="lazy"
+          {...props}
+        />
       )}
-      <img
-        src={src}
-        alt={alt}
-        width={width}
-        height={height}
-        onLoad={() => setLoaded(true)}
-        onError={onError}
-        className={cn(
-          'w-full h-full object-cover transition-opacity duration-300',
-          loaded ? 'opacity-100' : 'opacity-0',
-          className
-        )}
-        loading="lazy"
-        {...props}
-      />
     </div>
   );
 }
