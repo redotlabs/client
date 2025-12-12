@@ -27,8 +27,9 @@ const AdminUploadProfileImage = () => {
     uploadMutation.mutate(file, {
       onSuccess: ({ imageUrl }) => {
         setValue('profileImageUrl', imageUrl);
-        toast.success('프로필 사진이 업로드되었습니다.');
-        toast.success('수정하기 버튼을 눌러 정보를 저장해주세요.');
+        toast.success(
+          '프로필 사진이 업로드되었습니다. 수정하기 버튼을 눌러 정보를 저장해주세요.'
+        );
       },
       onError: (error) => {
         toast.error(error?.message ?? '프로필 사진 업로드에 실패했습니다.');
