@@ -16,7 +16,7 @@ import ConsultationStatusBadge from './consultation-status-badge';
 import ConsultationTypeBadge from './consultation-type-badge';
 import ConsultationCompleteButton from './complete-button';
 import ConsultationCompleteCancelButton from './complete-cancel-button';
-import ConsultationDeleteButton from './delete-button';
+import ConsultationCancelButton from './cancel-button';
 
 interface ConsultantSheetButtonProps extends PropsWithChildren {
   consultation: Consultation;
@@ -39,11 +39,13 @@ const ConsultantSheetButton = ({
 
   const form = useForm({
     defaultValues: {
-      answer: '',
+      remark: consultation.remark || '',
     },
   });
 
   const isCompleted = status === 'COMPLETED';
+  const isCancelled = status === 'CANCELLED';
+  const isReadOnly = isCompleted || isCancelled;
 
   return (
     <Sheet>
@@ -126,27 +128,27 @@ const ConsultantSheetButton = ({
               {/* 답변 */}
               <div>
                 <RHFTextarea
-                  name="answer"
-                  label="답변"
+                  name="remark"
+                  label="비고"
                   placeholder="고객에게 보낼 답변을 입력해주세요..."
                   className="min-h-[160px] bg-white"
-                  readOnly={isCompleted}
+                  readOnly={isReadOnly}
                 />
-                <p className="text-xs text-gray-500 mt-1">
-                  답변을 입력하고 {'처리완료'} 버튼을 클릭하면 고객에게 이메일로
-                  답변이 발송됩니다.
-                </p>
               </div>
             </div>
 
-            <div className="flex justify-end gap-2">
-              <ConsultationDeleteButton consultation={consultation} />
-              {isCompleted ? (
-                <ConsultationCompleteCancelButton consultation={consultation} />
-              ) : (
-                <ConsultationCompleteButton consultation={consultation} />
-              )}
-            </div>
+            {!isCancelled && (
+              <div className="flex justify-end gap-2">
+                <ConsultationCancelButton consultation={consultation} />
+                {isCompleted ? (
+                  <ConsultationCompleteCancelButton
+                    consultation={consultation}
+                  />
+                ) : (
+                  <ConsultationCompleteButton consultation={consultation} />
+                )}
+              </div>
+            )}
           </SheetContent>
         </form>
       </FormProvider>

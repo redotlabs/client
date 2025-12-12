@@ -23,7 +23,7 @@ interface ConsultationCompleteButtonProps {
 const ConsultationCompleteButton = ({
   consultation,
 }: ConsultationCompleteButtonProps) => {
-  const answer = useWatch({ name: 'answer' });
+  const remark = useWatch({ name: 'remark' });
   const dialog = useDialog();
 
   const updateMutation = useUpdateConsultation();
@@ -31,7 +31,7 @@ const ConsultationCompleteButton = ({
   const onComplete = () => {
     const payload = {
       ...consultation,
-      answer,
+      remark,
       status: 'COMPLETED',
     } as const;
     updateMutation.mutate(payload, {
@@ -63,11 +63,7 @@ const ConsultationCompleteButton = ({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>상담 완료 처리</DialogTitle>
-          <DialogDescription>
-            고객에게 이메일로 답변이 발송됩니다.
-            <br />
-            상담을 완료처리하시겠습니까?
-          </DialogDescription>
+          <DialogDescription>상담을 완료처리하시겠습니까?</DialogDescription>
         </DialogHeader>
         <DialogFooter>
           <DialogClose asChild>
