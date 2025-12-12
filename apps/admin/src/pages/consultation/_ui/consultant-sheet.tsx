@@ -8,7 +8,7 @@ import {
   SheetContent,
   RHFTextarea,
 } from '@repo/ui';
-import type { PropsWithChildren } from 'react';
+import type { ReactNode } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { format } from 'date-fns';
 import { Mail, Globe, Phone, Calendar } from 'lucide-react';
@@ -18,14 +18,19 @@ import ConsultationCompleteButton from './complete-button';
 import ConsultationCompleteCancelButton from './complete-cancel-button';
 import ConsultationCancelButton from './cancel-button';
 
-interface ConsultantSheetButtonProps extends PropsWithChildren {
+interface ConsultantSheetProps {
   consultation: Consultation;
+  trigger?: ReactNode;
+  isOpen?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }
 
-const ConsultantSheetButton = ({
+const ConsultantSheet = ({
   consultation,
-  children,
-}: ConsultantSheetButtonProps) => {
+  trigger,
+  isOpen,
+  onOpenChange,
+}: ConsultantSheetProps) => {
   const {
     id,
     type,
@@ -48,8 +53,8 @@ const ConsultantSheetButton = ({
   const isReadOnly = isCompleted || isCancelled;
 
   return (
-    <Sheet>
-      <SheetTrigger asChild>{children}</SheetTrigger>
+    <Sheet open={isOpen} onOpenChange={onOpenChange}>
+      {trigger && <SheetTrigger asChild>{trigger}</SheetTrigger>}
       <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(() => {})}>
           <SheetContent
@@ -156,4 +161,4 @@ const ConsultantSheetButton = ({
   );
 };
 
-export default ConsultantSheetButton;
+export default ConsultantSheet;

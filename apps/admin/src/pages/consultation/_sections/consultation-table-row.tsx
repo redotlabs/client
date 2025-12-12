@@ -3,7 +3,7 @@ import { Button, TableCell, TableRow } from '@redotlabs/ui';
 import { cn } from '@redotlabs/utils';
 import { format } from 'date-fns';
 import {
-  ConsultantSheetButton,
+  ConsultantSheet,
   ConsultationTypeBadge,
   ConsultationStatusBadge,
 } from '../_ui';
@@ -28,11 +28,14 @@ const ConsultationTableRow = ({
     >
       <TableCell align="center">{order}</TableCell>
       <TableCell align="center">
-        <ConsultantSheetButton consultation={consultation}>
-          <Button variant="text" size="sm" className="p-0 underline">
-            {id}
-          </Button>
-        </ConsultantSheetButton>
+        <ConsultantSheet
+          consultation={consultation}
+          trigger={
+            <Button variant="text" size="sm" className="p-0 underline">
+              {id}
+            </Button>
+          }
+        />
       </TableCell>
       <TableCell align="center">{email}</TableCell>
       <TableCell align="center">{phone}</TableCell>
