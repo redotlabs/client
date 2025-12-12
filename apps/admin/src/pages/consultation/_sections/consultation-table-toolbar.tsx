@@ -11,6 +11,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 const STATUS_OPTIONS: { label: string; value: ConsultationStatus | '' }[] = [
   { label: '전체', value: '' },
   { label: '미처리', value: 'PENDING' },
+  { label: '진행중', value: 'IN_PROGRESS' },
   { label: '완료', value: 'COMPLETED' },
   { label: '취소', value: 'CANCELLED' },
 ];

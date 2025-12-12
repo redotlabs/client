@@ -15,6 +15,7 @@ export const useConsultationList = (props?: {
   return useQuery({
     queryKey: queryKeyFactory.consultation.list(props?.params),
     queryFn,
+    enabled: props?.enabled ?? true,
     gcTime: Infinity,
     staleTime: Infinity,
   });
@@ -30,14 +31,17 @@ export const useUpdateConsultation = () => {
           queryKey: queryKeyFactory.consultation.list(),
           exact: false,
         },
-        (old: Pagination<Consultation>) => ({
-          ...old,
-          content: old.content.map((consultation) =>
-            consultation.id === res.id
-              ? { ...consultation, ...res }
-              : consultation
-          ),
-        })
+        (old?: Pagination<Consultation>) => {
+          if (!old) return old;
+          return {
+            ...old,
+            content: old.content.map((consultation) =>
+              consultation.id === res.id
+                ? { ...consultation, ...res }
+                : consultation
+            ),
+          };
+        }
       );
     },
   });
