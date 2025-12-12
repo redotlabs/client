@@ -32,38 +32,40 @@ const ConsultationPage = () => {
   const noData = !isFetching && isFetched && data?.content?.length === 0;
 
   return (
-    <main className="p-10 container mx-auto flex-1 min-h-0 flex flex-col overflow-y-auto">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold">상담 요청 목록</h1>
+    <main className="p-10 min-h-0 flex flex-col overflow-y-auto">
+      <div className="container mx-auto flex-1">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold">상담 요청 목록</h1>
+          </div>
         </div>
+
+        <ConsultationTableToolbar setParams={setParams} disabled={isFetching} />
+
+        <p className="text-right text-gray-500">총 {total}건</p>
+
+        <Table className="mt-4 w-full">
+          <ConsultationTableHeader />
+          <TableBody>
+            {isFetching && <ConsultationTableLoading />}
+            {data?.content.map((consultation, index) => (
+              <ConsultationTableRow
+                key={consultation.id}
+                order={getOrder(index)}
+                consultation={consultation}
+              />
+            ))}
+          </TableBody>
+        </Table>
+
+        {noData && <ConsultationTableNoContent />}
+
+        <ConsultationTablePagination
+          currentPage={params.page}
+          setParams={setParams}
+          totalPages={totalPages}
+        />
       </div>
-
-      <ConsultationTableToolbar setParams={setParams} />
-
-      <p className="text-right text-gray-500">총 {total}건</p>
-
-      <Table className="mt-4 w-full">
-        <ConsultationTableHeader />
-        <TableBody>
-          {isFetching && <ConsultationTableLoading />}
-          {data?.content.map((consultation, index) => (
-            <ConsultationTableRow
-              key={consultation.id}
-              order={getOrder(index)}
-              consultation={consultation}
-            />
-          ))}
-        </TableBody>
-      </Table>
-
-      {noData && <ConsultationTableNoContent />}
-
-      <ConsultationTablePagination
-        currentPage={params.page}
-        setParams={setParams}
-        totalPages={totalPages}
-      />
     </main>
   );
 };

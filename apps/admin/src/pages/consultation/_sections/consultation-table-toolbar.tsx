@@ -12,6 +12,7 @@ const STATUS_OPTIONS: { label: string; value: ConsultationStatus | '' }[] = [
   { label: '전체', value: '' },
   { label: '미처리', value: 'PENDING' },
   { label: '완료', value: 'COMPLETED' },
+  { label: '취소', value: 'CANCELLED' },
 ];
 
 const TYPE_OPTIONS: { label: string; value: ConsultationType | '' }[] = [
@@ -22,6 +23,7 @@ const TYPE_OPTIONS: { label: string; value: ConsultationType | '' }[] = [
 
 interface ConsultationTableToolbarProps {
   setParams: Dispatch<SetStateAction<GetConsultationsParams>>;
+  disabled: boolean;
 }
 
 type FormValues = Omit<GetConsultationsParams, 'startDate' | 'endDate'> & {
@@ -31,6 +33,7 @@ type FormValues = Omit<GetConsultationsParams, 'startDate' | 'endDate'> & {
 
 const ConsultationTableToolbar = ({
   setParams,
+  disabled,
 }: ConsultationTableToolbarProps) => {
   const queryClient = useQueryClient();
 
@@ -121,7 +124,7 @@ const ConsultationTableToolbar = ({
               labelPlacement="left"
             />
           </div>
-          <Button type="submit" size="sm">
+          <Button type="submit" size="sm" disabled={disabled}>
             검색
           </Button>
         </div>
