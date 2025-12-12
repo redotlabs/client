@@ -53,6 +53,12 @@ importers:
       '@repo/assets':
         specifier: workspace:*
         version: link:../../packages/assets
+      '@repo/hooks':
+        specifier: workspace:*
+        version: link:../../packages/hooks
+      '@repo/types':
+        specifier: workspace:*
+        version: link:../../packages/types
       '@repo/ui':
         specifier: workspace:*
         version: link:../../packages/ui

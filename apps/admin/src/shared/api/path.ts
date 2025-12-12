@@ -11,4 +11,9 @@ export const API_PATH = {
     resetPassword: (adminId: number) =>
       `/redot/admin/${adminId}/reset-password`,
   },
+  consultation: {
+    root: '/redot/admin/consultations',
+    detail: (consultationId: number) =>
+      `/redot/admin/consultations/${consultationId}`,
+  },
 };
