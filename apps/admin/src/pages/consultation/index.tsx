@@ -10,6 +10,7 @@ import {
 import { useConsultationList } from '@/shared/api/queries/consultation';
 import type { GetConsultationsParams } from '@/shared/api/services/consultation';
 import { useCallback, useState } from 'react';
+import { ConsultationSheetByParamId } from './_ui';
 
 const ConsultationPage = () => {
   // query key로 전달할 파라미터
@@ -33,6 +34,9 @@ const ConsultationPage = () => {
 
   return (
     <main className="p-10 min-h-0 flex flex-col overflow-y-auto">
+      {/* URL search param (id)로 트리거되는 상담 Sheet */}
+      <ConsultationSheetByParamId />
+
       <div className="container mx-auto flex-1">
         <div className="flex items-center justify-between">
           <div>

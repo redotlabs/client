@@ -13,5 +13,8 @@ export const queryKeyFactory = {
       params
         ? [API_PATH.consultation.root, params]
         : [API_PATH.consultation.root],
+    detail: (consultationId: number) => [
+      API_PATH.consultation.detail(consultationId),
+    ],
   },
 };

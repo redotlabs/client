@@ -25,6 +25,13 @@ export const getConsultations = async (params: GetConsultationsParams) => {
   return data;
 };
 
+export const getConsultation = async (consultationId: number) => {
+  const { data } = await api.get<Consultation>(
+    API_PATH.consultation.detail(consultationId)
+  );
+  return data;
+};
+
 export const updateConsultation = async (
   payload: Pick<
     Consultation,
