@@ -48,6 +48,17 @@ const ConsultantSheet = ({
     },
   });
 
+  const isSafeWebsiteUrl = (() => {
+    if (!currentWebsiteUrl) return false;
+    try {
+      const u = new URL(currentWebsiteUrl);
+      if (u.protocol === 'http:' || u.protocol === 'https:') return true;
+      return false;
+    } catch {
+      return false;
+    }
+  })();
+
   const isCompleted = status === 'COMPLETED';
   const isCancelled = status === 'CANCELLED';
   const isReadOnly = isCompleted || isCancelled;
@@ -108,14 +119,23 @@ const ConsultantSheet = ({
                       <Globe size={16} />
                       기존 홈페이지
                     </label>
-                    <a
-                      href={currentWebsiteUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mt-2 text-sm text-primary-500 hover:underline break-all"
-                    >
-                      {currentWebsiteUrl}
-                    </a>
+                    {isSafeWebsiteUrl ? (
+                      <a
+                        href={currentWebsiteUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-2 text-sm text-primary-500 hover:underline break-all"
+                      >
+                        {currentWebsiteUrl}
+                      </a>
+                    ) : (
+                      <>
+                        <p className="mt-2 text-sm">{currentWebsiteUrl}</p>
+                        <p className="mt-1 text-xs text-red-500">
+                          (유효하지 않은 URL입니다) 악의적인 요청일 수 있습니다.
+                        </p>
+                      </>
+                    )}
                   </Card>
                 )}
               </div>
