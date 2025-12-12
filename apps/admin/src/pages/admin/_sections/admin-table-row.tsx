@@ -2,7 +2,7 @@ import type { Admin } from '@/shared/types';
 import { Button } from '@redotlabs/ui';
 import { cn } from '@redotlabs/utils';
 import { format } from 'date-fns';
-import AdminSheetButton from './admin-sheet-button';
+import { AdminSheetButton } from '../_ui';
 
 interface AdminTableRowProps {
   admin: Admin;
