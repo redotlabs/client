@@ -15,6 +15,7 @@ import type { PropsWithChildren } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import z from 'zod';
 import ResetPasswordButton from './reset-password-button';
+import AdminUploadProfileImage from './upload-profile-image';
 
 interface AdminSheetButtonProps extends PropsWithChildren {
   admin: Admin;
@@ -92,18 +93,11 @@ const AdminSheetButton = ({ admin, children }: AdminSheetButtonProps) => {
               onSubmit={form.handleSubmit(onSubmit)}
               className="flex flex-col gap-6"
             >
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-3 w-fit">
                 <label className="text-base font-bold">프로필 사진</label>
-                {admin.profileImageUrl ? (
-                  <img
-                    src={admin.profileImageUrl}
-                    alt="프로필 사진"
-                    className="size-20 rounded-full"
-                  />
-                ) : (
-                  <div className="size-20 rounded-full bg-gray-300"></div>
-                )}
+                <AdminUploadProfileImage />
               </div>
+
               <RHFInput name="name" label="이름" />
               <RHFInput name="email" label="이메일" />
 

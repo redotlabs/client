@@ -23,6 +23,7 @@ const RHFSelect = ({
   labelPlacement = 'top',
   placeholder = 'Select an option',
   options,
+  size = 'md',
   ...props
 }: RHFSelectProps) => {
   const { control } = useFormContext();
@@ -39,13 +40,21 @@ const RHFSelect = ({
             )}
           >
             {label && (
-              <label htmlFor={name} className="text-base font-bold">
+              <label
+                htmlFor={name}
+                className={cn(
+                  size === 'sm' && 'text-sm font-medium',
+                  size === 'md' && 'text-base font-bold',
+                  size === 'lg' && 'text-lg font-bold'
+                )}
+              >
                 {label}
               </label>
             )}
             <div className={cn(labelPlacement === 'top' && 'mt-2.5')}>
               <Select
                 {...props}
+                size={size}
                 value={field.value}
                 onValueChange={field.onChange}
               >

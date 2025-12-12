@@ -6,3 +6,8 @@ export interface Pagination<T> {
   totalPages: number;
   hasNext: boolean;
 }
+
+export interface PageParams {
+  page?: number;
+  size?: number;
+}

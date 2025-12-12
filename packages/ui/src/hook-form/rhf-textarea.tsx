@@ -14,6 +14,7 @@ const RHFTextarea = ({
   name,
   label,
   labelPlacement = 'top',
+  size = 'md',
   ...props
 }: RHFTextareaProps) => {
   const { control } = useFormContext();
@@ -31,12 +32,19 @@ const RHFTextarea = ({
               )}
             >
               {label && (
-                <label htmlFor={name} className="text-base font-bold">
+                <label
+                  htmlFor={name}
+                  className={cn(
+                    size === 'sm' && 'text-sm font-medium',
+                    size === 'md' && 'text-base font-bold',
+                    size === 'lg' && 'text-lg font-bold'
+                  )}
+                >
                   {label}
                 </label>
               )}
               <div className={cn(labelPlacement === 'top' && 'mt-2.5')}>
-                <Textarea id={name} {...field} {...props} />
+                <Textarea id={name} size={size} {...field} {...props} />
               </div>
             </div>
             {fieldState.error && (

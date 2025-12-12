@@ -10,5 +10,11 @@ export const API_PATH = {
     detail: (adminId: number) => `/redot/admin/${adminId}`,
     resetPassword: (adminId: number) =>
       `/redot/admin/${adminId}/reset-password`,
+    uploadProfileImage: '/redot/admin/upload-profile-image',
+  },
+  consultation: {
+    root: '/redot/admin/consultations',
+    detail: (consultationId: number) =>
+      `/redot/admin/consultations/${consultationId}`,
   },
 };

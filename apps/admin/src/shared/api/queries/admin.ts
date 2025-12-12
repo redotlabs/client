@@ -1,9 +1,4 @@
-import {
-  useInfiniteQuery,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { queryKeyFactory } from '@/shared/api/query-key-factory';
 import {
   getAdmins,
@@ -12,21 +7,21 @@ import {
   deleteAdmin,
   createAdmin,
   resetPassword,
+  uploadAdminProfileImage,
 } from '@/shared/api/services/admin';
+import type { PageParams } from '@repo/types';
 
-export const useAdmins = (props?: { enabled?: boolean }) => {
-  return useInfiniteQuery({
-    queryKey: queryKeyFactory.admin.list,
-    queryFn: ({ pageParam = 1 }) => getAdmins({ page: pageParam, size: 10 }),
-    initialPageParam: 0,
-    getNextPageParam: (lastPage) => {
-      if (!lastPage) return undefined;
-      const { page, totalPages } = lastPage;
-      return page < totalPages ? page + 1 : undefined;
-    },
+export const useAdminList = (props?: {
+  enabled?: boolean;
+  params?: PageParams;
+}) => {
+  const queryFn = () => getAdmins(props?.params ?? {});
+  return useQuery({
+    queryKey: queryKeyFactory.admin.list(props?.params),
+    queryFn,
+    enabled: props?.enabled ?? true,
     gcTime: Infinity,
     staleTime: Infinity,
-    enabled: props?.enabled ?? true,
   });
 };
 
@@ -46,7 +41,7 @@ export const useCreateAdmin = () => {
     mutationFn: createAdmin,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: queryKeyFactory.admin.list,
+        queryKey: queryKeyFactory.admin.list(),
       });
     },
   });
@@ -58,7 +53,7 @@ export const useDeleteAdmin = () => {
     mutationFn: deleteAdmin,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: queryKeyFactory.admin.list,
+        queryKey: queryKeyFactory.admin.list(),
       });
     },
   });
@@ -70,7 +65,7 @@ export const useUpdateAdmin = () => {
     mutationFn: updateAdmin,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: queryKeyFactory.admin.list,
+        queryKey: queryKeyFactory.admin.list(),
       });
     },
   });
@@ -79,5 +74,11 @@ export const useUpdateAdmin = () => {
 export const useResetPassword = () => {
   return useMutation({
     mutationFn: resetPassword,
+  });
+};
+
+export const useUploadAdminProfileImage = () => {
+  return useMutation({
+    mutationFn: uploadAdminProfileImage,
   });
 };

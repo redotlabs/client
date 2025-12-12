@@ -40,6 +40,7 @@
     "react-hook-form": "^7.64.0"
   },
   "dependencies": {
-    "@radix-ui/react-dialog": "^1.1.15"
+    "@radix-ui/react-dialog": "^1.1.15",
+    "@radix-ui/react-tooltip": "^1.2.8"
   }
 }
