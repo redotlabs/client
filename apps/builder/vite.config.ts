@@ -17,6 +17,7 @@ export default defineConfig(({ mode }) => {
     plugins: [react(), tailwindcss(), tsconfigPaths()] as PluginOption[],
     resolve: {
       preserveSymlinks: true,
+      dedupe: ['react', 'react-dom'],
       alias: {
         '@repo/builder/editor': path.resolve(
           __dirname,
