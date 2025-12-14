@@ -3,6 +3,7 @@ import type {
   BlockPosition,
   BlockSize,
   Section,
+  AutoLayoutConfig,
 } from '@repo/builder/renderer';
 import type {
   DragInteractionState,
@@ -37,6 +38,11 @@ export type ActionType =
   | 'block.create'
   | 'block.delete'
   | 'block.update'
+  // Frame Actions
+  | 'frame.addChild'
+  | 'frame.removeChild'
+  | 'frame.reorderChildren'
+  | 'frame.updateLayout'
   // UI Actions
   | 'ui.setBlockDragging'
   | 'ui.setBlockResizing'
@@ -219,6 +225,48 @@ export interface BlockUpdateAction extends BaseAction {
 }
 
 // ============================================
+// Frame Actions
+// ============================================
+
+export interface FrameAddChildAction extends BaseAction {
+  type: 'frame.addChild';
+  payload: {
+    sectionId: string;
+    frameId: string;
+    childBlock: BuilderBlock;
+    index?: number; // 특정 위치에 삽입, undefined면 마지막에 추가
+  };
+}
+
+export interface FrameRemoveChildAction extends BaseAction {
+  type: 'frame.removeChild';
+  payload: {
+    sectionId: string;
+    frameId: string;
+    childId: string;
+  };
+}
+
+export interface FrameReorderChildrenAction extends BaseAction {
+  type: 'frame.reorderChildren';
+  payload: {
+    sectionId: string;
+    frameId: string;
+    fromIndex: number;
+    toIndex: number;
+  };
+}
+
+export interface FrameUpdateLayoutAction extends BaseAction {
+  type: 'frame.updateLayout';
+  payload: {
+    sectionId: string;
+    frameId: string;
+    layout: Partial<AutoLayoutConfig>;
+  };
+}
+
+// ============================================
 // UI Actions
 // ============================================
 
@@ -310,6 +358,11 @@ export type EditorAction =
   | BlockCreateAction
   | BlockDeleteAction
   | BlockUpdateAction
+  // Frame Actions
+  | FrameAddChildAction
+  | FrameRemoveChildAction
+  | FrameReorderChildrenAction
+  | FrameUpdateLayoutAction
   // UI Actions
   | UISetBlockDraggingAction
   | UISetBlockResizingAction

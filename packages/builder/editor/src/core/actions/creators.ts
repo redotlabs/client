@@ -19,6 +19,10 @@ import type {
   BlockCreateAction,
   BlockDeleteAction,
   BlockUpdateAction,
+  FrameAddChildAction,
+  FrameRemoveChildAction,
+  FrameReorderChildrenAction,
+  FrameUpdateLayoutAction,
   InteractionStartDragAction,
   InteractionUpdateDragAction,
   InteractionEndDragAction,
@@ -162,6 +166,44 @@ export const updateBlock = (
   updates: BlockUpdateAction['payload']['updates']
 ): BlockUpdateAction =>
   createAction('block.update', { sectionId, blockId, updates });
+
+// ============================================
+// Frame Action Creators
+// ============================================
+
+export const addChildToFrame = (
+  sectionId: string,
+  frameId: string,
+  childBlock: FrameAddChildAction['payload']['childBlock'],
+  index?: number
+): FrameAddChildAction =>
+  createAction('frame.addChild', { sectionId, frameId, childBlock, index });
+
+export const removeChildFromFrame = (
+  sectionId: string,
+  frameId: string,
+  childId: string
+): FrameRemoveChildAction =>
+  createAction('frame.removeChild', { sectionId, frameId, childId });
+
+export const reorderFrameChildren = (
+  sectionId: string,
+  frameId: string,
+  fromIndex: number,
+  toIndex: number
+): FrameReorderChildrenAction =>
+  createAction('frame.reorderChildren', { sectionId, frameId, fromIndex, toIndex });
+
+export const updateFrameLayout = (
+  sectionId: string,
+  frameId: string,
+  layout: FrameUpdateLayoutAction['payload']['layout']
+): FrameUpdateLayoutAction =>
+  createAction('frame.updateLayout', { sectionId, frameId, layout });
+
+// ============================================
+// UI Action Creators
+// ============================================
 
 export const setBlockDragging = (isBlockDragging: boolean) =>
   createAction('ui.setBlockDragging', { isBlockDragging });

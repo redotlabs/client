@@ -20,6 +20,10 @@ import type {
   BlockCreateAction,
   BlockDeleteAction,
   BlockUpdateAction,
+  FrameAddChildAction,
+  FrameRemoveChildAction,
+  FrameReorderChildrenAction,
+  FrameUpdateLayoutAction,
   UISetBlockDraggingAction,
   UISetBlockResizingAction,
   UISetSectionResizingAction,
@@ -163,6 +167,45 @@ export const actionHandlers: Record<ActionType, ActionHandler> = {
       action.payload.sectionId,
       action.payload.blockId,
       action.payload.updates
+    );
+  }) as ActionHandler,
+
+  // Frame Handlers
+  'frame.addChild': ((state, action: FrameAddChildAction) => {
+    return stateUpdaters.addChildToFrameState(
+      state,
+      action.payload.sectionId,
+      action.payload.frameId,
+      action.payload.childBlock,
+      action.payload.index
+    );
+  }) as ActionHandler,
+
+  'frame.removeChild': ((state, action: FrameRemoveChildAction) => {
+    return stateUpdaters.removeChildFromFrameState(
+      state,
+      action.payload.sectionId,
+      action.payload.frameId,
+      action.payload.childId
+    );
+  }) as ActionHandler,
+
+  'frame.reorderChildren': ((state, action: FrameReorderChildrenAction) => {
+    return stateUpdaters.reorderFrameChildrenState(
+      state,
+      action.payload.sectionId,
+      action.payload.frameId,
+      action.payload.fromIndex,
+      action.payload.toIndex
+    );
+  }) as ActionHandler,
+
+  'frame.updateLayout': ((state, action: FrameUpdateLayoutAction) => {
+    return stateUpdaters.updateFrameLayoutState(
+      state,
+      action.payload.sectionId,
+      action.payload.frameId,
+      action.payload.layout
     );
   }) as ActionHandler,
 

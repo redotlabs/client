@@ -9,6 +9,8 @@ import type {
   BlockSize,
   Section,
   PageContent,
+  AutoLayoutConfig,
+  FrameProps,
 } from '@repo/builder/renderer';
 import { getSectionRows } from '@/shared/utils/sectionHeight';
 import { DEFAULT_SECTION_ROWS } from '@/shared/constants/editorData';
@@ -519,6 +521,142 @@ export const updateBlockState = (
     )
   );
 };
+
+// ============================================
+// Frame State Updaters
+// ============================================
+
+/**
+ * Frame에 자식 블록 추가
+ */
+export const addChildToFrameState = (
+  state: EditorState,
+  sectionId: string,
+  frameId: string,
+  childBlock: BuilderBlock,
+  index?: number
+): EditorState => {
+  return updateCurrentContentSections(state, (sections) =>
+    updateSectionBlocks(sections, sectionId, (blocks) =>
+      blocks.map((block) => {
+        if (block.id !== frameId || block.component !== 'frame') return block;
+
+        const currentChildren = Array.isArray(block.children)
+          ? block.children
+          : [];
+        const newChildren = [...currentChildren];
+
+        // index가 지정되면 해당 위치에 삽입, 아니면 마지막에 추가
+        if (index !== undefined && index >= 0 && index <= newChildren.length) {
+          newChildren.splice(index, 0, childBlock);
+        } else {
+          newChildren.push(childBlock);
+        }
+
+        return {
+          ...block,
+          children: newChildren,
+        };
+      })
+    )
+  );
+};
+
+/**
+ * Frame에서 자식 블록 제거
+ */
+export const removeChildFromFrameState = (
+  state: EditorState,
+  sectionId: string,
+  frameId: string,
+  childId: string
+): EditorState => {
+  return updateCurrentContentSections(state, (sections) =>
+    updateSectionBlocks(sections, sectionId, (blocks) =>
+      blocks.map((block) => {
+        if (block.id !== frameId || block.component !== 'frame') return block;
+
+        const currentChildren = Array.isArray(block.children)
+          ? block.children
+          : [];
+
+        return {
+          ...block,
+          children: currentChildren.filter((child) => child.id !== childId),
+        };
+      })
+    )
+  );
+};
+
+/**
+ * Frame 자식 블록 순서 변경
+ */
+export const reorderFrameChildrenState = (
+  state: EditorState,
+  sectionId: string,
+  frameId: string,
+  fromIndex: number,
+  toIndex: number
+): EditorState => {
+  return updateCurrentContentSections(state, (sections) =>
+    updateSectionBlocks(sections, sectionId, (blocks) =>
+      blocks.map((block) => {
+        if (block.id !== frameId || block.component !== 'frame') return block;
+
+        const currentChildren = Array.isArray(block.children)
+          ? block.children
+          : [];
+        const newChildren = [...currentChildren];
+
+        // fromIndex 요소를 제거하고 toIndex 위치에 삽입
+        const [movedChild] = newChildren.splice(fromIndex, 1);
+        newChildren.splice(toIndex, 0, movedChild);
+
+        return {
+          ...block,
+          children: newChildren,
+        };
+      })
+    )
+  );
+};
+
+/**
+ * Frame Auto Layout 설정 업데이트
+ */
+export const updateFrameLayoutState = (
+  state: EditorState,
+  sectionId: string,
+  frameId: string,
+  layoutUpdates: Partial<AutoLayoutConfig>
+): EditorState => {
+  return updateCurrentContentSections(state, (sections) =>
+    updateSectionBlocks(sections, sectionId, (blocks) =>
+      blocks.map((block) => {
+        if (block.id !== frameId || block.component !== 'frame') return block;
+
+        const currentProps = block.props as FrameProps;
+        const updatedLayout = {
+          ...currentProps.layout,
+          ...layoutUpdates,
+        };
+
+        return {
+          ...block,
+          props: {
+            ...currentProps,
+            layout: updatedLayout,
+          },
+        };
+      })
+    )
+  );
+};
+
+// ============================================
+// UI State Updaters
+// ============================================
 
 export const setBlockDraggingState = (
   state: EditorState,
