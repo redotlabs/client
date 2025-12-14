@@ -8,7 +8,7 @@ import AdminPage from '@/pages/admin';
 import DashboardPage from '@/pages/dashboard';
 import CustomerPage from '@/pages/customer';
 import CustomerDetailPage from '@/pages/customer/[id]';
-import ConsultantPage from '@/pages/consultant';
+import ConsultationPage from '@/pages/consultation';
 import TransactionPage from '@/pages/transaction';
 import NotFound from '@/pages/not-found';
 
@@ -34,7 +34,7 @@ export default function Router() {
         { path: 'admin', element: <AdminPage /> },
         { path: 'customer', element: <CustomerPage /> },
         { path: 'customer/:id', element: <CustomerDetailPage /> },
-        { path: 'consultant', element: <ConsultantPage /> },
+        { path: 'consultation', element: <ConsultationPage /> },
         { path: 'transaction', element: <TransactionPage /> },
       ],
     },

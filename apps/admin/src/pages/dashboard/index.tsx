@@ -150,7 +150,7 @@ const DashboardPage = () => {
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-bold">최근 상담 요청</h2>
           <Link
-            to={PATH.consultant.root}
+            to={PATH.consultation.root}
             className="text-sm text-primary-500 hover:underline"
           >
             전체보기 →

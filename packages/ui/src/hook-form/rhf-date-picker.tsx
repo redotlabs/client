@@ -28,7 +28,7 @@ const RHFDatePicker = ({
               )}
             >
               {label && (
-                <label htmlFor={name} className="text-base font-bold">
+                <label htmlFor={name} className="text-sm font-medium">
                   {label}
                 </label>
               )}

@@ -1,12 +1,12 @@
 import { TableHead, TableHeader, TableRow } from '@redotlabs/ui';
 
-const ConsultantTableHeader = () => {
+const ConsultationTableHeader = () => {
   return (
     <TableHeader>
       <TableRow>
         <TableHead>No.</TableHead>
         <TableHead>ID</TableHead>
-        <TableHead>이름</TableHead>
+        <TableHead>이메일</TableHead>
         <TableHead>연락처</TableHead>
         <TableHead>구분</TableHead>
         <TableHead>상담 내용</TableHead>
@@ -17,5 +17,4 @@ const ConsultantTableHeader = () => {
   );
 };
 
-export default ConsultantTableHeader;
-
+export default ConsultationTableHeader;
