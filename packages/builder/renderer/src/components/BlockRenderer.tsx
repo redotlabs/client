@@ -6,10 +6,12 @@ import type {
   InputProps,
   ImageProps,
   LinkProps,
+  FrameProps,
 } from "../types";
 import { Badge, Button, Input } from "@redotlabs/ui";
 import { cn } from "@redotlabs/utils";
 import { ImageBlock } from "./ImageBlock";
+import { FrameRenderer } from "./FrameRenderer";
 
 interface BlockRendererProps {
   block: RenderableBlock;
@@ -113,6 +115,26 @@ export const BlockRenderer = ({ block, isPreviewMode = false }: BlockRendererPro
           >
             {props.children || "Link"}
           </a>
+        );
+      }
+
+      case "frame": {
+        const props = block.props as FrameProps;
+        return (
+          <FrameRenderer
+            layout={props.layout}
+            backgroundColor={props.backgroundColor}
+            borderRadius={props.borderRadius}
+            className={props.className}
+          >
+            {block.children?.map((child) => (
+              <BlockRenderer
+                key={child.id}
+                block={child}
+                isPreviewMode={isPreviewMode}
+              />
+            ))}
+          </FrameRenderer>
         );
       }
 

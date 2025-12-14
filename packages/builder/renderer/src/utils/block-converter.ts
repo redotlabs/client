@@ -9,6 +9,7 @@ import type {
   InputProps,
   ImageProps,
   LinkProps,
+  FrameProps,
 } from "../types";
 import type { CSSProperties, ReactNode } from "react";
 
@@ -78,6 +79,14 @@ const componentPropHandlers: Record<string, ComponentPropHandler> = {
       ...baseProps,
       ...props,
       children: children as ReactNode,
+    };
+  },
+
+  frame: (block, baseProps) => {
+    const props = block.props as FrameProps;
+    return {
+      ...baseProps,
+      ...props,
     };
   },
 };
@@ -157,6 +166,13 @@ export class BlockConverter {
       style: this.convertToStyle(block),
       props: this.convertToProps(block),
     };
+
+    // Frame의 경우 children을 재귀적으로 변환
+    if (block.component === "frame" && Array.isArray(block.children)) {
+      renderableBlock.children = block.children.map((child) =>
+        this.convertBlock(child)
+      );
+    }
 
     return renderableBlock;
   }
