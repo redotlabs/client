@@ -18,19 +18,19 @@ import ConsultationCompleteButton from './complete-button';
 import ConsultationCompleteCancelButton from './complete-cancel-button';
 import ConsultationCancelButton from './cancel-button';
 
-interface ConsultantSheetProps {
+interface ConsultationSheetProps {
   consultation: Consultation;
   trigger?: ReactNode;
   isOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
 }
 
-const ConsultantSheet = ({
+const ConsultationSheet = ({
   consultation,
   trigger,
   isOpen,
   onOpenChange,
-}: ConsultantSheetProps) => {
+}: ConsultationSheetProps) => {
   const {
     id,
     type,
@@ -181,4 +181,4 @@ const ConsultantSheet = ({
   );
 };
 
-export default ConsultantSheet;
+export default ConsultationSheet;
