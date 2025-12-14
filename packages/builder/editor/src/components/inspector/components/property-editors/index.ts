@@ -6,6 +6,7 @@ import { ButtonEditor } from './ButtonEditor';
 import { InputEditor } from './InputEditor';
 import { ImageEditor } from './ImageEditor';
 import { LinkEditor } from './LinkEditor';
+import { FrameEditor } from './FrameEditor';
 
 /**
  * Property Editor Registry
@@ -20,6 +21,7 @@ const PROPERTY_EDITORS: Partial<
   input: InputEditor,
   image: ImageEditor,
   link: LinkEditor,
+  frame: FrameEditor,
 };
 
 /**
@@ -39,4 +41,5 @@ export {
   InputEditor,
   ImageEditor,
   LinkEditor,
+  FrameEditor,
 };

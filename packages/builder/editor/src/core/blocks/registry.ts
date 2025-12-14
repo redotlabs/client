@@ -16,7 +16,8 @@ export type BlockCategory =
   | 'input'
   | 'badge'
   | 'image'
-  | 'link';
+  | 'link'
+  | 'frame';
 
 export interface BlockTemplate<
   T extends BuilderBlock['component'] = BuilderBlock['component'],
@@ -71,6 +72,22 @@ type ComponentPropsDefaults = {
     fontSize?: number;
     fontWeight?: string;
     textDecoration?: 'none' | 'underline' | 'line-through';
+  };
+  frame: {
+    layout: {
+      direction: 'vertical' | 'horizontal' | 'wrap';
+      gap: number;
+      padding: {
+        top: number;
+        right: number;
+        bottom: number;
+        left: number;
+      };
+      alignItems: 'flex-start' | 'center' | 'flex-end' | 'stretch';
+      justifyContent: 'flex-start' | 'center' | 'flex-end' | 'space-between' | 'space-around' | 'space-evenly';
+    };
+    backgroundColor?: string;
+    borderRadius?: number;
   };
 };
 
@@ -251,6 +268,56 @@ export const BLOCK_REGISTRY: BlockTemplate[] = [
       },
       position,
       size: size || { width: 3, height: 1 },
+      metadata: createBlockMetadata(),
+    }),
+  },
+  {
+    id: 'frame',
+    type: 'frame',
+    label: 'Frame',
+    category: 'frame',
+    defaultProps: {
+      component: 'frame',
+      props: {
+        layout: {
+          direction: 'vertical',
+          gap: 8,
+          padding: {
+            top: 16,
+            right: 16,
+            bottom: 16,
+            left: 16,
+          },
+          alignItems: 'flex-start',
+          justifyContent: 'flex-start',
+        },
+        backgroundColor: '#f5f5f5',
+        borderRadius: 8,
+      },
+      size: { width: 8, height: 8 },
+    },
+    createBlock: (position, size) => ({
+      id: generateBlockId(),
+      component: 'frame',
+      props: {
+        layout: {
+          direction: 'vertical',
+          gap: 8,
+          padding: {
+            top: 16,
+            right: 16,
+            bottom: 16,
+            left: 16,
+          },
+          alignItems: 'flex-start',
+          justifyContent: 'flex-start',
+        },
+        backgroundColor: '#f5f5f5',
+        borderRadius: 8,
+      },
+      children: [], // Frame은 빈 children 배열로 시작
+      position,
+      size: size || { width: 8, height: 8 },
       metadata: createBlockMetadata(),
     }),
   },

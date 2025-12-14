@@ -6,6 +6,7 @@ import {
   Plus,
   Image,
   Link,
+  Box,
 } from 'lucide-react';
 import { useEditorContext } from '@/context';
 import { createSection } from '@/core/actions';
@@ -57,6 +58,12 @@ const CATEGORIES: CategoryItem[] = [
     label: 'Link',
     icon: <Link className="w-5 h-5" />,
     blockTemplateId: 'link',
+  },
+  {
+    id: 'frame',
+    label: 'Frame',
+    icon: <Box className="w-5 h-5" />,
+    blockTemplateId: 'frame',
   },
 ];
 
