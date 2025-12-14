@@ -158,19 +158,21 @@ export class BlockConverter {
     return handler ? handler(block, baseProps) : baseProps;
   }
 
-  public convertBlock(block: BuilderBlock): RenderableBlock {
+  public convertBlock(block: BuilderBlock, isFrameChild = false): RenderableBlock {
     const renderableBlock: RenderableBlock = {
       id: block.id,
       type: block.component,
-      gridArea: this.convertToGridArea(block),
-      style: this.convertToStyle(block),
+      // Frame children은 gridArea 필요 없음
+      gridArea: isFrameChild ? '' : this.convertToGridArea(block),
+      // Frame children은 Grid 스타일 필요 없음
+      style: isFrameChild ? {} : this.convertToStyle(block),
       props: this.convertToProps(block),
     };
 
-    // Frame의 경우 children을 재귀적으로 변환
+    // Frame의 경우 children을 재귀적으로 변환 (isFrameChild=true로 전달)
     if (block.component === "frame" && Array.isArray(block.children)) {
       renderableBlock.children = block.children.map((child) =>
-        this.convertBlock(child)
+        this.convertBlock(child, true)
       );
     }
 

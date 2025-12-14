@@ -1,6 +1,7 @@
 import type { DropEventHandler, HandlerContext } from './types';
-import { createBlock, setBlockDragging } from '@/core/actions';
+import { createBlock, setBlockDragging, addChildToFrame } from '@/core/actions';
 import type { BlockTemplate } from '@/core/blocks';
+import type { BuilderBlock } from '@repo/builder/renderer';
 
 const COLUMN_WIDTH = 40;
 
@@ -18,6 +19,53 @@ const convertToGridCoordinates = (
   const gridY = Math.floor(mouseY / rowHeight);
 
   return { x: gridX, y: gridY };
+};
+
+/**
+ * Frame 블록 위에 드롭되었는지 감지
+ * Frame 블록의 DOM 요소를 찾아서 마우스 좌표가 그 안에 있는지 확인
+ */
+const detectFrameUnderMouse = (
+  event: DragEvent,
+  context: HandlerContext
+): string | null => {
+  const sectionElement = (event.currentTarget as HTMLElement).closest(
+    '[data-section-id]'
+  ) as HTMLElement;
+  if (!sectionElement) return null;
+
+  const sectionId = sectionElement.dataset.sectionId;
+  if (!sectionId) return null;
+
+  // 현재 섹션의 모든 블록 중 Frame 타입만 필터링
+  const section = context.state.content?.sections.find((s) => s.id === sectionId);
+  if (!section) return null;
+
+  const frameBlocks = section.blocks.filter((b) => b.component === 'frame');
+
+  // 마우스 위치에 있는 Frame 찾기
+  for (const frameBlock of frameBlocks) {
+    const frameElement = sectionElement.querySelector(
+      `[data-block-id="${frameBlock.id}"]`
+    );
+    if (!frameElement) continue;
+
+    const rect = frameElement.getBoundingClientRect();
+    const mouseX = event.clientX;
+    const mouseY = event.clientY;
+
+    // 마우스가 Frame 영역 안에 있는지 확인
+    if (
+      mouseX >= rect.left &&
+      mouseX <= rect.right &&
+      mouseY >= rect.top &&
+      mouseY <= rect.bottom
+    ) {
+      return frameBlock.id;
+    }
+  }
+
+  return null;
 };
 
 /**
@@ -66,22 +114,45 @@ export const createDropHandler = (): DropEventHandler => ({
       return;
     }
 
-    const gridPosition = convertToGridCoordinates(
-      event,
-      target,
-      context.state.gridConfig.rowHeight
-    );
+    // Frame 위에 드롭되었는지 확인
+    const frameId = detectFrameUnderMouse(event, context);
 
-    const blockPosition = {
-      x: gridPosition.x,
-      y: gridPosition.y,
-      zIndex: 1,
-    };
+    if (frameId) {
+      // Frame 위에 드롭됨 -> Frame의 자식으로 추가
+      // Frame children은 position, size 없이 생성
+      const childBlock: BuilderBlock = {
+        id: `block-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+        component: template.type,
+        props: template.defaultProps.props,
+        // position, size 없음 - Frame 내부는 순서만 존재
+        position: { x: 0, y: 0, zIndex: 0 }, // 임시로 0으로 설정 (나중에 제거 예정)
+        size: { width: 0, height: 0 }, // 임시로 0으로 설정 (나중에 제거 예정)
+        metadata: {
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        },
+      };
 
-    const blockSize = template.defaultProps.size;
-    const newBlock = template.createBlock(blockPosition, blockSize);
+      context.dispatch(addChildToFrame(sectionId, frameId, childBlock));
+    } else {
+      // Grid에 드롭됨 -> 기존 방식대로 블록 생성
+      const gridPosition = convertToGridCoordinates(
+        event,
+        target,
+        context.state.gridConfig.rowHeight
+      );
 
-    context.dispatch(createBlock(sectionId, newBlock));
+      const blockPosition = {
+        x: gridPosition.x,
+        y: gridPosition.y,
+        zIndex: 1,
+      };
+
+      const blockSize = template.defaultProps.size;
+      const newBlock = template.createBlock(blockPosition, blockSize);
+
+      context.dispatch(createBlock(sectionId, newBlock));
+    }
 
     delete window.__draggedTemplate;
 

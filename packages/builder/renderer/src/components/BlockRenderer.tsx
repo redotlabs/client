@@ -16,11 +16,18 @@ import { FrameRenderer } from "./FrameRenderer";
 interface BlockRendererProps {
   block: RenderableBlock;
   isPreviewMode?: boolean;
+  isInsideFrame?: boolean; // Frame 내부 블록인지 여부
 }
 
 const BLOCK_FILL_CLASSES = "w-full h-full";
 
-export const BlockRenderer = ({ block, isPreviewMode = false }: BlockRendererProps) => {
+export const BlockRenderer = ({
+  block,
+  isPreviewMode = false,
+  isInsideFrame = false
+}: BlockRendererProps) => {
+  // Frame 내부 블록은 크기를 자동으로 조정, 외부 블록은 w-full h-full
+  const blockClasses = isInsideFrame ? "" : BLOCK_FILL_CLASSES;
   const renderContent = () => {
     switch (block.type) {
       case "text": {
@@ -46,7 +53,7 @@ export const BlockRenderer = ({ block, isPreviewMode = false }: BlockRendererPro
           <Badge
             color={props.color}
             size={props.size}
-            className={cn(BLOCK_FILL_CLASSES, props.className)}
+            className={cn(blockClasses, props.className)}
           >
             {props.children}
           </Badge>
@@ -59,7 +66,7 @@ export const BlockRenderer = ({ block, isPreviewMode = false }: BlockRendererPro
           <Button
             variant={props.variant}
             size={props.size}
-            className={cn(BLOCK_FILL_CLASSES, props.className)}
+            className={cn(blockClasses, props.className)}
             disabled={props.disabled}
           >
             {props.children}
@@ -77,14 +84,14 @@ export const BlockRenderer = ({ block, isPreviewMode = false }: BlockRendererPro
             type={props.type}
             disabled={props.disabled}
             error={props.error}
-            className={cn(BLOCK_FILL_CLASSES, props.className)}
+            className={cn(blockClasses, props.className)}
           />
         );
       }
 
       case "image": {
         const props = block.props as unknown as ImageProps;
-        return <ImageBlock props={props} className={BLOCK_FILL_CLASSES} />;
+        return <ImageBlock props={props} className={blockClasses} />;
       }
 
       case "link": {
@@ -97,7 +104,7 @@ export const BlockRenderer = ({ block, isPreviewMode = false }: BlockRendererPro
           <a
             href={finalHref}
             target={props.target || "_self"}
-            className={cn(BLOCK_FILL_CLASSES, props.className)}
+            className={cn(blockClasses, props.className)}
             style={{
               color: props.color,
               fontSize: props.fontSize ? `${props.fontSize}px` : undefined,
@@ -132,6 +139,7 @@ export const BlockRenderer = ({ block, isPreviewMode = false }: BlockRendererPro
                 key={child.id}
                 block={child}
                 isPreviewMode={isPreviewMode}
+                isInsideFrame={true}
               />
             ))}
           </FrameRenderer>
