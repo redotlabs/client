@@ -37,5 +37,5 @@ jobs:
 
       - name: Push to deploy repository
         run: |
-          git remote add deploy https://redot-dev:${{ secrets.REDOT_PRIVATE_PAT }}@github.com/redot-dev/client-deploy-develop.git
+          git remote add deploy https://redot-dev:${{ secrets.REDOT_PRIVATE_PAT }}@github.com/redot-dev/client-deploy.git
           git push --force deploy develop
