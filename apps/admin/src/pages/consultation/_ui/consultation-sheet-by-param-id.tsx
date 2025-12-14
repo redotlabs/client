@@ -1,6 +1,6 @@
 import { useConsultation } from '@/shared/api/queries/consultation';
 import { useSearchParams } from 'react-router-dom';
-import ConsultantSheet from './consultant-sheet';
+import ConsultationSheet from './consultation-sheet';
 import { useDialog } from '@repo/hooks';
 import { useCallback, useEffect } from 'react';
 
@@ -45,7 +45,7 @@ const ConsultationSheetByParamId = () => {
   if (!data) return null;
 
   return (
-    <ConsultantSheet
+    <ConsultationSheet
       consultation={data}
       isOpen={sheet.isOpen}
       onOpenChange={onOpenChange}

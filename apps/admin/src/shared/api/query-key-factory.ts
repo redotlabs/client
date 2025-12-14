@@ -5,7 +5,8 @@ export const queryKeyFactory = {
     me: [API_PATH.auth.me],
   },
   admin: {
-    list: [API_PATH.admin.root],
+    list: (params?: unknown) =>
+      params ? [API_PATH.admin.root, params] : [API_PATH.admin.root],
     detail: (adminId: number) => [API_PATH.admin.detail(adminId)],
   },
   consultation: {
