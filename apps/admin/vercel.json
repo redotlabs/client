@@ -3,11 +3,11 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://api.redot.me/api/:path*"
+      "destination": "https://redot-test.dhxxn.dev/api/:path*"
     },
     {
       "source": "/api/:path*/",
-      "destination": "https://api.redot.me/api/:path*/"
+      "destination": "https://redot-test.dhxxn.dev/api/:path*/"
     },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
