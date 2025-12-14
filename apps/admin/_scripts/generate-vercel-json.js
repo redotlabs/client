@@ -21,10 +21,18 @@ function createVercelJson(apiDomain) {
 function generateVercelJson() {
   try {
     const API_DOMAIN = process.env.VITE_API_DOMAIN;
+
+    if (!API_DOMAIN) {
+      console.error('VITE_API_DOMAIN is not set');
+      process.exit(1);
+    }
+
     const vercelJson = createVercelJson(API_DOMAIN);
     fs.writeFileSync(path.join(__dirname, '../vercel.json'), JSON.stringify(vercelJson, null, 2));
+    console.log('Vercel JSON generated successfully');
   } catch (error) {
-    console.warn('Failed to generate vercel.json', error);
+    console.error('Failed to generate vercel.json', error);
+    process.exit(1);
   }
 }
 
