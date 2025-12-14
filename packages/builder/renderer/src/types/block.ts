@@ -6,6 +6,7 @@ import type {
   TextProps,
   ImageProps,
   LinkProps,
+  FrameProps,
 } from "./attributes";
 import type { BlockPosition, BlockSize } from "./position";
 
@@ -16,6 +17,7 @@ export type ComponentType =
   | "input"
   | "image"
   | "link"
+  | "frame"
   | HTMLElementType;
 
 /**
@@ -28,6 +30,7 @@ export type ComponentPropsMap = {
   input: InputProps;
   image: ImageProps;
   link: LinkProps;
+  frame: FrameProps;
 };
 
 export interface ContentBlock<T extends ComponentType = ComponentType> {

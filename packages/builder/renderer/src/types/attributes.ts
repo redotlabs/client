@@ -54,10 +54,55 @@ export interface LinkProps {
   textDecoration?: "none" | "underline" | "line-through";
 }
 
+/**
+ * Auto Layout Configuration
+ * Defines how children are laid out within a Frame
+ */
+export interface AutoLayoutConfig {
+  /** Layout direction */
+  direction: "vertical" | "horizontal" | "wrap";
+
+  /** Gap between children (in pixels) */
+  gap: number;
+
+  /** Padding around children */
+  padding: {
+    top: number;
+    right: number;
+    bottom: number;
+    left: number;
+  };
+
+  /** Align children along cross axis */
+  alignItems: "flex-start" | "center" | "flex-end" | "stretch";
+
+  /** Distribute children along main axis */
+  justifyContent: "flex-start" | "center" | "flex-end" | "space-between" | "space-around" | "space-evenly";
+}
+
+/**
+ * Frame Props
+ * Container component that supports Auto Layout
+ */
+export interface FrameProps {
+  /** Auto Layout configuration */
+  layout: AutoLayoutConfig;
+
+  /** Background color */
+  backgroundColor?: string;
+
+  /** Border radius (in pixels) */
+  borderRadius?: number;
+
+  /** Additional CSS class */
+  className?: string;
+}
+
 export type ComponentProps =
   | TextProps
   | BadgeProps
   | ButtonProps
   | InputProps
   | ImageProps
-  | LinkProps;
+  | LinkProps
+  | FrameProps;
