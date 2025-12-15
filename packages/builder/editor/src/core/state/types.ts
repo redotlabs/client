@@ -24,6 +24,16 @@ export interface SelectionState {
 }
 
 /**
+ * Frame Drop Preview State
+ * Frame 위로 드래그 중일 때 삽입 위치 preview
+ */
+export interface FrameDropPreview {
+  frameId: string; // 드롭 대상 Frame ID
+  insertIndex: number; // 삽입될 위치 (0부터 시작)
+  direction: 'vertical' | 'horizontal' | 'wrap'; // Frame의 direction
+}
+
+/**
  * UI State
  * 에디터 UI 관련 상태
  */
@@ -31,6 +41,7 @@ export interface UIState {
   isBlockDragging: boolean;
   isBlockResizing: boolean;
   isSectionResizing: boolean;
+  frameDropPreview: FrameDropPreview | null; // Frame 드롭 preview
 }
 
 /**
@@ -115,6 +126,7 @@ export const createInitialEditorState = (
       isBlockDragging: false,
       isBlockResizing: false,
       isSectionResizing: false,
+      frameDropPreview: null,
     },
     interaction: {
       type: null,

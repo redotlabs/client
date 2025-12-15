@@ -129,6 +129,9 @@ export const SectionCanvas = ({ section }: SectionCanvasProps) => {
           key={block.id}
           data-block-id={block.id}
           data-block-type={block.type}
+          className={cn(
+            block.type === 'frame' && '[&[data-drop-target="true"]]:ring-4 [&[data-drop-target="true"]]:ring-blue-500 [&[data-drop-target="true"]]:ring-opacity-50'
+          )}
           style={{ ...block.style, overflow: 'visible' }}
         >
           <SelectableBlock blockId={block.id}>

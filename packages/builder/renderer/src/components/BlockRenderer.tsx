@@ -8,6 +8,7 @@ import type {
   LinkProps,
   FrameProps,
 } from "../types";
+import React from "react";
 import { Badge, Button, Input } from "@redotlabs/ui";
 import { cn } from "@redotlabs/utils";
 import { ImageBlock } from "./ImageBlock";
@@ -126,7 +127,11 @@ export const BlockRenderer = ({
       }
 
       case "frame": {
-        const props = block.props as FrameProps;
+        const props = block.props as unknown as FrameProps;
+        const children = block.children || [];
+        const direction = props.layout.direction;
+        const isHorizontal = direction === 'horizontal' || direction === 'wrap';
+
         return (
           <FrameRenderer
             layout={props.layout}
@@ -134,14 +139,25 @@ export const BlockRenderer = ({
             borderRadius={props.borderRadius}
             className={props.className}
           >
-            {block.children?.map((child) => (
-              <BlockRenderer
-                key={child.id}
-                block={child}
-                isPreviewMode={isPreviewMode}
-                isInsideFrame={true}
-              />
+            {children.map((child, index) => (
+              <React.Fragment key={child.id}>
+                {/* 삽입 라인: children 앞에 표시 */}
+                <FrameInsertionLine
+                  index={index}
+                  isHorizontal={isHorizontal}
+                />
+                <BlockRenderer
+                  block={child}
+                  isPreviewMode={isPreviewMode}
+                  isInsideFrame={true}
+                />
+              </React.Fragment>
             ))}
+            {/* 마지막 삽입 라인 (모든 children 뒤) */}
+            <FrameInsertionLine
+              index={children.length}
+              isHorizontal={isHorizontal}
+            />
           </FrameRenderer>
         );
       }
@@ -151,5 +167,61 @@ export const BlockRenderer = ({
     }
   };
 
-  return renderContent();
+  return (
+    <div data-block-id={block.id} className={blockClasses}>
+      {renderContent()}
+    </div>
+  );
+};
+
+/**
+ * FrameInsertionLine
+ * Frame 내부에서 드롭 위치를 표시하는 파란색 삽입 라인
+ */
+interface FrameInsertionLineProps {
+  index: number;
+  isHorizontal: boolean;
+}
+
+const FrameInsertionLine = ({ index, isHorizontal }: FrameInsertionLineProps) => {
+  const [isVisible, setIsVisible] = React.useState(false);
+
+  React.useEffect(() => {
+    // 부모 Frame 요소에서 data-insert-index를 확인
+    const checkVisibility = () => {
+      const frameElement = document.querySelector(
+        `[data-drop-target="true"][data-insert-index="${index}"]`
+      );
+      setIsVisible(!!frameElement);
+    };
+
+    // 초기 체크
+    checkVisibility();
+
+    // MutationObserver로 변경 감지
+    const observer = new MutationObserver(checkVisibility);
+    const frames = document.querySelectorAll('[data-block-type="frame"]');
+    frames.forEach((frame) => {
+      observer.observe(frame, {
+        attributes: true,
+        attributeFilter: ['data-drop-target', 'data-insert-index'],
+      });
+    });
+
+    return () => observer.disconnect();
+  }, [index]);
+
+  if (!isVisible) return null;
+
+  return (
+    <div
+      className={cn(
+        "bg-blue-500 rounded",
+        isHorizontal ? "w-1 min-h-full" : "h-1 min-w-full"
+      )}
+      style={{
+        flexShrink: 0,
+      }}
+    />
+  );
 };

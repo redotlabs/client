@@ -8,6 +8,7 @@ import type {
 import type {
   DragInteractionState,
   ResizeInteractionState,
+  FrameDropPreview,
 } from '@/core/state/types';
 
 /**
@@ -47,6 +48,8 @@ export type ActionType =
   | 'ui.setBlockDragging'
   | 'ui.setBlockResizing'
   | 'ui.setSectionResizing'
+  | 'ui.setFrameDropPreview'
+  | 'ui.clearFrameDropPreview'
   // Interaction Actions (Preview)
   | 'interaction.startDrag'
   | 'interaction.updateDrag'
@@ -291,6 +294,17 @@ export interface UISetSectionResizingAction extends BaseAction {
   };
 }
 
+export interface UISetFrameDropPreviewAction extends BaseAction {
+  type: 'ui.setFrameDropPreview';
+  payload: {
+    preview: FrameDropPreview;
+  };
+}
+
+export interface UIClearFrameDropPreviewAction extends BaseAction {
+  type: 'ui.clearFrameDropPreview';
+}
+
 // ============================================
 // Interaction Actions (Preview)
 // ============================================
@@ -367,6 +381,8 @@ export type EditorAction =
   | UISetBlockDraggingAction
   | UISetBlockResizingAction
   | UISetSectionResizingAction
+  | UISetFrameDropPreviewAction
+  | UIClearFrameDropPreviewAction
   // Interaction Actions
   | InteractionStartDragAction
   | InteractionUpdateDragAction

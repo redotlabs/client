@@ -69,6 +69,73 @@ const detectFrameUnderMouse = (
 };
 
 /**
+ * Frame 내부에서 삽입 위치 계산
+ * Frame의 children 사이에서 마우스 위치를 기준으로 삽입 인덱스를 계산
+ */
+const calculateFrameInsertIndex = (
+  event: DragEvent,
+  frameId: string,
+  context: HandlerContext
+): number => {
+  const sectionElement = (event.currentTarget as HTMLElement).closest(
+    '[data-section-id]'
+  ) as HTMLElement;
+  if (!sectionElement) return 0;
+
+  const sectionId = sectionElement.dataset.sectionId;
+  if (!sectionId) return 0;
+
+  const section = context.state.content?.sections.find((s) => s.id === sectionId);
+  if (!section) return 0;
+
+  const frameBlock = section.blocks.find((b) => b.id === frameId);
+  if (!frameBlock || frameBlock.component !== 'frame') return 0;
+
+  const children = Array.isArray(frameBlock.children) ? frameBlock.children : [];
+  if (children.length === 0) return 0;
+
+  // Frame 엘리먼트 찾기
+  const frameElement = sectionElement.querySelector(
+    `[data-block-id="${frameId}"]`
+  );
+  if (!frameElement) return children.length;
+
+  // Frame의 direction 가져오기
+  const frameProps = frameBlock.props as any;
+  const direction = frameProps?.layout?.direction || 'vertical';
+
+  const mouseX = event.clientX;
+  const mouseY = event.clientY;
+
+  // 각 child의 위치를 확인하여 삽입 위치 계산
+  for (let i = 0; i < children.length; i++) {
+    const child = children[i];
+    // Frame 내부에서 child 찾기
+    const childElement = frameElement.querySelector(
+      `[data-block-id="${child.id}"]`
+    );
+
+    if (!childElement) continue;
+
+    const rect = childElement.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+
+    // direction에 따라 삽입 위치 판단
+    if (direction === 'horizontal' || direction === 'wrap') {
+      // 가로 방향: 마우스가 child 중심보다 왼쪽에 있으면 그 앞에 삽입
+      if (mouseX < centerX) return i;
+    } else {
+      // 세로 방향: 마우스가 child 중심보다 위쪽에 있으면 그 앞에 삽입
+      if (mouseY < centerY) return i;
+    }
+  }
+
+  // 모든 child보다 뒤에 있으면 마지막에 삽입
+  return children.length;
+};
+
+/**
  * Drop Handler
  *
  * Flow:
@@ -85,6 +152,34 @@ export const createDropHandler = (): DropEventHandler => ({
 
     if (!context.state.ui.isBlockDragging) {
       context.dispatch(setBlockDragging(true));
+    }
+
+    // Frame 위에 있는지 감지하고 하이라이트 표시
+    const frameId = detectFrameUnderMouse(event, context);
+
+    // 모든 Frame에서 drop-target 제거
+    const sectionElement = (event.currentTarget as HTMLElement).closest(
+      '[data-section-id]'
+    ) as HTMLElement;
+    if (sectionElement) {
+      const allFrames = sectionElement.querySelectorAll('[data-block-type="frame"]');
+      allFrames.forEach((frame) => {
+        frame.removeAttribute('data-drop-target');
+      });
+
+      // 현재 Frame에만 drop-target 추가 + 삽입 위치 계산
+      if (frameId) {
+        const frameElement = sectionElement.querySelector(
+          `[data-block-id="${frameId}"]`
+        );
+        if (frameElement) {
+          frameElement.setAttribute('data-drop-target', 'true');
+
+          // 삽입 위치 계산 및 저장
+          const insertIndex = calculateFrameInsertIndex(event, frameId, context);
+          frameElement.setAttribute('data-insert-index', insertIndex.toString());
+        }
+      }
     }
   },
 
@@ -119,6 +214,9 @@ export const createDropHandler = (): DropEventHandler => ({
 
     if (frameId) {
       // Frame 위에 드롭됨 -> Frame의 자식으로 추가
+      // 삽입 위치 계산
+      const insertIndex = calculateFrameInsertIndex(event, frameId, context);
+
       // Frame children은 position, size 없이 생성
       const childBlock: BuilderBlock = {
         id: `block-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
@@ -133,7 +231,8 @@ export const createDropHandler = (): DropEventHandler => ({
         },
       };
 
-      context.dispatch(addChildToFrame(sectionId, frameId, childBlock));
+      // 계산된 위치에 블록 추가
+      context.dispatch(addChildToFrame(sectionId, frameId, childBlock, insertIndex));
     } else {
       // Grid에 드롭됨 -> 기존 방식대로 블록 생성
       const gridPosition = convertToGridCoordinates(
@@ -154,6 +253,14 @@ export const createDropHandler = (): DropEventHandler => ({
       context.dispatch(createBlock(sectionId, newBlock));
     }
 
+    // 모든 Frame에서 drop-target 제거
+    if (sectionElement) {
+      const allFrames = sectionElement.querySelectorAll('[data-block-type="frame"]');
+      allFrames.forEach((frame) => {
+        frame.removeAttribute('data-drop-target');
+      });
+    }
+
     delete window.__draggedTemplate;
 
     context.dispatch(setBlockDragging(false));
@@ -161,6 +268,13 @@ export const createDropHandler = (): DropEventHandler => ({
 
   onDragLeave: (event: DragEvent, context: HandlerContext) => {
     if (event.currentTarget === event.target) {
+      // 모든 Frame에서 drop-target 제거
+      const sectionElement = event.currentTarget as HTMLElement;
+      const allFrames = sectionElement.querySelectorAll('[data-block-type="frame"]');
+      allFrames.forEach((frame) => {
+        frame.removeAttribute('data-drop-target');
+      });
+
       context.dispatch(setBlockDragging(false));
     }
   },
