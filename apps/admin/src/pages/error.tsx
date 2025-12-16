@@ -1,11 +1,18 @@
 import { Button } from '@redotlabs/ui';
 import { Corn } from '@repo/assets';
 import { ThemeProvider } from '@redotlabs/themes';
+import { PATH } from '@/shared/routes';
 
 export default function Error() {
+  const goToMain = () => {
+    const { origin } = window.location;
+    window.location.href = `${origin}${PATH.root}`;
+  };
+
   const reset = () => {
     window.location.reload();
   };
+
   return (
     <ThemeProvider color="blue" font="pretendard">
       <div className="flex items-center justify-center min-h-svh">
@@ -17,9 +24,14 @@ export default function Error() {
             <span className="text-3xl font-bold">연결에 문제가 생겼어요</span>
           </h1>
 
-          <Button className="mt-8" onClick={reset}>
-            새로고침하기
-          </Button>
+          <div className="flex items-center gap-4 mt-8">
+            <Button variant="outlined" onClick={goToMain}>
+              메인페이지로 이동하기
+            </Button>
+            <Button variant="contained" onClick={reset}>
+              새로고침하기
+            </Button>
+          </div>
         </main>
       </div>
     </ThemeProvider>
