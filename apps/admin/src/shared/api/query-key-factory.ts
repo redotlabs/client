@@ -18,4 +18,9 @@ export const queryKeyFactory = {
       API_PATH.consultation.detail(consultationId),
     ],
   },
+  customer: {
+    list: (params?: unknown) =>
+      params ? [API_PATH.customer.root, params] : [API_PATH.customer.root],
+    detail: (memberId: number) => [API_PATH.customer.detail(memberId)],
+  },
 };

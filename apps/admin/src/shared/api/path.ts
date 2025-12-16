@@ -17,4 +17,8 @@ export const API_PATH = {
     detail: (consultationId: number) =>
       `/redot/admin/consultations/${consultationId}`,
   },
+  customer: {
+    root: '/redot/admin/members',
+    detail: (memberId: number) => `/redot/admin/members/${memberId}`,
+  },
 };

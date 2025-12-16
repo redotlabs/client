@@ -7,6 +7,8 @@ export interface CMSUser {
   createdAt: string;
 }
 
+export type RedotUserStatus = 'ACTIVE' | 'BANNED' | 'DELETED';
+
 export interface RedotUser {
   id: number;
   name: string;
@@ -14,4 +16,5 @@ export interface RedotUser {
   profileImageUrl: string | null;
   socialProvider: string | null;
   createdAt: string;
+  status: RedotUserStatus;
 }
