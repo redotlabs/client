@@ -1,8 +1,19 @@
+import { cn } from '@redotlabs/utils';
 import { Diamond, GiftD, GiftE } from '@repo/assets';
 
-export default function Loading() {
+interface LoadingProps {
+  layout?: 'page' | 'section';
+}
+
+export default function Loading({ layout = 'page' }: LoadingProps) {
   return (
-    <div className="flex items-center justify-center min-h-svh">
+    <div
+      className={cn(
+        'flex-1 flex items-center justify-center',
+        layout === 'section' && 'h-full',
+        layout === 'page' && 'min-h-svh'
+      )}
+    >
       <main className="flex flex-col items-center">
         <h1 className="text-center flex flex-col gap-2">
           <span className="text-lg font-bold">잠시만 기다려주세요</span>
