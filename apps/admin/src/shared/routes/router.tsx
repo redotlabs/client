@@ -7,10 +7,11 @@ import AdminLayout from '../components/layouts/admin-layout';
 import AdminPage from '@/pages/admin';
 import DashboardPage from '@/pages/dashboard';
 import CustomerPage from '@/pages/customer';
-import CustomerDetailPage from '@/pages/customer/[id]';
+import CustomerDetailPage from '@/pages/customer/detail';
 import ConsultationPage from '@/pages/consultation';
 import TransactionPage from '@/pages/transaction';
 import NotFound from '@/pages/not-found';
+import AppsPage from '@/pages/app';
 
 // ----------------------------------------------------------------------
 
@@ -33,7 +34,8 @@ export default function Router() {
         { path: '', element: <DashboardPage /> },
         { path: 'admin', element: <AdminPage /> },
         { path: 'customer', element: <CustomerPage /> },
-        { path: 'customer/:id', element: <CustomerDetailPage /> },
+        { path: 'customer/detail/:id', element: <CustomerDetailPage /> },
+        { path: 'customer/app', element: <AppsPage /> },
         { path: 'consultation', element: <ConsultationPage /> },
         { path: 'transaction', element: <TransactionPage /> },
       ],

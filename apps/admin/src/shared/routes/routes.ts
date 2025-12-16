@@ -8,7 +8,8 @@ export const PATH = {
   dashboard: '/',
   customer: {
     root: '/customer',
-    detail: (customerId: number) => `/customer/${customerId}`,
+    detail: (customerId: number) => `/customer/detail/${customerId}`,
+    app: '/customer/app',
   },
   consultation: {
     root: '/consultation',

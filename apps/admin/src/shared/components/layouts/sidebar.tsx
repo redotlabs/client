@@ -16,6 +16,10 @@ interface SidebarItemProps {
   label: string;
   path: string;
   isActive: boolean;
+  items?: {
+    label: string;
+    path: string;
+  }[];
 }
 
 const SIDEBAR_ITEMS = [
@@ -33,6 +37,16 @@ const SIDEBAR_ITEMS = [
     icon: <Users size="20" />,
     label: '고객 관리',
     path: PATH.customer.root,
+    items: [
+      {
+        label: '고객 관리',
+        path: PATH.customer.root,
+      },
+      {
+        label: '앱 관리',
+        path: PATH.customer.app,
+      },
+    ],
   },
   {
     icon: <Briefcase size="20" />,
@@ -44,29 +58,64 @@ const SIDEBAR_ITEMS = [
     label: '매입/매출 관리',
     path: PATH.transaction.root,
   },
-] as const;
+];
 
-const SidebarItem = ({ icon, label, path, isActive }: SidebarItemProps) => {
+const SidebarItem = ({
+  icon,
+  label,
+  path,
+  isActive,
+  items,
+}: SidebarItemProps) => {
+  const { pathname } = useLocation();
+
+  const isChildActive = (path: string) => {
+    return pathname === path;
+  };
+
   return (
-    <li
-      className={cn(
-        'p-3 rounded-lg text-gray-400 font-semibold hover:bg-primary-100 hover:text-primary-500',
-        isActive && 'bg-primary-100 text-primary-500'
+    <li className="text-gray-400 ">
+      <div
+        className={cn(
+          'p-3 rounded-lg font-semibold hover:bg-primary-100 hover:text-primary-500',
+          isActive && 'bg-primary-100 text-primary-500'
+        )}
+      >
+        <Link to={path} className="flex items-center gap-2 ">
+          {icon}
+          {label}
+        </Link>
+      </div>
+
+      {items && (
+        <ul className="mt-2 ml-7 pb-2 flex flex-col">
+          {items.map((child) => (
+            <li
+              key={child.label}
+              className={cn(
+                'text-sm font-semibold hover:bg-primary-100 hover:text-primary-500 rounded-md',
+                isChildActive(child.path) && 'bg-primary-100 text-primary-500'
+              )}
+            >
+              <Link to={child.path} className="block px-3 leading-8">
+                {child.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
       )}
-    >
-      <Link to={path} className="flex items-center gap-2 ">
-        {icon}
-        {label}
-      </Link>
     </li>
   );
 };
 
 const Sidebar = () => {
-  const location = useLocation();
+  const { pathname } = useLocation();
 
   const isActive = (path: string) => {
-    return location.pathname === path;
+    if (path !== PATH.root) {
+      return pathname.includes(path);
+    }
+    return pathname === path;
   };
 
   return (
@@ -85,6 +134,7 @@ const Sidebar = () => {
               label={item.label}
               path={item.path}
               isActive={isActive(item.path)}
+              items={item?.items}
             />
           ))}
         </ul>
