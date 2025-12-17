@@ -48,6 +48,8 @@ export const FrameRenderer = ({
         justifyContent: layout.justifyContent,
         backgroundColor: backgroundColor || "transparent",
         borderRadius: borderRadius ? `${borderRadius}px` : undefined,
+        position: "relative",
+        zIndex: 1, // Frame children이 부모의 드래그 레이어 위에 오도록
       }}
     >
       {children}

@@ -3,6 +3,7 @@ import { cn } from '@redotlabs/utils';
 import { COLUMN_WIDTH } from '@/shared/constants/editorData';
 import { BlockRenderer } from '@repo/builder/renderer';
 import { SelectableBlock } from '@/components/canvas/components/SelectableBlock';
+import { FrameBlock } from '@/components/canvas/components/FrameBlock';
 import { InteractionPreviewLayer } from '@/components/canvas/components/InteractionPreviewLayer';
 import { useEditorContext } from '@/context';
 import { CanvasListener } from '@/core/events/listeners';
@@ -124,21 +125,38 @@ export const SectionCanvas = ({ section }: SectionCanvasProps) => {
         </div>
       )}
 
-      {renderableBlocks.map((block) => (
-        <div
-          key={block.id}
-          data-block-id={block.id}
-          data-block-type={block.type}
-          className={cn(
-            block.type === 'frame' && '[&[data-drop-target="true"]]:ring-4 [&[data-drop-target="true"]]:ring-blue-500 [&[data-drop-target="true"]]:ring-opacity-50'
-          )}
-          style={{ ...block.style, overflow: 'visible' }}
-        >
-          <SelectableBlock blockId={block.id}>
-            <BlockRenderer block={block} />
-          </SelectableBlock>
-        </div>
-      ))}
+      {renderableBlocks.map((block) => {
+        // Frame 블록
+        if (block.type === 'frame') {
+          return (
+            <div
+              key={block.id}
+              data-block-id={block.id}
+              data-block-type={block.type}
+              className='[&[data-drop-target="true"]]:ring-4 [&[data-drop-target="true"]]:ring-blue-500 [&[data-drop-target="true"]]:ring-opacity-50'
+              style={{ ...block.style, overflow: 'visible' }}
+            >
+              <SelectableBlock blockId={block.id}>
+                <FrameBlock block={block} />
+              </SelectableBlock>
+            </div>
+          );
+        }
+
+        // 일반 블록
+        return (
+          <div
+            key={block.id}
+            data-block-id={block.id}
+            data-block-type={block.type}
+            style={{ ...block.style, overflow: 'visible' }}
+          >
+            <SelectableBlock blockId={block.id}>
+              <BlockRenderer block={block} />
+            </SelectableBlock>
+          </div>
+        );
+      })}
 
       {/* Interaction Preview Layer */}
       <InteractionPreviewLayer section={section} />

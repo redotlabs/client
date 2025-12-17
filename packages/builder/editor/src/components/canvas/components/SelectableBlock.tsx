@@ -57,7 +57,7 @@ export const SelectableBlock = ({
     >
       <div
         data-draggable="true"
-        className="absolute inset-0 cursor-move"
+        className="absolute inset-0 cursor-move z-0"
         onMouseDown={handleMouseDown}
       />
 
@@ -115,7 +115,7 @@ export const SelectableBlock = ({
         </>
       )}
 
-      <div className="w-full h-full flex items-center justify-center pointer-events-none">
+      <div className="w-full h-full pointer-events-none">
         {children}
       </div>
     </div>
