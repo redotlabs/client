@@ -55,8 +55,23 @@ export const getBlock: (
   blockId: string
 ) => StateSelector<BuilderBlock | undefined> = (blockId) => (state) => {
   const sections = getCurrentSections(state);
+
+  const findBlockRecursive = (
+    blocks: BuilderBlock[]
+  ): BuilderBlock | undefined => {
+    for (const block of blocks) {
+      if (block.id === blockId) return block;
+
+      if (block.component === 'frame' && Array.isArray(block.children)) {
+        const childBlock = findBlockRecursive(block.children as BuilderBlock[]);
+        if (childBlock) return childBlock;
+      }
+    }
+    return undefined;
+  };
+
   for (const section of sections) {
-    const block = section.blocks.find((b) => b.id === blockId);
+    const block = findBlockRecursive(section.blocks);
     if (block) return block;
   }
   return undefined;
@@ -127,14 +142,27 @@ export const getSelectionType: StateSelector<'section' | 'block' | null> = (
 
 /**
  * 블록이 속한 섹션 찾기
+ * Frame children의 경우 Frame이 속한 섹션을 반환
  */
 export const getParentSection: (
   blockId: string
 ) => StateSelector<Section | undefined> = (blockId) => (state) => {
   const sections = getCurrentSections(state);
-  return sections.find((section) =>
-    section.blocks.some((b) => b.id === blockId)
-  );
+
+  // Helper function to check if block exists in blocks array (including Frame children)
+  const hasBlockRecursive = (blocks: BuilderBlock[]): boolean => {
+    for (const block of blocks) {
+      if (block.id === blockId) return true;
+
+      // Frame 블록의 children도 검색
+      if (block.component === 'frame' && Array.isArray(block.children)) {
+        if (hasBlockRecursive(block.children as BuilderBlock[])) return true;
+      }
+    }
+    return false;
+  };
+
+  return sections.find((section) => hasBlockRecursive(section.blocks));
 };
 
 /**
