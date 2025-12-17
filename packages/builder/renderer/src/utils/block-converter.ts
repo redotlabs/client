@@ -172,7 +172,13 @@ export class BlockConverter {
     // Frame의 경우 children을 재귀적으로 변환 (isFrameChild=true로 전달)
     if (block.component === "frame" && Array.isArray(block.children)) {
       renderableBlock.children = block.children.map((child) =>
-        this.convertBlock(child, true)
+        // Frame children은 position/size가 없는 ContentBlock이므로
+        // 빈 position/size를 추가해서 BuilderBlock으로 변환
+        this.convertBlock({
+          ...child,
+          position: { column: 0, row: 0, x: 0, y: 0, zIndex: 0 },
+          size: { width: 0, height: 0 }
+        } as BuilderBlock, true)
       );
     }
 

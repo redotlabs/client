@@ -27,6 +27,8 @@ import type {
   UISetBlockDraggingAction,
   UISetBlockResizingAction,
   UISetSectionResizingAction,
+  UISetFrameDropPreviewAction,
+  UIClearFrameDropPreviewAction,
   InteractionStartDragAction,
   InteractionUpdateDragAction,
   InteractionStartResizeAction,
@@ -229,6 +231,17 @@ export const actionHandlers: Record<ActionType, ActionHandler> = {
       state,
       action.payload.isSectionResizing
     );
+  }) as ActionHandler,
+
+  'ui.setFrameDropPreview': ((state, action: UISetFrameDropPreviewAction) => {
+    return stateUpdaters.setFrameDropPreviewState(
+      state,
+      action.payload.preview
+    );
+  }) as ActionHandler,
+
+  'ui.clearFrameDropPreview': ((state) => {
+    return stateUpdaters.clearFrameDropPreviewState(state);
   }) as ActionHandler,
 
   // Interaction Handlers (Preview)

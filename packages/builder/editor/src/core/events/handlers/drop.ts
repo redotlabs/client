@@ -110,6 +110,8 @@ const calculateFrameInsertIndex = (
   // 각 child의 위치를 확인하여 삽입 위치 계산
   for (let i = 0; i < children.length; i++) {
     const child = children[i];
+    if (!child) continue;
+
     // Frame 내부에서 child 찾기
     const childElement = frameElement.querySelector(
       `[data-block-id="${child.id}"]`

@@ -2,6 +2,7 @@ import type {
   EditorState,
   DragInteractionState,
   ResizeInteractionState,
+  FrameDropPreview,
 } from './types';
 import type {
   BuilderBlock,
@@ -611,7 +612,9 @@ export const reorderFrameChildrenState = (
 
         // fromIndex 요소를 제거하고 toIndex 위치에 삽입
         const [movedChild] = newChildren.splice(fromIndex, 1);
-        newChildren.splice(toIndex, 0, movedChild);
+        if (movedChild) {
+          newChildren.splice(toIndex, 0, movedChild);
+        }
 
         return {
           ...block,
@@ -693,6 +696,31 @@ export const setSectionResizingState = (
     ui: {
       ...state.ui,
       isSectionResizing,
+    },
+  };
+};
+
+export const setFrameDropPreviewState = (
+  state: EditorState,
+  preview: FrameDropPreview
+): EditorState => {
+  return {
+    ...state,
+    ui: {
+      ...state.ui,
+      frameDropPreview: preview,
+    },
+  };
+};
+
+export const clearFrameDropPreviewState = (
+  state: EditorState
+): EditorState => {
+  return {
+    ...state,
+    ui: {
+      ...state.ui,
+      frameDropPreview: null,
     },
   };
 };
