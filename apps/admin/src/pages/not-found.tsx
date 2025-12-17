@@ -2,10 +2,21 @@ import { PATH } from '@/shared/routes';
 import { Button } from '@redotlabs/ui';
 import { UnderConstruction } from '@repo/assets';
 import { Link } from 'react-router-dom';
+import { cn } from '@redotlabs/utils';
 
-export default function NotFound() {
+interface NotFoundProps {
+  layout?: 'page' | 'section';
+}
+
+export default function NotFound({ layout = 'page' }: NotFoundProps) {
   return (
-    <div className="flex items-center justify-center min-h-svh">
+    <div
+      className={cn(
+        'flex items-center justify-center',
+        layout === 'section' && 'h-full',
+        layout === 'page' && 'min-h-svh'
+      )}
+    >
       <main className="flex flex-col items-center">
         <UnderConstruction className="w-[200px] h-auto" />
 
