@@ -1,5 +1,8 @@
 ---
 import "../styles/global.css";
+import ThemeRoot from "../components/theme-root";
+import { Logo, Button } from '@redotlabs/ui';
+
 
 const navItems = [
   { href: '/', label: '리닷 소개' },
@@ -19,15 +22,30 @@ const currentPath = Astro.url.pathname;
     <link rel="icon" href="/logo.svg" />
   </head>
   <body>
+    <ThemeRoot client:load>
     <div class="flex min-h-screen flex-col">
-      <header class="sticky top-0 z-10 flex items-center justify-between border-b border-[var(--border)] bg-[var(--surface)] px-12 py-5 max-md:px-5 max-md:py-4">
-        <div class="flex items-center gap-3">
-          <img src="/logo.svg" width="28" height="28" alt="redot 로고" />
-          <span class="font-[var(--font-display)] text-[14px] font-semibold uppercase tracking-[0.08em] text-[var(--text-secondary)]">redot brand</span>
+      <header class="sticky top-0 z-10 flex items-center justify-between border-b border-(--border) px-20 py-2.25 max-md:px-5 max-md:py-4">
+        <div class="flex items-center gap-2">
+           <Logo client:load className="w-auto h-6" />
+          <span class="text-[22px] leading-normal font-semibold tracking-[-0.02em]">BRAND</span>
         </div>
         <div class="flex items-center gap-3">
-          <button class="rounded-full border border-[var(--border)] bg-transparent px-[22px] py-[10px] font-semibold text-[var(--text-secondary)]" data-theme-toggle type="button" aria-pressed="false">다크모드</button>
-          <a class="rounded-full bg-gradient-to-br from-[var(--brand-blue)] to-[var(--brand-blue-strong)] px-[22px] py-[10px] font-semibold text-white shadow-[var(--shadow-soft)]" href="https://redot.me" target="_blank" rel="noreferrer">redot 사이트로 이동</a>
+          <Button
+            className="border border-(--border) px-6 py-2 font-semibold"
+            variant="contained"
+            data-theme-toggle
+            client:idle
+          >
+            다크모드
+          </Button>
+          <a href="https://redot.me" target="_blank" rel="noreferrer">
+            <Button
+              className="px-[22px] py-[10px] font-semibold text-white"
+              client:idle
+            >
+              redot 사이트로 이동
+            </Button>
+          </a>
         </div>
       </header>
 
@@ -80,6 +98,7 @@ const currentPath = Astro.url.pathname;
         </div>
       </footer>
     </div>
+    </ThemeRoot>
 
     <script is:inline>
       const root = document.documentElement;
