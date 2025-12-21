@@ -1,0 +1,100 @@
+---
+const navItems = [
+  { href: '/', label: '리닷 소개' },
+  { href: '/logo', label: '리닷 브랜드 로고' },
+  { href: '/assets', label: '리닷 브랜드 에셋' }
+];
+
+const { title = 'redot BRAND' } = Astro.props;
+const currentPath = Astro.url.pathname;
+---
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <link rel="icon" href="/logo.svg" />
+    <link rel="stylesheet" href="/src/styles/global.css" />
+  </head>
+  <body>
+    <div class="brand-shell">
+      <header class="brand-header">
+        <div class="brand-header__left">
+          <img src="/logo.svg" width="28" height="28" alt="redot 로고" />
+          <span class="brand-header__title">redot brand</span>
+        </div>
+        <div class="brand-header__actions">
+          <button class="brand-button secondary" data-theme-toggle type="button" aria-pressed="false">다크모드</button>
+          <a class="brand-button" href="https://redot.me" target="_blank" rel="noreferrer">redot 사이트로 이동</a>
+        </div>
+      </header>
+
+      <main class="brand-main">
+        <aside class="brand-sidebar">
+          <div class="brand-sidebar__logo">
+            <img src="/logo.svg" width="44" height="44" alt="redot" />
+            <span>redot</span>
+          </div>
+          <nav class="brand-nav">
+            {navItems.map((item) => (
+              <a href={item.href} data-active={currentPath === item.href ? 'true' : 'false'}>
+                {item.label}
+              </a>
+            ))}
+          </nav>
+        </aside>
+        <section class="brand-content">
+          <slot />
+        </section>
+      </main>
+
+      <footer class="brand-footer">
+        <div class="brand-footer__wrap">
+          <div>
+            <div style="font-weight: 600; display: flex; align-items: center; gap: 8px;">
+              <img src="/logo.svg" width="20" height="20" alt="redot" />
+              redot
+            </div>
+            <div style="margin-top: 12px; line-height: 1.6;">
+              <div>사업자등록번호: 123-45-67890 | 대표: 박도윤</div>
+              <div>서울특별시 송파구 송파대로 14-18, 4층</div>
+              <div>연락처: contact@redot.me</div>
+            </div>
+          </div>
+          <div style="text-align: right;">
+            <div class="brand-footer__links">
+              <a href="/terms">이용약관</a>
+              <span>|</span>
+              <a href="/privacy">개인정보처리방침</a>
+            </div>
+            <div style="margin-top: 12px; font-size: 12px;">©2025 redot. All rights reserved.</div>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script is:inline>
+      const root = document.documentElement;
+      const saved = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const initialTheme = saved || (prefersDark ? 'dark' : 'light');
+      root.dataset.theme = initialTheme;
+
+      const button = document.querySelector('[data-theme-toggle]');
+      const updateLabel = (theme) => {
+        if (!button) return;
+        button.setAttribute('aria-pressed', theme === 'dark');
+        button.textContent = theme === 'dark' ? '라이트모드' : '다크모드';
+      };
+
+      updateLabel(initialTheme);
+      button?.addEventListener('click', () => {
+        const nextTheme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+        root.dataset.theme = nextTheme;
+        localStorage.setItem('theme', nextTheme);
+        updateLabel(nextTheme);
+      });
+    </script>
+  </body>
+</html>

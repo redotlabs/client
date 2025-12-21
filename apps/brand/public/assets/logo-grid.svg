@@ -1,0 +1,27 @@
+<svg width="560" height="180" viewBox="0 0 560 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="1" y="1" width="558" height="178" rx="16" fill="#FFFFFF" stroke="#DCE2F0" />
+  <g stroke="#E2E8F6" stroke-width="1">
+    <path d="M40 20V160" />
+    <path d="M80 20V160" />
+    <path d="M120 20V160" />
+    <path d="M160 20V160" />
+    <path d="M200 20V160" />
+    <path d="M240 20V160" />
+    <path d="M280 20V160" />
+    <path d="M320 20V160" />
+    <path d="M360 20V160" />
+    <path d="M400 20V160" />
+    <path d="M440 20V160" />
+    <path d="M480 20V160" />
+    <path d="M520 20V160" />
+    <path d="M20 40H540" />
+    <path d="M20 80H540" />
+    <path d="M20 120H540" />
+    <path d="M20 160H540" />
+  </g>
+  <g transform="translate(80 40)">
+    <circle cx="36" cy="36" r="32" fill="#3B74F2" />
+    <path d="M36 16L52 36L36 56L20 36L36 16Z" fill="#FFFFFF" />
+  </g>
+  <text x="170" y="92" font-family="Space Grotesk, Noto Sans KR, sans-serif" font-size="56" font-weight="700" fill="#0B0D13">redot</text>
+</svg>

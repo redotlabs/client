@@ -1,0 +1,12 @@
+<svg width="560" height="180" viewBox="0 0 560 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="560" height="180" rx="18" fill="url(#paint0_linear)" />
+  <circle cx="176" cy="90" r="44" fill="#FFFFFF" opacity="0.9" />
+  <path d="M176 62L198 90L176 118L154 90L176 62Z" fill="#3B74F2" />
+  <text x="250" y="104" font-family="Space Grotesk, Noto Sans KR, sans-serif" font-size="48" font-weight="700" fill="#0B0D13">redot</text>
+  <defs>
+    <linearGradient id="paint0_linear" x1="0" y1="0" x2="560" y2="180" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F3F6FF" />
+      <stop offset="1" stop-color="#E0E9FF" />
+    </linearGradient>
+  </defs>
+</svg>

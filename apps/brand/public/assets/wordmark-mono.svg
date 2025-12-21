@@ -1,0 +1,8 @@
+<svg width="420" height="120" viewBox="0 0 420 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="420" height="120" rx="20" fill="#FFFFFF" />
+  <g transform="translate(30 24)">
+    <circle cx="36" cy="36" r="32" fill="#0B0D13" />
+    <path d="M36 16L52 36L36 56L20 36L36 16Z" fill="#FFFFFF" />
+  </g>
+  <text x="110" y="78" font-family="Space Grotesk, Noto Sans KR, sans-serif" font-size="56" font-weight="700" fill="#0B0D13">redot</text>
+</svg>

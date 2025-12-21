@@ -1,0 +1,10 @@
+<svg width="560" height="140" viewBox="0 0 560 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="1" y="1" width="558" height="138" rx="16" fill="#FFFFFF" stroke="#DCE2F0" />
+  <g transform="translate(40 34)">
+    <circle cx="36" cy="36" r="32" fill="#3B74F2" />
+    <path d="M36 16L52 36L36 56L20 36L36 16Z" fill="#FFFFFF" />
+  </g>
+  <text x="120" y="82" font-family="Space Grotesk, Noto Sans KR, sans-serif" font-size="42" font-weight="700" fill="#0B0D13">redot</text>
+  <rect x="280" y="44" width="2" height="52" fill="#E2E8F6" />
+  <text x="300" y="82" font-family="Noto Sans KR, sans-serif" font-size="22" font-weight="600" fill="#8A94A6">WORDMARK</text>
+</svg>
