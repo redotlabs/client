@@ -1,15 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
 @import 'tailwindcss';
 @config '../../tailwind.config.ts';
 @source '../../node_modules/@redotlabs/ui';
 
 :root {
   color-scheme: light;
-  --font-body:
-    "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
-  --font-display: "Space Grotesk", "Noto Sans KR", sans-serif;
-  --brand-blue: #3b74f2;
-  --brand-blue-strong: #2356d7;
-  --brand-blue-soft: #7aa5ff;
+  --font-body: 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  --font-display: 'Space Grotesk', 'Noto Sans KR', sans-serif;
+  --brand-blue: #3a79ee;
+  --brand-blue-strong: #3a79ee;
+  --brand-blue-soft: #3a79ee;
   --brand-ink: #0d0f15;
   --text-primary: #141823;
   --text-secondary: #4b5565;
@@ -22,11 +22,11 @@
   --shadow-soft: 0 10px 20px rgba(16, 24, 40, 0.08);
 }
 
-[data-theme="dark"] {
+[data-theme='dark'] {
   color-scheme: dark;
-  --brand-blue: #6d97ff;
-  --brand-blue-strong: #3a68ff;
-  --brand-blue-soft: #93b1ff;
+  --brand-blue: #3a79ee;
+  --brand-blue-strong: #3a79ee;
+  --brand-blue-soft: #3a79ee;
   --brand-ink: #f2f4ff;
   --text-primary: #f6f7fb;
   --text-secondary: #c2cad8;
@@ -39,377 +39,30 @@
   --shadow-soft: 0 10px 20px rgba(0, 0, 0, 0.35);
 }
 
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  font-family: var(--font-body);
-  color: var(--text-primary);
-  background:
-    radial-gradient(
-      circle at top left,
-      rgba(82, 123, 255, 0.12),
-      transparent 45%
-    ),
-    radial-gradient(
-      circle at 30% 20%,
-      rgba(165, 196, 255, 0.15),
-      transparent 35%
-    ),
-    var(--surface);
-  min-height: 100vh;
-}
-
-img {
-  max-width: 100%;
-  display: block;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-.brand-shell {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-.brand-header {
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
-  padding: 20px 48px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-}
-
-.brand-header__left {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.brand-header__title {
-  font-family: var(--font-display);
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  font-size: 14px;
-  color: var(--text-secondary);
-}
-
-.brand-header__actions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.brand-button {
-  border-radius: 999px;
-  padding: 10px 22px;
-  font-weight: 600;
-  border: none;
-  background: linear-gradient(
-    135deg,
-    var(--brand-blue),
-    var(--brand-blue-strong)
-  );
-  color: #fff;
-  cursor: pointer;
-  box-shadow: var(--shadow-soft);
-}
-
-.brand-button.secondary {
-  background: transparent;
-  color: var(--text-secondary);
-  border: 1px solid var(--border);
-  box-shadow: none;
-}
-
-.brand-main {
-  display: grid;
-  grid-template-columns: 240px minmax(0, 1fr);
-  gap: 32px;
-  padding: 40px 48px 80px;
-}
-
-.brand-sidebar {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.brand-sidebar__logo {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-family: var(--font-display);
-  font-size: 32px;
-  font-weight: 700;
-}
-
-.brand-nav {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  font-weight: 600;
-  color: var(--text-secondary);
-}
-
-.brand-nav a {
-  padding: 8px 4px;
-  border-radius: 8px;
-  transition:
-    color 0.2s ease,
-    background 0.2s ease;
-}
-
-.brand-nav a[data-active="true"] {
-  color: var(--brand-blue);
-  background: var(--surface-soft);
-}
-
-.brand-content {
-  max-width: 1040px;
-}
-
-.page-title {
-  font-family: var(--font-display);
-  font-size: 32px;
-  margin: 0 0 8px;
-}
-
-.page-subtitle {
-  color: var(--text-secondary);
-  margin: 0 0 24px;
-  font-size: 16px;
-}
-
-.hero-card {
-  background: linear-gradient(
-    135deg,
-    rgba(124, 165, 255, 0.35),
-    rgba(45, 96, 255, 0.45)
-  );
-  border-radius: 20px;
-  padding: 48px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: center;
-  gap: 32px;
-  box-shadow: var(--shadow);
-}
-
-.hero-card__logo {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 40px;
-  color: var(--brand-ink);
-}
-
-.hero-card__graphic {
-  justify-self: end;
-  width: min(320px, 80%);
-}
-
-.section {
-  margin-top: 48px;
-}
-
-.section h3 {
-  font-family: var(--font-display);
-  font-size: 20px;
-  margin: 0 0 12px;
-}
-
-.section p {
-  margin: 0 0 20px;
-  color: var(--text-secondary);
-}
-
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 20px;
-}
-
-.info-card {
-  border-radius: 18px;
-  overflow: hidden;
-  background: var(--surface);
-  box-shadow: var(--shadow-soft);
-  border: 1px solid var(--border);
-  display: flex;
-  flex-direction: column;
-  min-height: 260px;
-}
-
-.info-card__art {
-  background: linear-gradient(135deg, #f7d67b, #ffe9a8);
-  padding: 20px;
-  min-height: 130px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.info-card__art.red {
-  background: linear-gradient(135deg, #ff6b52, #ffb5a1);
-}
-
-.info-card__art.blue {
-  background: linear-gradient(135deg, #8db2ff, #d1e0ff);
-}
-
-.info-card__content {
-  background: #0b0d13;
-  color: #f5f6fb;
-  padding: 18px;
-  font-size: 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  flex: 1;
-}
-
-.info-card__content h4 {
-  margin: 0;
-  font-size: 15px;
-}
-
-.logo-panel {
-  border-radius: 16px;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  padding: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: var(--shadow-soft);
-}
-
-.logo-panel.muted {
-  background: var(--surface-muted);
-}
-
-.logo-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 18px;
-}
-
-.logo-chip {
-  border-radius: 14px;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  padding: 16px;
-  text-align: center;
-  font-size: 12px;
-  color: var(--text-tertiary);
-}
-
-.logo-chip img {
-  margin: 0 auto 10px;
-  max-width: 120px;
-}
-
-.swatch-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 16px;
-}
-
-.swatch {
-  border-radius: 14px;
-  padding: 18px;
-  color: #fff;
-  font-weight: 600;
-  min-height: 120px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  box-shadow: var(--shadow-soft);
-}
-
-.asset-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
-}
-
-.asset-card {
-  border-radius: 16px;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  padding: 20px;
-  box-shadow: var(--shadow-soft);
-}
-
-.brand-footer {
-  margin-top: auto;
-  background: var(--brand-blue);
-  color: #e8efff;
-  padding: 28px 48px 40px;
-}
-
-.brand-footer__wrap {
-  display: flex;
-  justify-content: space-between;
-  gap: 24px;
-  flex-wrap: wrap;
-  font-size: 13px;
-}
-
-.brand-footer__links {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  font-size: 12px;
-}
-
-@media (max-width: 1024px) {
-  .brand-main {
-    grid-template-columns: 1fr;
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
   }
 
-  .brand-sidebar {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: var(--font-body);
+    color: var(--text-primary);
+    background: radial-gradient(circle at top left, rgba(82, 123, 255, 0.12), transparent 45%),
+      radial-gradient(circle at 30% 20%, rgba(165, 196, 255, 0.15), transparent 35%),
+      var(--surface);
   }
 
-  .brand-nav {
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
-}
-
-@media (max-width: 768px) {
-  .brand-header {
-    padding: 16px 20px;
+  img {
+    display: block;
+    max-width: 100%;
   }
 
-  .brand-main {
-    padding: 32px 20px 64px;
-  }
-
-  .hero-card {
-    grid-template-columns: 1fr;
-    padding: 32px;
-  }
-
-  .hero-card__graphic {
-    justify-self: start;
-    width: 70%;
+  a {
+    color: inherit;
+    text-decoration: none;
   }
 }

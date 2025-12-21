@@ -3,69 +3,69 @@ import BrandLayout from '../layouts/BrandLayout.astro';
 ---
 <BrandLayout title="redot BRAND | 리닷 브랜드 로고">
   <div>
-    <h1 class="page-title">리닷 브랜드 로고</h1>
-    <p class="page-subtitle">리닷의 심볼과 로고타입이 합쳐진 브랜드 로고입니다. 가이드라인을 참고해 사용하세요.</p>
+    <h1 class="font-[var(--font-display)] text-[32px] font-semibold">리닷 브랜드 로고</h1>
+    <p class="mt-2 text-[16px] text-[var(--text-secondary)]">리닷의 심볼과 로고타입이 합쳐진 브랜드 로고입니다. 가이드라인을 참고해 사용하세요.</p>
 
-    <div class="logo-panel">
+    <div class="mt-6 flex items-center justify-center rounded-[16px] border border-[var(--border)] bg-[var(--surface)] p-7 shadow-[var(--shadow-soft)]">
       <img src="/assets/wordmark.svg" alt="redot 로고" />
     </div>
 
-    <section class="section">
-      <h3>로고 가이드</h3>
-      <div class="logo-panel muted">
+    <section class="mt-12">
+      <h3 class="font-[var(--font-display)] text-[20px]">로고 가이드</h3>
+      <div class="mt-3 flex items-center justify-center rounded-[16px] border border-[var(--border)] bg-[var(--surface-muted)] p-7 shadow-[var(--shadow-soft)]">
         <img src="/assets/logo-grid.svg" alt="로고 그리드" />
       </div>
     </section>
 
-    <section class="section">
-      <h3>브랜드 로고 모션</h3>
-      <p>리닷 브랜드 로고의 모션입니다. 요소들이 하나로 모이며 통합되는 순간을 강조합니다.</p>
-      <div class="logo-panel">
+    <section class="mt-12">
+      <h3 class="font-[var(--font-display)] text-[20px]">브랜드 로고 모션</h3>
+      <p class="mt-3 text-[var(--text-secondary)]">리닷 브랜드 로고의 모션입니다. 요소들이 하나로 모이며 통합되는 순간을 강조합니다.</p>
+      <div class="mt-5 flex items-center justify-center rounded-[16px] border border-[var(--border)] bg-[var(--surface)] p-7 shadow-[var(--shadow-soft)]">
         <img src="/assets/logo-motion.svg" alt="브랜드 로고 모션" />
       </div>
     </section>
 
-    <section class="section">
-      <h3>리닷 심볼과 베리에이션</h3>
-      <p>상황에 따라 컬러와 스타일을 선택해 사용할 수 있습니다.</p>
-      <div class="logo-grid">
-        <div class="logo-chip">
-          <img src="/assets/symbol-default.svg" alt="default" />
+    <section class="mt-12">
+      <h3 class="font-[var(--font-display)] text-[20px]">리닷 심볼과 베리에이션</h3>
+      <p class="mt-3 text-[var(--text-secondary)]">상황에 따라 컬러와 스타일을 선택해 사용할 수 있습니다.</p>
+      <div class="mt-5 grid grid-cols-[repeat(auto-fit,minmax(160px,1fr))] gap-[18px]">
+        <div class="rounded-[14px] border border-[var(--border)] bg-[var(--surface)] p-4 text-center text-[12px] text-[var(--text-tertiary)]">
+          <img class="mx-auto mb-2.5 max-w-[120px]" src="/assets/symbol-default.svg" alt="default" />
           default
         </div>
-        <div class="logo-chip">
-          <img src="/assets/symbol-solid.svg" alt="solid" />
+        <div class="rounded-[14px] border border-[var(--border)] bg-[var(--surface)] p-4 text-center text-[12px] text-[var(--text-tertiary)]">
+          <img class="mx-auto mb-2.5 max-w-[120px]" src="/assets/symbol-solid.svg" alt="solid" />
           solid
         </div>
-        <div class="logo-chip">
-          <img src="/assets/symbol-3d.svg" alt="3D" />
+        <div class="rounded-[14px] border border-[var(--border)] bg-[var(--surface)] p-4 text-center text-[12px] text-[var(--text-tertiary)]">
+          <img class="mx-auto mb-2.5 max-w-[120px]" src="/assets/symbol-3d.svg" alt="3D" />
           3D
         </div>
       </div>
-      <div class="logo-grid" style="margin-top: 18px;">
-        <div class="logo-chip">
-          <img src="/assets/wordmark.svg" alt="default" />
+      <div class="mt-[18px] grid grid-cols-[repeat(auto-fit,minmax(160px,1fr))] gap-[18px]">
+        <div class="rounded-[14px] border border-[var(--border)] bg-[var(--surface)] p-4 text-center text-[12px] text-[var(--text-tertiary)]">
+          <img class="mx-auto mb-2.5 max-w-[120px]" src="/assets/wordmark.svg" alt="default" />
           default
         </div>
-        <div class="logo-chip">
-          <img src="/assets/wordmark-mono.svg" alt="mono" />
+        <div class="rounded-[14px] border border-[var(--border)] bg-[var(--surface)] p-4 text-center text-[12px] text-[var(--text-tertiary)]">
+          <img class="mx-auto mb-2.5 max-w-[120px]" src="/assets/wordmark-mono.svg" alt="mono" />
           mono
         </div>
       </div>
-      <div class="logo-grid" style="margin-top: 18px;">
-        <div class="logo-panel" style="background: #3b74f2; color: #fff;">
+      <div class="mt-[18px] grid grid-cols-[repeat(auto-fit,minmax(160px,1fr))] gap-[18px]">
+        <div class="flex items-center justify-center rounded-[16px] border border-[var(--border)] bg-[#3a79ee] p-7 text-white shadow-[var(--shadow-soft)]">
           <img src="/assets/wordmark-white.svg" alt="background blue" />
         </div>
-        <div class="logo-panel" style="background: #0b0d13; color: #fff;">
+        <div class="flex items-center justify-center rounded-[16px] border border-[var(--border)] bg-[#0b0d13] p-7 text-white shadow-[var(--shadow-soft)]">
           <img src="/assets/wordmark-white.svg" alt="background black" />
         </div>
       </div>
     </section>
 
-    <section class="section">
-      <h3>리닷 협력사 표기</h3>
-      <p>리닷의 심볼과 워드마크의 조합 비율을 유지해 협력사 표기에 활용합니다.</p>
-      <div class="logo-panel">
+    <section class="mt-12">
+      <h3 class="font-[var(--font-display)] text-[20px]">리닷 협력사 표기</h3>
+      <p class="mt-3 text-[var(--text-secondary)]">리닷의 심볼과 워드마크의 조합 비율을 유지해 협력사 표기에 활용합니다.</p>
+      <div class="mt-5 flex items-center justify-center rounded-[16px] border border-[var(--border)] bg-[var(--surface)] p-7 shadow-[var(--shadow-soft)]">
         <img src="/assets/partner-lockup.svg" alt="협력사 표기" />
       </div>
     </section>
