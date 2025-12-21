@@ -1,0 +1,41 @@
+---
+import { Logo as RedotLogo } from '@redotlabs/ui';
+
+type Item = {
+  label: string;
+  color?: 'mono';
+  bg?: string;
+};
+
+type Props = {
+  items: ReadonlyArray<Item>;
+  className?: string;
+};
+
+const { items, className } = Astro.props;
+const baseGrid = 'mt-5 grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-6';
+---
+
+<div class:list={[baseGrid, className]}>
+  {items.map((item) => {
+    const boxClasses = [
+      'flex h-37 w-full items-center justify-center rounded-2xl border border-[#549DFF] p-6',
+      item.bg && 'text-white'
+    ];
+    const logoClasses = [
+      'h-full w-full',
+      item.bg ? 'text-white' : item.color === 'mono' ? 'text-[#0b0d13]' : undefined
+    ]
+      .filter(Boolean)
+      .join(' ');
+
+    return (
+      <div class="flex flex-col items-center gap-3 text-[12px]">
+        <div class:list={boxClasses} style={item.bg ? `background: ${item.bg};` : undefined}>
+          <RedotLogo client:load color={item.color} className={logoClasses} />
+        </div>
+        <span class="rounded-full bg-[#efefef] px-4 py-1 text-[12px] text-[#111]">{item.label}</span>
+      </div>
+    );
+  })}
+</div>
