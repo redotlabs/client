@@ -25,7 +25,7 @@ const currentPath = Astro.url.pathname;
   <body>
     <ThemeRoot client:load>
     <div class="flex min-h-screen flex-col">
-      <header class="sticky top-0 z-10 flex items-center justify-between border-b border-(--border) px-20 py-2.25 max-md:px-5 max-md:py-4">
+      <header class="sticky top-0 z-10 flex items-center justify-between border-b border-(--border) px-20 py-2.25 max-md:px-5 max-md:py-4 bg-white">
         <div class="flex items-center gap-2">
            <Logo client:load className="w-auto h-6" />
           <span class="text-[22px] leading-normal font-semibold tracking-[-0.02em]">BRAND</span>
@@ -76,25 +76,25 @@ const currentPath = Astro.url.pathname;
         </section>
       </main>
 
-      <footer class="mt-auto bg-(--brand-blue) text-[#e8efff]">
-        <div class="flex flex-wrap items-end gap-6 px-12 pb-10 pt-7 text-[13px] max-md:px-5">
-          <div>
+      <footer class="mt-auto bg-(--brand-blue) px-20 py-6 text-[#e8efff]">
+        <div class="flex min-h-44 py-6 flex-wrap items-stretch text-[13px]">
+          <div class="flex flex-col justify-between">
             <div class="flex items-center gap-2 font-semibold">
-            <Logo client:load color="mono" className="h-5 w-auto text-white" />
+              <Logo client:load color="mono" className="h-5 w-auto text-white" />
             </div>
-            <div class="mt-3 leading-relaxed">
+            <div class="leading-relaxed">
               <p>사업자등록번호: 123-45-67890 | 대표: 박도륜</p>
               <p>서울특별시 송파구 송파동 14-18, 4층</p>
               <p>연락처: contact@redot.me</p>
             </div>
           </div>
-          <div class="ml-auto flex flex-col items-end justify-end text-right">
-            <div class="flex items-center justify-end gap-3 text-[12px]">
+          <div class="ml-auto flex flex-col items-end justify-end self-end text-right gap-2">
+            <div class="flex items-center justify-end gap-2 text-[12px]">
               <a href="/terms">이용약관</a>
               <span>|</span>
               <a href="/privacy" class="underline">개인정보처리방침</a>
             </div>
-            <div class="mt-3 text-[12px]">©2025 redot. All rights reserved.</div>
+            <div class="text-[12px]">©2025 redot. All rights reserved.</div>
           </div>
         </div>
       </footer>
