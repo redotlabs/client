@@ -26,3 +26,6 @@ export { default as CardGiftSpotlightBlue } from './cards/card-gift-spotlight-bl
 export { default as CardGiftSpotlightRed } from './cards/card-gift-spotlight-red.svg?react';
 export { default as CardGiftSpotlightYellow } from './cards/card-gift-spotlight-yellow.svg?react';
 export { default as CardGiftStack } from './cards/card-gift-stack.svg?react';
+export { default as ConceptClassic } from './patterns/concept_classic.svg?react';
+export { default as ConceptModern } from './patterns/concept_modern.svg?react';
+export { default as PatternGraphic } from './patterns/pattern_graphic.svg?react';
