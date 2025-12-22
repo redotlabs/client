@@ -9,6 +9,7 @@
     "preview": "astro preview"
   },
   "dependencies": {
+    "@repo/assets": "workspace:*",
     "@astrojs/react": "^4.4.2",
     "@redotlabs/tokens": "^1.0.1",
     "@repo/ui": "workspace:*",

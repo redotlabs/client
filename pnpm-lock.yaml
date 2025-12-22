@@ -289,6 +289,9 @@ importers:
       '@redotlabs/tokens':
         specifier: ^1.0.1
         version: 1.0.1
+      '@repo/assets':
+        specifier: workspace:*
+        version: link:../../packages/assets
       '@repo/ui':
         specifier: workspace:*
         version: link:../../packages/ui
