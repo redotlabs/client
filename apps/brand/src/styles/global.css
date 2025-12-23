@@ -60,6 +60,18 @@
     max-width: 100%;
   }
 
+  .logo-dark {
+    display: none;
+  }
+
+  [data-theme="dark"] .logo-light {
+    display: none;
+  }
+
+  [data-theme="dark"] .logo-dark {
+    display: inline-flex;
+  }
+
   a {
     color: inherit;
     text-decoration: none;

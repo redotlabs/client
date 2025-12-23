@@ -25,20 +25,25 @@ const currentPath = Astro.url.pathname;
   <body>
     <ThemeRoot client:load>
     <div class="flex min-h-screen flex-col">
-      <header class="sticky top-0 z-10 flex items-center justify-between border-b border-(--border) px-20 py-2.25 max-md:px-5 max-md:py-4 bg-white">
+      <header class="sticky top-0 z-10 flex items-center justify-between border-b border-(--border) bg-(--surface) px-20 py-2.25 max-md:px-5 max-md:py-4">
         <div class="flex items-center gap-2">
-           <Logo client:load className="w-auto h-6" />
-          <span class="text-[22px] leading-normal font-semibold tracking-[-0.02em]">BRAND</span>
+          <span class="logo-light">
+            <Logo client:load className="h-6 w-auto" />
+          </span>
+          <span class="logo-dark">
+            <Logo client:load color="mono" className="h-6 w-auto text-white" />
+          </span>
+          <span class="text-[22px] font-semibold leading-normal tracking-[-0.02em] text-(--text-primary)">BRAND</span>
         </div>
         <div class="flex items-center gap-3">
           <button
-            class="flex h-10 w-10 items-center justify-center rounded-full border border-(--border) bg-transparent cursor-pointer"
+            class="flex h-10 w-10 items-center justify-center rounded-full border border-(--border) bg-transparent text-(--text-secondary) cursor-pointer"
             data-theme-toggle
             aria-label="다크모드"
             type="button"
           >
-            <Sun data-icon="sun" className="h-5 w-5 text-(--text-secondary)" aria-hidden="true" />
-            <Moon data-icon="moon" className="hidden h-5 w-5 text-(--text-secondary)" aria-hidden="true" />
+            <Sun data-icon="sun" className="h-5 w-5" aria-hidden="true" />
+            <Moon data-icon="moon" className="hidden h-5 w-5" aria-hidden="true" />
             <span data-theme-label class="sr-only">다크모드</span>
           </button>
           <a href="https://redot.me" target="_blank" rel="noreferrer">
@@ -55,7 +60,17 @@ const currentPath = Astro.url.pathname;
       <main class="mx-auto w-full max-w-7xl grid grid-cols-[240px_minmax(0,1fr)] gap-8 px-20 pb-20 pt-10 max-lg:grid-cols-1 max-lg:gap-6 max-md:px-5 max-md:pb-16">
         <aside class="flex flex-col max-lg:flex-row max-lg:items-center max-lg:justify-between gap-12">
           <div class="flex items-center gap-3 text-[32px] font-bold">
-            <Logo client:load className="h-11 w-auto" />
+            <span class="logo-light">
+              <Logo client:load className="h-11 w-auto" />
+            </span>
+
+            <!-- Logo 디자인 시스템 수정 시 교체 -->
+            <span class="logo-dark">
+              <span class="flex items-center gap-3 text-white">
+                <Logo.Symbol client:load variant="base" className="h-11 w-11" aria-hidden="true" />
+                <span class="text-[48px] font-bold">redot</span>
+              </span>
+            </span>
           </div>
           <nav class="flex flex-col gap-6 font-semibold text-[20px] text-(--text-secondary) max-lg:flex-row max-lg:flex-wrap">
             {navItems.map((item) => (
