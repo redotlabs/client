@@ -1,0 +1,58 @@
+---
+import BrandLayout from '../layouts/BrandLayout.astro';
+import { Logo } from '@redotlabs/ui';
+import * as Assets from '@repo/assets';
+
+const cards = [
+  {
+    title: 'AI 데이터 분석',
+    description:
+      '성공적인 사이트는 데이터에서 시작됩니다. 경쟁사 분석, 타겟 고객 분석, SEO 전략까지 AI가 최적의 방향을 제시합니다.',
+    image: '/assets/introduction-card-1.svg',
+    gradient: 'bg-[linear-gradient(135deg,#f7d67b,#ffe9a8)]'
+  },
+  {
+    title: '전문가 맞춤 제작',
+    description:
+      'AI의 분석을 바탕으로 숙련된 기획자,디자이너, 개발자 팀이 브랜드 가치를 극대화하는 맞춤형 웹사이트를 제작합니다.',
+    image: '/assets/introduction-card-2.svg',
+    gradient: 'bg-[linear-gradient(135deg,#ff6b52,#ffb5a1)]'
+  },
+  {
+    title: '간편한 CMS',
+    description:
+      '제작 후에도 개발자 없이 직접 콘텐츠를관리하세요. 워드처럼 쉬운 관리자 페이지(CMS)로 지속적인 성장을 돕습니다.',
+    image: '/assets/introduction-card-3.svg',
+    gradient: 'bg-[linear-gradient(135deg,#8db2ff,#d1e0ff)]'
+  }
+];
+---
+<BrandLayout title="redot BRAND | 리닷 소개">
+  <div>
+    <div class="mt-6 overflow-hidden rounded-[20px]">
+      <Assets.CardBrandGraph className="h-auto w-full" aria-label="리닷 소개 메인 이미지" role="img" />
+    </div>
+
+    <section class="mt-12">
+      <div class="flex flex-col items-start gap-6">
+        <Logo client:load className="h-6 w-auto" />
+        <p class="text-(--text-primary)">홈페이지 리뉴얼 스튜디오, 리닷은</p>
+      </div>
+
+      <div class="mt-12 grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-5">
+        {cards.map((card) => (
+          <article class="flex min-h-90 flex-col overflow-hidden rounded-[18px] border border-(--border) bg-(--surface)">
+            <div class:list={['flex flex-1 items-end justify-center p-5 pb-0', card.gradient]}>
+              <img class="-mb-1 block h-36 w-auto object-contain" src={card.image} alt={card.title} />
+            </div>
+            <div class="flex flex-1 flex-col gap-5 bg-[#0b0d13] p-4.5 text-[14px] text-[#f5f6fb]">
+              <h4 class="text-[15px] font-semibold">{card.title}</h4>
+              <p>{card.description}</p>
+              <Logo client:load color="mono" className="mx-auto mt-2 h-4 w-auto text-white" />
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  </div>
+</BrandLayout>

@@ -1,0 +1,128 @@
+---
+import BrandLayout from '../layouts/BrandLayout.astro';
+import LogoSection from '../components/logo-section.astro';
+import * as RedotAssets from '@repo/assets';
+
+const illustrationComponents = Object.entries(RedotAssets)
+  .filter(
+    ([key, value]) =>
+      typeof value === 'function' &&
+      !key.startsWith('Card') &&
+      !key.startsWith('Pattern') &&
+      !key.startsWith('Concept')
+  )
+  .map(([, value]) => value);
+
+const cardComponents = Object.entries(RedotAssets)
+  .filter(([key, value]) => typeof value === 'function' && key.startsWith('Card'))
+  .map(([, value]) => value);
+---
+<BrandLayout title="redot BRAND | 리닷 브랜드 에셋">
+  <div>
+     <LogoSection
+      title="리닷 컬러 시스템"
+      descriptionLines={[
+        '리닷에서 사용되는 카드 에셋입니다. 지속적으로 추가될 예정입니다.',
+        '블로그 썸네일, 프로모션 배너 등으로 활용이 가능합니다.'
+      ]}
+    >
+      <div class="mt-6 grid md:grid-cols-3">
+        <div class="relative min-h-88 bg-[#3A79EE] p-4 text-white">
+          <div class="absolute bottom-4 left-4">
+            <div class="text-[12px] opacity-80">R58 G121 B238</div>
+            <div class="text-[20px] font-semibold">#3A79EE</div>
+          </div>
+        </div>
+        <div class="flex min-h-88 overflow-hidden">
+          <div class="relative flex-1 bg-[#669CF9] p-4 text-white">
+            <div class="absolute bottom-4 left-4">
+              <div class="text-[12px] opacity-80">R102 G156 B249</div>
+              <div class="text-[20px] font-semibold">#669CF9</div>
+            </div>
+          </div>
+          <div class="relative flex-1 bg-[#FFED80] p-4 text-[#1f1f1f]">
+            <div class="absolute bottom-4 left-4">
+              <div class="text-[12px] opacity-70">R255 G237 B128</div>
+              <div class="text-[20px] font-semibold">#FFED80</div>
+            </div>
+          </div>
+        </div>
+        <div class="flex min-h-88 flex-col overflow-hidden">
+          <div class="relative flex flex-1 bg-[#F1F0F0] px-3 text-[#4b4b4b]">
+            <div class="absolute bottom-3 left-3 flex items-center gap-3">
+              <span class="text-[20px] font-semibold">#F1F0F0</span>
+              <span class="text-[12px] opacity-70">R241 G240 B240</span>
+            </div>
+          </div>
+          <div class="relative flex flex-1 bg-[#E1DFDE] px-3 text-[#4b4b4b]">
+            <div class="absolute bottom-3 left-3 flex items-center gap-3">
+              <span class="text-[20px] font-semibold">#E1DFDE</span>
+              <span class="text-[12px] opacity-70">R225 G223 B222</span>
+            </div>
+          </div>
+          <div class="relative flex flex-2 bg-[#B0ADAC] px-3 text-[#4b4b4b]">
+            <div class="absolute bottom-3 left-3 flex items-center gap-3">
+              <span class="text-[20px] font-semibold">#B0ADAC</span>
+              <span class="text-[12px] opacity-70">R176 G173 B172</span>
+            </div>
+          </div>
+          <div class="relative flex flex-2 bg-[#535252] px-3 text-white">
+            <div class="absolute bottom-3 left-3 flex items-center gap-3">
+              <span class="text-[20px] font-semibold">#535252</span>
+              <span class="text-[12px] opacity-70">R83 G82 B82</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </LogoSection>
+
+    <LogoSection
+      title="리닷 일러스트 에셋"
+      descriptionLines={['리닷에서 사용되는 일러스트 에셋입니다. 지속적으로 추가될 예정입니다.']}
+    >
+      <div class="mt-5 grid grid-cols-5 gap-[18.16px]">
+        {illustrationComponents.map((Component) => (
+          <div class="flex aspect-square items-center justify-center rounded-[10px] border border-[#549DFF] p-2">
+            <Component className="h-full w-full" aria-hidden="true" />
+          </div>
+        ))}
+      </div>
+    </LogoSection>
+
+    <LogoSection
+      title="리닷 카드 에셋"
+      descriptionLines={['리닷에서 사용되는 카드 에셋입니다. 지속적으로 추가될 예정입니다.', '블로그 썸네일, 프로모션 배너 등으로 활용이 가능합니다.']}
+    >
+      <div class="mt-5 grid grid-cols-3 gap-5">
+        {cardComponents.map((Component) => (
+          <div class="flex aspect-video items-center justify-center rounded-2">
+            <Component className="h-full w-full" aria-hidden="true" />
+          </div>
+        ))}
+      </div>
+    </LogoSection>
+
+    <LogoSection
+      title="리닷 그래픽 패턴"
+      descriptionLines={['리닷에서 사용되는 그래픽 패턴입니다. 크롭하여 자유롭게 사용할 수 있습니다.', '블로그 썸네일, 프로모션 배너 등으로 활용이 가능합니다.']}
+    >
+      <div class="mt-5 overflow-hidden rounded-2xl">
+        <RedotAssets.PatternGraphic className="h-auto w-full" aria-label="리닷 그래픽 패턴" role="img" />
+      </div>
+    </LogoSection>
+
+    <LogoSection
+      title="리닷이 제공하는 디자인 컨셉"
+      descriptionLines={['리닷에서 사용되는 그래픽 패턴입니다. 크롭하여 자유롭게 사용할 수 있습니다.', '블로그 썸네일, 프로모션 배너 등으로 활용이 가능합니다.']}
+    >
+      <div class="mt-5 grid gap-5 md:grid-cols-2">
+        <div class="overflow-hidden rounded-2xl">
+          <RedotAssets.ConceptModern className="h-full w-full" aria-label="리닷 디자인 컨셉 모던" role="img" />
+        </div>
+        <div class="overflow-hidden rounded-2xl">
+          <RedotAssets.ConceptClassic className="h-full w-full" aria-label="리닷 디자인 컨셉 클래식" role="img" />
+        </div>
+      </div>
+    </LogoSection>
+  </div>
+</BrandLayout>

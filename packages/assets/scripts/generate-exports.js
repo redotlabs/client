@@ -22,15 +22,31 @@ function convertPascalCase(str) {
 }
 
 function generateExports() {
-  const assetsPath = path.join(__dirname, '../src/graphics');
-  const assets = fs.readdirSync(assetsPath);
+  const graphicsPath = path.join(__dirname, '../src/graphics');
+  const cardsPath = path.join(__dirname, '../src/cards');
+  const patternsPath = path.join(__dirname, '../src/patterns');
 
-  const paths = assets.map((asset) => {
+  const graphics = fs.readdirSync(graphicsPath);
+  const cardAssets = fs.existsSync(cardsPath) ? fs.readdirSync(cardsPath) : [];
+  const patternAssets = fs.existsSync(patternsPath) ? fs.readdirSync(patternsPath) : [];
+
+  const graphicsExports = graphics.map((asset) => {
     const svgName = convertPascalCase(asset.replace('.svg', ''));
     return `export { default as ${svgName} } from './graphics/${asset}?react';`;
   });
 
-  const result = paths.join('\n') + '\n'; // add EOL
+  const cardExports = cardAssets.map((asset) => {
+    const baseName = asset.replace('.svg', '');
+    const svgName = `Card${convertPascalCase(baseName.replace(/^card-/, '').replace(/-/g, '_'))}`;
+    return `export { default as ${svgName} } from './cards/${asset}?react';`;
+  });
+
+  const patternExports = patternAssets.map((asset) => {
+    const svgName = convertPascalCase(asset.replace('.svg', ''));
+    return `export { default as ${svgName} } from './patterns/${asset}?react';`;
+  });
+
+  const result = [...graphicsExports, ...cardExports, ...patternExports].join('\n') + '\n'; // add EOL
 
   fs.writeFileSync(path.join(__dirname, '../src/index.ts'), result, 'utf8');
 }

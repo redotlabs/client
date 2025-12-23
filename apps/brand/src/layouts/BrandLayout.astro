@@ -1,0 +1,135 @@
+---
+import "../styles/global.css";
+import ThemeRoot from "../components/theme-root";
+import { Logo, Button } from '@redotlabs/ui';
+import { Moon, Sun } from 'lucide-react';
+
+
+const navItems = [
+  { href: '/', label: '리닷 소개' },
+  { href: '/logo', label: '리닷 브랜드 로고' },
+  { href: '/assets', label: '리닷 브랜드 에셋' }
+];
+
+const { title = 'redot BRAND' } = Astro.props;
+const currentPath = Astro.url.pathname;
+---
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <link rel="icon" href="/logo.svg" />
+  </head>
+  <body>
+    <ThemeRoot client:load>
+    <div class="flex min-h-screen flex-col">
+      <header class="sticky top-0 z-10 flex items-center justify-between border-b border-(--border) bg-(--surface) px-20 py-2.25 max-md:px-5 max-md:py-4">
+        <div class="flex items-center gap-2">
+          <Logo client:load className="h-6 w-auto" />
+          <span class="text-[22px] font-semibold leading-normal tracking-[-0.02em] text-(--text-primary)">BRAND</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <button
+            class="flex h-10 w-10 items-center justify-center rounded-full border border-(--border) bg-transparent text-(--text-secondary) cursor-pointer"
+            data-theme-toggle
+            aria-label="다크모드"
+            type="button"
+          >
+            <Sun data-icon="sun" className="h-5 w-5" aria-hidden="true" />
+            <Moon data-icon="moon" className="hidden h-5 w-5" aria-hidden="true" />
+            <span data-theme-label class="sr-only">다크모드</span>
+          </button>
+          <a href="https://redot.me" target="_blank" rel="noreferrer">
+            <Button
+              className="font-medium text-white px-6 py-1.5 rounded-lg"
+              client:idle
+            >
+              redot 사이트로 이동
+            </Button>
+          </a>
+        </div>
+      </header>
+
+      <main class="mx-auto w-full max-w-7xl grid grid-cols-[240px_minmax(0,1fr)] gap-8 px-20 pb-20 pt-10 max-lg:grid-cols-1 max-lg:gap-6 max-md:px-5 max-md:pb-16">
+        <aside class="flex flex-col max-lg:flex-row max-lg:items-center max-lg:justify-between gap-12">
+          <div class="flex items-center gap-3 text-[32px] font-bold">
+            <Logo client:load className="h-11 w-auto" />
+          </div>
+          <nav class="flex flex-col gap-6 font-semibold text-[20px] text-(--text-primary) max-lg:flex-row max-lg:flex-wrap">
+            {navItems.map((item) => (
+              <a
+                href={item.href}
+                class:list={[
+                  'rounded-lg px-1 py-2',
+                  currentPath === item.href && 'text-(--brand-blue)'
+                ]}
+              >
+                {item.label}
+              </a>
+            ))}
+          </nav>
+        </aside>
+        <section class="max-w-260">
+          <slot />
+        </section>
+      </main>
+
+      <footer class="mt-auto bg-(--brand-blue) px-20 py-6 text-[#e8efff]">
+        <div class="flex min-h-44 py-6 flex-wrap items-stretch text-[13px]">
+          <div class="flex flex-col justify-between">
+            <div class="flex items-center gap-2 font-semibold">
+              <Logo client:load color="mono" className="h-5 w-auto text-white" />
+            </div>
+            <div class="leading-relaxed">
+              <p>사업자등록번호: 123-45-67890 | 대표: 박도륜</p>
+              <p>서울특별시 송파구 송파동 14-18, 4층</p>
+              <p>연락처: contact@redot.me</p>
+            </div>
+          </div>
+          <div class="ml-auto flex flex-col items-end justify-end self-end text-right gap-2">
+            <div class="flex items-center justify-end gap-2 text-[12px]">
+              <a href="/terms">이용약관</a>
+              <span>|</span>
+              <a href="/privacy" class="underline">개인정보처리방침</a>
+            </div>
+            <div class="text-[12px]">©2025 redot. All rights reserved.</div>
+          </div>
+        </div>
+      </footer>
+    </div>
+    </ThemeRoot>
+
+    <script is:inline>
+      const root = document.documentElement;
+      const saved = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const initialTheme = saved || (prefersDark ? 'dark' : 'light');
+      root.dataset.theme = initialTheme;
+
+      const button = document.querySelector('[data-theme-toggle]');
+      const updateLabel = (theme) => {
+        if (!button) return;
+        button.setAttribute('aria-pressed', theme === 'dark');
+        button.setAttribute('aria-label', theme === 'dark' ? '라이트모드' : '다크모드');
+        const sun = button.querySelector('[data-icon="sun"]');
+        const moon = button.querySelector('[data-icon="moon"]');
+        const label = button.querySelector('[data-theme-label]');
+        sun?.classList.toggle('hidden', theme === 'dark');
+        moon?.classList.toggle('hidden', theme !== 'dark');
+        if (label) {
+          label.textContent = theme === 'dark' ? '라이트모드' : '다크모드';
+        }
+      };
+
+      updateLabel(initialTheme);
+      button?.addEventListener('click', () => {
+        const nextTheme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+        root.dataset.theme = nextTheme;
+        localStorage.setItem('theme', nextTheme);
+        updateLabel(nextTheme);
+      });
+    </script>
+  </body>
+</html>

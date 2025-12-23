@@ -1,0 +1,24 @@
+---
+type Props = {
+  title: string;
+  descriptionLines?: string[];
+  className?: string;
+};
+
+const { title, descriptionLines, className } = Astro.props;
+---
+
+<section class:list={['mt-12', className]}>
+  <h1 class="text-[24px] font-semibold">{title}</h1>
+  {descriptionLines && descriptionLines.length > 0 && (
+    <p class="mt-2 text-(--text-secondary)">
+      {descriptionLines.map((line, index) => (
+        <>
+          {line}
+          {index < descriptionLines.length - 1 && <br />}
+        </>
+      ))}
+    </p>
+  )}
+  <slot />
+</section>

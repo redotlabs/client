@@ -1,0 +1,83 @@
+---
+import BrandLayout from '../layouts/BrandLayout.astro';
+import LogoSection from '../components/logo-section.astro';
+import LogoVariantGrid from '../components/logo-variant-grid.astro';
+import { Logo as RedotLogo } from '@redotlabs/ui';
+
+const symbolVariants = [
+  { label: 'default', variant: 'base' },
+  { label: 'solid', variant: 'solid' },
+  { label: '3D', variant: '3d' }
+] as const;
+
+const logoVariants = [
+  { label: 'default' },
+  { label: 'mono', color: 'mono' }
+] as const;
+
+const backgroundVariants = [
+  { label: 'background_blue', bg: '#3a79ee', color: 'mono' },
+  { label: 'background_black', bg: '#0b0d13', color: 'mono' }
+] as const;
+
+---
+<BrandLayout title="redot BRAND | 리닷 브랜드 로고">
+  <div class="flex flex-col gap-6">
+    <h1 class="text-[24px] font-semibold">리닷 브랜드 로고</h1>
+    <p class="mt-2 text-[16px] text-(--text-secondary)">리닷의 심볼과 로고타입이 합쳐진 브랜드 로고입니다. <br>
+      가이드라인을 참고하여 색상과 크기를 비율대로 조정하여 사용할 수 있습니다.</p>
+
+    <div class="panel-white-on-dark flex items-center justify-center rounded-2xl border border-[#549DFF] px-13 py-25">
+      <RedotLogo client:load className="h-32 w-auto" />
+    </div>
+
+    <LogoSection title="로고 가이드">
+      <div class="panel-white-on-dark mt-3 flex items-center justify-center rounded-2xl border border-[#549DFF] px-13 py-25">
+        <img src="/assets/logo-guide.svg" alt="로고 그리드" />
+      </div>
+    </LogoSection>
+
+    <LogoSection
+      title="브랜드 로고 모션"
+      descriptionLines={[
+        '리닷 브랜드 로고의 모션입니다.',
+        '요소들이 하나로 모여 돌아가는 바람개비를 형상화하였습니다.'
+      ]}
+    >
+      <div class="panel-white-on-dark mt-5 flex min-h-50 items-center justify-center rounded-2xl border border-[#549DFF] px-13 py-25"></div>
+    </LogoSection>
+
+    <LogoSection
+      title="리닷 심볼과 배리에이션"
+      descriptionLines={[
+        '리닷의 심볼과 로고 배리에이션입니다.',
+        '상황에 따라 규정 안에서 선택 후 사용 가능합니다.'
+      ]}
+    >
+      <div class="mt-5 grid grid-cols-[repeat(auto-fit,minmax(160px,1fr))] gap-6">
+        {symbolVariants.map((symbol) => (
+          <div class="flex flex-col items-center gap-3 text-[12px]">
+            <div class="panel-white-on-dark flex aspect-square w-full items-center justify-center rounded-[20px] border border-[#549DFF] p-8">
+              <RedotLogo.Symbol client:load variant={symbol.variant} className="h-full w-full" />
+            </div>
+            <span class="variant-label px-4 py-1 text-[12px]">{symbol.label}</span>
+          </div>
+        ))}
+      </div>
+      <LogoVariantGrid items={logoVariants} />
+      <LogoVariantGrid items={backgroundVariants} />
+    </LogoSection>
+
+    <LogoSection
+      title="리닷 협력사 표기"
+      descriptionLines={[
+        '리닷의 심볼과 로고타입이 합쳐진 브랜드 로고입니다.',
+        '가이드라인을 참고하여 색상과 크기를 비율대로 조정하여 사용할 수 있습니다.'
+      ]}
+    >
+      <div class="panel-white-on-dark mt-3 flex items-center justify-center rounded-2xl border border-[#549DFF] px-13 py-25">
+        <img src="/assets/partner.svg" alt="협력사 로고" />
+      </div>
+    </LogoSection>
+  </div>
+</BrandLayout>
