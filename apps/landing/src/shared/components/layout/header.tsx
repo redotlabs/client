@@ -1,16 +1,12 @@
 'use client';
 
-import { useAuth } from '@/shared/api/queries/auth';
 import { PATH } from '@/shared/constants/routes';
 import { Button, Logo } from '@redotlabs/ui';
-import { Skeleton } from '@repo/ui';
 import Link from 'next/link';
-import React from 'react';
-import HeaderAvatar from './ui/header-avatar';
 
 const Header = () => {
-  const { data, isLoading } = useAuth();
-  const isAuthenticated = !!data;
+  // const { data, isLoading } = useAuth();
+  // const isAuthenticated = !!data;
 
   return (
     <header className="sticky top-0 z-10 bg-white px-8 lg:px-20 h-12.5 lg:h-17.5 flex items-center justify-between border-b border-gray-200">
@@ -28,7 +24,7 @@ const Header = () => {
             Brand
           </Button>
         </Link>
-        {isLoading ? (
+        {/* {isLoading ? (
           <Skeleton className="size-8 rounded-full" />
         ) : isAuthenticated ? (
           <HeaderAvatar user={data} />
@@ -38,7 +34,7 @@ const Header = () => {
               로그인
             </Button>
           </Link>
-        )}
+        )} */}
       </div>
     </header>
   );
