@@ -20,7 +20,7 @@ const baseGrid = 'mt-5 grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-6
   {items.map((item) => {
     const boxClasses = [
       'flex h-37 w-full items-center justify-center rounded-2xl border border-[#549DFF] p-6',
-      item.bg && 'text-white'
+      item.bg ? 'text-white' : 'panel-white-on-dark'
     ];
     const logoClasses = [
       'h-full w-full',
@@ -34,7 +34,7 @@ const baseGrid = 'mt-5 grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-6
         <div class:list={boxClasses} style={item.bg ? `background: ${item.bg};` : undefined}>
           <RedotLogo client:load color={item.color} className={logoClasses} />
         </div>
-        <span class="rounded-full bg-[#efefef] px-4 py-1 text-[12px] text-[#111]">{item.label}</span>
+        <span class="variant-label px-4 py-1 text-[12px]">{item.label}</span>
       </div>
     );
   })}

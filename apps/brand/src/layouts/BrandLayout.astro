@@ -27,12 +27,7 @@ const currentPath = Astro.url.pathname;
     <div class="flex min-h-screen flex-col">
       <header class="sticky top-0 z-10 flex items-center justify-between border-b border-(--border) bg-(--surface) px-20 py-2.25 max-md:px-5 max-md:py-4">
         <div class="flex items-center gap-2">
-          <span class="logo-light">
-            <Logo client:load className="h-6 w-auto" />
-          </span>
-          <span class="logo-dark">
-            <Logo client:load color="mono" className="h-6 w-auto text-white" />
-          </span>
+          <Logo client:load className="h-6 w-auto" />
           <span class="text-[22px] font-semibold leading-normal tracking-[-0.02em] text-(--text-primary)">BRAND</span>
         </div>
         <div class="flex items-center gap-3">
@@ -60,17 +55,7 @@ const currentPath = Astro.url.pathname;
       <main class="mx-auto w-full max-w-7xl grid grid-cols-[240px_minmax(0,1fr)] gap-8 px-20 pb-20 pt-10 max-lg:grid-cols-1 max-lg:gap-6 max-md:px-5 max-md:pb-16">
         <aside class="flex flex-col max-lg:flex-row max-lg:items-center max-lg:justify-between gap-12">
           <div class="flex items-center gap-3 text-[32px] font-bold">
-            <span class="logo-light">
-              <Logo client:load className="h-11 w-auto" />
-            </span>
-
-            <!-- Logo 디자인 시스템 수정 시 교체 -->
-            <span class="logo-dark">
-              <span class="flex items-center gap-3 text-white">
-                <Logo.Symbol client:load variant="base" className="h-11 w-11" aria-hidden="true" />
-                <span class="text-[48px] font-bold">redot</span>
-              </span>
-            </span>
+            <Logo client:load className="h-11 w-auto" />
           </div>
           <nav class="flex flex-col gap-6 font-semibold text-[20px] text-(--text-secondary) max-lg:flex-row max-lg:flex-wrap">
             {navItems.map((item) => (

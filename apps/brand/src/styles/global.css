@@ -60,16 +60,23 @@
     max-width: 100%;
   }
 
-  .logo-dark {
-    display: none;
+  .panel-white-on-dark {
+    background: var(--surface);
   }
 
-  [data-theme="dark"] .logo-light {
-    display: none;
+  [data-theme="dark"] .panel-white-on-dark {
+    background: #ffffff;
   }
 
-  [data-theme="dark"] .logo-dark {
-    display: inline-flex;
+  .variant-label {
+    border-radius: 999px;
+    background: #f1f0f0;
+    color: #111;
+  }
+
+  [data-theme="dark"] .variant-label {
+    background: rgba(255, 255, 255, 0.16);
+    color: #ffffff;
   }
 
   a {

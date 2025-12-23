@@ -27,12 +27,12 @@ const backgroundVariants = [
     <p class="mt-2 text-[16px] text-(--text-secondary)">리닷의 심볼과 로고타입이 합쳐진 브랜드 로고입니다. <br>
       가이드라인을 참고하여 색상과 크기를 비율대로 조정하여 사용할 수 있습니다.</p>
 
-    <div class="flex items-center justify-center rounded-2xl border border-[#549DFF] px-13 py-25">
+    <div class="panel-white-on-dark flex items-center justify-center rounded-2xl border border-[#549DFF] px-13 py-25">
       <RedotLogo client:load className="h-32 w-auto" />
     </div>
 
     <LogoSection title="로고 가이드">
-      <div class="mt-3 flex items-center justify-center rounded-2xl border border-[#549DFF] px-13 py-25">
+      <div class="panel-white-on-dark mt-3 flex items-center justify-center rounded-2xl border border-[#549DFF] px-13 py-25">
         <img src="/assets/logo-guide.svg" alt="로고 그리드" />
       </div>
     </LogoSection>
@@ -44,7 +44,7 @@ const backgroundVariants = [
         '요소들이 하나로 모여 돌아가는 바람개비를 형상화하였습니다.'
       ]}
     >
-      <div class="mt-5 flex min-h-50 items-center justify-center rounded-2xl border border-[#549DFF] px-13 py-25"></div>
+      <div class="panel-white-on-dark mt-5 flex min-h-50 items-center justify-center rounded-2xl border border-[#549DFF] px-13 py-25"></div>
     </LogoSection>
 
     <LogoSection
@@ -57,10 +57,10 @@ const backgroundVariants = [
       <div class="mt-5 grid grid-cols-[repeat(auto-fit,minmax(160px,1fr))] gap-6">
         {symbolVariants.map((symbol) => (
           <div class="flex flex-col items-center gap-3 text-[12px]">
-            <div class="flex aspect-square w-full items-center justify-center rounded-[20px] border border-[#549DFF] p-8">
+            <div class="panel-white-on-dark flex aspect-square w-full items-center justify-center rounded-[20px] border border-[#549DFF] p-8">
               <RedotLogo.Symbol client:load variant={symbol.variant} className="h-full w-full" />
             </div>
-            <span class="rounded-full bg-[#efefef] px-4 py-1 text-[12px] text-[#111]">{symbol.label}</span>
+            <span class="variant-label px-4 py-1 text-[12px]">{symbol.label}</span>
           </div>
         ))}
       </div>
@@ -75,7 +75,7 @@ const backgroundVariants = [
         '가이드라인을 참고하여 색상과 크기를 비율대로 조정하여 사용할 수 있습니다.'
       ]}
     >
-      <div class="mt-3 flex items-center justify-center rounded-2xl border border-[#549DFF] px-13 py-25">
+      <div class="panel-white-on-dark mt-3 flex items-center justify-center rounded-2xl border border-[#549DFF] px-13 py-25">
         <img src="/assets/partner.svg" alt="협력사 로고" />
       </div>
     </LogoSection>
