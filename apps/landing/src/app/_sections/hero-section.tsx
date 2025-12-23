@@ -27,9 +27,9 @@ const HeroSection = () => {
 
       <div className="flex flex-col px-8 lg:px-20 pt-12 pb-20">
         <h2 className="text-gray-700 text-2xl md:text-5xl lg:text-6xl font-medium">
-          낡은 홈페이지부터 신규 제작까지
+          낡은 홈페이지부터 신규 제작까지,
           <br />
-          미래의 모습으로.
+          미래의 모습으로 설계합니다.
         </h2>
 
         <div className="mt-10 flex flex-col md:flex-row gap-4 md:gap-6 w-fit">
